@@ -1,0 +1,4 @@
+photobiologyInOut Ver 0.1.0
+===========================
+
+First version containing only one function for importing data measured with a LI-COR LI-1800 spectroradiometer from .PRN text files produced by the PC1800 MS-DOS program from LI-COR.

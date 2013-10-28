@@ -1,0 +1,18 @@
+Package: photobiologyInOut
+Type: Package
+Title: Functions for importing data from spectral data files
+Version: 0.1.0
+Date: 2013-10-26
+Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
+Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
+Description: This package provides functions for reading output files containing spectral data from spectrometers and their associated software.
+License: GPL (>= 3)
+VignetteBuilder: knitr
+Depends: R (>= 3.0.0), photobiology (>= 0.2.2), stringr
+Suggests: knitr
+LazyLoad: yes
+LazyData: yes
+ByteCompile: true
+Encoding: UTF-8
+URL: http://r4photobiology.wordpress.com, https://bitbucket.org/aphalo/photobiology
+BugReports: https://bitbucket.org/aphalo/photobiology
