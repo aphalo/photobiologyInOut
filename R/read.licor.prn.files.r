@@ -1,4 +1,4 @@
-##' Read spedtral data from .PRN files created with LI-COR's PC1800 program.
+##' Read spectral data from .PRN files created with LI-COR's PC1800 program.
 ##' 
 ##' Reads and parses the header of a processed data file as output by the PC1800 program
 ##' to extract the whole header remark field and also check whether data is in photon or energy based units.
@@ -40,18 +40,11 @@
 ##'  g) save the dataframe as an .Rda file with a name based on .PRN file name
 ##'  h) save the extracted header as a .txt file
 ##' 3) goto 2, for next file
-##' 
 ##' Paths need to end in a (forward) slash, even under Windows. Under Windows you may need
 ##' to install Unix/Linux style command line utilities for this function to work. For example
 ##' install the RTools corresponding to the R version you are using. Under OS X or Linux,
 ##' all needed uitlities are part of the operating system.
 ##' 
-##' @example
-##' read_licor_prn_files("raw.data")
-##' comment(licor.example.data)
-##' head(licor.example.data)
-##' plot(s.e.irrad ~ w.length, data=licor.example.data, main=comment(licor.example.data))
-##' plot(s.q.irrad ~ w.length, data=licor.example.data, main=comment(licor.example.data))
 
 read_licor_prn_files <- function(in.path=".", out.path="../data/", file.name.patt="*.PRN", trim.wl=NULL){
   old.path <- getwd()
