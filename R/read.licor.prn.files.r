@@ -58,9 +58,9 @@ read_licor_prn_files <- function(in.path=".", out.path="../data/", file.name.pat
     parsed_remark <- sub(pattern='(QNTM)', replacement="", x=parsed_remark, fixed=TRUE)
     parsed_remark <- str_trim(parsed_remark)
     print(parsed_remark)
-    if (!is.na(match("(QNTM)", raw_file_header$remark, nomatch=FALSE))) {unit.in="photon"} else {unit.in="energy"}
+    if (!is.na(match("(QNTM)", raw_file_header$remark, nomatch=FALSE))) {unit.in <- "photon"} else {unit.in <- "energy"}
 
-    df.name <- paste(sub(pattern=".PRN", replacement="", x=file.name), "data", sep=".")
+    df.name <- paste(sub(pattern=".PRN", replacement="", x=file.name), "spct", sep=".")
     df.name <- tolower(df.name)
 
     df.names.vec <- c(df.names.vec, df.name)
@@ -77,7 +77,8 @@ read_licor_prn_files <- function(in.path=".", out.path="../data/", file.name.pat
       df.temp <- df.temp[df.temp$w.length <= trim.wl,]
     }
     comment(df.temp) <- paste("LICOR LI-1800:", parsed_remark)
-    assign(df.name, df.temp)
+    spct.temp <- setSourceSpct(df.temp)
+    assign(df.name, spct.temp)
     save(list=df.name, file=paste(out.path, df.name, ".rda", sep=""))
     str_cat <- NULL
     for (str in raw_file_header){
