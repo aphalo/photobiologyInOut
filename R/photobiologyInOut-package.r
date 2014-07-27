@@ -12,8 +12,8 @@
 #' \tabular{ll}{
 #' Package: \tab photobiologyInOut\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.1.1\cr
-#' Date: \tab 2014-07-20\cr
+#' Version: \tab 0.1.3\cr
+#' Date: \tab 2014-07-25\cr
 #' License: \tab GPL (>= 3)\cr
 #' URL: \tab \url{http://uv4growth.dyndns.org},\cr \tab \url{http://openinstruments.dyndns.org},\cr
 #' \tab \url{https://bitbucket.org/aphalo/photobiology}\cr
@@ -29,4 +29,6 @@
 #' 978-952-10-8362-4 (paperback). Open access PDF download available at 
 #' \url{http://hdl.handle.net/10138/37558}
 #' 
+#' @import photobiology stringr XML plyr pbapply
+
 NULL

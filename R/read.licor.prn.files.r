@@ -4,11 +4,12 @@
 ##' to extract the whole header remark field and also check whether data is in photon or energy based units.
 ##' The time field is ignored as it does not contain year information.
 ##' 
-##' @usage read_licor_prn_files(in.path=".", out.path="../data/", file.name.patt="*.PRN", trim.wl=NULL)
+##' @usage read_licor_prn_files(in.path=".", out.path="../data/", file.name.patt="*.PRN", trim.wl=NULL, unit.out="both")
 ##' @param in.path The path to the folder containing the text files with processed data from the spectrometer.
 ##' @param out.path The path to the folder where to save the .Rda files
 ##' @param file.name.patt The pattern to be matched when searching for data files.
 ##' @param trim.wl Numeric value indicating threshold wavelength (nm) above which data is discarded.
+##' @param unit.out character string with one of "energy", "photon" or "both".
 ##' 
 ##' @return Returns a character vector with the names of the data.frames created.
 ##' @export
@@ -46,7 +47,7 @@
 ##' all needed uitlities are part of the operating system.
 ##' 
 
-read_licor_prn_files <- function(in.path=".", out.path="../data/", file.name.patt="*.PRN", trim.wl=NULL){
+read_licor_prn_files <- function(in.path=".", out.path="../data/", file.name.patt="*.PRN", trim.wl=NULL, unit.out="both"){
   old.path <- getwd()
   setwd(in.path)
   df.names.vec <- NULL
@@ -58,7 +59,11 @@ read_licor_prn_files <- function(in.path=".", out.path="../data/", file.name.pat
     parsed_remark <- sub(pattern='(QNTM)', replacement="", x=parsed_remark, fixed=TRUE)
     parsed_remark <- str_trim(parsed_remark)
     print(parsed_remark)
-    if (!is.na(match("(QNTM)", raw_file_header$remark, nomatch=FALSE))) {unit.in <- "photon"} else {unit.in <- "energy"}
+    if (!is.na(match("(QNTM)", raw_file_header$remark, nomatch=FALSE))) {
+      unit.in <- "photon"
+    } else {
+      unit.in <- "energy"
+    }
 
     df.name <- paste(sub(pattern=".PRN", replacement="", x=file.name), "spct", sep=".")
     df.name <- tolower(df.name)
@@ -69,16 +74,22 @@ read_licor_prn_files <- function(in.path=".", out.path="../data/", file.name.pat
       df.temp$s.e.irrad <- with(df.temp, as_energy(w.length, s.q.irrad * 1e-6))
     } else if (unit.in=="energy") {
       df.temp <- read.table(file.name, header=FALSE, skip=7, col.names=c("w.length", "s.e.irrad"))
-      df.temp$s.e.irrad <- with(df.temp, as_quantum_mol(w.length, s.e.irrad))
+      df.temp$s.q.irrad <- with(df.temp, as_quantum_mol(w.length, s.e.irrad))
     } else {
       stop("unrecognized unit.in")
     }
-    if (!is.null(trim.wl)) {
-      df.temp <- df.temp[df.temp$w.length <= trim.wl,]
+    if (unit.out=="energy") {
+      df.temp$s.q.irrad <- NULL
+    } else if (unit.out=="photon") {
+      df.temp$s.e.irrad <- NULL
+    } else if (unit.out!="both") {
+      warning("Unrecognized argument to 'unit.out', assuming 'both'.")
     }
-    comment(df.temp) <- paste("LICOR LI-1800:", parsed_remark)
-    spct.temp <- setSourceSpct(df.temp)
-    assign(df.name, spct.temp)
+    setSourceSpct(df.temp)
+    setattr(df.temp, "comment", paste("LICOR LI-1800:", parsed_remark) )
+    trim_spct(df.temp, high.limit=trim.wl)
+    setSourceSpct(df.temp)
+    assign(df.name, df.temp)
     save(list=df.name, file=paste(out.path, df.name, ".rda", sep=""))
     str_cat <- NULL
     for (str in raw_file_header){
