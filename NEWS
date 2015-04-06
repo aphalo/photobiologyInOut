@@ -7,6 +7,9 @@ read_licor_prn_file().
 
 New functions read_licor_prn_file() and read_tuv_file() returning source.spct objects.
 
+Function read_xlsx() removed as there are other packages available for Excel file
+import.
+
 photobiologyInOut Ver 0.1.3
 ===========================
 

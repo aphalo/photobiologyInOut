@@ -23,6 +23,6 @@
 #' \url{http://www.r4photobiology.info/}
 #' \url{http://hdl.handle.net/10138/37558}
 #' 
-#' @import photobiology XML pbapply plyr stringr data.table
+#' @import photobiology stringr data.table reshape2
 
 NULL

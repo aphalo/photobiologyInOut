@@ -9,7 +9,7 @@ Description: This package provides functions for reading output files containing
 License: GPL (>= 3)
 VignetteBuilder: knitr
 Depends: R (>= 3.1.0), photobiology (>= 0.5.19)
-Imports: stringr, XML, plyr, pbapply, lubridate, data.table
+Imports: stringr, lubridate, data.table, reshape2
 Suggests: knitr
 LazyLoad: yes
 LazyData: yes

@@ -59,10 +59,11 @@ read_licor_prn_file <- function( file = "spectrum.PRN",
     out.spct <- read.table(file, header=FALSE, skip=7, col.names=c("w.length", "s.q.irrad"))
     out.spct$s.q.irrad <- out.spct$s.q.irrad * 1e-6 # convert from umol to mol
   } else if (unit.in=="energy") {
-    out.spct <- read.table(file.name, header=FALSE, skip=7, col.names=c("w.length", "s.e.irrad"))
+    out.spct <- read.table(file, header=FALSE, skip=7, col.names=c("w.length", "s.e.irrad"))
   } else {
     stop("unrecognized unit.in")
   }
+  
   setSourceSpct(out.spct, time.unit = "second")
   if (unit.out=="energy") {
     q2e(out.spct, action = "replace", byref = TRUE)
@@ -75,6 +76,6 @@ read_licor_prn_file <- function( file = "spectrum.PRN",
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
   setattr(out.spct, "comment", paste("LICOR LI-1800:", paste(file_header, collapse = "\n"), sep = "\n"))
-  trim_spct(out.spct, low.limit=low.limit, high.limit=high.limit)
+  out.spct <- trim_spct(out.spct, range = range, low.limit = low.limit, high.limit = high.limit)
   return(out.spct)
 }
