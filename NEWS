@@ -1,3 +1,12 @@
+photobiologyInOut Ver 0.2.0
+===========================
+
+Edited read_licor_prn_files() drastically. The new version is functionally equivalent
+but formal arguments have changed. In addtion it is now implemented by calling
+read_licor_prn_file().
+
+New functions read_licor_prn_file() and read_tuv_file() returning source.spct objects.
+
 photobiologyInOut Ver 0.1.3
 ===========================
 

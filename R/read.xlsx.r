@@ -11,7 +11,7 @@
 ##' @export
 ##' @author Pedro J. Aphalo, Schaun Jacob Wheeler
 ##' 
-##' @references \url{http://r4photobiology.wordpress.com}
+##' @references \url{http://www.r4photobiology.info}
 ##' @keywords misc
 ##' @note The MIT License (MIT)
 ##'

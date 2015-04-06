@@ -12,23 +12,17 @@
 #' \tabular{ll}{
 #' Package: \tab photobiologyInOut\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.1.3\cr
-#' Date: \tab 2014-07-25\cr
+#' Version: \tab 0.2.0\cr
+#' Date: \tab 2015-04-05\cr
 #' License: \tab GPL (>= 3)\cr
-#' URL: \tab \url{http://uv4growth.dyndns.org},\cr \tab \url{http://openinstruments.dyndns.org},\cr
-#' \tab \url{https://bitbucket.org/aphalo/photobiology}\cr
-#' BugReports: \tab \url{https://bitbucket.org/aphalo/photobiology}\cr
+#' URL: \url{https://bitbucket.org/aphalo/photobiologyInOut}\cr
+#' BugReports: \tab \url{https://bitbucket.org/aphalo/photobiologyInOut}\cr
 #' }
 #' 
 #' @references
-#' Aphalo, P. J., Albert, A., Björn, L. O., McLeod, A. R., Robson, T. M., 
-#' Rosenqvist, E. (Eds.). (2012). Beyond the Visible: A handbook of best 
-#' practice in plant UV photobiology (1st ed., p. xxx + 174). 
-#' Helsinki: University of Helsinki, Department of Biosciences, 
-#' Division of Plant Biology. ISBN 978-952-10-8363-1 (PDF), 
-#' 978-952-10-8362-4 (paperback). Open access PDF download available at 
+#' \url{http://www.r4photobiology.info/}
 #' \url{http://hdl.handle.net/10138/37558}
 #' 
-#' @import photobiology stringr XML plyr pbapply
+#' @import photobiology XML pbapply plyr stringr data.table
 
 NULL
