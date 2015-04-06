@@ -4,8 +4,8 @@
 ##' to extract the whole header remark field and also check whether data is in photon or energy based units.
 ##' The time field is ignored as it does not contain year information.
 ##' 
-##' @usage read_licor_prn_files(in.path="./", out.path="./", file.name.patt="*.PRN", 
-##'                             range = NULL, high.limit = NULL, low.limit = NULL, 
+##' @usage read_licor_prn_files(in.path="./", out.path=NULL, file.name.patt="*.PRN", 
+##'                             range = NULL, low.limit = NULL, high.limit = NULL, 
 ##'                             unit.out="energy", 
 ##'                             date = lubridate::today())
 ##' 
@@ -40,7 +40,7 @@
 ##' 
 
 read_licor_prn_files <- function(in.path="./", out.path=NULL, file.name.patt="*.PRN", 
-                                 range = NULL, high.limit = NULL, low.limit = NULL, 
+                                 range = NULL, low.limit = NULL, high.limit = NULL, 
                                  unit.out="energy", 
                                  date = lubridate::today()){
   old.path <- getwd()
@@ -57,12 +57,9 @@ read_licor_prn_files <- function(in.path="./", out.path=NULL, file.name.patt="*.
                                range = range, high.limit = high.limit, low.limit = low.limit,
                                unit.out = unit.out,
                                date = date) )
-    str_cat <- paste(raw_file_header)
-    message(str_cat)
     if (!is.null(out.path)) {
       save(list=df.name, file=paste(out.path, df.name, ".rda", sep=""))
-      cat(str_cat, file=paste(out.path, df.name, ".txt", sep=""))
-    }
+     }
   }
   setwd(old.path)
   return(df.names.vec)
