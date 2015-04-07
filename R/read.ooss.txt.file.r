@@ -1,10 +1,10 @@
-##' Read spectral data from one .PRN file created with LI-COR's PC1800 program.
+##' Read spectral data from one .txt file created with Ocean Optics' SpectraSuite program.
 ##' 
-##' Reads and parses the header of a processed data file as output by the PC1800 program
-##' to extract the whole header remark field and also check whether data is in photon or energy based units.
-##' The time field is ignored as it does not contain year information.
+##' Reads and parses the header of a processed data file as output by SpectraSuite
+##' to extract the whole header remark field 
+##' The time field is retireved
 ##' 
-##' @usage read_licor_prn_file(file = "spectrum.PRN", 
+##' @usage read_ooss_txt_file(file = "spectrum.txt", 
 ##'                             range = NULL, low.limit = NULL, high.limit = NULL, 
 ##'                             unit.out = "energy", 
 ##'                             date = NA)
@@ -22,10 +22,6 @@
 ##' @references \url{http://www.r4photobiology.info}
 ##' @keywords misc
 ##' 
-##' @note
-##' The LI-1800 spectroradiometer does not store the year as part of the data, only month, day, and time of day.
-##' Because of this, in the current version, if \code{NULL} is the argument to date, year 0000 is set.
-##' 
 ##' @details
 ##' Algorithm:
 ##' \enumerate{
@@ -39,34 +35,30 @@
 ##' }
 ##' 
 
-read_licor_prn_file <- function( file = "spectrum.PRN", 
-                                 range = NULL, low.limit = NULL, high.limit = NULL, 
-                                 unit.out="energy", 
-                                 date = NA){
-  file_header <- scan(file=file, nlines=7, skip=0, 
-                      what="character", sep = "\n")
+read_ooss_txt_file <- function( file = "spectrum.txt", 
+                                range = NULL, low.limit = NULL, high.limit = NULL, 
+                                unit.out="energy", 
+                                date = NA){
+  file_header <- scan(file = file, nlines = 16, skip = 0, what="character", sep = "\n")
   
   if (is.null(date)) {
-    line05 <- sub("Date:", "", file_header[5])
-    date <- lubridate::parse_date_time(line05, "m*!d! hm")
-  }
-
-  if (!is.na(match("(QNTM)", file_header[2], nomatch=FALSE))) {
-    unit.in <- "photon"
-  } else {
-    unit.in <- "energy"
+    line03 <- sub("Date: [[:alpha:]]{3} ", "", file_header[3])
+    time_zone <- sub("^(.{16})([[:upper:]]{3,4})(.{5})$", "\\2", line03)
+    if (nchar(time_zone) == 4) {
+      time_zone <- sub("S", "", time_zone)
+    } # the S is for summer time but it is not needed
+#    line03 <- sub("[[:upper:]]{3,4}[[:space:]]", "", line03)
+#    as.POSIXct(line03, format="%B %d %H:%M:%S %Y", tz="EET")
+    date <- lubridate::parse_date_time(line03, "m*!d! hms y", tz = time_zone)
   }
   
-  if (unit.in=="photon") {
-    out.spct <- read.table(file, header=FALSE, skip=7, col.names=c("w.length", "s.q.irrad"))
-    out.spct$s.q.irrad <- out.spct$s.q.irrad * 1e-6 # convert from umol to mol
-  } else if (unit.in=="energy") {
-    out.spct <- read.table(file, header=FALSE, skip=7, col.names=c("w.length", "s.e.irrad"))
-  } else {
-    stop("unrecognized unit.in")
-  }
+  out.spct <- read.table(file = file, header=FALSE, skip=17, 
+                         comment.char = ">",
+                         col.names=c("w.length", "s.e.irrad"),
+                         dec = ".")
   
   setSourceSpct(out.spct, time.unit = "second")
+  out.spct[ , s.e.irrad := s.e.irrad * 1e-3] # mW -> W
   if (!is.na(date)) {
     out.spct[ , date := date]
   }
@@ -81,7 +73,7 @@ read_licor_prn_file <- function( file = "spectrum.PRN",
   } else {
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
-  setattr(out.spct, "comment", paste("LICOR LI-1800:", paste(file_header, collapse = "\n"), sep = "\n"))
+  setattr(out.spct, "comment", paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n"))
   out.spct <- trim_spct(out.spct, range = range, low.limit = low.limit, high.limit = high.limit)
   return(out.spct)
 }

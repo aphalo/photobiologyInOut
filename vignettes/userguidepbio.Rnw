@@ -1,0 +1,101 @@
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{User guide}
+%\VignetteDepends{knitr, photobiology, photobiologyInOut}
+%\VignetteKeyword{misc}
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{bbding}
+\usepackage{xspace}
+\usepackage{framed}
+
+\newcommand{\PB}{\textsf{photobiology}\xspace}
+\newcommand{\PBPL}{\textsf{photobiologyPlants}\xspace}
+\newcommand{\PBFLT}{\textsf{photobiologyFilters}\xspace}
+\newcommand{\PBSU}{\textsf{photobiologySun}\xspace}
+\newcommand{\PBLA}{\textsf{photobiologyLamps}\xspace}
+\newcommand{\PBLD}{\textsf{photobiologyLEDs}\xspace}
+\newcommand{\PBSN}{\textsf{photobiologySensors}\xspace}
+\newcommand{\PBWB}{\textsf{photobiologyWavebands}\xspace}
+\newcommand{\PBIO}{\textsf{photobiologyInOut}\xspace}
+
+\newcommand{\Unit}[1]{\ensuremath{\mathrm{#1}}\xspace}
+
+\newcommand{\watt}{\Unit{W\,m^{-2}}}
+\newcommand{\wattnm}{\Unit{W\,m^{-2}\,nm^{-1}}}
+\newcommand{\mwattnm}{\Unit{mW\,m^{-2}\,nm^{-1}}}
+\newcommand{\mol}{\Unit{mol\,m^{-2}\,s^{-1}}}
+\newcommand{\molnm}{\Unit{mol\,m^{-2}\,s^{-1}\,nm^{-1}}}
+
+\begin{document}
+
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.path='figure/pos-', fig.align='center', fig.show='hold',
+               fig.width=7, fig.height=6, size="footnotesize")
+# options(replace.assign=TRUE,width=60)
+@
+
+<<example-0-hiden, eval=TRUE, include=FALSE>>=
+library(photobiology)
+library(photobiologyInOut)
+@
+
+<<own-set-up, echo=FALSE, include=FALSE>>=
+my_version <- packageVersion("photobiologyInOut")
+@
+
+\title{\PBIO Version \Sexpr{my_version}\\ User Guide}
+\author{Pedro J. Aphalo}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+<<example-0-visible, eval=FALSE, include=TRUE>>=
+library(photobiology)
+library(photobiologyInOut)
+@
+
+
+This package defines functions for importing spectral data from
+different instruments (Table \ref{tab:funs:inst}) and simulation
+models (Table \ref{tab:funs:simul}).
+
+\begin{figure}
+\centering
+\begin{tabular}{lll}
+\toprule
+R function & Instrument & Program \\
+\midrule
+read\_ooss\_txt\_file() & Ocean Optics spectrometers & SpectraSuite \\
+read\_macam\_dta\_file() & Macam                     & \emph{instrument} \\
+read\_licor\_prn\_file() & LI-COR LI-1800 & PC1800 (MS-DOS program) \\
+\bottomrule
+\end{tabular}
+\caption{Functions for importing measured spectral emission data}\label{tab:funs:inst}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{tabular}{lll}
+\toprule
+R function & Simulation model & version \\
+\midrule
+read\_tuv\_file() & TUV (Sasha Madronich) & version 5.0 (modified by PJA)  \\
+read\_tuv\_file() & TUV (Sasha Madronich) & edited output from 5.0 (original)  \\
+\bottomrule
+\end{tabular}
+\caption{Functions for importing simualted spectral data from models}\label{tab:funs:simul}
+\end{figure}
+
+\end{document}

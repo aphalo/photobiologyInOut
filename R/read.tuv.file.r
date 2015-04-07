@@ -13,7 +13,7 @@
 ##' @param low.limit shortest wavelength to be kept (defaults to shortest w.length in input)
 ##' @param high.limit longest wavelength to be kept (defaults to longest w.length in input)
 ##' @param unit.out character string with one of "energy", "photon" or "both"
-##' @param date a \code{lubridate} compatible date corresponding to simulated spectrum
+##' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in file is used, and if \code{NA} no date variable is added 
 ##' 
 ##' @return a source.spct object obtained by 'melting' the TUV file, and adding a factor
 ##' \code{spctrum}, and variables \code{zenith.angle} and \code{date}.
@@ -41,7 +41,7 @@ read_tuv_file <- function(file = "usrout.txt",
                           range = NULL, low.limit = NULL, high.limit = NULL, 
                           unit.out="energy", 
                           date = lubridate::today()) {
-  file_header <- scan(file=file, nlines=5, what="character", sep = "\n" )
+  file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "", x = file_header[4], fixed=TRUE))
   num.spectra <- length(hours)
   
