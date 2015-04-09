@@ -4,17 +4,21 @@
 ##' to extract the whole header remark field 
 ##' The time field is retireved
 ##' 
-##' @usage read_ooss_txt_file(file = "spectrum.txt", 
+##' @usage read_ooss_file(file = "spectrum.txt", 
 ##'                             range = NULL, low.limit = NULL, high.limit = NULL, 
 ##'                             unit.out = "energy", 
 ##'                             date = NA)
 ##' 
 ##' @param file character string
-##' @param range a numeric vector of length two, or any other object for which function range() will return two
-##' @param low.limit shortest wavelength to be kept (defaults to shortest w.length in input)
-##' @param high.limit longest wavelength to be kept (defaults to longest w.length in input)
+##' @param range a numeric vector of length two, or any other object for 
+##'        which function range() will return two
+##' @param low.limit shortest wavelength to be kept (defaults to shortest 
+##'        w.length in input)
+##' @param high.limit longest wavelength to be kept (defaults to longest 
+##'        w.length in input)
 ##' @param unit.out character string with one of "energy", "photon" or "both"
-##' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in file is used, and if \code{NA} no date variable is added 
+##' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in 
+##'        file is used, and if \code{NA} no date variable is added 
 ##' 
 ##' @return A source.spct object.
 ##' @export
@@ -35,11 +39,16 @@
 ##' }
 ##' 
 
-read_ooss_txt_file <- function( file = "spectrum.txt", 
+read_ooss_file <- function( file = "spectrum.txt", 
                                 range = NULL, low.limit = NULL, high.limit = NULL, 
                                 unit.out="energy", 
                                 date = NA){
-  file_header <- scan(file = file, nlines = 16, skip = 0, what="character", sep = "\n")
+  line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
+  if (line01[1] != "SpectraSuite") {
+    warning("Input file was not created by SpectrSuite as expected: skipping")
+    return(NA)
+  }
+  file_header <- scan(file = file, nlines = 15, skip = 0, what="character", sep = "\n")
   
   if (is.null(date)) {
     line03 <- sub("Date: [[:alpha:]]{3} ", "", file_header[3])

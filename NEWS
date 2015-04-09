@@ -1,3 +1,13 @@
+photobiologyInOut Ver 0.2.1
+===========================
+
+Added function to read spectral irradiance files geenrated by the Jaz spectrometer
+from Ocean Optics.
+
+Functions names shortened.
+
+Expanded the User Guide.
+
 photobiologyInOut Ver 0.2.0
 ===========================
 

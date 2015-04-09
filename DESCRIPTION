@@ -1,16 +1,21 @@
 Package: photobiologyInOut
 Type: Package
 Title: Functions for importing data from spectral data files
-Version: 0.2.0
-Date: 2015-04-05
+Version: 0.2.1
+Date: 2015-04-09
 Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
-Description: This package provides functions for reading output files containing spectral data from spectrometers and their associated software
+Description: This package provides functions for reading output files containing 
+             spectral data from spectrometers and their associated software
 License: GPL (>= 3)
 VignetteBuilder: knitr
 Depends: R (>= 3.1.0), photobiology (>= 0.5.19)
-Imports: stringr, lubridate, data.table, reshape2
-Suggests: knitr
+Imports: stringr,
+         lubridate, 
+         data.table, 
+         reshape2
+Suggests: knitr,
+          photobiologygg
 LazyLoad: yes
 LazyData: yes
 ByteCompile: true

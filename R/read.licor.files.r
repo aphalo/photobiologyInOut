@@ -4,7 +4,7 @@
 ##' to extract the whole header remark field and also check whether data is in photon or energy based units.
 ##' The time field is ignored as it does not contain year information.
 ##' 
-##' @usage read_licor_prn_files(in.path="./", out.path=NULL, file.name.patt="*.PRN", 
+##' @usage read_licor_files(in.path="./", out.path=NULL, file.name.patt="*.PRN", 
 ##'                             range = NULL, low.limit = NULL, high.limit = NULL, 
 ##'                             unit.out="energy", 
 ##'                             date = lubridate::today())
@@ -23,13 +23,13 @@
 ##' @export
 ##' @author Pedro J. Aphalo
 ##' @references \url{http://www.r4photobiology.info}
-##' @keywords misc
+##' @keywords internal
 ##' 
 ##' @return A list of character strings giving the names of the 
 ##' source.spct objects created.
 ##' 
 ##' @details
-##' This fucntion calls \code{red_licor_prn_file()} for each file in the path 
+##' This fucntion calls \code{red_licor_file()} for each file in the path 
 ##' and matching the patterm. Each object created is also saved to an .rda file
 ##' unless \code{out.path} is \code{nULL}. 
 ##' 
@@ -39,7 +39,7 @@
 ##' all needed uitlities are part of the operating system.
 ##' 
 
-read_licor_prn_files <- function(in.path="./", out.path=NULL, file.name.patt="*.PRN", 
+read_licor_files <- function(in.path="./", out.path=NULL, file.name.patt="*.PRN", 
                                  range = NULL, low.limit = NULL, high.limit = NULL, 
                                  unit.out="energy", 
                                  date = lubridate::today()){
@@ -53,7 +53,7 @@ read_licor_prn_files <- function(in.path="./", out.path=NULL, file.name.patt="*.
     df.name <- sub(pattern=".PRN", replacement=".spct", x=file.name)
 
     assign(df.name, 
-           read_licor_prn_file(file = file.name,
+           read_licor_file(file = file.name,
                                range = range, high.limit = high.limit, low.limit = low.limit,
                                unit.out = unit.out,
                                date = date) )

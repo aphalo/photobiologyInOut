@@ -6,7 +6,7 @@
 ##' @usage read_tuv_file(file = "usrout.txt", 
 ##'                      range = NULL, low.limit = NULL, high.limit = NULL, 
 ##'                      unit.out = "energy", 
-##'                      date = lubridate::today())
+##'                      date = NULL)
 ##'                             
 ##' @param file character string
 ##' @param range a numeric vector of length two, or any other object for which function range() will return two
@@ -40,7 +40,7 @@
 read_tuv_file <- function(file = "usrout.txt", 
                           range = NULL, low.limit = NULL, high.limit = NULL, 
                           unit.out="energy", 
-                          date = lubridate::today()) {
+                          date = NULL) {
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "", x = file_header[4], fixed=TRUE))
   num.spectra <- length(hours)
