@@ -62,7 +62,7 @@ read_oojaz_file <- function(file = "spectrum.JazIrrad",
   setDT(out.spct)
   out.spct <- out.spct[ , .(w.length, s.e.irrad)]
   setSourceSpct(out.spct, time.unit = "second")
-  out.spct[ , s.e.irrad := s.e.irrad * 1e-3] # mW -> W
+  out.spct[ , s.e.irrad := s.e.irrad * 1e-2] # uW cm-2 nm-1 -> W m-2 nm-1
   if (!is.na(date)) {
     out.spct[ , date := date]
   }

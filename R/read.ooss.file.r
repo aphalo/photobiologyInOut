@@ -67,7 +67,7 @@ read_ooss_file <- function( file = "spectrum.txt",
                          dec = ".")
   
   setSourceSpct(out.spct, time.unit = "second")
-  out.spct[ , s.e.irrad := s.e.irrad * 1e-3] # mW -> W
+  out.spct[ , s.e.irrad := s.e.irrad * 1e-2] # uW cm-2 nm-1 -> W m-2 nm-1
   if (!is.na(date)) {
     out.spct[ , date := date]
   }

@@ -73,28 +73,29 @@ This package defines functions for importing spectral data from
 different instruments (Table \ref{tab:funs:inst}) and simulation
 models (Table \ref{tab:funs:simul}).
 
-\begin{table}
+\begin{table}[h]
 \centering
 \begin{tabular}{lll}
 \toprule
 R function & Instrument & Program \\
 \midrule
-read\_ooss\_txt\_file() & Ocean Optics spectrometers & SpectraSuite \\
-read\_macam\_dta\_file() & Macam                     & \emph{instrument} \\
-read\_licor\_prn\_file() & LI-COR LI-1800 & PC1800 (MS-DOS program) \\
+read\_ooss\_file() & Ocean Optics spectrometers & SpectraSuite \\
+read\_oojaz\_file() & Ocean Optics Jaz          & \emph{instrument} \\
+read\_macam\_file() & Macam                     & \emph{instrument} \\
+read\_licor\_file() & LI-COR LI-1800            & PC1800 (MS-DOS) \\
 \bottomrule
 \end{tabular}
 \caption{Functions for importing measured spectral emission data}\label{tab:funs:inst}
 \end{table}
 
-\begin{table}
+\begin{table}[h]
 \centering
 \begin{tabular}{lll}
 \toprule
 R function & Simulation model & version \\
 \midrule
-read\_tuv\_file() & TUV (Sasha Madronich) & version 5.0 (modified by PJA)  \\
-read\_tuv\_file() & TUV (Sasha Madronich) & edited output from 5.0 (original)  \\
+read\_tuv\_file() & TUV (Sasha Madronich) & version 5.0 (modified)  \\
+read\_tuv\_file() & TUV (Sasha Madronich) & edited output  \\
 \bottomrule
 \end{tabular}
 \caption{Functions for importing simualted spectral data from models}\label{tab:funs:simul}
@@ -106,6 +107,13 @@ Reading a file geenrated by Ocean Optics' Jaz spectrometer.
 
 <<>>=
 jaz.spct <- read_oojaz_file(file = "spectrum.JazIrrad")
+@
+
+Photon and energy irradiances.
+
+<<>>=
+q_irrad(jaz.spct, PAR()) * 1e6 # umol m-2 s-1
+e_irrad(jaz.spct, PAR())       # W m-2
 @
 
 Plotting the spectrum.
