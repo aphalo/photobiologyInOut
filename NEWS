@@ -1,6 +1,11 @@
 photobiologyInOut Ver 0.2.1
 ===========================
 
+Corrected some bugs in read_licor_files()
+
+photobiologyInOut Ver 0.2.1
+===========================
+
 Added function to read spectral irradiance files geenrated by the Jaz spectrometer
 from Ocean Optics.
 
