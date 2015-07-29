@@ -6,7 +6,7 @@ Date: 2015-04-13
 Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Description: This package provides functions for reading output files containing 
-             spectral data from spectrometers and their associated software
+             spectral data from spectrometers and their associated software.
 License: GPL (>= 3)
 VignetteBuilder: knitr
 Depends: R (>= 3.1.0), photobiology (>= 0.6.0)
