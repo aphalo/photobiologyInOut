@@ -12,8 +12,8 @@
 #' \tabular{ll}{
 #' Package: \tab photobiologyInOut\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.3.0\cr
-#' Date: \tab 2015-04-13\cr
+#' Version: \tab 0.3.1\cr
+#' Date: \tab 2015-07-30\cr
 #' License: \tab GPL (>= 3)\cr
 #' URL: \url{https://bitbucket.org/aphalo/photobiologyInOut}\cr
 #' BugReports: \tab \url{https://bitbucket.org/aphalo/photobiologyInOut}\cr
@@ -22,6 +22,6 @@
 #' @references
 #' \url{http://www.r4photobiology.info/}
 #' 
-#' @import photobiology stringr data.table reshape2
+#' @import photobiology
 
 NULL

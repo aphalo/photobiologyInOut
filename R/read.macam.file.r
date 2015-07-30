@@ -52,7 +52,7 @@ read_macam_file <- function( file = "spectrum.DTA",
   
   setSourceSpct(out.spct, time.unit = "second")
   if (!is.na(date)) {
-    out.spct[ , date := date]
+    out.spct[["date"]] <- date
   }
   if (unit.out=="energy") {
     q2e(out.spct, action = "replace", byref = TRUE)
@@ -64,7 +64,7 @@ read_macam_file <- function( file = "spectrum.DTA",
   } else {
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
-  setattr(out.spct, "comment", paste("MACAM:", paste(file_header, collapse = "\n"), sep = "\n"))
+  comment(out.spct) <- paste("MACAM:", paste(file_header, collapse = "\n"), sep = "\n")
   out.spct <- trim_spct(out.spct, range = range, low.limit = low.limit, high.limit = high.limit)
   return(out.spct)
 }

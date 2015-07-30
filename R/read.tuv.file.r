@@ -59,13 +59,15 @@ read_tuv_file <- function(file = "usrout.txt",
   setGenericSpct(wide.dt)
   wide.dt <- trim_spct(wide.dt, range = range, low.limit = low.limit, high.limit = high.limit)
   
-  wl.length <- wide.dt[ , length(w.length)]
+  wl.length <- length(wide.dt[["w.length"]])
 
-  out.spct <- melt(wide.dt, id.vars = "w.length", value.name = "s.e.irrad", variable.name = "spectrum")
+  out.spct <- reshape2::melt(wide.dt, id.vars = "w.length", value.name = "s.e.irrad", variable.name = "spectrum")
   setSourceSpct(out.spct, time.unit = "second")
-  setkey(out.spct, spectrum)
-  out.spct[levels(spectrum), angle := rep(angles, rep(wl.length, num.spectra))]
-  out.spct[levels(spectrum), date := rep(as.POSIXct(date), rep(wl.length, num.spectra))]
+
+  out.spct[["angle"]] <- with(out.spct, rep(angles, rep(wl.length, num.spectra)))
+  out.spct[["date"]] <- with(out.spct, rep(as.POSIXct(date), rep(wl.length, num.spectra)))
+  
+  setSourceSpct(out.spct, time.unit = "second", multiple.wl = num.spectra)
   
   if (unit.out=="energy") {
     q2e(out.spct, action = "replace", byref = TRUE)
@@ -78,7 +80,7 @@ read_tuv_file <- function(file = "usrout.txt",
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
   
-  setattr(out.spct, "comment", paste("TUV:", paste(file_header, collapse = "\n"), sep = "\n"))
+  comment(out.spct) <- paste("TUV:", paste(file_header, collapse = "\n"), sep = "\n")
   return(out.spct)
 }
 

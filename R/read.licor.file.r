@@ -68,7 +68,7 @@ read_licor_file <- function( file = "spectrum.PRN",
   
   setSourceSpct(out.spct, time.unit = "second")
   if (!is.na(date)) {
-    out.spct[ , date := date]
+    out.spct[["date"]] <- date
   }
   
   if (unit.out=="energy") {
@@ -81,7 +81,7 @@ read_licor_file <- function( file = "spectrum.PRN",
   } else {
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
-  setattr(out.spct, "comment", paste("LICOR LI-1800:", paste(file_header, collapse = "\n"), sep = "\n"))
+  comment(out.spct) <- paste("LICOR LI-1800:", paste(file_header, collapse = "\n"), sep = "\n")
   out.spct <- trim_spct(out.spct, range = range, low.limit = low.limit, high.limit = high.limit)
   return(out.spct)
 }

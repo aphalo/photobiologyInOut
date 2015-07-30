@@ -59,14 +59,14 @@ read_oojaz_file <- function(file = "spectrum.JazIrrad",
                          col.names=c("w.length", "s.e.irrad.dark", "s.e.irrad.uc", "s.e.irrad"),
                          dec = ".")
   
-  setDT(out.spct)
-  out.spct <- out.spct[ , .(w.length, s.e.irrad)]
-  setSourceSpct(out.spct, time.unit = "second")
-  out.spct[ , s.e.irrad := s.e.irrad * 1e-2] # uW cm-2 nm-1 -> W m-2 nm-1
+  out.spct <- out.spct[ , c("w.length", "s.e.irrad")]
+  out.spct[["s.e.irrad"]] <- out.spct[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
   if (!is.na(date)) {
-    out.spct[ , date := date]
+    out.spct[["date"]] <- date
   }
   
+  setSourceSpct(out.spct, time.unit = "second")
+
   if (unit.out=="energy") {
     q2e(out.spct, action = "replace", byref = TRUE)
   } else if (unit.out=="photon") {
@@ -77,7 +77,7 @@ read_oojaz_file <- function(file = "spectrum.JazIrrad",
   } else {
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
-  setattr(out.spct, "comment", paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n"))
+  comment(out.spct) <- paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
   out.spct <- trim_spct(out.spct, range = range, low.limit = low.limit, high.limit = high.limit)
   return(out.spct)
 }

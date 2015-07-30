@@ -67,9 +67,9 @@ read_ooss_file <- function( file = "spectrum.txt",
                          dec = ".")
   
   setSourceSpct(out.spct, time.unit = "second")
-  out.spct[ , s.e.irrad := s.e.irrad * 1e-2] # uW cm-2 nm-1 -> W m-2 nm-1
+  out.spct[["s.e.irrad"]] <-  out.spct[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
   if (!is.na(date)) {
-    out.spct[ , date := date]
+    out.spct[["date"]] <- date
   }
   
   if (unit.out=="energy") {
@@ -82,7 +82,7 @@ read_ooss_file <- function( file = "spectrum.txt",
   } else {
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
-  setattr(out.spct, "comment", paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n"))
+  comment(out.spct) <- paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
   out.spct <- trim_spct(out.spct, range = range, low.limit = low.limit, high.limit = high.limit)
   return(out.spct)
 }

@@ -6,5 +6,7 @@ man
 *.tex
 *.synctex.gz
 *.toc
+vignettes/*.pdf
+vignettes/figure
 
 
