@@ -7,6 +7,4 @@ man
 *.synctex.gz
 *.toc
 vignettes/*.pdf
-vignettes/figure
-
-
+vignettes/figure/
