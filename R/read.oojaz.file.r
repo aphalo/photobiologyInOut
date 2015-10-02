@@ -1,21 +1,23 @@
-#' Read spectral data from one .txt file created with Ocean Optics' Jaz spectrometer.
+#' Read spectral data from one .txt file created with Ocean Optics' Jaz
+#' spectrometer.
 #' 
-#' Reads and parses the header of a processed data file as output by SpectraSuite
-#' to extract the whole header remark field 
-#' The time field is retireved
-#' 
-#' @usage read_oojaz_file(file = "spectrum.JazIrrad", 
-#'                             range = NULL, low.limit = NULL, high.limit = NULL, 
-#'                             unit.out = "energy", 
-#'                             date = NA)
+#' Reads and parses the header of a processed data file as output by
+#' SpectraSuite to extract the whole header remark field The time field is
+#' retireved
 #' 
 #' @param file character string
-#' @param range a numeric vector of length two, or any other object for which function range() will return two
-#' @param low.limit shortest wavelength to be kept (defaults to shortest w.length in input)
-#' @param high.limit longest wavelength to be kept (defaults to longest w.length in input)
+#' @param range a numeric vector of length two, or any other object for which 
+#'   function range() will return two
+#' @param low.limit shortest wavelength to be kept (defaults to shortest
+#'   w.length in input)
+#' @param high.limit longest wavelength to be kept (defaults to longest w.length
+#'   in input)
 #' @param unit.out character string with one of "energy", "photon" or "both"
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in file is used, and if \code{NA} no date variable is added 
-#' 
+#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
+#'   file is used, and if \code{NA} no date variable is added
+#' @param use.hinges logical When trimming, whether to insert and interpoalted 
+#'   value at the boundaries or not.
+#'   
 #' @return A source.spct object.
 #' @export
 #' @author Pedro J. Aphalo
@@ -36,9 +38,10 @@
 #' 
 
 read_oojaz_file <- function(file = "spectrum.JazIrrad", 
-                                range = NULL, low.limit = NULL, high.limit = NULL, 
-                                unit.out="energy", 
-                                date = NA){
+                            range = NULL, low.limit = NULL, high.limit = NULL, 
+                            unit.out="energy", 
+                            date = NA,
+                            use.hinges = FALSE){
   line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
@@ -78,6 +81,13 @@ read_oojaz_file <- function(file = "spectrum.JazIrrad",
     warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
   }
   comment(out.spct) <- paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
-  out.spct <- trim_spct(out.spct, range = range, low.limit = low.limit, high.limit = high.limit)
+  out.spct <-
+    trim_spct(
+      out.spct,
+      range = range,
+      low.limit = low.limit,
+      high.limit = high.limit,
+      use.hinges = use.hinges
+    )
   return(out.spct)
 }
