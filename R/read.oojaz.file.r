@@ -1,5 +1,4 @@
-#' Read spectral data from one .txt file created with Ocean Optics' Jaz
-#' spectrometer.
+#' Read File Saved by Ocean Optics' Jaz spectrometer.
 #' 
 #' Reads and parses the header of a processed data file as output by
 #' SpectraSuite to extract the whole header remark field The time field is

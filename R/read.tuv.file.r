@@ -1,5 +1,4 @@
-#' Read spectral data from a usrout.txt file generated with TUV simulation
-#' model.
+#' Read TUV output file.
 #' 
 #' Reads and parses the header of a text file output by the TUV program to
 #' extract the header and spectral data. The time field is converted to a date.
@@ -24,7 +23,9 @@
 #' @author Pedro J. Aphalo
 #' @references \url{http://www.r4photobiology.info}
 #' @keywords misc
-#'   
+#'
+#' @note Tested only with TUV versison 5.0.
+#' 
 #' @details
 #' Algorithm:
 #' \enumerate{
@@ -47,7 +48,7 @@ read_tuv_file <- function(file = "usrout.txt",
                           use.hinges = FALSE) {
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "",
-                           x = file_header[4], fixed=TRUE))
+                           x = file_header[4], fixed = TRUE))
   num.spectra <- length(hours)
   
   minutes <- trunc((hours - trunc(hours)) * 60)
@@ -58,10 +59,10 @@ read_tuv_file <- function(file = "usrout.txt",
   lubridate::second(date) <- trunc(seconds)
   
   angles <- scan(text = sub(pattern = "sza = ", replacement = "", 
-                            x = file_header[5], fixed=TRUE))
+                            x = file_header[5], fixed = TRUE))
   
-  wide.dt <- read.table(file=file, header=FALSE, skip=5, 
-                        col.names=c("w.length", LETTERS[1:num.spectra]))
+  wide.dt <- read.table(file = file, header = FALSE, skip = 5, 
+                        col.names = c("w.length", LETTERS[1:num.spectra]))
   
   setGenericSpct(wide.dt, multiple.wl = Inf)
   wide.dt <-
@@ -84,11 +85,11 @@ read_tuv_file <- function(file = "usrout.txt",
   
   setSourceSpct(out.spct, time.unit = "second", multiple.wl = num.spectra)
   
-  if (unit.out=="energy") {
+  if (unit.out == "energy") {
     q2e(out.spct, action = "replace", byref = TRUE)
-  } else if (unit.out=="photon") {
+  } else if (unit.out == "photon") {
     e2q(out.spct, action = "replace", byref = TRUE)
-  } else if (unit.out=="both") {
+  } else if (unit.out == "both") {
     q2e(out.spct, action = "add", byref = TRUE)
     e2q(out.spct, action = "add", byref = TRUE)
   } else {

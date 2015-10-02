@@ -40,7 +40,7 @@
 library(knitr)
 opts_chunk$set(fig.path='figure/pos-', fig.align='center', fig.show='hold',
                fig.width=7, fig.height=6, size="footnotesize")
-# options(replace.assign=TRUE,width=60)
+options(replace.assign=TRUE,width=60)
 @
 
 <<example-0-hiden, eval=TRUE, include=FALSE>>=
@@ -68,6 +68,10 @@ my_version <- packageVersion("photobiologyInOut")
 <<example-0-hiden, eval=FALSE, include=TRUE>>=
 @
 
+<<>>=
+options(dplyr.print_max = 5)
+options(dplyr.print_min = 3)
+@
 
 This package defines functions for importing spectral data from
 different instruments (Table \ref{tab:funs:inst}) and simulation
@@ -197,7 +201,17 @@ plot(tuv.spct, annotations = c("colour.guide")) +
   facet_wrap(~date, ncol = 2)
 @
 
-Or with the default of \texttt{lubridate::today()} for date.
+The output is a single \texttt{source\_spct} object that can be easily converted 
+into a \texttt{source\_mspct} object containing the individual spectra as
+members of the collection.
+
+<<>>=
+tuv.mspct <- subset2mspct(tuv.spct)
+tuv.mspct
+@
+
+With the default of \texttt{lubridate::today()} for date times are `mapped' to
+the current local date using the time zone of the computer as visible to R.
 
 <<>>=
 tuv_nd.spct <- read_tuv_file(file = "usrout.txt")
