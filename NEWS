@@ -1,3 +1,9 @@
+photobiologyInOut Ver 0.3.2
+===========================
+
+Add "use.hinges" argument to functions, and default to not adding hinges when
+trimming input.
+
 photobiologyInOut Ver 0.3.1
 ===========================
 

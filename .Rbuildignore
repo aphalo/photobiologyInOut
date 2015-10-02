@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^raw.data$
 ^test$
+^vignettes/figure$
