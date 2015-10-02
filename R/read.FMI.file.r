@@ -80,10 +80,9 @@ read_tuv_file <- function(file = "usrout.txt",
   out.spct <- rehape2::melt(wide.dt, id.vars = "w.length", 
                    value.name = "s.e.irrad", variable.name = "spct.idx")
   setSourceSpct(out.spct, time.unit = "second")
-  ### DATA TABLE USED!
-  out.spct[levels(spectrum), angle := rep(angles, rep(wl.length, num.spectra))]
-  out.spct[levels(spectrum), date := rep(as.POSIXct(date), rep(wl.length, num.spectra))]
-  
+
+  out.spct[["angle"]] <- rep(angles, rep(wl.length, num.spectra))
+  out.spct[["data"]] <- rep(as.POSIXct(date), rep(wl.length, num.spectra))
   if (unit.out=="energy") {
     q2e(out.spct, action = "replace", byref = TRUE)
   } else if (unit.out=="photon") {
