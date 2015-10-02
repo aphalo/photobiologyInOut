@@ -12,8 +12,8 @@
 #' @param high.limit longest wavelength to be kept (defaults to longest
 #'   w.length in input)
 #' @param unit.out character string with one of "energy", "photon" or "both"
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
-#'   file is used, and if \code{NA} no date variable is added
+#' @param date a \code{POSIXct} object, or if \code{NA} no date variable is 
+#'   added, default is current day as there in no date data in TUV output. 
 #' @param use.hinges logical When trimming, whether to insert and interpoalted 
 #'   value at the boundaries or not.
 #'   
@@ -42,8 +42,8 @@
 
 read_tuv_file <- function(file = "usrout.txt", 
                           range = NULL, low.limit = NULL, high.limit = NULL, 
-                          unit.out="energy", 
-                          date = NULL,
+                          unit.out = "energy", 
+                          date = lubridate::today(),
                           use.hinges = FALSE) {
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "",

@@ -1,6 +1,6 @@
 %\VignetteEngine{knitr}
 %\VignetteIndexEntry{User guide}
-%\VignetteDepends{knitr, photobiology, photobiologygg, photobiologyInOut}
+%\VignetteDepends{knitr, photobiology, photobiologyWavebands, photobiologygg, photobiologyInOut, ggplot2, lubridate}
 %\VignetteKeyword{misc}
 
 \documentclass{article}
@@ -45,9 +45,11 @@ opts_chunk$set(fig.path='figure/pos-', fig.align='center', fig.show='hold',
 
 <<example-0-hiden, eval=TRUE, include=FALSE>>=
 library(photobiology)
+library(photobiologyWavebands)
 library(photobiologygg)
 library(photobiologyInOut)
 library(lubridate)
+library(ggplot2)
 @
 
 <<own-set-up, echo=FALSE, include=FALSE>>=
@@ -183,7 +185,7 @@ always supplied as the output file from TUV has only time of day information.
 
 <<>>=
 tuv.spct <- read_tuv_file(file = "usrout.txt", date = ymd("2014-03-21"))
-summary(subset(tuv.spct, spectrum == "A"))
+summary(subset(tuv.spct, spct.idx == "A"))
 tuv.spct
 @
 
@@ -193,6 +195,13 @@ plot them in different panels.
 <<fig.height=10>>=
 plot(tuv.spct, annotations = c("colour.guide")) +
   facet_wrap(~date, ncol = 2)
+@
+
+Or with the default of \texttt{lubridate::today()} for date.
+
+<<>>=
+tuv_nd.spct <- read_tuv_file(file = "usrout.txt")
+tuv_nd.spct
 @
 
 \end{document}
