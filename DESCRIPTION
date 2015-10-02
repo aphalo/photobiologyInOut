@@ -1,6 +1,6 @@
 Package: photobiologyInOut
 Type: Package
-Title: Read Spectral Data Files
+Title: Read Spectral Data from Foreign Files
 Version: 0.3.2
 Date: 2015-10-01
 Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
