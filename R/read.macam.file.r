@@ -54,6 +54,8 @@ read_macam_file <- function(file = "spectrum.DTA",
                    what = list(w.length = double(), s.e.irrad = double()),
                    skip=3)
   
+  old.opts <- options("photobiology.strict.range" = NA)
+  
   setSourceSpct(out.spct, time.unit = "second")
   if (!is.na(date)) {
     out.spct[["date"]] <- date
@@ -77,5 +79,6 @@ read_macam_file <- function(file = "spectrum.DTA",
       high.limit = high.limit,
       use.hinges = use.hinges
     )
+  options(old.opts)
   return(out.spct)
 }

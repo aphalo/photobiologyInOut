@@ -41,24 +41,23 @@ read_oojaz_file <- function(file = "spectrum.JazIrrad",
                             unit.out="energy", 
                             date = NA,
                             use.hinges = FALSE){
-  line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
+  line01 <- scan(file = file, nlines =  1, skip = 0, what = "character")
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
     return(NA)
   }
-  file_header <- scan(file = file, nlines = 18, skip = 0, what="character", sep = "\n")
+  file_header <- scan(file = file, nlines = 18, skip = 0, what = "character", sep = "\n")
   
   if (is.null(date)) {
     line03 <- sub("Date: [[:alpha:]]{3} ", "", file_header[3])
     date <- lubridate::parse_date_time(line03, "m*!d! hms y")
   }
   
-  data_header <- scan(file = file, nlines = 1, skip = 20, what = "character")
-  n.cols <- length(data_header)
+#  data_header <- scan(file = file, nlines = 1, skip = 20, what = "character")
   
-  out.spct <- read.table(file = file, nrows = 2047, header=FALSE, skip=21, 
+  out.spct <- read.table(file = file, nrows = 2047, header = FALSE, skip = 21, 
                          comment.char = ">",
-                         col.names=c("w.length", "s.e.irrad.dark", "s.e.irrad.uc", "s.e.irrad"),
+                         col.names = c("w.length", "s.e.irrad.dark", "s.e.irrad.uc", "s.e.irrad"),
                          dec = ".")
   
   out.spct <- out.spct[ , c("w.length", "s.e.irrad")]
@@ -67,19 +66,10 @@ read_oojaz_file <- function(file = "spectrum.JazIrrad",
     out.spct[["date"]] <- date
   }
   
-  setSourceSpct(out.spct, time.unit = "second")
+  old.opts <- options("photobiology.strict.range" = NA)
+  
+  setSourceSpct(out.spct, time.unit = "second") 
 
-  if (unit.out=="energy") {
-    q2e(out.spct, action = "replace", byref = TRUE)
-  } else if (unit.out=="photon") {
-    e2q(out.spct, action = "replace", byref = TRUE)
-  } else if (unit.out=="both") {
-    q2e(out.spct, action = "add", byref = TRUE)
-    e2q(out.spct, action = "add", byref = TRUE)
-  } else {
-    warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
-  }
-  comment(out.spct) <- paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
   out.spct <-
     trim_spct(
       out.spct,
@@ -88,5 +78,19 @@ read_oojaz_file <- function(file = "spectrum.JazIrrad",
       high.limit = high.limit,
       use.hinges = use.hinges
     )
+  
+  if (unit.out == "energy") {
+    q2e(out.spct, action = "replace", byref = TRUE)
+  } else if (unit.out == "photon") {
+    e2q(out.spct, action = "replace", byref = TRUE)
+  } else if (unit.out == "both") {
+    q2e(out.spct, action = "add", byref = TRUE)
+    e2q(out.spct, action = "add", byref = TRUE)
+  } else {
+    warning("Unrecognized argument to 'unit.out' ", unit.out, " keeping data as is.")
+  }
+  comment(out.spct) <- paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
+  
+  options(old.opts)
   return(out.spct)
 }

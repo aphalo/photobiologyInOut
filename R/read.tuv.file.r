@@ -83,6 +83,8 @@ read_tuv_file <- function(file = "usrout.txt",
   out.spct[["angle"]] <- with(out.spct, rep(angles, rep(wl.length, num.spectra)))
   out.spct[["date"]] <- with(out.spct, rep(as.POSIXct(date), rep(wl.length, num.spectra)))
   
+  old.opts <- options("photobiology.strict.range" = NA)
+  
   setSourceSpct(out.spct, time.unit = "second", multiple.wl = num.spectra)
   
   if (unit.out == "energy") {
@@ -97,6 +99,7 @@ read_tuv_file <- function(file = "usrout.txt",
   }
   
   comment(out.spct) <- paste("TUV:", paste(file_header, collapse = "\n"), sep = "\n")
+  options(old.opts)
   return(out.spct)
 }
 

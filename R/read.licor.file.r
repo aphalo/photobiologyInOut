@@ -89,6 +89,8 @@ read_licor_file <- function(file = "spectrum.PRN",
     stop("unrecognized unit.in")
   }
   
+  old.opts <- options("photobiology.strict.range" = NA)
+  
   setSourceSpct(out.spct, time.unit = "second")
   if (!is.na(date)) {
     out.spct[["date"]] <- date
@@ -116,5 +118,6 @@ read_licor_file <- function(file = "spectrum.PRN",
     high.limit = high.limit,
     use.hinges = use.hinges
   )
+  options(old.opts)
   return(out.spct)
 }

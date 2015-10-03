@@ -65,7 +65,9 @@ read_ooss_file <- function( file = "spectrum.txt",
                          col.names=c("w.length", "s.e.irrad"),
                          dec = ".")
   
-  setSourceSpct(out.spct, time.unit = "second")
+  old.opts <- options("photobiology.strict.range" = NA)
+
+    setSourceSpct(out.spct, time.unit = "second")
   out.spct[["s.e.irrad"]] <-  
                out.spct[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
   if (!is.na(date)) {
@@ -93,5 +95,6 @@ read_ooss_file <- function( file = "spectrum.txt",
       high.limit = high.limit,
       use.hinges = use.hinges
     )
+  options(old.opts)
   return(out.spct)
 }
