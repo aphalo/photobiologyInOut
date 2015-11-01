@@ -13,6 +13,12 @@
 #' if not, please please raise a bug or support ticket and upload one 
 #' example of an incorrectly decoded file.
 #' 
+#' @note Paths need to end in a (forward) slash, even under Windows. Under Windows
+#' you may need to install Unix/Linux style command line utilities for this
+#' function to work. For example install the RTools corresponding to the R
+#' version you are using. Under OS X or Linux, all needed uitlities are part of
+#' the operating system.
+#' 
 #' @docType package
 #' @keywords misc
 #' @name photobiologyInOut-package
@@ -21,8 +27,8 @@
 #' \tabular{ll}{
 #' Package: \tab photobiologyInOut\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.3.2\cr
-#' Date: \tab 2015-10-01\cr
+#' Version: \tab 0.3.3\cr
+#' Date: \tab 2015-11-01\cr
 #' License: \tab GPL (>= 3)\cr
 #' URL: \tab \url{https://bitbucket.org/aphalo/photobiologyInOut}\cr
 #' BugReports: \tab \url{https://bitbucket.org/aphalo/photobiologyInOut}\cr

@@ -4,19 +4,13 @@
 #' extract the header and spectral data. The time field is converted to a date.
 #' 
 #' @param file character string
-#' @param range a numeric vector of length two, or any other object for which
-#'   function range() will return two
-#' @param low.limit shortest wavelength to be kept (defaults to shortest
-#'   w.length in input)
-#' @param high.limit longest wavelength to be kept (defaults to longest
-#'   w.length in input)
-#' @param unit.out character string with one of "energy", "photon" or "both"
-#' @param date a \code{POSIXct} object, or if \code{NA} no date variable is 
-#'   added, default is current day as there in no date data in TUV output. 
-#' @param use.hinges logical When trimming, whether to insert and interpoalted 
-#'   value at the boundaries or not.
+#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
+#'   file is used, and if \code{NA} no date variable is added
+#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param tz character Time zone is by default read from the file.
 #'   
-#' @return a source.spct object obtained by 'melting' the TUV file, and adding
+#'   
+#' @return a source_spct object obtained by 'melting' the TUV file, and adding
 #'   a factor \code{spct.idx}, and variables \code{zenith.angle} and
 #'   \code{date}.
 #'   
@@ -26,26 +20,12 @@
 #'
 #' @note Tested only with TUV versison 5.0.
 #' 
-#' @details
-#' Algorithm:
-#' \enumerate{
-#'  \item read file header
-#'  \item read spectral data (as many columns as present)
-#'  \item convert dataframne to data.table
-#'  \item melt data.table and add angles and dates (from header)
-#'  \item trim the spectrum according to arguments
-#'  \item add the remark from file header as a comment() to object
-#'  \item return the source.spct object
-#' }
-#' 
 #' @export
 #' 
-
-read_tuv_file <- function(file = "usrout.txt", 
-                          range = NULL, low.limit = NULL, high.limit = NULL, 
-                          unit.out = "energy", 
-                          date = lubridate::today(),
-                          use.hinges = FALSE) {
+read_tuv_usrout <- function(file = "usrout.txt", 
+                            date = NULL,
+                            geocode = NULL,
+                            tz = "UTC") {
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "",
                            x = file_header[4], fixed = TRUE))

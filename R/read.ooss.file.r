@@ -5,42 +5,21 @@
 #' retireved
 #' 
 #' @param file character string
-#' @param range a numeric vector of length two, or any other object for which
-#'   function range() will return two
-#' @param low.limit shortest wavelength to be kept (defaults to shortest 
-#'   w.length in input)
-#' @param high.limit longest wavelength to be kept (defaults to longest 
-#'   w.length in input)
-#' @param unit.out character string with one of "energy", "photon" or "both"
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in 
+#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
 #'   file is used, and if \code{NA} no date variable is added
-#' @param use.hinges logical When trimming, whether to insert and interpoalted 
-#'   value at the boundaries or not.
+#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param tz character Time zone is by default read from the file.
 #'   
-#' @return A source.spct object.
+#' @return A source_spct object.
 #' @export
 #' @author Pedro J. Aphalo
 #' @references \url{http://www.r4photobiology.info}
 #' @keywords misc
 #' 
-#' @details
-#' Algorithm:
-#' \enumerate{
-#'  \item read file header
-#'  \item read spectral data
-#'  \item convert dataframne to source.spct
-#'  \item convert spectral data if needed
-#'  \item trim the spectrum according to arguments
-#'  \item add the remark from file header as a comment() to object
-#'  \item return the source.spct object
-#' }
-#' 
-
-read_ooss_file <- function( file = "spectrum.txt", 
-                            range = NULL, low.limit = NULL, high.limit = NULL, 
-                            unit.out="energy", 
-                            date = NA,
-                            use.hinges = FALSE){
+read_oo_sstxt <- function(file = "spectrum.JazIrrad",
+                          date = NULL,
+                          geocode = NULL,
+                          tz = NULL) {
   line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
   if (line01[1] != "SpectraSuite") {
     warning("Input file was not created by SpectrSuite as expected: skipping")
@@ -51,50 +30,36 @@ read_ooss_file <- function( file = "spectrum.txt",
   
   if (is.null(date)) {
     line03 <- sub("Date: [[:alpha:]]{3} ", "", file_header[3])
-    time_zone <- sub("^(.{16})([[:upper:]]{3,4})(.{5})$", "\\2", line03)
-    if (nchar(time_zone) == 4) {
-      time_zone <- sub("S", "", time_zone)
-    } # the S is for summer time but it is not needed
-#    line03 <- sub("[[:upper:]]{3,4}[[:space:]]", "", line03)
-#    as.POSIXct(line03, format="%B %d %H:%M:%S %Y", tz="EET")
-    date <- lubridate::parse_date_time(line03, "m*!d! hms y", tz = time_zone)
+    if (is.null(tz)) {
+      tz <- sub("^(.{16})([[:upper:]]{3,4})(.{5})$", "\\2", line03)
+      if (nchar(tz) == 4) {
+        tz <- sub("S", "", tz)
+      }
+    }
+    date <- lubridate::parse_date_time(line03, "m*!d! hms y", tz = tz)
   }
   
-  out.spct <- read.table(file = file, header=FALSE, skip=17, 
-                         comment.char = ">",
-                         col.names=c("w.length", "s.e.irrad"),
-                         dec = ".")
+  z <- readr::read_table(
+    file = file,
+    col_names = c("w.length", "s.e.irrad"),
+    col_types = "dd",
+    skip = 17
+  )
+  
+  z <-
+    dplyr::mutate(z, s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
+  
+  comment(z) <-
+    paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
   
   old.opts <- options("photobiology.strict.range" = NA)
-
-    setSourceSpct(out.spct, time.unit = "second")
-  out.spct[["s.e.irrad"]] <-  
-               out.spct[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
-  if (!is.na(date)) {
-    out.spct[["date"]] <- date
-  }
-  
-  if (unit.out=="energy") {
-    q2e(out.spct, action = "replace", byref = TRUE)
-  } else if (unit.out=="photon") {
-    e2q(out.spct, action = "replace", byref = TRUE)
-  } else if (unit.out=="both") {
-    q2e(out.spct, action = "add", byref = TRUE)
-    e2q(out.spct, action = "add", byref = TRUE)
-  } else {
-    warning("Unrecognized argument to 'unit.out' ", 
-            unit.out, " keeping data as is.")
-  }
-  comment(out.spct) <- paste("Ocean Optics:", 
-                             paste(file_header, collapse = "\n"), sep = "\n")
-  out.spct <-
-    trim_spct(
-      out.spct,
-      range = range,
-      low.limit = low.limit,
-      high.limit = high.limit,
-      use.hinges = use.hinges
-    )
+  z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
-  return(out.spct)
+  if (!is.na(date)) {
+    photobiology::setWhenMeasured(z, date)
+  }
+  if (!is.null(geocode) && !is.na(geocode)) {
+    photobiology::setWhereMeasured(z, geocode)
+  }
+  z
 }
