@@ -50,6 +50,7 @@ library(photobiologygg)
 library(photobiologyInOut)
 library(lubridate)
 library(ggplot2)
+library(ggmap)
 @
 
 <<own-set-up, echo=FALSE, include=FALSE>>=
@@ -187,6 +188,7 @@ jaz.spct <- read_oo_jazirrad(file = "spectrum.JazIrrad", date = NULL)
 jaz.spct
 @
 
+\section{Output from solar spectrum simulation models}
 
 The output from the TUV model can be imported either by editing it before
 import, or by making a simple edit to the output routine of TUV. This function
@@ -225,6 +227,55 @@ the current local date using the time zone of the computer as visible to R.
 <<>>=
 tuv_nd.spct <- read_tuv_usrout(file = "usrout.txt")
 tuv_nd.spct
+@
+
+
+Functions \texttt{read\_fmi\_cum} and \texttt{read\_m\_fmi\_cum} can be used to read text files 
+output by a simulation model
+of solar spectral irradiance. The model was developed at the Finnish
+Meateorological Institute (FMI) by Dr.\ Anders Lindfors and collaborators.
+
+We can read an individual file into a \texttt{source\_spct} object while adding
+some metadata.
+
+<<>>=
+z.spct <- read_fmi_cum("2014-08-21_cum.hel")
+class_spct(z.spct)
+getWhenMeasured(z.spct)
+z.spct
+@
+
+<<>>=
+z.mspct <- read_m_fmi_cum("2014-08-21_cum.hel")
+class(z.mspct)
+getWhenMeasured(z.mspct)
+z.mspct
+@
+
+<<>>=
+z.mspct <- read_m_fmi_cum(c("2014-08-21_cum.hel", 
+                            "2014-08-22_cum.hel"))
+class(z.mspct)
+getWhenMeasured(z.mspct)
+z.mspct
+@
+
+<<>>=
+files <- system("ls ./*cum.hel", intern = TRUE)
+z1.mspct <- read_m_fmi_cum(files)
+class(z1.mspct)
+getWhenMeasured(z1.mspct)
+z1.mspct
+@
+
+<<>>=
+z2.mspct <- 
+  read_m_fmi_cum(files, 
+                 geocode = geocode("Kumpula, Helsinki, Finland"))
+class(z2.mspct)
+getWhenMeasured(z2.mspct)
+getWhereMeasured(z2.mspct)
+z2.mspct
 @
 
 \end{document}
