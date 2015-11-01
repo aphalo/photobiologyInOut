@@ -49,7 +49,9 @@ read_fmi_cum <- function(file,
   if (is.null(date)) {
     date <- .date.f(file)
   }
-  photobiology::setWhenMeasured(z, date)
+  if (!is.null(date) && !is.na(date)) {
+    photobiology::setWhenMeasured(z, date)
+  }
   if (!is.null(geocode)) {
     photobiology::setWhereMeasured(z, geocode)
   }

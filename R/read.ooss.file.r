@@ -42,13 +42,13 @@ read_oo_sstxt <- function(file = "spectrum.JazIrrad",
     date <- lubridate::parse_date_time(line03, "m*!d! hms y", tz = tz)
   }
   
-  z <- read.table(
+  z <- readr::read_tsv(
     file = file,
-    col.names = c("w.length", "s.e.irrad"),
+    col_names = c("w.length", "s.e.irrad"),
     skip = 17,
-    nrows = npixels
+    n_max = npixels
   )
-
+  
   z <-
     dplyr::mutate(z, s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
   
@@ -58,7 +58,7 @@ read_oo_sstxt <- function(file = "spectrum.JazIrrad",
   old.opts <- options("photobiology.strict.range" = NA)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
-  if (!is.na(date)) {
+  if (!is.null(date) && !is.na(date)) {
     photobiology::setWhenMeasured(z, date)
   }
   if (!is.null(geocode) && !is.na(geocode)) {

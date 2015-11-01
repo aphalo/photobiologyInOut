@@ -69,7 +69,7 @@ read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
   old.opts <- options("photobiology.strict.range" = NA)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
-  if (!is.na(date)) {
+  if (!is.null(date) && !is.na(date)) {
     photobiology::setWhenMeasured(z, date)
   }
   if (!is.null(geocode) && !is.na(geocode)) {
