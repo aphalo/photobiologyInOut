@@ -25,8 +25,11 @@ read_oo_sstxt <- function(file = "spectrum.JazIrrad",
     warning("Input file was not created by SpectrSuite as expected: skipping")
     return(NA)
   }
-  file_header <- scan(file = file, nlines = 15, 
+  file_header <- scan(file = file, nlines = 16, 
                       skip = 0, what="character", sep = "\n")
+  
+  npixels <- as.integer(sub("Number of Pixels in Processed Spectrum: ", "", 
+                            file_header[16], fixed = TRUE))
   
   if (is.null(date)) {
     line03 <- sub("Date: [[:alpha:]]{3} ", "", file_header[3])
@@ -39,13 +42,13 @@ read_oo_sstxt <- function(file = "spectrum.JazIrrad",
     date <- lubridate::parse_date_time(line03, "m*!d! hms y", tz = tz)
   }
   
-  z <- readr::read_table(
+  z <- read.table(
     file = file,
-    col_names = c("w.length", "s.e.irrad"),
-    col_types = "dd",
-    skip = 17
+    col.names = c("w.length", "s.e.irrad"),
+    skip = 17,
+    nrows = npixels
   )
-  
+
   z <-
     dplyr::mutate(z, s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
   

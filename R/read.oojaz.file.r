@@ -17,7 +17,7 @@
 #' @references \url{http://www.r4photobiology.info}
 #' @keywords misc
 #' 
-read_oo_jazzirrad <- function(file = "spectrum.JazIrrad",
+read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
                               date = NULL,
                               geocode = NULL,
                               tz = Sys.timezone(location = FALSE)) {
@@ -41,6 +41,9 @@ read_oo_jazzirrad <- function(file = "spectrum.JazIrrad",
       sep = "\n"
     )
   
+  npixels <- as.integer(sub("Number of Pixels in Processed Spectrum: ", "", 
+                            file_header[15], fixed = TRUE))
+  
   if (is.null(date)) {
     line03 <- sub("Date: [[:alpha:]]{3} ", "", file_header[3])
     date <-
@@ -48,16 +51,15 @@ read_oo_jazzirrad <- function(file = "spectrum.JazIrrad",
   }
   
   #  data_header <- scan(file = file, nlines = 1, skip = 20, what = "character")
-  col_names <-
-    c("w.length", "s.e.irrad.dark", "s.e.irrad.uc", "s.e.irrad")
-  z <- readr::read_table(
+  
+  z <- readr::read_tsv(
     file = file,
-    col_names = col_names,
-    col_types = "dd--",
-    skip = 20,
-    n_max = 2047
+    col_names = TRUE,
+    skip = 19,
+    n_max = npixels
   )
   
+  z <- dplyr::select(z, w.length = W, s.e.irrad = P)
   z <-
     dplyr::mutate(z, s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
   
