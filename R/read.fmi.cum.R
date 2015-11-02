@@ -63,7 +63,7 @@ read_fmi_cum <- function(file,
 #' @param files list or vector of paths each one with the same requirements as
 #'    described for argument \code{file}.
 #'
-#' @return \code{read_m_fmi_cum} returns a collection of \code{source_spct}.
+#' @return \code{read_m_fmi_cum} returns a collection of \code{source_mspct}.
 #'
 #' @export
 #'
