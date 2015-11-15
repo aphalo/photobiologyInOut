@@ -44,6 +44,8 @@ options(replace.assign=TRUE,width=60)
 @
 
 <<example-0-hiden, eval=TRUE, include=FALSE>>=
+# this is needed as some Windows TZ strings are not recognized by R
+Sys.setenv(TZ='UTC')
 library(photobiology)
 library(photobiologyWavebands)
 library(photobiologygg)
@@ -184,7 +186,18 @@ the header (the text itself) not the file date as the file date may noy reflect
 the creation date and time.
 
 <<>>=
-jaz.spct <- read_oo_jazirrad(file = "spectrum.JazIrrad", date = NULL)
+jaz1.spct <- read_oo_jazirrad(file = "spectrum.JazIrrad", date = NULL)
+jaz1.spct
+@
+
+<<>>=
+jaz.spct <- read_oo_jazirrad(file = "spectrum.JazIrrad", 
+                             date = ymd_hms("2015-11-15 12:00:00"))
+jaz.spct
+@
+
+<<>>=
+jaz.spct <- read_oo_jazirrad(file = "spectrum.JazIrrad", date = now())
 jaz.spct
 @
 

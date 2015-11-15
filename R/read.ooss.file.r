@@ -16,7 +16,7 @@
 #' @references \url{http://www.r4photobiology.info}
 #' @keywords misc
 #' 
-read_oo_sstxt <- function(file = "spectrum.JazIrrad",
+read_oo_sstxt <- function(file = "spectrum.SSIrrad",
                           date = NULL,
                           geocode = NULL,
                           tz = NULL) {
