@@ -114,13 +114,7 @@ Reading a file geenrated by Ocean Optics' Jaz spectrometer.
 
 <<>>=
 jaz.spct <- read_oo_jazirrad(file = "spectrum.JazIrrad")
-@
-
-Photon and energy irradiances.
-
-<<>>=
-q_irrad(jaz.spct, PAR()) * 1e6 # umol m-2 s-1
-e_irrad(jaz.spct, PAR())       # W m-2
+jaz0.spct <- jaz.spct
 @
 
 Plotting the spectrum.
@@ -128,6 +122,35 @@ Plotting the spectrum.
 <<>>=
 plot(jaz.spct)
 @
+
+We can see that the data have probelms. We get a warning because the data contains 
+negative values for spectral irradiance. We will use some methods from package
+photobiology to correct the problem. As the data are noisy we cannot just shift
+the scale so that the most negative value becomes zero. Neither can we replace
+all negative values with zeros, as this would create bias.
+
+In the following code chunk we will use a region of the spectrum in which
+spectral irradiance is known to be equal to zero as reference to  shift the
+scale zero.
+ 
+<<>>=
+jaz.spct <- fshift(jaz.spct, range = c(259,270), f = "mean")
+plot(jaz.spct)
+@
+
+We can next try to smooth the spectrum as it is very noisy outside the visible region.
+
+<<>>=
+jaz.spct <- smooth_spct(jaz.spct)
+plot(jaz.spct)
+@
+
+Photon and energy irradiances.
+
+<<>>=
+e_irrad(jaz.spct, PAR())       # W m-2
+@
+
 
 All in one statement.
 
@@ -144,7 +167,7 @@ plot(read_oo_jazirrad(file = "spectrum.JazIrrad"), range = c(250,850))
 Adding our custom ``adaptive'' smoothing.
 
 <<>>=
-plot(smooth_spct(read_oo_jazirrad(file = "spectrum.JazIrrad")), range = c(315,900))
+plot(smooth_spct(read_oo_jazirrad(file = "spectrum.JazIrrad")), range = c(250,850))
 @
 
 Now a file from an Ocean Optics' Q6500? spectrometer.
@@ -284,7 +307,8 @@ z1.mspct
 <<>>=
 z2.mspct <- 
   read_m_fmi_cum(files, 
-                 geocode = geocode("Kumpula, Helsinki, Finland"))
+                 geocode = geocode("Kumpula, Helsinki, Finland", 
+                                   source = "google"))
 class(z2.mspct)
 getWhenMeasured(z2.mspct)
 getWhereMeasured(z2.mspct)
