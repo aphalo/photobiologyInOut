@@ -5,25 +5,28 @@ Version: 0.4.1
 Date: 2015-11-21
 Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
-Description: This package provides functions for reading output files containing 
-             spectral data from spectrometers and their associated software.
+Description: This package provides functions for reading output files containing
+    spectral data from spectrometers and their associated software.
 License: GPL (>= 3)
 VignetteBuilder: knitr
-Depends: R (>= 3.2.0)
-Imports: 
+Depends:
+    R (>= 3.2.0)
+Imports:
     lubridate (>= 1.3.3),
     dplyr (>= 0.4.3),
     readr (>= 0.2.2),
-    photobiology (>= 0.8.11), 
+    photobiology (>= 0.8.11),
     reshape2 (>= 1.4.1)
-Suggests: knitr (>= 1.11),
-          photobiologygg (>= 0.4.1),
-          photobiologyWavebands (>= 0.3.3),
-          ggplot2 (>= 1.0.1),
-          ggmap (>= 2.5.2)
+Suggests:
+    knitr (>= 1.11),
+    photobiologygg (>= 0.4.1),
+    photobiologyWavebands (>= 0.3.3),
+    ggplot2 (>= 1.0.1),
+    ggmap (>= 2.5.2)
 LazyLoad: yes
 LazyData: yes
 ByteCompile: true
 Encoding: UTF-8
 URL: http://www.r4photobiology.info
 BugReports: https://bitbucket.org/aphalo/photobiologyinout/
+RoxygenNote: 5.0.1

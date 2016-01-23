@@ -1,6 +1,6 @@
 %\VignetteEngine{knitr}
 %\VignetteIndexEntry{User guide}
-%\VignetteDepends{knitr, photobiology, photobiologyWavebands, photobiologygg, photobiologyInOut, ggplot2, lubridate}
+%\VignetteDepends{knitr, photobiology, photobiologyWavebands, ggspectra, photobiologyInOut, ggplot2, lubridate}
 %\VignetteKeyword{misc}
 
 \documentclass{article}
@@ -40,7 +40,10 @@
 library(knitr)
 opts_chunk$set(fig.path='figure/pos-', fig.align='center', fig.show='hold',
                fig.width=7, fig.height=6, size="footnotesize")
-options(replace.assign=TRUE,width=60)
+options(replace.assign = TRUE, width = 55,
+        warnPartialMatchAttr = FALSE,
+        warnPartialMatchDollar = FALSE,
+        warnPartialMatchArgs = FALSE)
 @
 
 <<example-0-hiden, eval=TRUE, include=FALSE>>=
@@ -48,11 +51,11 @@ options(replace.assign=TRUE,width=60)
 Sys.setenv(TZ='UTC')
 library(photobiology)
 library(photobiologyWavebands)
-library(photobiologygg)
 library(photobiologyInOut)
 library(lubridate)
 library(ggplot2)
 library(ggmap)
+library(ggspectra)
 @
 
 <<own-set-up, echo=FALSE, include=FALSE>>=
@@ -115,6 +118,7 @@ Reading a file geenrated by Ocean Optics' Jaz spectrometer.
 <<>>=
 jaz.spct <- read_oo_jazirrad(file = "spectrum.JazIrrad")
 jaz0.spct <- jaz.spct
+jaz.spct <- trim_wl(jaz.spct, range = c(290, 800))
 @
 
 Plotting the spectrum.
@@ -134,7 +138,8 @@ spectral irradiance is known to be equal to zero as reference to  shift the
 scale zero.
  
 <<>>=
-jaz.spct <- fshift(jaz.spct, range = c(259,270), f = "mean")
+jaz.spct <- fshift(jaz0.spct, range = c(255, 290), f = "mean")
+jaz.spct <- trim_wl(jaz.spct, range = c(290, 800))
 plot(jaz.spct)
 @
 
