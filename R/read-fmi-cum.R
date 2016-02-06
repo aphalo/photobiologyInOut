@@ -25,8 +25,8 @@
 #' @note See \code{\link[readr]{read_table}} for details of acceptable values
 #'  for \code{file}.
 #'
-#'  @export
-
+#' @export
+#'  
 read_fmi_cum <- function(file,
                          date = NULL,
                          geocode = NULL,
@@ -43,7 +43,7 @@ read_fmi_cum <- function(file,
   )
   # convert wavelength in Ångstrom to nm
   if (min(z$w.length) > 1000) {
-    z <- dplyr::mutate(z, w.length = w.length / 10)
+    z$w.length <- z$w.length / 10)
   }
   z <- photobiology::as.source_spct(z, time.unit = "day")
   if (is.null(date)) {

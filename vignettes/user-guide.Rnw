@@ -1,6 +1,6 @@
 %\VignetteEngine{knitr}
 %\VignetteIndexEntry{User guide}
-%\VignetteDepends{knitr, photobiology, photobiologyWavebands, ggspectra, photobiologyInOut, ggplot2, lubridate}
+%\VignetteDepends{knitr, photobiology, photobiologyWavebands, ggspectra, photobiologyInOut, ggplot2, ggmap, lubridate}
 %\VignetteKeyword{misc}
 
 \documentclass{article}
@@ -48,7 +48,7 @@ options(replace.assign = TRUE, width = 55,
 
 <<example-0-hiden, eval=TRUE, include=FALSE>>=
 # this is needed as some Windows TZ strings are not recognized by R
-Sys.setenv(TZ='UTC')
+Sys.setenv(TZ = 'UTC')
 library(photobiology)
 library(photobiologyWavebands)
 library(photobiologyInOut)
