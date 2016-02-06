@@ -49,9 +49,9 @@ read_oo_sstxt <- function(file = "spectrum.SSIrrad",
     n_max = npixels
   )
   
-  z <-
-    dplyr::mutate(z, s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
-  
+  dots <- list(~s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
+  z <- dplyr::mutate_(z, .dots = setNames(dots, "s.e.irrad"))
+
   comment(z) <-
     paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
   

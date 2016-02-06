@@ -6,6 +6,11 @@ Add a generic reader of files into a collection of spectra.
 Add alternative reader of TUV output files into a collection of spectra.
 Add support for libRadTran output files.
 
+photobiologyInOut Ver 0.4.2
+===========================
+
+Fix bug in read_fmi_cum(). Update dependencies.
+
 photobiologyInOut Ver 0.4.1
 ===========================
 

@@ -43,7 +43,8 @@ read_fmi_cum <- function(file,
   )
   # convert wavelength in Ångstrom to nm
   if (min(z$w.length) > 1000) {
-    z$w.length <- z$w.length / 10)
+    dots <- list(~w.length / 10)
+    z <- dplyr::mutate_(z, .dots = setNames(dots, "w.length"))
   }
   z <- photobiology::as.source_spct(z, time.unit = "day")
   if (is.null(date)) {

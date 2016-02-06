@@ -31,8 +31,8 @@ read_avaspec_csv <- function(file = "spectrum.csv",
   z <- readr::read_csv(file = file,
                        col_names = c("w.length", "s.e.irrad"),
                        skip = 6)
-  
-  z$s.e.irrad <- z$s.e.irrad * mult
+  dots <- list(~s.e.irrad * mult)
+  z <- dplyr::mutate_(z, .dots = setNames(dots, "s.e.irrad"))
   
   comment(z) <- paste("AvaSpec:", paste(file_header, collapse = "\n"), sep = "\n")
   

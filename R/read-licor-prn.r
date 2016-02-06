@@ -62,7 +62,8 @@ read_licor_prn <- function(file,
                       skip = 7)
   
   if (mult != 1) {
-    z$s.q.irrad <- z$s.q.irrad * mult
+    dots <- list(~s.q.irrad * mult)
+    z <- dplyr::mutate_(z, .dots = setNames(dots, "s.q.irrad"))
   }
   
   comment(z) <-
