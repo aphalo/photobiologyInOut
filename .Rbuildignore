@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^raw.data$
+^data-raw$
 ^test$
 ^vignettes/figure$
+^vignettes/backups$
