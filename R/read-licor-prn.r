@@ -27,7 +27,7 @@
 read_licor_prn <- function(file,
                            date = NULL,
                            geocode = NULL,
-                           tz = Sys.timezone(location = FALSE)) {
+                           tz = Sys.timezone()) {
   file_header <- scan(
     file = file,
     nlines = 7,

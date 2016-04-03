@@ -19,7 +19,7 @@
 read_avaspec_csv <- function(file = "spectrum.csv",
                             date = NULL,
                             geocode = NULL,
-                            tz = Sys.timezone(location = FALSE)) {
+                            tz = Sys.timezone()) {
   file_header <- scan(file = file, nlines = 6, skip = 0, what = "character")
   # watt / cm ?
   if (length(grep("Watt/cm", file_header[2], fixed = TRUE))) {

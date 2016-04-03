@@ -20,7 +20,7 @@
 read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
                               date = NULL,
                               geocode = NULL,
-                              tz = Sys.timezone(location = FALSE)) {
+                              tz = Sys.timezone()) {
   line01 <-
     scan(
       file = file,
