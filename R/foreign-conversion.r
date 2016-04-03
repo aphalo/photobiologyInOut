@@ -1,3 +1,24 @@
+#' Convert 'hyperSpec::hyperSpec' objects
+#' 
+#' Convert between 'hyperSpec::hyperSpec' objects and collection of spectra
+#' objects (xxxx_mspct) as defined in package 'photobiology' preserving all
+#' information. Collection of spectra objects can be easily converted into
+#' spectral objects or into tidy data frames.
+#' 
+#' @note hyperSpec objects use memory more efficiently than spectral objects
+#' of the classes defined in package 'photobiology' while these are more
+#' flexible as they are derived from 'tbl_df' and in turn from 'data.frame'.
+#' 
+#' @param x hyperSpec object
+#' @param member.class character One of the classes defined in package
+#'   'photobiology'.
+#' @param spct.data.var character The name to be used for the 'spc' data when
+#'   constructing the spectral objects.
+#' @param numeric A multiplier to be applied to the 'spc' data to do unit or
+#'   scale conversion. For example "a.u." units in some examples in package
+#'   'hyperSpec' seem to have scale factors applied.
+#' @param ... currently ignored.
+#' 
 #' @export
 #' 
 hyperSpec2mspct <- function(x, 
@@ -6,9 +27,7 @@ hyperSpec2mspct <- function(x,
                             multiplier = 1,
                             ...) {
   stopifnot(inherits(x, "hyperSpec"))
-#  data.members <- ncol(x) # these are not of same length!
-#  data.dim <- dim(x$spc)
-  y <- cbind(hyperSpec::wl(x), t(x$spc) * multiplier)
+  y <- cbind(hyperSpec::wl(x), t(x$spc) * multiplier) 
   colnames(y) <- c("w.length", paste("spc", 1:nrow(x), sep = ""))
   y <- dplyr::as_data_frame(y)
   z <- split2mspct(x = y, 
@@ -21,8 +40,9 @@ hyperSpec2mspct <- function(x,
     }
   }
   comment(z) <- paste('Converted from "hyperSpec" object\n',
-                      'dim: ', dim(x),
-                      'colnames: ', colnames(x)
-                      )
+                      'dim: ', 
+                      paste(names(dim(x)), dim(x), collapse = " "),
+                      '\ncolnames: ', paste(colnames(x), collapse = ", "),
+                      sep = "")
   z
 }
