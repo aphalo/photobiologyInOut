@@ -21,15 +21,14 @@
 read_macam_dta <- function(file = "spectrum.DTA",
                             date = NULL,
                             geocode = NULL,
-                            tz = Sys.timezone(location = FALSE)) {
+                            tz = Sys.timezone()) {
   file_header <- scan(file = file, nlines = 3, skip = 0, what = "character")
   if (is.null(date)) {
     date <- lubridate::dmy(sub(pattern = "@", replacement = "",
                                x = file_header[1], fixed = TRUE),
                            tz = tz)
     time <- lubridate::hms(sub(pattern = '@', replacement = "",
-                               x = file_header[2], fixed = TRUE),
-                           tz = tz)
+                               x = file_header[2], fixed = TRUE))
     date <- date + time
   }
   z <- scan(file = file,
