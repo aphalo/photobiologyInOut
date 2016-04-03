@@ -14,7 +14,8 @@
 #'   'photobiology'.
 #' @param spct.data.var character The name to be used for the 'spc' data when
 #'   constructing the spectral objects.
-#' @param numeric A multiplier to be applied to the 'spc' data to do unit or
+#' @param spc.multiplier numeric A multiplier to be applied to the 'spc' data to
+#'   do unit or
 #'   scale conversion. For example "a.u." units in some examples in package
 #'   'hyperSpec' seem to have scale factors applied.
 #' @param ... currently ignored.
@@ -24,10 +25,10 @@
 hyperSpec2mspct <- function(x, 
                             member.class = "filter_spct", 
                             spct.data.var = "A", 
-                            multiplier = 1,
+                            spc.multiplier = 1,
                             ...) {
   stopifnot(inherits(x, "hyperSpec"))
-  y <- cbind(hyperSpec::wl(x), t(x$spc) * multiplier) 
+  y <- cbind(hyperSpec::wl(x), t(x$spc) * spc.multiplier) 
   colnames(y) <- c("w.length", paste("spc", 1:nrow(x), sep = ""))
   y <- dplyr::as_data_frame(y)
   z <- split2mspct(x = y, 
