@@ -30,7 +30,7 @@
 read_fmi_cum <- function(file,
                          date = NULL,
                          geocode = NULL,
-                         tz = Sys.timezone(location = FALSE),
+                         tz = "UTC",
                          .skip = 3,
                          .n_max = -1,
                          .date.f = lubridate::ymd) {
@@ -44,11 +44,11 @@ read_fmi_cum <- function(file,
   # convert wavelength in Ångstrom to nm
   if (min(z$w.length) > 1000) {
     dots <- list(~w.length / 10)
-    z <- dplyr::mutate_(z, .dots = setNames(dots, "w.length"))
+    z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "w.length"))
   }
   z <- photobiology::as.source_spct(z, time.unit = "day")
   if (is.null(date)) {
-    date <- .date.f(file)
+    date <- .date.f(file, tz = tz)
   }
   if (!is.null(date) && !is.na(date)) {
     photobiology::setWhenMeasured(z, date)
@@ -71,7 +71,7 @@ read_fmi_cum <- function(file,
 read_m_fmi_cum <- function(files,
                            date = NULL,
                            geocode = NULL,
-                           tz = Sys.timezone(location = FALSE),
+                           tz = "UTC",
                            .skip = 3,
                            .n_max = -1,
                            .date.f = lubridate::ymd) {

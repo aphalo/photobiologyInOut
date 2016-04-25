@@ -20,8 +20,8 @@ test_that("single spectrum", {
   expect_equal(sum(is.na(fmi.spct[[2]])), 0)
   expect_is(fmi.spct, "source_spct")
   expect_named(fmi.spct, c("w.length", "s.e.irrad"))
-  expect_equal(as.numeric(getWhenMeasured(fmi.spct)), 
-               as.numeric(ymd("2014-08-21")))
+  expect_equal(getWhenMeasured(fmi.spct), 
+               ymd("2014-08-21", tz = "UTC"))
 #  expect_gt(length(comment(fmi.spct)), 0)
 })
 
@@ -49,8 +49,8 @@ test_that("multiple spectrum", {
   expect_equal(sum(is.na(fmi.mspct[[1]][[2]])), 0)
   expect_is(fmi.mspct[[1]], "source_spct")
   expect_named(fmi.mspct[[1]], c("w.length", "s.e.irrad"))
-  expect_equal(as.numeric(getWhenMeasured(fmi.mspct[[1]])), 
-               as.numeric(ymd("2014-08-21")))
+  expect_equal(getWhenMeasured(fmi.mspct[[1]]), 
+               ymd("2014-08-21", tz = "UTC"))
   #  expect_gt(length(comment(fmi.spct)), 0)
 })
 

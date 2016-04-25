@@ -6,6 +6,7 @@ context("read Ocean Optics")
 
 test_that("jazz", {
 
+  # warnings triggered by negative irradiance values in file
   suppressWarnings(jaz.spct <- read_oo_jazirrad(file = "data-test/spectrum.JazIrrad"))
   
   expect_equal(nrow(jaz.spct), 2048)
@@ -20,18 +21,41 @@ test_that("jazz", {
   expect_is(jaz.spct, "source_spct")
   expect_named(jaz.spct, c("w.length", "s.e.irrad"))
   expect_equal(as.numeric(getWhenMeasured(jaz.spct)), 
-               as.numeric(ymd_hms("2015-02-03 07:44:41")))
+               as.numeric(ymd_hms("2015-02-03 09:44:41", tz = "EET")))
   expect_equal(getWhereMeasured(jaz.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(jaz.spct), NA)
+  expect_equal(getWhatMeasured(jaz.spct), "File: data-test/spectrum.JazIrrad")
   expect_equal(getTimeUnit(jaz.spct), "second")
+  expect_gt(length(comment(jaz.spct)), 0)
+})
+
+test_that("jazz_raw", {
+  
+  jaz.spct <- read_oo_jazdata(file = "data-test/spectrum.jaz")
+  
+  expect_equal(nrow(jaz.spct), 2048)
+  expect_equal(ncol(jaz.spct), 2)
+  expect_equal(jaz.spct[1, 1], 190.313904, tolerance = 0.000001)
+  expect_equal(jaz.spct[2048, 1], 892.611511, tolerance = 0.000001)
+  expect_is(jaz.spct[[1]], "numeric")
+  expect_equal(sum(is.na(jaz.spct[[1]])), 0)
+  expect_true(all(sign(jaz.spct[[1]]) > 0))
+  expect_is(jaz.spct[[2]], "numeric")
+  expect_equal(sum(is.na(jaz.spct[[2]])), 0)
+  expect_is(jaz.spct, "raw_spct")
+  expect_named(jaz.spct, c("w.length", "counts"))
+  expect_equal(as.numeric(getWhenMeasured(jaz.spct)), 
+               as.numeric(ymd_hms("2016-04-25 12:49:02", tz = "EET")))
+  expect_equal(getWhereMeasured(jaz.spct), 
+               data.frame(lon = NA_real_, lat = NA_real_))
+  expect_equal(getWhatMeasured(jaz.spct), "File: data-test/spectrum.jaz")
   expect_gt(length(comment(jaz.spct)), 0)
 })
 
 
 test_that("SpectraSuite", {
   
-  suppressWarnings(ss.spct <- read_oo_sstxt(file = "data-test/spectrum.SSIrrad"))
+  ss.spct <- read_oo_sstxt(file = "data-test/spectrum.SSIrrad", tz = "CET")
   
   expect_equal(nrow(ss.spct), 1044)
   expect_equal(ncol(ss.spct), 2)
@@ -45,7 +69,7 @@ test_that("SpectraSuite", {
   expect_is(ss.spct, "source_spct")
   expect_named(ss.spct, c("w.length", "s.e.irrad"))
   expect_equal(as.numeric(getWhenMeasured(ss.spct)), 
-               as.numeric(ymd_hms("2013-05-06 13:13:40")))
+               as.numeric(ymd_hms("2013-05-06 15:13:40", tz = "CET")))
   expect_equal(getWhereMeasured(ss.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
   expect_equal(getWhatMeasured(ss.spct), NA)
