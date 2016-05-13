@@ -11,6 +11,11 @@
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
 #' @param tz character Time zone used for interpreting times saved in the
 #'   file header.
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
 #'   
 #' @return \code{read_licor_prn()} returns a \code{source_spct} object with
 #'   \code{time.unit} attribute set to \code{"second"} and \code{when.measured}
@@ -27,7 +32,11 @@
 read_licor_prn <- function(file,
                            date = NULL,
                            geocode = NULL,
-                           tz = Sys.timezone()) {
+                           tz = Sys.timezone(),
+                           locale = readr::default_locale()) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
   file_header <- scan(
     file = file,
     nlines = 7,
@@ -59,7 +68,8 @@ read_licor_prn <- function(file,
     readr::read_table(file,
                       col_names = col_names,
                       col_types = "dd",
-                      skip = 7)
+                      skip = 7,
+                      locale = locale)
   
   if (mult != 1) {
     dots <- list(~s.q.irrad * mult)
@@ -94,7 +104,8 @@ read_licor_prn <- function(file,
 read_m_licor_prn <- function(files,
                              date = NULL,
                              geocode = NULL,
-                             tz = Sys.timezone(location = FALSE)) {
+                             tz = Sys.timezone(location = FALSE),
+                             locale = readr::default_locale()) {
   list.of.spectra <- list()
   for (f in files) {
     spct.name <- tolower(sub(".PRN", "", f))
@@ -104,7 +115,8 @@ read_m_licor_prn <- function(files,
         file = f,
         date = date,
         geocode = geocode,
-        tz = tz
+        tz = tz,
+        locale = locale
       )
   }
   photobiology::source_mspct(list.of.spectra)

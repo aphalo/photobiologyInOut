@@ -11,6 +11,11 @@
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
 #' @param tz character Time zone used for interpreting times saved in the
 #'   file header.
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
 #'
 #' @return A source_spct object.
 #' @export
@@ -19,9 +24,13 @@
 #' @keywords misc
 #'
 read_macam_dta <- function(file = "spectrum.DTA",
-                            date = NULL,
-                            geocode = NULL,
-                            tz = Sys.timezone()) {
+                           date = NULL,
+                           geocode = NULL,
+                           tz = Sys.timezone(),
+                           locale = readr::default_locale()) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
   file_header <- scan(file = file, nlines = 3, skip = 0, what = "character")
   if (is.null(date)) {
     date <- lubridate::dmy(sub(pattern = "@", replacement = "",

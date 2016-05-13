@@ -6,8 +6,15 @@ Add a generic reader of files into a collection of spectra.
 Add alternative reader of TUV output files into a collection of spectra.
 Add support for libRadTran output files.
 
-photobiologyInOut Ver 0.4.3
-===========================
+photobiologyInOut 0.4.4
+=======================
+
+Add 'readr::locale' support to all functions that could make use of it.
+Add function for reading SpectraSuite files containing raw counts.
+Update dependencies.
+
+photobiologyInOut 0.4.3
+=======================
 
 Update for compatibility with 'lubridate' (>= 1.5.6)
 Add function read_oo_jazdata() to read Jaz files containing raw counts.

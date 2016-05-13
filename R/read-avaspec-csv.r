@@ -9,6 +9,11 @@
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
 #' @param tz character Time zone used for interpreting times saved in the
 #'   file header.
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
 #'   
 #' @return A source_spct object.
 #' @export
@@ -19,7 +24,11 @@
 read_avaspec_csv <- function(file = "spectrum.csv",
                             date = NULL,
                             geocode = NULL,
-                            tz = Sys.timezone()) {
+                            tz = NULL,
+                            locale = readr::default_locale()) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
   file_header <- scan(file = file, nlines = 6, skip = 0, what = "character")
   # watt / cm ?
   if (length(grep("Watt/cm", file_header[2], fixed = TRUE))) {
@@ -30,7 +39,8 @@ read_avaspec_csv <- function(file = "spectrum.csv",
   
   z <- readr::read_csv(file = file,
                        col_names = c("w.length", "s.e.irrad"),
-                       skip = 6)
+                       skip = 6,
+                       locale = locale)
   dots <- list(~s.e.irrad * mult)
   z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))
   

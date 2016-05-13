@@ -12,6 +12,11 @@
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
 #' @param tz character Time zone used for interpreting times saved in the
 #'   file header.
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
 #' @param .skip Number of lines to skip before reading data.
 #' @param .n_max Maximum number of records to read.
 #' @param .date.f A function for extracting a date-time from the file name
@@ -30,16 +35,21 @@
 read_fmi_cum <- function(file,
                          date = NULL,
                          geocode = NULL,
-                         tz = "UTC",
+                         tz = NULL,
+                         locale = readr::default_locale(),
                          .skip = 3,
                          .n_max = -1,
                          .date.f = lubridate::ymd) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
   z <- readr::read_table(
     file = file,
     col_names = c("w.length", "s.e.irrad"),
     col_types = "dd",
     skip = .skip,
-    n_max = .n_max
+    n_max = .n_max,
+    locale = locale
   )
   # convert wavelength in Ångstrom to nm
   if (min(z$w.length) > 1000) {

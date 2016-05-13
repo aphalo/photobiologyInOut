@@ -13,6 +13,11 @@
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the file
 #'   header.
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
 #'   
 #' @note Although the parameter is called \code{date} a date time is accepted 
 #'   and expected. Time resolution is 1 s.
@@ -27,7 +32,11 @@ read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
                              date = NULL,
                              geocode = NULL,
                              label = NULL,
-                             tz = Sys.timezone()) {
+                             tz = Sys.timezone(),
+                             locale = readr::default_locale()) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
   if (is.null(label)) {
     label <- paste("File:", file)
   }
@@ -70,7 +79,8 @@ read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
     file = file,
     col_names = TRUE,
     skip = 19,
-    n_max = npixels
+    n_max = npixels,
+    locale = locale
   )
   dots <- list(~W, ~P)
   z <- dplyr::select_(z, .dots = stats::setNames(dots, c("w.length", "s.e.irrad")))
@@ -96,36 +106,19 @@ read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
   z
 }
 
-#' Read Data File Saved by Ocean Optics' Jaz spectrometer.
-#' 
-#' Reads and parses the header of a data file as output by
-#' the Jaz to extract the whole header remark field The time field is
-#' retireved
-#' 
-#' @param file character string.
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in 
-#'   file header is used, and if \code{NA} the "when.measured" attribute is not
-#'   set.
-#' @param geocode A data frame with columns \code{lon} and \code{lat}.
-#' @param label character string, but if \code{NULL} the value of \code{file} is
-#'   used, and if \code{NA} the "what.measured" attribute is not set.
-#' @param tz character Time zone used for interpreting times saved in the file
-#'   header.
-#'   
-#' @note Although the parameter is called \code{date} a date time is accepted 
-#'   and expected. Time resolution is 1 s.
-#'   
+#' @rdname read_oo_jazirrad
 #' @return A raw_spct object.
 #' @export
-#' @author Pedro J. Aphalo
-#' @references \url{http://www.r4photobiology.info}
-#' @keywords misc
 #' 
 read_oo_jazdata <- function(file = "spectrum.JazData",
                             date = NULL,
                             geocode = NULL,
                             label = NULL,
-                            tz = Sys.timezone()) {
+                            tz = Sys.timezone(),
+                            locale = readr::default_locale()) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
   if (is.null(label)) {
     label <- paste("File:", file)
   }
@@ -216,7 +209,8 @@ read_oo_jazdata <- function(file = "spectrum.JazData",
     file = file,
     col_names = TRUE,
     skip = 17,
-    n_max = npixels
+    n_max = npixels,
+    locale = locale
   )
   dots <- list(~W, ~S)
   z <- dplyr::select_(z, .dots = stats::setNames(dots, c("w.length", "counts")))
