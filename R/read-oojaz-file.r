@@ -28,7 +28,7 @@
 #' @references \url{http://www.r4photobiology.info}
 #' @keywords misc
 #' 
-read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
+read_oo_jazirrad <- function(file,
                              date = NULL,
                              geocode = NULL,
                              label = NULL,
@@ -87,22 +87,18 @@ read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
   dots <- list(~s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
   z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))
   
-  comment(z) <-
-    paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
-  
   old.opts <- options("photobiology.strict.range" = NA)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
 
-  if (!is.null(date) && !is.na(date)) {
+  comment(z) <-
+    paste(paste("Ocean Optics Jaz irradiance file '", file, "' imported on ", 
+                lubridate::now(tz = "UTC"), " UTC", sep = ""),
+          paste(file_header, collapse = "\n"), 
+          sep = "\n")
     photobiology::setWhenMeasured(z, date)
-  }
-  if (!is.null(geocode) && !is.na(geocode)) {
     photobiology::setWhereMeasured(z, geocode)
-  }
-  if (!is.null(label) && !is.na(label)) {
     photobiology::setWhatMeasured(z, label)
-  }
   z
 }
 
@@ -110,7 +106,7 @@ read_oo_jazirrad <- function(file = "spectrum.JazIrrad",
 #' @return A raw_spct object.
 #' @export
 #' 
-read_oo_jazdata <- function(file = "spectrum.JazData",
+read_oo_jazdata <- function(file,
                             date = NULL,
                             geocode = NULL,
                             label = NULL,
@@ -215,24 +211,21 @@ read_oo_jazdata <- function(file = "spectrum.JazData",
   dots <- list(~W, ~S)
   z <- dplyr::select_(z, .dots = stats::setNames(dots, c("w.length", "counts")))
   
-  comment(z) <-
-    paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
-  
   old.opts <- options("photobiology.strict.range" = NA)
   z <- photobiology::as.raw_spct(z)
   options(old.opts)
   
+  comment(z) <-
+    paste(paste("Ocean Optics Jaz raw counts file '", file, "' imported on ", 
+                lubridate::now(tz = "UTC"), " UTC", sep = ""),
+          paste(file_header, collapse = "\n"), 
+          sep = "\n")
+
   attr(z, "linearized") <- inst.settings$correct.non.lin
   photobiology::setInstrDesc(z, inst.descriptor)
   photobiology::setInstrSettings(z, inst.settings)
-  if (!is.null(date) && !is.na(date)) {
-    photobiology::setWhenMeasured(z, date)
-  }
-  if (!is.null(geocode) && !is.na(geocode)) {
-    photobiology::setWhereMeasured(z, geocode)
-  }
-  if (!is.null(label) && !is.na(label)) {
-    photobiology::setWhatMeasured(z, label)
-  }
+  photobiology::setWhenMeasured(z, date)
+  photobiology::setWhereMeasured(z, geocode)
+  photobiology::setWhatMeasured(z, label)
   z
 }

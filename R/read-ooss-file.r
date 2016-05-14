@@ -8,6 +8,8 @@
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
 #'   file is used, and if \code{NA} no date variable is added
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone is by default read from the file.
 #' @param locale	The locale controls defaults that vary from place to place. The
 #'   default locale is US-centric (like R), but you can use
@@ -24,6 +26,7 @@
 read_oo_ssirrad <- function(file,
                             date = NULL,
                             geocode = NULL,
+                            label = NULL,
                             tz = NULL,
                             locale = readr::default_locale()) {
   if (is.null(tz)) {
@@ -62,18 +65,19 @@ read_oo_ssirrad <- function(file,
   dots <- list(~s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
   z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))
 
-  comment(z) <-
-    paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
-  
   old.opts <- options("photobiology.strict.range" = NA)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
-  if (!is.null(date) && !is.na(date)) {
-    photobiology::setWhenMeasured(z, date)
-  }
-  if (!is.null(geocode) && !is.na(geocode)) {
-    photobiology::setWhereMeasured(z, geocode)
-  }
+
+  comment(z) <-
+    paste(paste("Ocean Optics Spectra Suite irradiance file '", file, "' imported on ", 
+                lubridate::now(tz = "UTC"), " UTC", sep = ""),
+          paste(file_header, collapse = "\n"), 
+          sep = "\n")
+  
+  photobiology::setWhenMeasured(z, date)
+  photobiology::setWhereMeasured(z, geocode)
+  photobiology::setWhatMeasured(z, label)
   z
 }
 
@@ -84,10 +88,14 @@ read_oo_ssirrad <- function(file,
 read_oo_ssdata<- function(file,
                           date = NULL,
                           geocode = NULL,
+                          label = NULL,
                           tz = NULL,
                           locale = readr::default_locale()) {
   if (is.null(tz)) {
     tz <- locale$tz
+  }
+  if (is.null(label)) {
+    label <- paste("File:", file)
   }
   line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
   if (line01[1] != "SpectraSuite") {
@@ -125,12 +133,16 @@ read_oo_ssdata<- function(file,
   old.opts <- options("photobiology.strict.range" = NA)
   z <- photobiology::as.raw_spct(z)
   options(old.opts)
-  if (!is.null(date) && !is.na(date)) {
-    photobiology::setWhenMeasured(z, date)
-  }
-  if (!is.null(geocode) && !is.na(geocode)) {
-    photobiology::setWhereMeasured(z, geocode)
-  }
+
+  comment(z) <-
+    paste(paste("Ocean Optics Spectra Suite raw counts file '", file, "' imported on ", 
+                lubridate::now(tz = "UTC"), " UTC", sep = ""),
+          paste(file_header, collapse = "\n"), 
+          sep = "\n")
+
+  photobiology::setWhenMeasured(z, date)
+  photobiology::setWhereMeasured(z, geocode)
+  photobiology::setWhatMeasured(z, label)
   z
 }
 

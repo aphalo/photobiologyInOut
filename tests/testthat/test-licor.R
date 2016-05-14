@@ -24,7 +24,7 @@ test_that("single spectrum (quantum)", {
                as.numeric(ymd_hms("0000-08-23 14:52:11")))
   expect_equal(getWhereMeasured(licor.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(licor.spct), NA)
+  expect_gt(length(getWhatMeasured(licor.spct)), 0)
   expect_gt(length(comment(licor.spct)), 0)
 })
 

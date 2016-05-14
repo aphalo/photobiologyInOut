@@ -8,6 +8,8 @@
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
 #'   file is used, and if \code{NA} no date variable is added
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone is by default read from the file.
 #' @param locale	The locale controls defaults that vary from place to place. The
 #'   default locale is US-centric (like R), but you can use
@@ -29,21 +31,28 @@
 read_libradtran_vesa <- function(file, 
                                  date = NULL,
                                  geocode = NULL,
+                                 label = NULL,
                                  tz = NULL,
                                  locale = readr::default_locale(),
                                  simplify = TRUE) {
   if (is.null(tz)) {
     tz <- locale$tz
   }
-  x <- readr::read_table(file = file,
+  if (is.null(label)) {
+    label <- paste("File:", file)
+  }
+  z <- readr::read_table(file = file,
                          col_names = c("w.length", "day", "time", 
                                        "s.e.irrad.dir", "s.e.irrad.diff"),
                          col_types = "dccdd",
                          locale = locale)
-  # the statement below triggers a NOTE but I hevn't yet worked out how to
-  # convert this to use mutate_() for SE
-  z <- dplyr::mutate(x, datetime = lubridate::ymd_hms(paste(day, time), tz = tz), 
-                     s.e.irrad = (s.e.irrad.dir + s.e.irrad.diff) * 1e-3)
+  dots <- list(~lubridate::ymd_hms(paste(day, time), tz = tz),
+               ~s.e.irrad.dir * 1e-3,
+               ~s.e.irrad.diff * 1e-3,
+               ~s.e.irrad.dir + s.e.irrad.diff)
+  dots.names <- c("datetime", "s.e.irrad.dir", "s.e.irrad.diff", "s.e.irrad")
+  z <- dplyr::mutate_(z, .dots = stats::setNames(dots, dots.names))
+
   datetimes <- unique(z[["datetime"]])
   num.spectra <- length(datetimes)
   if (simplify && num.spectra == 1) {
@@ -54,10 +63,12 @@ read_libradtran_vesa <- function(file,
                         lazyeval::interp(~starts_with(x), x = "s.e.irrad"))
   }
   photobiology::setSourceSpct(z, time.unit = "second", multiple.wl = num.spectra)
-  setWhenMeasured(z, datetimes)
-  setWhereMeasured(z, geocode)
-  setWhatMeasured(z, "libRadtran spectral simulation")
-  comment(z) <- paste("TUV:", file, sep = "\n")
+  comment(z) <- paste("libRadtran file '", file,
+                      "' imported on ", lubridate::now(tz = "UTC"), " UTC",
+                      sep = "")
+  photobiology::setWhenMeasured(z, datetimes)
+  photobiology::setWhereMeasured(z, geocode)
+  photobiology::setWhatMeasured(z, paste("libRadtran spectral simulation", label))
   z
 }
 

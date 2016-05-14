@@ -7,8 +7,14 @@
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
 #'   file is used, and if \code{NA} no date variable is added
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone is by default read from the file.
-#'   
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
 #'   
 #' @return a source_spct object obtained by 'melting' the TUV file, and adding
 #'   a factor \code{spct.idx}, and variables \code{zenith.angle} and
@@ -22,10 +28,18 @@
 #' 
 #' @export
 #' 
-read_tuv_usrout <- function(file = "usrout.txt", 
+read_tuv_usrout <- function(file, 
                             date = lubridate::today(),
                             geocode = NULL,
-                            tz = "UTC") {
+                            label = NULL,
+                            tz = "UTC",
+                            locale = readr::default_locale()) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
+  if (is.null(label)) {
+    label <- paste("File:", file)
+  }
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "",
                            x = file_header[4], fixed = TRUE))
@@ -42,7 +56,8 @@ read_tuv_usrout <- function(file = "usrout.txt",
                             x = file_header[5], fixed = TRUE))
   
   wide.df <- readr::read_table(file = file, skip = 5, 
-                               col_names = c("w.length", LETTERS[1:num.spectra]))
+                               col_names = c("w.length", LETTERS[1:num.spectra]),
+                               locale = locale)
   
   wl.length <- length(wide.df[["w.length"]])
 
@@ -52,11 +67,14 @@ read_tuv_usrout <- function(file = "usrout.txt",
   z[["angle"]] <- with(z, rep(angles, rep(wl.length, num.spectra)))
   z[["date"]] <- with(z, rep(as.POSIXct(date), rep(wl.length, num.spectra)))
   
-  comment(z) <- paste("TUV:", paste(file_header, collapse = "\n"), sep = "\n")
-
-  old.opts <- options("photobiology.strict.range" = NA)
   photobiology::setSourceSpct(z, time.unit = "second", multiple.wl = num.spectra)
-  options(old.opts)
+
+  comment(z) <- paste(paste("TUV file '", file, "' imported on ", 
+                            lubridate::now(tz = "UTC"), " UTC", sep = ""), 
+                      paste(file_header, collapse = "\n"), sep = "\n")
+  photobiology::setWhatMeasured(z, paste("TUV spectral simulation", label))
+  photobiology::setWhenMeasured(z, geocode)
+  setWhenMeasured(z, unique(z[["date"]]))
   z
 }
 

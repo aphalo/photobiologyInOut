@@ -9,6 +9,8 @@
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
 #'   file is used, and if \code{NA} no date variable is added.
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the
 #'   file header.
 #' @param locale	The locale controls defaults that vary from place to place. The
@@ -32,10 +34,14 @@
 read_licor_prn <- function(file,
                            date = NULL,
                            geocode = NULL,
+                           label = NULL,
                            tz = Sys.timezone(),
                            locale = readr::default_locale()) {
   if (is.null(tz)) {
     tz <- locale$tz
+  }
+  if (is.null(label)) {
+    label <- paste("File:", file)
   }
   file_header <- scan(
     file = file,
@@ -76,18 +82,18 @@ read_licor_prn <- function(file,
     z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.q.irrad"))
   }
   
-  comment(z) <-
-    paste("LICOR LI-1800:", paste(file_header, collapse = "\n"), sep = "\n")
-  
   old.opts <- options("photobiology.strict.range" = NA)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
-  if (!is.null(date) && !is.na(date)) {
-    photobiology::setWhenMeasured(z, date)
-  }
-  if (!is.null(geocode) && !is.na(geocode)) {
-    photobiology::setWhereMeasured(z, geocode)
-  }
+  comment(z) <-
+    paste(paste("LICOR LI-1800 file '", file, "' imported on ", 
+                lubridate::now(tz = "UTC"), " UTC", sep = ""),
+          paste(file_header, collapse = "\n"), 
+          sep = "\n")
+  
+  photobiology::setWhenMeasured(z, date)
+  photobiology::setWhereMeasured(z, geocode)
+  photobiology::setWhatMeasured(z, label)
   z
 }
 
@@ -104,6 +110,7 @@ read_licor_prn <- function(file,
 read_m_licor_prn <- function(files,
                              date = NULL,
                              geocode = NULL,
+                             label = NULL,
                              tz = Sys.timezone(location = FALSE),
                              locale = readr::default_locale()) {
   list.of.spectra <- list()
@@ -115,6 +122,7 @@ read_m_licor_prn <- function(files,
         file = f,
         date = date,
         geocode = geocode,
+        label = label,
         tz = tz,
         locale = locale
       )

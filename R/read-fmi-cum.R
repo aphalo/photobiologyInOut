@@ -10,6 +10,8 @@
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
 #'   file is used, and if \code{NA} no date variable is added
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the
 #'   file header.
 #' @param locale	The locale controls defaults that vary from place to place. The
@@ -35,6 +37,7 @@
 read_fmi_cum <- function(file,
                          date = NULL,
                          geocode = NULL,
+                         label = NULL,
                          tz = NULL,
                          locale = readr::default_locale(),
                          .skip = 3,
@@ -42,6 +45,9 @@ read_fmi_cum <- function(file,
                          .date.f = lubridate::ymd) {
   if (is.null(tz)) {
     tz <- locale$tz
+  }
+  if (is.null(label)) {
+    label <- paste("File:", file)
   }
   z <- readr::read_table(
     file = file,
@@ -60,12 +66,9 @@ read_fmi_cum <- function(file,
   if (is.null(date)) {
     date <- .date.f(file, tz = tz)
   }
-  if (!is.null(date) && !is.na(date)) {
     photobiology::setWhenMeasured(z, date)
-  }
-  if (!is.null(geocode)) {
     photobiology::setWhereMeasured(z, geocode)
-  }
+    photobiology::setWhatMeasured(z, label)
   z
 }
 
@@ -81,6 +84,7 @@ read_fmi_cum <- function(file,
 read_m_fmi_cum <- function(files,
                            date = NULL,
                            geocode = NULL,
+                           label = NULL,
                            tz = "UTC",
                            .skip = 3,
                            .n_max = -1,
@@ -98,6 +102,7 @@ read_m_fmi_cum <- function(files,
         file = f,
         date = date,
         geocode = geocode,
+        label = label,
         tz = tz,
         .skip = .skip,
         .n_max = .n_max,

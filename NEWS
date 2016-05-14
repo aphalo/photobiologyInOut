@@ -10,7 +10,11 @@ photobiologyInOut 0.4.4
 =======================
 
 Add 'readr::locale' support to all functions that could make use of it.
-Add function for reading SpectraSuite files containing raw counts.
+Add 'label' parameter to all file import functions.
+Add function read_oo_ssdata() for reading SpectraSuite files containing raw counts.
+Add function read_libredtran_vesa() for reading libRadtran output file with 
+multiple solar spectrum simulations (as preprocessed by Vesa's script).
+Add metadata as consistently as possible in all file import functions.
 Update dependencies.
 
 photobiologyInOut 0.4.3

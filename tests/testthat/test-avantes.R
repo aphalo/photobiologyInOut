@@ -24,7 +24,7 @@ test_that("single spectrum (quantum)", {
                NA_real_)
   expect_equal(getWhereMeasured(avaspec.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(avaspec.spct), NA)
+  expect_gt(length(getWhatMeasured(avaspec.spct)), 0)
   expect_gt(length(comment(avaspec.spct)), 0)
 })
 

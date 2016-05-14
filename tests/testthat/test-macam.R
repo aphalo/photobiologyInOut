@@ -24,7 +24,7 @@ test_that("single spectrum (quantum)", {
                as.numeric(ymd_hms("1997-05-19 14:44:58")))
   expect_equal(getWhereMeasured(macam.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(macam.spct), NA)
+  expect_gt(length(getWhatMeasured(macam.spct)), 0)
   expect_gt(length(comment(macam.spct)), 0)
 })
 
