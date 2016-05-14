@@ -19,6 +19,7 @@ Imports:
     photobiology (>= 0.9.7),
     reshape2 (>= 1.4.1),
     hyperSpec (>= 0.98),
+    lazyeval (>= 0.1.10),
     methods
 Suggests:
     knitr (>= 1.13),

@@ -216,7 +216,7 @@ plot(smooth_spct(read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad")),
 Now a file from an Ocean Optics' Q6500? spectrometer.
 
 <<>>=
-plot(read_oo_sstxt(file = "data-vignettes/spectrum.SSIrrad"))
+plot(read_oo_ssirrad(file = "data-vignettes/spectrum.SSIrrad"))
 @
 
 \subsection{Modular spectrometers from Avantes}
