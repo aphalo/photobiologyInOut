@@ -1,9 +1,8 @@
 #' Read \code{.DTA} File Saved by Macam's Software.
 #'
-#' Reads and parses the header of a processed data file as output by the PC1800
-#' program to extract the whole header remark field and also check whether data
-#' is in photon or energy based units. The time field is ignored as it does not
-#' contain year information.
+#' Reads and parses the header of a processed data file as output by the PC
+#' program to extract the time and date fields and a user label if present,
+#' and then imports wavelengths and spectral energy irradiance values. 
 #'
 #' @param file character string
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in

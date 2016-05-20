@@ -1,8 +1,8 @@
 #' Read Absolute Irradiance File Saved by Ocean Optics' Jaz spectrometer.
 #' 
 #' Reads and parses the header of a processed data file as output by
-#' SpectraSuite to extract the whole header remark field The time field is
-#' retireved
+#' Jaz instruments to extract the whole header remark field The time field is
+#' retrieved.
 #' 
 #' @param file character string.
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in 

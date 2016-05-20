@@ -133,6 +133,7 @@ mspct2hyperSpec <- function(x,
 #' @examples 
 #' 
 #' library(pavo)
+#' data(sicalis)
 #' sicalis.mspct <- rspec2mspct(sicalis)
 #' class(sicalis.mspct)
 #' 
@@ -141,6 +142,7 @@ rspec2mspct <- function(x,
                         spct.data.var = "Rpc", 
                         multiplier = 1,
                         ...) {
+  stopifnot(pavo::is.rspec(x))
   spct.names <- colnames(x)[-1]
   z <- split2mspct(x = x, 
                    member.class = member.class, 

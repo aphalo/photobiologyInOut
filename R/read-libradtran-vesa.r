@@ -1,8 +1,8 @@
 #' Read libRadtran output file.
 #' 
 #' Reads and parses the header of a text file output by libRadtran for a solar 
-#' spectrum simulation to extract the header and spectral data. The time field
-#' is converted to a date.
+#' spectrum simulation to extract the header and spectral data. The time and 
+#' date fields are converted into a datetime object.
 #' 
 #' @param file character string
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in

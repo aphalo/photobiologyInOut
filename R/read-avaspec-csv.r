@@ -1,7 +1,8 @@
 #' Read \code{.csv} File Saved by Aavnates' Software for AvaSpec.
 #' 
-#' Reads and parses the header of a processed data file, but the header
-#' has little useful information.
+#' Reads and parses the header of a processed data file as output by the
+#' program Avaspec and then imports wavelength and spectral irradiance
+#' values. The file header has little useful metadata information.
 #' 
 #' @param file character string
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in

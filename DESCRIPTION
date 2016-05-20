@@ -2,7 +2,7 @@ Package: photobiologyInOut
 Type: Package
 Title: Read Spectral Data from Foreign Files
 Version: 0.4.4
-Date: 2016-05-19
+Date: 2016-05-21
 Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Description: Functions for reading and writing foreign files containing
@@ -20,6 +20,7 @@ Imports:
     photobiology (>= 0.9.8),
     reshape2 (>= 1.4.1),
     hyperSpec (>= 0.98),
+    pavo (>= 0.5-5),
     lazyeval (>= 0.1.10),
     methods
 Suggests:
@@ -28,7 +29,7 @@ Suggests:
     photobiologyWavebands (>= 0.4.0),
     ggplot2 (>= 2.1.0),
     ggmap (>= 2.6.1),
-    testthat (>= 1.2.0)
+    testthat (>= 1.0.2)
 LazyLoad: yes
 LazyData: yes
 ByteCompile: true
