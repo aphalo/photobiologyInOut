@@ -13,7 +13,7 @@
 #' flexible as they are derived from 'tbl_df' and in turn from 'data.frame'.
 #' 
 #' @param x hyperSpec object
-#' @param member.class character One of the classes defined in package
+#' @param member.class character One of the spectrum classes defined in package
 #'   'photobiology'.
 #' @param spct.data.var character The name to be used for the 'spc' data when
 #'   constructing the spectral objects.
@@ -25,9 +25,19 @@
 #' 
 #' @export
 #' 
+#' @examples 
+#' 
+#' library(hyperSpec)
+#' data(laser)
+#' wl(laser) <- 
+#' list (wl = 1e7 / (1/405e-7 - wl (laser)),
+#'       label = expression (lambda / nm))
+#' laser.mspct <- hyperSpec2mspct(laser, "source_spct", "s.e.irrad")
+#' class(laser.mspct)
+#' 
 hyperSpec2mspct <- function(x, 
-                            member.class = "filter_spct", 
-                            spct.data.var = "A",
+                            member.class, 
+                            spct.data.var,
                             multiplier = 1,
                             ...) {
   stopifnot(inherits(x, "hyperSpec"))
@@ -35,7 +45,7 @@ hyperSpec2mspct <- function(x,
   # we transpose the matrix so that each spectrum is in a column
   y <- cbind(hyperSpec::wl(x), t(x$spc) * multiplier) 
   colnames(y) <- c("w.length", paste("spc", 1:nrow(x), sep = ""))
-  y <- dplyr::as_data_frame(y)
+  y <- tibble::as_data_frame(y)
   z <- split2mspct(x = y, 
                    member.class = member.class, 
                    spct.data.var = spct.data.var)
@@ -58,7 +68,7 @@ hyperSpec2mspct <- function(x,
 #' @export
 #' 
 mspct2hyperSpec <- function(x, 
-                            spct.data.var = "A",
+                            spct.data.var,
                             multiplier = 1,
                             ...) {
   stopifnot(is.any_mspct(x))
@@ -103,7 +113,7 @@ mspct2hyperSpec <- function(x,
 #' flexible as they are derived from 'tbl_df' and in turn from 'data.frame'.
 #' 
 #' @param x rpec object
-#' @param member.class character One of the classes defined in package
+#' @param member.class character One of the spectrum classes defined in package
 #'   'photobiology'.
 #' @param spct.data.var character The name to be used for the 'spc' data when
 #'   constructing the spectral objects.
@@ -120,9 +130,15 @@ mspct2hyperSpec <- function(x,
 #' 
 #' @export
 #' 
+#' @examples 
+#' 
+#' library(pavo)
+#' sicalis.mspct <- rspec2mspct(sicalis)
+#' class(sicalis.mspct)
+#' 
 rspec2mspct <- function(x, 
-                        member.class = "filter_spct", 
-                        spct.data.var = "A", 
+                        member.class = "reflector_spct", 
+                        spct.data.var = "Rpc", 
                         multiplier = 1,
                         ...) {
   spct.names <- colnames(x)[-1]
