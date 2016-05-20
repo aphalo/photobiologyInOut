@@ -14,8 +14,10 @@ Add 'label' parameter to all file import functions.
 Add function read_oo_ssdata() for reading SpectraSuite files containing raw counts.
 Add function read_libredtran_vesa() for reading libRadtran output file with 
 multiple solar spectrum simulations (as preprocessed by Vesa's script).
-Add metadata as consistently as possible in all file import functions.
+Add metadata as consistently as possible to the objects returned by all the 
+file import functions.
 Update dependencies.
+Edit the user Guide.
 
 photobiologyInOut 0.4.3
 =======================

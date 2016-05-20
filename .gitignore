@@ -8,3 +8,4 @@ man
 *.toc
 vignettes/*.pdf
 vignettes/figure/
+vignettes/data-vignettes/readr-bug.dat
