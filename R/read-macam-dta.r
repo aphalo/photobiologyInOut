@@ -28,7 +28,7 @@ read_macam_dta <- function(file,
                            date = NULL,
                            geocode = NULL,
                            label = NULL,
-                           tz = Sys.timezone(),
+                           tz = NULL,
                            locale = readr::default_locale()) {
   if (is.null(tz)) {
     tz <- locale$tz

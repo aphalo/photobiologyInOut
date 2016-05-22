@@ -85,7 +85,7 @@ read_m_fmi_cum <- function(files,
                            date = NULL,
                            geocode = NULL,
                            label = NULL,
-                           tz = "UTC",
+                           tz = NULL,
                            .skip = 3,
                            .n_max = -1,
                            .date.f = lubridate::ymd) {

@@ -4,7 +4,6 @@ TODO
 Add support for StellarNet spectrometers and Bentham spectrometers.
 Add a generic reader of files into a collection of spectra.
 Add alternative reader of TUV output files into a collection of spectra.
-Add support for libRadTran output files.
 
 photobiologyInOut 0.4.4
 =======================
@@ -18,6 +17,9 @@ Add metadata as consistently as possible to the objects returned by all the
 file import functions.
 Update dependencies.
 Edit the user Guide.
+WARNING: from version 0.4.4 the time zone (tz) is by default "UTC" for decoding
+dates and times in files imported. In most cases you will need to pass the
+tz (or the locale) where the file was created as an argument to the functions!
 
 photobiologyInOut 0.4.3
 =======================

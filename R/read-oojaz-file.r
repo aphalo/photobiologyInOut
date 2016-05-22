@@ -32,7 +32,7 @@ read_oo_jazirrad <- function(file,
                              date = NULL,
                              geocode = NULL,
                              label = NULL,
-                             tz = Sys.timezone(),
+                             tz = NULL,
                              locale = readr::default_locale()) {
   if (is.null(tz)) {
     tz <- locale$tz
@@ -110,7 +110,7 @@ read_oo_jazdata <- function(file,
                             date = NULL,
                             geocode = NULL,
                             label = NULL,
-                            tz = Sys.timezone(),
+                            tz = NULL,
                             locale = readr::default_locale()) {
   if (is.null(tz)) {
     tz <- locale$tz

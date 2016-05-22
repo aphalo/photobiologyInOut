@@ -32,7 +32,7 @@ read_tuv_usrout <- function(file,
                             date = lubridate::today(),
                             geocode = NULL,
                             label = NULL,
-                            tz = "UTC",
+                            tz = NULL,
                             locale = readr::default_locale()) {
   if (is.null(tz)) {
     tz <- locale$tz
