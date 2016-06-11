@@ -57,10 +57,10 @@ read_libradtran_vesa <- function(file,
   num.spectra <- length(datetimes)
   if (simplify && num.spectra == 1) {
     z <- dplyr::select_(z, "w.length", 
-                        lazyeval::interp(~starts_with(x), x = "s.e.irrad"))
+                        lazyeval::interp(~dplyr::starts_with(x), x = "s.e.irrad"))
   } else if (simplify && num.spectra > 1) {
     z <- dplyr::select_(z, "w.length", "datetime", 
-                        lazyeval::interp(~starts_with(x), x = "s.e.irrad"))
+                        lazyeval::interp(~dplyr::starts_with(x), x = "s.e.irrad"))
   }
   photobiology::setSourceSpct(z, time.unit = "second", multiple.wl = num.spectra)
   comment(z) <- paste("libRadtran file '", file,
