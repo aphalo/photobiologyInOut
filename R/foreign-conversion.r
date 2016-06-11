@@ -156,3 +156,103 @@ rspec2mspct <- function(x,
                       sep = "")
   z
 }
+
+
+# colorSpec ---------------------------------------------------------------
+
+#' Convert 'colorSpec::colorSpec' objects
+#' 
+#' Convert between 'colorSpec::colorSpec' objects and spectral
+#' objects (xxxx_spct) as defined in package 'photobiology' preserving all
+#' information.
+#' 
+#' @param x colorSpec object
+#' @param multiplier numeric A multiplier to be applied to the 'spc' data to
+#'   do unit or
+#'   scale conversion. For example "a.u." units in some examples in package
+#'   'hyperSpec' seem to have scale factors applied.
+#' @param ... currently ignored.
+#' 
+#' @export
+#' 
+#' @examples 
+#' 
+#' library(hyperSpec)
+#' data(laser)
+#' wl(laser) <- 
+#' list (wl = 1e7 / (1/405e-7 - wl (laser)),
+#'       label = expression (lambda / nm))
+#' laser.mspct <- hyperSpec2mspct(laser, "source_spct", "s.e.irrad")
+#' class(laser.mspct)
+#' 
+colorSpec2spct <- function(x, multiplier = 1, ...) {
+  stopifnot(multiplier > 0)
+  spct.type <- colorSpec::type(x)
+  spct.quantity <- colorSpec::quantity(x)
+  spct.metadata <- attr(x, "metadata", exact = TRUE)
+  comment.spct <- paste('Converted from "colorSpec::colorSpec" object\n',
+                        '"type": ', spct.type, "\n",
+                        '"quantity": ', spct.quantity, "\n",
+                        '"metadata path": ', spct.metadata[["path"]], "\n",
+                        '"metadata header": \n', 
+                        paste(spct.metadata[["header"]], collapse = "\n"), sep = "")
+  if (length(colorSpec::numSpectra(x)) > 1) {
+    warning("colorSpec object contains multiple spectra, use 'colorSpec2mspct()'")
+    return(generic_spct())
+  }
+  if (spct.type == "light") {
+    if (spct.quantity == 'power') {
+      z <- source_spct(w.length = colorSpec::wavelength(x), 
+                       s.e.irrad = as.numeric(x) * multiplier)
+    } else if (spct.quantity == 'photons/sec') {
+      z <- source_spct(w.length = colorSpec::wavelength(x), 
+                       s.q.irrad = as.numeric(x) * multiplier)
+    } else {
+      stop("unkown 'quantity': ", spct.quantity)
+    }
+  } else if (spct.type == 'responsivity.light') {
+    if (spct.quantity %in% c('power->electrical', 'power->neural', 'power->action')) {
+      z <- response_spct(w.length = colorSpec::wavelength(x), 
+                         s.e.response = as.numeric(x) * multiplier)
+    } else if (spct.quantity %in% c('photons->electrical', 'photons->neural', 'photons->action')) {
+      z <- response_spct(w.length = colorSpec::wavelength(x), 
+                         s.q.response = as.numeric(x) * multiplier)
+    } else {
+      stop("unkown 'quantity': ", spct.quantity)
+    }
+  } else if (spct.type == 'material') {
+    if (spct.quantity == 'reflectance') {
+      z <- reflector_spct(w.length = colorSpec::wavelength(x), 
+                          Rfr = as.numeric(x) * multiplier)
+    } else if (spct.quantity == 'transmittance') {
+      z <- filter_spct(w.length = colorSpec::wavelength(x), 
+                       Tfr = as.numeric(x) * multiplier)
+    } else if (spct.quantity == 'absorbance') {
+      z <- filter_spct(w.length = colorSpec::wavelength(x), 
+                       A = as.numeric(x)  * multiplier)
+    } else {
+      stop("unkown 'quantity': ", spct.quantity)
+    }
+  } else {
+    z <- generic_spct(w.length = colorSpec::wavelength(x), 
+                      s.data = as.numeric(x) * multiplier)
+  }
+  comment(z) <- comment.spct
+  scaled <- ifelse(multiplier == 1, FALSE, multiplier)
+  setScaled(z, scaled)
+  z
+}
+
+# #' @rdname colorSpec2spct
+# #' 
+# #' @export
+# #' 
+# colorSpec2mspct <- function(x, multiplier = 1, ...) {
+#   z <- list()
+#   for (name in colorSpec::specnames(x)) {
+#     z[[name]] <- colorSpec2spct(x[ , name], 
+#                                 multiplier = multiplier,
+#                                 ...)
+#   }
+#   generic_mspct(z, class = class(z[[1]]))
+# }
