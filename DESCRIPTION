@@ -1,8 +1,8 @@
 Package: photobiologyInOut
 Type: Package
 Title: Read Spectral Data from Foreign Files
-Version: 0.4.4
-Date: 2016-05-22
+Version: 0.4.5
+Date: 2016-06-15
 Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Description: Functions for reading and writing foreign files containing
@@ -20,6 +20,7 @@ Imports:
     photobiology (>= 0.9.8),
     reshape2 (>= 1.4.1),
     hyperSpec (>= 0.98),
+    colorSpec (>= 0.5-3),
     pavo (>= 0.5-5),
     lazyeval (>= 0.1.10),
     methods
