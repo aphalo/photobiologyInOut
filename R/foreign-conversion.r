@@ -13,9 +13,12 @@
 
 #' Convert 'hyperSpec::hyperSpec' objects
 #' 
-#' Convert 'hyperSpec::hyperSpec' objects into spectral objects (xxxx_spct,
-#' xxxx_mspct) as defined in package 'photobiology' and vice veersa preserving
-#' as much information as possible.
+#' Convert \code{hyperSpec::hyperSpec} objects containing VIS and UV radiation
+#' data into spectral objects (xxxx_spct, xxxx_mspct) as defined in package 
+#' 'photobiology' and vice versa, preserving as much information as possible. As
+#' \code{hyperSpec} can contain other kinds of spectral data, it does make sense
+#' to use these functions only with objects containing data that can be handled
+#' by both packages.
 #' 
 #' @note Objects of class \code{hyperSpec::hyperSpec} contain metadata or class 
 #'   data from which the quantity measured and the units of expression can be 
@@ -156,10 +159,11 @@ spct2hyperSpec <- function(x,
 
 #' Convert "pavo::rspec" objects
 #' 
-#' Convert between 'pavo::rspec' objects into spectral objects (xxxx_spct,
-#' xxxx_mspct) as defined in package 'photobiology'.
+#' Convert between 'pavo::rspec' objects containing spectral reflectance data 
+#' into spectral objects (xxxx_spct, xxxx_mspct) as defined in package
+#' 'photobiology'.
 #' 
-#' @note Objects of class \code{pavo::rspec} do not contain metadata or class
+#' @note Objects of class \code{pavo::rspec} do not contain metadata or class 
 #'   data from which the quantity measured and the units of expression could be 
 #'   obtained. When using this function the user needs to use parameter 
 #'   \code{multiplier} to convert the data to what is expected by the object 
@@ -175,21 +179,21 @@ spct2hyperSpec <- function(x,
 #'   spectral classes are derived from 'tbl_df' in many cases no redundant 
 #'   copies of wavelength data will be made in memory in spite of the more 
 #'   flexible semantics of the objects.
-#' 
-#' @section Warning!: Always check the sanity of the imported or exported data
-#'   values, as guessing is needed when matching the different classes, and the
+#'   
+#' @section Warning!: Always check the sanity of the imported or exported data 
+#'   values, as guessing is needed when matching the different classes, and the 
 #'   functions defined here are NOT guaranteed to return valid data wihtout help
 #'   from the user through optional function arguments.
-#' 
+#'   
 #' @param x rspec object
-#' @param member.class character One of the spectrum classes defined in package
+#' @param member.class character One of the spectrum classes defined in package 
 #'   'photobiology'.
-#' @param spct.data.var character The name to be used for the 'spc' data when
+#' @param spct.data.var character The name to be used for the 'spc' data when 
 #'   constructing the spectral objects.
-#' @param multiplier numeric A multiplier to be applied to the 'rspc' data 
-#'   to do unit or scale conversion.
+#' @param multiplier numeric A multiplier to be applied to the 'rspc' data to do
+#'   unit or scale conversion.
 #' @param ... currently ignored.
-#' 
+#'   
 #' @export
 #' 
 #' @examples 
@@ -198,6 +202,14 @@ spct2hyperSpec <- function(x,
 #' data(sicalis)
 #' sicalis.mspct <- rspec2mspct(sicalis)
 #' class(sicalis.mspct)
+#' 
+#' data(teal)
+#' teal.spct <- rspec2spct(teal)
+#' class(teal.spct)
+#' levels(teal.spct[["spct.idx"]])
+#' angles <- seq(from = 15, to = 75, by = 5) # from teal's documentation
+#' teal.spct[["angle"]] <- angles[as.numeric(teal.spct[["spct.idx"]])]
+#' teal.spct
 #' 
 rspec2mspct <- function(x, 
                         member.class = "reflector_spct", 

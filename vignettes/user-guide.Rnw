@@ -90,7 +90,8 @@ models, and for data exchange with R packages
 'hyperSpec' and 'pavo' (Table \ref{tab:funs}).
 
 \begin{table}[h]
-\caption{Functions for importing measured and simulated spectral emission data}\label{tab:funs}
+\caption{Functions for importing measured and simulated spectral emission data.}\label{tab:funs}
+\vspace{1ex}
 \centering
 \begin{footnotesize}
 \begin{tabular}{llll}
@@ -101,6 +102,7 @@ read\_oo\_ssirrad() & Ocean Optics spectrom. & SpectraSuite & source\_spct \\
 read\_oo\_ssdata() & Ocean Optics spectrom. & SpectraSuite & raw\_spct  \\
 read\_oo\_jazirrad() & Ocean Optics Jaz          & \emph{instrument}  & source\_spct \\
 read\_oo\_jazdata() & Ocean Optics Jaz          & \emph{instrument} & raw\_spct  \\
+read\_oo\_pidata() & Ocean Optics spectrom. & STS DK (Raspbian) & raw\_spct  \\
 read\_avaspec\_csv() & Avantes spectrom.  & \emph{instrument}  & source\_spct \\
 read\_macam\_file() & Macam                     & \emph{instrument}  & source\_spct \\
 read\_licor\_file() & LI-COR LI-1800            & PC1800 (MS-DOS)  & source\_spct \\
