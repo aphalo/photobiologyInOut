@@ -2,12 +2,13 @@ Package: photobiologyInOut
 Type: Package
 Title: Read Spectral Data from Foreign Files
 Version: 0.4.5
-Date: 2016-06-15
+Date: 2016-06-18
 Author: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Description: Functions for reading and writing foreign files containing
     spectral data from spectrometers and their associated software, and output
-    from simulation models in common use.
+    from simulation models in common use. As well as functions for exchange
+    of spectral data with other R packages.
 License: GPL (>= 3)
 VignetteBuilder: knitr
 Depends:
@@ -15,7 +16,7 @@ Depends:
 Imports:
     lubridate (>= 1.5.6),
     tibble (>= 1.0),
-    dplyr (>= 0.4.3.9001),
+    dplyr (>= 0.4.0),
     readr (>= 0.2.2),
     photobiology (>= 0.9.8),
     reshape2 (>= 1.4.1),

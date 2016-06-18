@@ -57,10 +57,10 @@ read_libradtran_vesa <- function(file,
   num.spectra <- length(datetimes)
   if (simplify && num.spectra == 1) {
     z <- dplyr::select_(z, "w.length", 
-                        lazyeval::interp(~dplyr::starts_with(x), x = "s.e.irrad"))
+                        lazyeval::interp(~starts_with(x), x = "s.e.irrad"))
   } else if (simplify && num.spectra > 1) {
     z <- dplyr::select_(z, "w.length", "datetime", 
-                        lazyeval::interp(~dplyr::starts_with(x), x = "s.e.irrad"))
+                        lazyeval::interp(~starts_with(x), x = "s.e.irrad"))
   }
   photobiology::setSourceSpct(z, time.unit = "second", multiple.wl = num.spectra)
   comment(z) <- paste("libRadtran file '", file,
@@ -70,5 +70,11 @@ read_libradtran_vesa <- function(file,
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhatMeasured(z, paste("libRadtran spectral simulation", label))
   z
+}
+
+# Allows function to work with either dplyr 0.4 (which ignores value of
+# starts_with), and 0.5 which exports it as a proper function
+if (packageVersion("dplyr") > '0.4.3') {
+  starts_with <- function(...) dplyr::starts_with(...)
 }
 
