@@ -5,6 +5,12 @@ Add support for StellarNet spectrometers and Bentham spectrometers.
 Add a generic reader of files into a collection of spectra.
 Add alternative reader of TUV output files into a collection of spectra.
 
+photobiologyInOut 0.4.6
+=======================
+
+Fix bug introduced when attempting to make the package pass CRAN checks
+without triggering a note.
+
 photobiologyInOut 0.4.5
 =======================
 
