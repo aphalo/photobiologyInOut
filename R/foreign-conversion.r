@@ -9,6 +9,71 @@
 # the object is to be converted to depends on the information stored as
 # attributes in a "colorSpec" object rather than on the class it belongs to. 
 
+# R matrix ----------------------------------------------------------------
+
+#' Convert a collection of spectra into a matrix
+#' 
+#' Convert an object of class \code{generic_mspct} or a derived class into an R
+#' matrix with wavelengths saved as an attribute and spectral data in rows
+#' or columns.
+#' 
+#' @note Only collections of spectra containing spectra with exactly the same
+#' \code{w.length} values can by converted. If needed, the spectra can be
+#' re-expressed before attempting the conversion to a matrix.
+#' 
+#' @section Warning!: Always check the sanity of the imported or exported data
+#'   values, as guessing is needed when matching the different classes, and the
+#'   functions defined here are NOT guaranteed to return valid data wihtout help
+#'   from the user through optional function arguments.
+#' 
+#' @param x generic_mspct object.
+#' @param spct.data.var character The name of the variable containing the spectral data.
+#' @param byrow logical Organization of the returned matrix.
+#' @param ... currently ignored.
+#' 
+#' @export
+#' 
+mspct2mat <- function(x, 
+                      spct.data.var,
+                      byrow = attr(x, "mspct.byrow"),
+                      ...) {
+  stopifnot(is.any_mspct(x))
+  if (length(x) == 0L) {
+    return(matrix(numeric()))
+  }
+  spct.names <- names(x)
+  spct.selector <- rep(TRUE, length(x))
+  mat <- numeric()
+  for (i in seq_along(x)) {
+    temp <- x[[i]]
+    s.column <- temp[[spct.data.var]]
+    wl.current <- temp[["w.length"]]
+    if (i == 1L) {
+      wl.prev <- wl.current
+    } 
+    if (!all(wl.current == wl.prev) || length(s.column) == 0L) {
+      spct.selector[i] <- FALSE
+      next()
+    }
+    mat <- c(mat, s.column) # one long numeric vector
+  }
+  if (any(!spct.selector)) {
+    warning("Spectra dropped: ", sum(!spct.selector), " out of ", length(spct.selector), ".")
+  }
+  if (byrow) {
+    z <- matrix(mat, nrow = sum(spct.selector), byrow = byrow,
+                dimnames = list(spct = c(spct.names[spct.selector]), 
+                                w.length = wl.prev))
+  } else {
+    z <- matrix(mat, ncol = sum(spct.selector), byrow = byrow,
+                dimnames = list(w.length = wl.prev,
+                                spct = c(spct.names[spct.selector])))
+  }
+  attr(z, "w.length") <- wl.prev
+  comment(z) <- comment(x)
+  z
+}
+
 # hyperSpec ---------------------------------------------------------------
 
 #' Convert 'hyperSpec::hyperSpec' objects

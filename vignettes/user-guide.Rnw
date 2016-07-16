@@ -563,7 +563,33 @@ z2.mspct
 
 \section{Other R packages}
 
-\subsection{To 'hyperSpec'}
+\subsection{To R matrix}
+
+A general way of exchanging data with other R packages or for use with base R functions is to create a matrix. 
+
+<<>>=
+z2c.mat <- mspct2mat(z2.mspct, "s.e.irrad")
+class(z2c.mat)
+dim(z2c.mat)
+head(dimnames(z2c.mat)$spct)
+head(dimnames(z2c.mat)$w.length)
+head(attr(z2c.mat, "w.length"))
+@
+
+Collections of spectra have a \texttt{spct.byrow} attribute and this is used as default, however, a value can by passed as argument to override this default.
+
+<<>>=
+z2r.mat <- mspct2mat(z2.mspct, "s.e.irrad", byrow = TRUE)
+class(z2r.mat)
+dim(z2r.mat)
+head(dimnames(z2r.mat)$spct)
+head(dimnames(z2r.mat)$w.length)
+head(attr(z2r.mat, "w.length"))
+@
+
+These functions are not fully automatic, the user needs to provide the name of the variable to extract from each spectrum. If the wavelength values are not consistent among spectra, only those with the same values as the first spectrum in the colection are retained and the remaining ones dropped with a warning.
+
+\subsection{To `hyperSpec'}
 
 Can export to "hyperSpec" objects only collections of spectra where all members have identical \texttt{w.length} vectors, as objects of class \texttt{hypeSpec} store a single vector of wavelengths for the whole collection of spectra.
 
@@ -573,7 +599,7 @@ class(z2.hspct)
 plot(z2.hspct)
 @
 
-\subsection{From 'hyperSpec'}
+\subsection{From `hyperSpec'}
 
 Can import only data with wavelength in nanometres. Other quantities and units are not supported by the 'photobiology' classes for spectral data. See package 'hyperSpec' vignette "laser" for details on the data and the conversion of the original wavelength units into nanometres.
 
@@ -603,7 +629,7 @@ ggplot(laser.mspct[[1]]) +
   stat_peaks(geom = "text", vjust = -1, label.fmt = "%.6g nm", color = "red")
 @
 
-\subsection{From 'colorSpec'}
+\subsection{From `colorSpec'}
 
 <<>>=
 fluorescent.mspct <- colorSpec2mspct(Fs.5nm)
@@ -623,7 +649,7 @@ plot(fluorescent.spct) + aes(linetype = spct.idx)
 colorSpec2chroma_spct(xyz1931.5nm)
 @
 
-\subsection{To 'colorSpec'}
+\subsection{To `colorSpec'}
 
 <<>>=
 sun.cspec <- spct2colorSpec(sun.spct)
@@ -638,7 +664,7 @@ spct2colorSpec(yellow_gel.spct)
 chroma_spct2colorSpec(beesxyzCMF.spct)
 @
 
-\subsection{From 'pavo'}
+\subsection{From `pavo'}
 
 In this example we convert an \texttt{rspec} object from package `pavo' into a collection of spectra and then we plot it with \texttt{ggplot} methods from package `ggspectra' (an extension to `ggplot2'). The data are the spectral reflectance of the plumage from seven different individual birds of the same species, measured in three different body parts.
 
@@ -677,7 +703,7 @@ ggplot(rbindspct(sicalis.mspct[c(TRUE, FALSE, FALSE)])) +
   ggtitle("'crown' reflectance spectra")
 @
 
-We we calculate the mean reflectance in wavebands corresponding to ISO colors obtaining a data frame. We then add to this returned data frame a factor indicating the body parts.
+We calculate the mean reflectance in wavebands corresponding to ISO colors obtaining a data frame. We then add to this returned data frame a factor indicating the body parts.
 
 <<>>=
 refl.by.band <- reflectance(sicalis.mspct, w.band = list(Red(), Green(), Blue(), UVA()))
@@ -743,4 +769,4 @@ jaz04.spct
 getWhereMeasured(jaz04.spct)
 @
 
-\end{document} 
+\end{document}
