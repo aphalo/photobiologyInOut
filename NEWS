@@ -10,8 +10,8 @@ test through examples in vignette).
 photobiologyInOut 0.4.7
 =======================
 
-Add function mspct2mat() for convertion of collections of spectra into R 
-matrixes.
+Add functions mspct2matrix() and matrix2mspct for convertion of collections 
+of spectra into R matrixes and vice-versa.
 
 photobiologyInOut 0.4.6
 =======================
