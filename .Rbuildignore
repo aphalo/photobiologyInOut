@@ -4,3 +4,4 @@
 ^test$
 ^vignettes/figure$
 ^vignettes/backups$
+^inst/web$

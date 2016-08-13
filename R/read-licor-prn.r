@@ -1,4 +1,4 @@
-#' Read \code{.PRN} File(s) Saved by LI-COR's PC1800 Program.
+#' Read '.PRN' File(s) Saved by LI-COR's PC1800 Program.
 #' 
 #' Reads and parses the header of a processed data file as output by the PC1800
 #' program to extract the whole header remark field and also check whether data
@@ -23,7 +23,6 @@
 #'   \code{time.unit} attribute set to \code{"second"} and \code{when.measured}
 #'   attribute set to the date-time extracted from the file name, or supplied.
 #' @export
-#' @author Pedro J. Aphalo
 #' @references \url{http://www.r4photobiology.info}
 #' @keywords misc
 #'   
@@ -82,7 +81,7 @@ read_licor_prn <- function(file,
     z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.q.irrad"))
   }
   
-  old.opts <- options("photobiology.strict.range" = NA)
+  old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
   comment(z) <-
