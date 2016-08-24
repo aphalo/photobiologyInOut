@@ -86,7 +86,7 @@ read_licor_prn <- function(file,
   options(old.opts)
   comment(z) <-
     paste(paste("LICOR LI-1800 file '", file, "' imported on ", 
-                lubridate::now(tz = "UTC"), " UTC", sep = ""),
+                lubridate::now(tzone = "UTC"), " UTC", sep = ""),
           paste(file_header, collapse = "\n"), 
           sep = "\n")
   
