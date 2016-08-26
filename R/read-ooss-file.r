@@ -50,7 +50,7 @@ read_oo_ssirrad <- function(file,
         tz <- sub("S", "", tz)
       }
     }
-    date <- lubridate::parse_date_time(line03, "m*!d! hms y", tz = tz)
+    date <- lubridate::parse_date_time(line03, "mdHMSy", tz = tz)
   }
   
   z <- readr::read_tsv(
@@ -115,7 +115,7 @@ read_oo_ssdata<- function(file,
         tz <- sub("S", "", tz)
       }
     }
-    date <- lubridate::parse_date_time(line03, "m*!d! hms y", tz = tz)
+    date <- lubridate::parse_date_time(line03, "mdHMSy", tz = tz)
   }
   
   z <- readr::read_tsv(
