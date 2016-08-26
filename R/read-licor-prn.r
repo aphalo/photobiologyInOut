@@ -52,7 +52,7 @@ read_licor_prn <- function(file,
   
   if (is.null(date)) {
     line05 <- sub("Date:", "", file_header[5])
-    date <- lubridate::parse_date_time(line05, "m*!d! hm", tz = tz)
+    date <- lubridate::parse_date_time(line05, "mdHM", tz = tz)
   }
   
   if (!is.na(match("(QNTM)", file_header[2], nomatch = FALSE))) {
