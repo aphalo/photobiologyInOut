@@ -1,14 +1,13 @@
 .Rproj.user
 .Rhistory
 .RData
-NAMESPACE
 man
 *.tex
 *.synctex.gz
 *.toc
 vignettes/*.pdf
-vignettes/*.log
+vignettes/*.pdf
 vignettes/figure/
 vignettes/backups/
 vignettes/data-vignettes/readr-bug.dat
-inst/web
+docs

@@ -2,7 +2,7 @@ Package: photobiologyInOut
 Type: Package
 Title: Read Spectral Data from Foreign Files
 Version: 0.4.10
-Date: 2016-08-26
+Date: 2016-08-28
 Authors@R:
    c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre")),
@@ -42,5 +42,6 @@ LazyData: yes
 ByteCompile: true
 Encoding: UTF-8
 URL: http://www.r4photobiology.info
+    https://bitbucket.org/aphalo/photobiologyinout
 BugReports: https://bitbucket.org/aphalo/photobiologyinout/
 RoxygenNote: 5.0.1

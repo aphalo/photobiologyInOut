@@ -4,4 +4,6 @@
 ^test$
 ^vignettes/figure$
 ^vignettes/backups$
+^\.travis\.yml$
 ^inst/web$
+^docs$
