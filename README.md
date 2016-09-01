@@ -8,7 +8,7 @@ Developing a package like is a never-ending task as I have only a limited sample
 
 Please, see the [r4photobiology](http://www.r4photobiology.info) web site for details on the suite.
 
-## Warning
+## Warning ##
 
 **The functions in this package work with the example files I have access to for testing, but they may not work with your own files as file formats vary.**
 
