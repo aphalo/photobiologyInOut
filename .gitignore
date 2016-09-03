@@ -7,7 +7,9 @@ man
 *.toc
 vignettes/*.pdf
 vignettes/*.pdf
+vignettes/*.log
 vignettes/figure/
 vignettes/backups/
 vignettes/data-vignettes/readr-bug.dat
+inst/web
 docs
