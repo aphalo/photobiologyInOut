@@ -7,6 +7,12 @@ Add alternative reader of TUV output files into a collection of spectra.
 Add test cases for new functions for exchange of foreign data (currently
 tested through examples in vignette).
 
+photobiologyInOut 0.4.11
+========================
+
+Edit read_licor_prn() to work around a bug in readr:read_table() that results
+in missread data (wrong numbers). Improve test cases to detect it if it repeat.
+
 photobiologyInOut 0.4.10
 ========================
 

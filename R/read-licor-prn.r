@@ -69,13 +69,23 @@ read_licor_prn <- function(file,
     mult <- 1.0 # joule -> joule
   }
   
-  z <-
-    readr::read_table(file,
-                      col_names = col_names,
-                      col_types = "dd",
-                      skip = 7,
-                      locale = locale)
+  # does not decode first column correctly if it includes values >= 1000
+  # z <-
+  #   readr::read_table(file,
+  #                     col_names = col_names,
+  #                     col_types = "dd",
+  #                     skip = 7,
+  #                     locale = locale)
   
+  z <- 
+    utils::read.table(file,
+                      header = FALSE,
+                      dec = ".",
+                      row.names = NULL,
+                      col.names = col_names,
+                      colClasses = "double",
+                      skip = 7
+                      )
   if (mult != 1) {
     dots <- list(~s.q.irrad * mult)
     z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.q.irrad"))

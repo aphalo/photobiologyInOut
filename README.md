@@ -1,4 +1,4 @@
-# R package 'photobiologyInOut' #
+# photobiologyInOut #
 
 [![](http://www.r-pkg.org/badges/version/photobiologyInOut)](https://cran.r-project.org/package=photobiologyInOut) [![](http://cranlogs.r-pkg.org/badges/photobiologyInOut)](http://cran.rstudio.com/web/packages/photobiologyInOut/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/photobiologyInOut)](http://cran.rstudio.com/web/packages/photobiologyInOut/index.html)
 

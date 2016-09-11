@@ -1,8 +1,8 @@
 Package: photobiologyInOut
 Type: Package
 Title: Read Spectral Data from Foreign Files
-Version: 0.4.10
-Date: 2016-08-28
+Version: 0.4.10.9000
+Date: 2016-09-10
 Authors@R:
    c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre")),
