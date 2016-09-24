@@ -23,7 +23,8 @@
 #'   \code{time.unit} attribute set to \code{"second"} and \code{when.measured}
 #'   attribute set to the date-time extracted from the file name, or supplied.
 #' @export
-#' @references \url{http://www.r4photobiology.info} \url{https://www.licor.com/env/}
+#' @references \url{http://www.r4photobiology.info} \url{http://www.licor.com}
+#' 
 #' @keywords misc
 #'   
 #' @note The LI-1800 spectroradiometer does not store the year as part of the
