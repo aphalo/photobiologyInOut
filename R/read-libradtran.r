@@ -17,16 +17,16 @@
 #'   \code{\link[readr]{locale}} to create your own locale that controls things
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
+#' @param multiplier numeric A multiplier for conversion into W m-2 nm-1, as
+#'   the units of expression of the output from "uvspec" depend on the units
+#'   in which the extraterrestrial solar spectrum data is expressed.
 #' @param simplify logical Remove redundant columns from returned object.
-#'   
 #'   
 #' @return a source_spct object, possibly containing several spectra in long
 #'  form and a datetime column.
 #'   
 #' @references \url{http://www.r4photobiology.info} \url{http://www.libradtran.org}
 #'
-#' @note Tested only libRadtran version 2.0
-#' 
 #' @export
 #' 
 read_uvspec_disort_vesa <- function(file, 
@@ -70,7 +70,9 @@ read_uvspec_disort_vesa <- function(file,
                       sep = "")
   photobiology::setWhenMeasured(z, datetimes)
   photobiology::setWhereMeasured(z, geocode)
-  photobiology::setWhatMeasured(z, paste("libRadtran spectral simulation", label))
+  if (!is.na(label)) {
+    photobiology::setWhatMeasured(z, paste("libRadtran spectral simulation", label))
+  }
   z
 }
 
@@ -95,7 +97,7 @@ read_uvspec_disort_vesa <- function(file,
 #'   names.
 #' @param multiplier numeric A multiplier for conversion into W m-2 nm-1, as
 #'   the units of expression of the output from "uvspec" depend on the units
-#'   in which the extraterrestrial solar spectrum data is expressed.#'   
+#'   in which the extraterrestrial solar spectrum data is expressed.
 #' @param qty character "uvspec" returns both irradiance and intensity with
 #'   solver "disort".
 #'   
@@ -106,7 +108,7 @@ read_uvspec_disort_vesa <- function(file,
 #'   
 #' @references \url{http://www.r4photobiology.info} \url{http://www.libradtran.org}
 #'
-#' @note Tested only libRadtran version 2.0
+#' @note Tested only with libRadtran version 2.0
 #' 
 #' @export
 #' 
@@ -145,7 +147,9 @@ read_uvspec_disort <- function(file,
                       sep = "")
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
-  photobiology::setWhatMeasured(z, paste("libRadtran spectral simulation", label))
+  if (!is.na(label)) {
+    photobiology::setWhatMeasured(z, paste("libRadtran spectral simulation", label))
+  }
   z
 }
 

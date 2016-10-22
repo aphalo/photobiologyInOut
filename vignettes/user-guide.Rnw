@@ -512,6 +512,11 @@ uvspec.02.spct <- read_uvspec_disort("data-vignettes/uvspec-disort.dat")
 summary(uvspec.02.spct)
 cat(comment(uvspec.02.spct))
 plot(uvspec.02.spct, unit.out = "photon")
+@
+
+The data contains also estimates of diffuse and direct spectral irradiance. Here we plot the total energy irradiance with a solid line and the diffuse component with a dashed line.
+
+<<>>=
 ggplot(uvspec.02.spct) + 
   geom_line() +
   geom_line(aes(y = s.e.irrad.diff), linetype = "dashed")

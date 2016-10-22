@@ -11,7 +11,7 @@ photobiologyInOut 0.4.12
 ========================
 
 Fix CITATION file.
-New function read_uvspec_disort(), function read_libradtran_vesa() renamed
+Add function read_uvspec_disort(), rename read_libradtran_vesa() to
 read_uvspec_disort_vesa().
 
 photobiologyInOut 0.4.11
