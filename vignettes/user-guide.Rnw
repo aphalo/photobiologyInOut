@@ -407,7 +407,7 @@ The functions in the package have been tested with a very recent datalogger
 model, the CR6, and using current versions of programs PC400 and PC200W to
 download the data. The currently used format of .DAT files is easy to decode
 and one function can automatically detect the number and type of columns and
-the number of rows. All information is preserved in the returned 
+the number of rows. All information is preserved in the returned
 \texttt{tibble::tibble} object, which is derived from \texttt{data.frame}.
 
 <<>>=
@@ -494,7 +494,7 @@ cat(comment(uvspec.01.spct))
 plot(uvspec.01.spct, range = c(250, 2500), unit.out = "photon")
 @
 
-An example using solver 'disort' and our function read_uvspec_disort() follows.
+An example using solver \texttt{disort} and our function read\_uvspec\_disort() follows.
 
 The first few lines of the file look like this:
 \begin{footnotesize}
@@ -517,7 +517,7 @@ plot(uvspec.02.spct, unit.out = "photon")
 The data contains also estimates of diffuse and direct spectral irradiance. Here we plot the total energy irradiance with a solid line and the diffuse component with a dashed line.
 
 <<>>=
-ggplot(uvspec.02.spct) + 
+ggplot(uvspec.02.spct) +
   geom_line() +
   geom_line(aes(y = s.e.irrad.diff), linetype = "dashed")
 @
@@ -613,7 +613,7 @@ getWhenMeasured(z.spct)
 z.spct
 @
 
-With function \texttt{read\_m\_fmi\_cum} with an "m" in the name we can read several files each containing a single spectrum. The returned object is a collection of source spectra.
+With function \texttt{read\_m\_fmi\_cum} with an ``m'' in the name we can read several files each containing a single spectrum. The returned object is a collection of source spectra.
 
 <<>>=
 z.mspct <- read_m_fmi_cum(c("data-vignettes/2014-08-21_cum.hel",
@@ -710,7 +710,7 @@ These functions are not fully automatic, the user needs to provide the name of t
 
 \subsection{To `hyperSpec'}
 
-Can export to "hyperSpec" objects only collections of spectra where all members have identical \texttt{w.length} vectors, as objects of class \texttt{hyperSpec} store a single vector of wavelengths for the whole collection of spectra.
+Can export to \texttt{``hyperSpec''} objects only collections of spectra where all members have identical \texttt{w.length} vectors, as objects of class \texttt{hyperSpec} store a single vector of wavelengths for the whole collection of spectra.
 
 <<>>=
 z2.hspct <- mspct2hyperSpec(z2.mspct, "s.e.irrad")
@@ -846,8 +846,12 @@ Most functions in this package have a parameter \texttt{locale}, that accepts \t
 
 <<>>=
 my.locale <- locale(decimal_mark = ",", tz = "EET")
-read_oo_jazirrad(file = "data-vignettes/spectrum-comma.JazIrrad",
-                 locale = my.locale)
+jaz00.spct <- read_oo_jazirrad(file = "data-vignettes/spectrum-comma.JazIrrad",
+                               locale = my.locale)
+@
+
+<<>>=
+jaz00.spct
 @
 
 \subsection{Overriding default metadata}
