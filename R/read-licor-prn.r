@@ -40,9 +40,9 @@ read_licor_prn <- function(file,
   if (is.null(tz)) {
     tz <- locale$tz
   }
-  if (is.null(label)) {
-    label <- paste("File:", file)
-  }
+  
+  label <- paste("File:", basename(file), label)
+  
   file_header <- scan(
     file = file,
     nlines = 7,
@@ -96,7 +96,7 @@ read_licor_prn <- function(file,
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
   comment(z) <-
-    paste(paste("LICOR LI-1800 file '", file, "' imported on ", 
+    paste(paste("LICOR LI-1800 file '", basename(file), "' imported on ", 
                 lubridate::now(tzone = "UTC"), " UTC", sep = ""),
           paste(file_header, collapse = "\n"), 
           sep = "\n")

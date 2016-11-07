@@ -133,6 +133,8 @@ It should be remembered, though, that this package has been developed based on t
 
 \section{Examples}
 
+In the examples we use function \texttt{system-file} to reliably locate the example files included in the package. For reproducing the examples with these files, this call is needed. When using user's files only the path as a character string needs to be passed as argument.
+
 \subsection{Ocean Optics Jaz}
 
 \subsubsection{Raw detector counts}
@@ -170,7 +172,10 @@ W	D	R	S	P
 \end{footnotesize}
 
 <<>>=
-jazraw.spct <- read_oo_jazdata(file = "data-vignettes/spectrum.jaz")
+jaz.raw.file <- 
+  system.file("extdata", "spectrum.jaz", 
+              package = "photobiologyInOut", mustWork = TRUE)
+jazraw.spct <- read_oo_jazdata(file = jaz.raw.file)
 jazraw.spct <- trim_wl(jazraw.spct, range = c(250, 900))
 @
 
@@ -230,7 +235,10 @@ W	D	S	P
 \end{footnotesize}
 
 <<>>=
-jaz.spct <- read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad")
+jaz.s.irrad.file <- 
+  system.file("extdata", "spectrum.JazIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
+jaz.spct <- read_oo_jazirrad(file = jaz.s.irrad.file)
 jaz0.spct <- jaz.spct
 jaz.spct <- trim_wl(jaz.spct, range = c(290, 800))
 @
@@ -276,20 +284,20 @@ e_irrad(jaz.spct, PAR())       # W m-2
 All in one statement.
 
 <<>>=
-plot(read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad"))
+plot(read_oo_jazirrad(file = jaz.s.irrad.file))
 @
 
 As above but limiting the wavelength range plotted.
 
 <<>>=
-plot(read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad"),
+plot(read_oo_jazirrad(file = jaz.s.irrad.file),
      range = c(250,850))
 @
 
 Adding our custom ``adaptive'' smoothing.
 
 <<>>=
-plot(smooth_spct(read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad")),
+plot(smooth_spct(read_oo_jazirrad(file = jaz.s.irrad.file)),
      range = c(250,850))
 @
 
@@ -325,7 +333,10 @@ Number of Pixels in Processed Spectrum: 1044
 \end{footnotesize}
 
 <<>>=
-plot(read_oo_ssirrad(file = "data-vignettes/spectrum.SSIrrad"))
+q.raw.file <- 
+  system.file("extdata", "spectrum.SSIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
+plot(read_oo_ssirrad(file = q.raw.file))
 @
 
 \subsection{Modular spectrometers from Avantes}
@@ -333,7 +344,10 @@ plot(read_oo_ssirrad(file = "data-vignettes/spectrum.SSIrrad"))
 Avantes' two column .csv files can also be imported.
 
 <<>>=
-plot(read_avaspec_csv(file = "data-vignettes/spectrum-avaspec.csv"),
+ava.raw.file <- 
+  system.file("extdata", "spectrum-avaspec.csv", 
+              package = "photobiologyInOut", mustWork = TRUE)
+plot(read_avaspec_csv(file = ava.raw.file),
      range = c(280, 900), unit.out = "photon")
 @
 
@@ -359,7 +373,10 @@ The first few lines of the file look like this with all data in a single column 
 
 
 <<>>=
-plot(read_macam_dta(file = "data-vignettes/spectrum.DTA"))
+macam.raw.file <- 
+  system.file("extdata", "spectrum.DTA", 
+              package = "photobiologyInOut", mustWork = TRUE)
+plot(read_macam_dta(file = macam.raw.file))
 @
 
 \subsection{LI-1800 scanning spectrometer from LI-COR}
@@ -387,7 +404,10 @@ The output has a relatively detailed header, but it lacks year information. File
 Function \texttt{read\_licor\_prn} will automatically detect whether the data is energy or photon based.
 
 <<>>=
-licor.spct <- read_licor_prn(file = "data-vignettes/spectrum.PRN")
+licor.file <- 
+  system.file("extdata", "spectrum.PRN", 
+              package = "photobiologyInOut", mustWork = TRUE)
+licor.spct <- read_licor_prn(file = licor.file)
 @
 
 In all cases as much information as possible is decoded, and the data file headers
@@ -411,12 +431,18 @@ the number of rows. All information is preserved in the returned
 \texttt{tibble::tibble} object, which is derived from \texttt{data.frame}.
 
 <<>>=
-day.dat <- read_csi_dat(file = "data-vignettes/cr6-day.dat")
+cs.day.file <- 
+  system.file("extdata", "cr6-day.dat", 
+              package = "photobiologyInOut", mustWork = TRUE)
+day.dat <- read_csi_dat(file = cs.day.file)
 day.dat
 @
 
 <<>>=
-hour.dat <- read_csi_dat(file = "data-vignettes/cr6-hour.dat")
+cs.hour.file <- 
+  system.file("extdata", "cr6-hour.dat", 
+              package = "photobiologyInOut", mustWork = TRUE)
+hour.dat <- read_csi_dat(file = cs.hour.file)
 ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
 @
 
@@ -433,7 +459,10 @@ with the zenith angle and a POSIXct column with times. A date needs to be
 always supplied as the output file from TUV has only time of day information.
 
 <<>>=
-tuv.spct <- read_tuv_usrout(file = "data-vignettes/usrout.txt",
+tuv.file <- 
+  system.file("extdata", "usrout.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+tuv.spct <- read_tuv_usrout(file = tuv.file,
                             date = ymd("2014-03-21"))
 summary(subset(tuv.spct, spct.idx == "A"))
 tuv.spct
@@ -460,7 +489,7 @@ With the default of \texttt{lubridate::today()} for date times are `mapped' to
 the current local date using the time zone of the computer as visible to R.
 
 <<>>=
-tuv_nd.spct <- read_tuv_usrout(file = "data-vignettes/usrout.txt")
+tuv_nd.spct <- read_tuv_usrout(file = tuv.file)
 tuv_nd.spct
 @
 
@@ -485,7 +514,10 @@ The first few lines of the file look like this:
 \end{footnotesize}
 
 <<>>=
-lrt.df <- read.table(file = "data-vignettes/uvspec-plain-2col.dat",
+uvspec.2col.file <- 
+  system.file("extdata", "uvspec-plain-2col.dat", 
+              package = "photobiologyInOut", mustWork = TRUE)
+lrt.df <- read.table(file = uvspec.2col.file,
                      col.names = c("w.length", "s.e.irrad"))
 uvspec.01.spct <- source_spct(w.length = lrt.df$w.length,
                                s.e.irrad = lrt.df$s.e.irrad * 1e-3)
@@ -508,7 +540,10 @@ The first few lines of the file look like this:
 \end{footnotesize}
 
 <<>>=
-uvspec.02.spct <- read_uvspec_disort("data-vignettes/uvspec-disort.dat")
+uvspec.disort.file <- 
+  system.file("extdata", "uvspec-disort.dat", 
+              package = "photobiologyInOut", mustWork = TRUE)
+uvspec.02.spct <- read_uvspec_disort(uvspec.disort.file)
 summary(uvspec.02.spct)
 cat(comment(uvspec.02.spct))
 plot(uvspec.02.spct, unit.out = "photon")
@@ -547,8 +582,11 @@ sur_temperature 273
 If we plan to save and reuse the spectral object, it is recommended to append the input file to the comment.
 
 <<>>=
+uvspec.disort.inp.file <- 
+  system.file("extdata", "uvspec-disort.inp", 
+              package = "photobiologyInOut", mustWork = TRUE)
 comment(uvspec.02.spct) <- paste(comment(uvspec.02.spct),
-                                 read_file("data-vignettes/uvspec-disort.inp"),
+                                 read_file(uvspec.disort.inp.file),
                                  sep = "\n\n")
 cat(comment(uvspec.02.spct))
 @
@@ -575,7 +613,10 @@ The first few lines of the file look like this:
 A function is included for reading data saved in a text file in this format. It also automatically converts \mwattnm into \wattnm.
 
 <<>>=
-lbr.multi.spct <- read_uvspec_disort_vesa("data-vignettes/uvspec-multi.dat")
+uvspec.multi.file <- 
+  system.file("extdata", "uvspec-multi.dat", 
+              package = "photobiologyInOut", mustWork = TRUE)
+lbr.multi.spct <- read_uvspec_disort_vesa(uvspec.multi.file)
 print(lbr.multi.spct, n = 5)
 @
 
@@ -607,7 +648,10 @@ In this case values are for daily global spectral energy exposures rather
 than irradiances. Wavelengths are expressed in Angstroms instead of nanometres.
 
 <<>>=
-z.spct <- read_fmi_cum("data-vignettes/2014-08-21_cum.hel")
+fmi.file <- 
+  system.file("extdata", "2014-08-21_cum.hel", 
+              package = "photobiologyInOut", mustWork = TRUE)
+z.spct <- read_fmi_cum(fmi.file)
 class_spct(z.spct)
 getWhenMeasured(z.spct)
 z.spct
@@ -616,19 +660,21 @@ z.spct
 With function \texttt{read\_m\_fmi\_cum} with an ``m'' in the name we can read several files each containing a single spectrum. The returned object is a collection of source spectra.
 
 <<>>=
-z.mspct <- read_m_fmi_cum(c("data-vignettes/2014-08-21_cum.hel",
-                            "data-vignettes/2014-08-22_cum.hel"))
+fmi.files <- 
+  system.file("extdata", c("2014-08-21_cum.hel", "2014-08-21_cum.hel"),
+              package = "photobiologyInOut", mustWork = TRUE)
+z.mspct <- read_m_fmi_cum(fmi.files)
 class(z.mspct)
 getWhenMeasured(z.mspct)
 z.mspct
 @
 
-Above we gave the names of the files explicitly, but as we show here, one can build on-the-fly a list of file names matching some pattern.
+Above we gave the names of the files explicitly, but as we show here, one can build on-the-fly a list of file names matching some pattern. The example below is not run, as the location of example files may vary. The string \texttt{"."} should be replaced with the path to the folder where the files to be read are located.
 
-<<>>=
-files <- list.files("./data-vignettes/", "*cum.hel")
-files <- paste("./data-vignettes/", files, sep = "")
-z1.mspct <- read_m_fmi_cum(files)
+<<eval=FALSE>>=
+fmi.files <- list.files(".", "*cum.hel")
+fmi.files <- paste(".", fmi.files, sep = "")
+z1.mspct <- read_m_fmi_cum(fmi.files)
 class(z1.mspct)
 getWhenMeasured(z1.mspct)
 z1.mspct
@@ -638,7 +684,7 @@ One also add a geocode at the time of import (or later).
 
 <<message=FALSE>>=
 z2.mspct <-
-  read_m_fmi_cum(files,
+  read_m_fmi_cum(fmi.files,
                  geocode = geocode("Kumpula, Helsinki, Finland",
                                    source = "google"))
 class(z2.mspct)
@@ -845,8 +891,11 @@ ggplot(refl.red, aes(x = body.part, y = red.reflectance)) +
 Most functions in this package have a parameter \texttt{locale}, that accepts \texttt{readr::locale} objects as arguments. At the moment only the time zone and decimal mark are respected. This allows files using comma for decimal marker be easily imported, or the dates and times \textbf{in the input file} be interpreted in a given time zone. Setting the correct time zone is very important to avoid errors. Time coordinates are always stored in the created objects using universal time coordinates ("UTC").
 
 <<>>=
+jaz.irrad.comma.file <- 
+  system.file("extdata", "spectrum-comma.JazIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
 my.locale <- locale(decimal_mark = ",", tz = "EET")
-jaz00.spct <- read_oo_jazirrad(file = "data-vignettes/spectrum-comma.JazIrrad",
+jaz00.spct <- read_oo_jazirrad(file = jaz.irrad.comma.file,
                                locale = my.locale)
 @
 
@@ -862,20 +911,26 @@ A variable with the user supplied date and time data, or the date read from
 the header (the text itself) not the file date as the file date may not reflect
 the creation date and time.
 
+<<>>=
+jaz.s.irrad.file <- 
+  system.file("extdata", "spectrum.JazIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
+@
+
 <<warning=FALSE>>=
-jaz01.spct <- read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad",
+jaz01.spct <- read_oo_jazirrad(file = jaz.s.irrad.file,
                                date = NULL)
 getWhenMeasured(jaz01.spct)
 @
 
 <<warning=FALSE>>=
-jaz02.spct <- read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad",
+jaz02.spct <- read_oo_jazirrad(file = jaz.s.irrad.file,
                                date = ymd_hms("2015-11-15 12:00:00"))
 getWhenMeasured(jaz02.spct)
 @
 
 <<warning=FALSE>>=
-jaz03.spct <- read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad",
+jaz03.spct <- read_oo_jazirrad(file = jaz.s.irrad.file,
                                date = now())
 getWhenMeasured(jaz03.spct)
 @
@@ -885,7 +940,7 @@ getWhenMeasured(jaz03.spct)
 When can add a geocode, either directly by giving latitude and longitude coordinates or by generating it from a Google maps search using function \texttt{ggmap::geocode()} as shown here.
 
 <<message=FALSE,warning=FALSE>>=
-jaz04.spct <- read_oo_jazirrad(file = "data-vignettes/spectrum.JazIrrad",
+jaz04.spct <- read_oo_jazirrad(file = jaz.s.irrad.file,
                                geocode = geocode("Vikki, 00790 Helsinki, Finland",
                                                  source = "google"))
 jaz04.spct

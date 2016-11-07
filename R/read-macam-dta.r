@@ -32,9 +32,9 @@ read_macam_dta <- function(file,
   if (is.null(tz)) {
     tz <- locale$tz
   }
-  if (is.null(label)) {
-    label <- paste("File:", file)
-  }
+  
+  label <- paste("File:", basename(file), label)
+  
   file_header <- scan(file = file, nlines = 3, skip = 0, what = "character")
   if (is.null(date)) {
     date <- lubridate::dmy(sub(pattern = "@", replacement = "",
@@ -53,7 +53,7 @@ read_macam_dta <- function(file,
   options(old.opts)
 
   comment(z) <-
-    paste(paste("MACAM file '", file, "' imported on ", 
+    paste(paste("MACAM file '", basename(file), "' imported on ", 
                 lubridate::now(tzone = "UTC"), " UTC", sep = ""),
           paste(file_header, collapse = "\n"), 
           sep = "\n")

@@ -7,9 +7,12 @@ context("read Ocean Optics")
 
 test_that("jazz", {
 
+  file.name <- 
+    system.file("extdata", "spectrum.JazIrrad", 
+                package = "photobiologyInOut", mustWork = TRUE)
   # warnings triggered by negative irradiance values in file
   suppressWarnings(jaz.spct <- 
-                     read_oo_jazirrad(file = "data-test/spectrum.JazIrrad",
+                     read_oo_jazirrad(file = file.name,
                                       tz = "EET"))
   
   expect_equal(nrow(jaz.spct), 2048)
@@ -27,14 +30,17 @@ test_that("jazz", {
                as.numeric(ymd_hms("2015-02-03 09:44:41", tz = "EET"), tz = "EET"))
   expect_equal(getWhereMeasured(jaz.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: data-test/spectrum.JazIrrad")
+  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.JazIrrad ")
   expect_equal(getTimeUnit(jaz.spct), "second")
   expect_gt(length(comment(jaz.spct)), 0)
 })
 
 test_that("jazz_raw", {
   
-  jaz.spct <- read_oo_jazdata(file = "data-test/spectrum.jaz", 
+  file.name <- 
+    system.file("extdata", "spectrum.jaz", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  jaz.spct <- read_oo_jazdata(file = file.name, 
                               tz = "EET")
   
   expect_equal(nrow(jaz.spct), 2048)
@@ -52,14 +58,17 @@ test_that("jazz_raw", {
                as.numeric(ymd_hms("2016-04-25 12:49:02", tz = "EET"), tz = "EET"))
   expect_equal(getWhereMeasured(jaz.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: data-test/spectrum.jaz")
+  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.jaz ")
   expect_gt(length(comment(jaz.spct)), 0)
 })
 
 
 test_that("SpectraSuite", {
   
-  ss.spct <- read_oo_ssirrad(file = "data-test/spectrum.SSIrrad", 
+  file.name <- 
+    system.file("extdata", "spectrum.SSIrrad", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  ss.spct <- read_oo_ssirrad(file = file.name, 
                              tz = "CET")
   
   expect_equal(nrow(ss.spct), 1044)
@@ -77,18 +86,21 @@ test_that("SpectraSuite", {
                as.numeric(ymd_hms("2013-05-06 15:13:40", tz = "CET"), tz = "CET"))
   expect_equal(getWhereMeasured(ss.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(ss.spct), NA)
+  expect_equal(getWhatMeasured(ss.spct), "File: spectrum.SSIrrad ")
   expect_equal(getTimeUnit(ss.spct), "second")
   expect_gt(length(comment(ss.spct)), 0)
 })
 
 test_that("jazz-comma", {
   
+  file.name <- 
+    system.file("extdata", "spectrum-comma.JazIrrad", 
+                package = "photobiologyInOut", mustWork = TRUE)
   my.locale <- readr::locale("en", decimal_mark = ",", 
                              tz = "EET")
   # warnings triggered by negative irradiance values in file
   suppressWarnings(jaz.spct <- 
-                     read_oo_jazirrad(file = "data-test/spectrum-comma.JazIrrad", 
+                     read_oo_jazirrad(file = file.name, 
                                       locale = my.locale))
   
   expect_equal(nrow(jaz.spct), 2048)
@@ -106,15 +118,18 @@ test_that("jazz-comma", {
                as.numeric(ymd_hms("2015-02-03 09:44:41", tz = "EET"), tz = "EET"))
   expect_equal(getWhereMeasured(jaz.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: data-test/spectrum-comma.JazIrrad")
+  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum-comma.JazIrrad ")
   expect_equal(getTimeUnit(jaz.spct), "second")
   expect_gt(length(comment(jaz.spct)), 0)
 })
 
-test_that("jazz_raw", {
+test_that("jazz_raw-comma", {
   
+  file.name <- 
+    system.file("extdata", "spectrum-comma.jaz", 
+                package = "photobiologyInOut", mustWork = TRUE)
   my.locale <- readr::locale("en", decimal_mark = ",", tz = "EET")
-  jaz.spct <- read_oo_jazdata(file = "data-test/spectrum-comma.jaz", 
+  jaz.spct <- read_oo_jazdata(file = file.name, 
                               locale = my.locale)
   
   expect_equal(nrow(jaz.spct), 2048)
@@ -132,16 +147,19 @@ test_that("jazz_raw", {
                as.numeric(ymd_hms("2016-04-25 12:49:02", tz = "EET"), tz = "EET"))
   expect_equal(getWhereMeasured(jaz.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: data-test/spectrum-comma.jaz")
+  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum-comma.jaz ")
   expect_gt(length(comment(jaz.spct)), 0)
 })
 
 
-test_that("SpectraSuite", {
+test_that("SpectraSuite-comma", {
   
+  file.name <- 
+    system.file("extdata", "spectrum-comma.SSIrrad", 
+                package = "photobiologyInOut", mustWork = TRUE)
   my.locale <- readr::locale("en", decimal_mark = ",", tz = "CET")
 
-  ss.spct <- read_oo_ssirrad(file = "data-test/spectrum-comma.SSIrrad", 
+  ss.spct <- read_oo_ssirrad(file = file.name, 
                              locale = my.locale)
   
   expect_equal(nrow(ss.spct), 1044)
@@ -159,15 +177,18 @@ test_that("SpectraSuite", {
                as.numeric(ymd_hms("2013-05-06 15:13:40", tz = "CET"), tz = "CET"))
   expect_equal(getWhereMeasured(ss.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(ss.spct), NA)
+  expect_equal(getWhatMeasured(ss.spct), "File: spectrum-comma.SSIrrad ")
   expect_equal(getTimeUnit(ss.spct), "second")
   expect_gt(length(comment(ss.spct)), 0)
 })
 
 test_that("pi_raw", {
   
+  file.name <- 
+    system.file("extdata", "spectrum.pi", 
+                package = "photobiologyInOut", mustWork = TRUE)
   my.date <- now(tzone = "EET")
-  pi.spct <- read_oo_pidata(file = "data-test/spectrum.pi", 
+  pi.spct <- read_oo_pidata(file = file.name, 
                             date = my.date,
                             npixels = 2048)
   
@@ -186,7 +207,7 @@ test_that("pi_raw", {
                as.numeric(my.date, tz = "EET"))
   expect_equal(getWhereMeasured(pi.spct), 
                data.frame(lon = NA_real_, lat = NA_real_))
-  expect_equal(getWhatMeasured(pi.spct), "File: data-test/spectrum.pi")
+  expect_equal(getWhatMeasured(pi.spct), "File: spectrum.pi ")
   expect_gt(length(comment(pi.spct)), 0)
 
   # pi2.spct <- read_oo_pidata(file = "data-test/vk-open-b00.txt", 

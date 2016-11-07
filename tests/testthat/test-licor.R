@@ -6,7 +6,10 @@ context("read LI-1800 PRN file)")
 
 test_that("single spectrum (quantum)", {
 
-  licor.spct <- read_licor_prn(file = "data-test/spectrum.PRN")
+  file.name <- 
+    system.file("extdata", "spectrum.PRN", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  licor.spct <- read_licor_prn(file = file.name)
   
   expect_equal(nrow(licor.spct), 601)
   expect_equal(ncol(licor.spct), 2)
@@ -29,7 +32,10 @@ test_that("single spectrum (quantum)", {
   expect_gt(length(getWhatMeasured(licor.spct)), 0)
   expect_gt(length(comment(licor.spct)), 0)
   
-  licor.spct <- read_licor_prn(file = "data-test/spectrum-licor-long.PRN")
+  file.name <- 
+    system.file("extdata", "spectrum-licor-long.PRN", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  licor.spct <- read_licor_prn(file = file.name)
   
   expect_equal(nrow(licor.spct), 401)
   expect_equal(ncol(licor.spct), 2)

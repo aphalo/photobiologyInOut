@@ -38,9 +38,9 @@ read_oo_pidata <- function(file,
   if (is.null(tz)) {
     tz <- locale$tz
   }
-  if (is.null(label)) {
-    label <- paste("File:", file)
-  }
+  
+  label <- paste("File:", basename(file), label)
+  
   file_header <- scan(file = file, nlines = 4, 
                       skip = 0, what = "character", sep = "\n")
   
@@ -60,7 +60,7 @@ read_oo_pidata <- function(file,
   z <- photobiology::as.raw_spct(z)
 
   comment(z) <-
-    paste(paste("Ocean Optics Raspeberry Pi raw counts file '", file, "' imported on ", 
+    paste(paste("Ocean Optics Raspeberry Pi raw counts file '", basename(file), "' imported on ", 
                 lubridate::now(tzone = "UTC"), " UTC", sep = ""),
           paste(file_header, collapse = "\n"), 
           sep = "\n")
