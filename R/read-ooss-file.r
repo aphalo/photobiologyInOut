@@ -53,7 +53,7 @@ read_oo_ssirrad <- function(file,
         tz <- sub("S", "", tz)
       }
     }
-    date <- lubridate::parse_date_time(line03, "mdHMSy", tz = tz)
+    date <- lubridate::parse_date_time(line03, "mdHMSy", tz = tz, locale = "C")
   }
   
   z <- readr::read_tsv(
@@ -128,9 +128,6 @@ read_oo_ssdata<- function(file,
     n_max = npixels,
     locale = locale
   )
-  
-  comment(z) <-
-    paste("Ocean Optics:", paste(file_header, collapse = "\n"), sep = "\n")
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.raw_spct(z)
