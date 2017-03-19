@@ -33,6 +33,32 @@ test_that("jazz", {
   expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.JazIrrad ")
   expect_equal(getTimeUnit(jaz.spct), "second")
   expect_gt(length(comment(jaz.spct)), 0)
+
+  
+  # warnings triggered by negative irradiance values in file
+  suppressWarnings(jaz.spct <- 
+                     read_oo_jazirrad(file = file.name,
+                                      date = ymd_hms("2016-01-01 00:00:01", tz = "EET")))
+  
+  expect_equal(nrow(jaz.spct), 2048)
+  expect_equal(ncol(jaz.spct), 2)
+  expect_equal(jaz.spct[1, 1], 188.8252, tolerance = 0.0001)
+  expect_equal(jaz.spct[2048, 1], 1033.148, tolerance = 0.0001)
+  expect_is(jaz.spct[[1]], "numeric")
+  expect_equal(sum(is.na(jaz.spct[[1]])), 0)
+  expect_true(all(sign(jaz.spct[[1]]) > 0))
+  expect_is(jaz.spct[[2]], "numeric")
+  expect_equal(sum(is.na(jaz.spct[[2]])), 0)
+  expect_is(jaz.spct, "source_spct")
+  expect_named(jaz.spct, c("w.length", "s.e.irrad"))
+  expect_equal(as.numeric(getWhenMeasured(jaz.spct), tz = "EET"),
+               as.numeric(ymd_hms("2016-01-01 00:00:01", tz = "EET"), tz = "EET"))
+  expect_equal(getWhereMeasured(jaz.spct), 
+               data.frame(lon = NA_real_, lat = NA_real_))
+  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.JazIrrad ")
+  expect_equal(getTimeUnit(jaz.spct), "second")
+  expect_gt(length(comment(jaz.spct)), 0)
+
 })
 
 test_that("jazz_raw", {
@@ -40,6 +66,7 @@ test_that("jazz_raw", {
   file.name <- 
     system.file("extdata", "spectrum.jaz", 
                 package = "photobiologyInOut", mustWork = TRUE)
+
   jaz.spct <- read_oo_jazdata(file = file.name, 
                               tz = "EET")
   
@@ -60,6 +87,28 @@ test_that("jazz_raw", {
                data.frame(lon = NA_real_, lat = NA_real_))
   expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.jaz ")
   expect_gt(length(comment(jaz.spct)), 0)
+  
+  jaz.spct <- read_oo_jazdata(file = file.name,
+                              date = ymd_hms("2016-01-01 00:00:01", tz = "EET"))
+  
+  expect_equal(nrow(jaz.spct), 2048)
+  expect_equal(ncol(jaz.spct), 2)
+  expect_equal(jaz.spct[1, 1], 190.313904, tolerance = 0.000001)
+  expect_equal(jaz.spct[2048, 1], 892.611511, tolerance = 0.000001)
+  expect_is(jaz.spct[[1]], "numeric")
+  expect_equal(sum(is.na(jaz.spct[[1]])), 0)
+  expect_true(all(sign(jaz.spct[[1]]) > 0))
+  expect_is(jaz.spct[[2]], "numeric")
+  expect_equal(sum(is.na(jaz.spct[[2]])), 0)
+  expect_is(jaz.spct, "raw_spct")
+  expect_named(jaz.spct, c("w.length", "counts"))
+  expect_equal(as.numeric(getWhenMeasured(jaz.spct), tz = "EET"),
+               as.numeric(ymd_hms("2016-01-01 00:00:01", tz = "EET"), tz = "EET"))
+  expect_equal(getWhereMeasured(jaz.spct), 
+               data.frame(lon = NA_real_, lat = NA_real_))
+  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.jaz ")
+  expect_gt(length(comment(jaz.spct)), 0)
+  
 })
 
 

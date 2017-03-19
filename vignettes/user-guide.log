@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.8.7)  30 OCT 2016 11:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.3.19)  19 MAR 2017 20:50
 entering extended mode
 **./user-guide.tex
 (user-guide.tex
-LaTeX2e <2016/03/31> patch level 3
-Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
+LaTeX2e <2017/01/01> patch level 1
+Babel <3.9r> and hyphenation patterns for 72 language(s) loaded.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\size10.clo"
@@ -29,18 +29,18 @@ Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks14
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
-Package: graphics 2016/07/10 v1.0t Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2016/10/09 v1.0u Standard LaTeX Graphics (DPC,SPQR)
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
-File: pdftex.def 2016/07/10 v0.06j Graphics/color for pdfTeX
+File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
@@ -56,7 +56,7 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
@@ -636,7 +636,7 @@ LaTeX Info: Redefining \nameref on input line 87.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\textcomp.sty"
-Package: textcomp 2016/06/19 v1.99m Standard LaTeX package
+Package: textcomp 2017/01/24 v2.0c Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
 (textcomp)               4 = 5 + \texteuro
@@ -819,415 +819,481 @@ Package color Info: Redefining color shadecolor on input line 126.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [2] [3]
-Package color Info: Redefining color shadecolor on input line 222.
-Package color Info: Redefining color shadecolor on input line 240.
- <figure/pos-unnamed-chunk-3-1.pdf, id=175, 505.89pt x 433.62pt>
+Package color Info: Redefining color shadecolor on input line 231.
+Package color Info: Redefining color shadecolor on input line 249.
+ <figure/pos-unnamed-chunk-3-1.pdf, id=190, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-3-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-3-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-3-1.pdf used on input line 24
-6.
+Package pdftex.def Info: figure/pos-unnamed-chunk-3-1.pdf used on input line 25
+5.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
  [4]
-Package color Info: Redefining color shadecolor on input line 257.
-Package color Info: Redefining color shadecolor on input line 268.
+Package color Info: Redefining color shadecolor on input line 266.
+Package color Info: Redefining color shadecolor on input line 277.
+Package color Info: Redefining color shadecolor on input line 289.
  [5 <./figure/pos-unnamed-chunk-3-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 322.
- [6]
-Package color Info: Redefining color shadecolor on input line 399.
- [7]
-Package color Info: Redefining color shadecolor on input line 418.
- <figure/pos-unnamed-chunk-8-1.pdf, id=199, 505.89pt x 433.62pt>
+Package color Info: Redefining color shadecolor on input line 337.
+Package color Info: Redefining color shadecolor on input line 356.
+ <figure/pos-unnamed-chunk-8-1.pdf, id=205, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-8-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-8-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-8-1.pdf used on input line 42
-4.
+Package pdftex.def Info: figure/pos-unnamed-chunk-8-1.pdf used on input line 36
+2.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 445.
- [8 <./figure/pos-unnamed-chunk-8-1.pdf>] <figure/pos-unnamed-chunk-9-1.pdf, id
-=210, 505.89pt x 433.62pt>
+ [6]
+Package color Info: Redefining color shadecolor on input line 383.
+
+<figure/pos-unnamed-chunk-9-1.pdf, id=210, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-9-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-9-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-9-1.pdf used on input line 45
-3.
+Package pdftex.def Info: figure/pos-unnamed-chunk-9-1.pdf used on input line 39
+1.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 464.
+ [7 <./figure/pos-unnamed-chunk-8-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 402.
 
-Overfull \hbox (43.62555pt too wide) in paragraph at lines 470--470
+Overfull \hbox (43.62555pt too wide) in paragraph at lines 408--408
 []\OT1/cmtt/m/n/8 ## Warning in smooth[]spct.source[]spct(jaz.spct): 314 'bad' 
 estimates in spectral irradiance[] 
  []
 
-<figure/pos-unnamed-chunk-10-1.pdf, id=211, 505.89pt x 433.62pt>
+<figure/pos-unnamed-chunk-10-1.pdf, id=222, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-10-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-10-1.pdf>
 Package pdftex.def Info: figure/pos-unnamed-chunk-10-1.pdf used on input line 4
-75.
+13.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [9 <./figure/pos-unnamed-chunk-9-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 486.
-Package color Info: Redefining color shadecolor on input line 505.
- <figure/pos-unnamed-chunk-12-1.pdf, id=222, 505.89pt x 433.62pt>
+ [8 <./figure/pos-unnamed-chunk-9-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 424.
+Package color Info: Redefining color shadecolor on input line 443.
+ <figure/pos-unnamed-chunk-12-1.pdf, id=233, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-12-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-12-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-12-1.pdf used on input line 5
-13.
+Package pdftex.def Info: figure/pos-unnamed-chunk-12-1.pdf used on input line 4
+51.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [10 <./figure/pos-unnamed-chunk-10-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 524.
- <figure/pos-unnamed-chunk-13-1.pdf, id=233, 505.89pt x 433.62pt>
+ [9 <./figure/pos-unnamed-chunk-10-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 462.
+ <figure/pos-unnamed-chunk-13-1.pdf, id=244, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-13-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-13-1.pdf used on input line 5
-33.
+Package pdftex.def Info: figure/pos-unnamed-chunk-13-1.pdf used on input line 4
+71.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [11 <./figure/pos-unnamed-chunk-12-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 544.
+ [10 <./figure/pos-unnamed-chunk-12-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 482.
 
-Overfull \hbox (15.74512pt too wide) in paragraph at lines 553--553
+Overfull \hbox (15.74512pt too wide) in paragraph at lines 491--491
 []\OT1/cmtt/m/n/8 ## Warning in smooth[]spct.source[]spct(read[]oo[]jazirrad(fi
 le = jaz.s.irrad.file)): 714
  []
 
-<figure/pos-unnamed-chunk-14-1.pdf, id=244, 505.89pt x 433.62pt>
+<figure/pos-unnamed-chunk-14-1.pdf, id=255, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-14-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-14-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-14-1.pdf used on input line 5
-55.
+Package pdftex.def Info: figure/pos-unnamed-chunk-14-1.pdf used on input line 4
+93.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [12 <./figure/pos-unnamed-chunk-13-1.pdf>] [13 <./figure/pos-unnamed-chunk-14-
+ [11 <./figure/pos-unnamed-chunk-13-1.pdf>] [12 <./figure/pos-unnamed-chunk-14-
 1.pdf>]
-Package color Info: Redefining color shadecolor on input line 595.
+Package color Info: Redefining color shadecolor on input line 533.
 
-<figure/pos-unnamed-chunk-15-1.pdf, id=266, 505.89pt x 433.62pt>
+<figure/pos-unnamed-chunk-15-1.pdf, id=276, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-15-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-15-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-15-1.pdf used on input line 6
-06.
+Package pdftex.def Info: figure/pos-unnamed-chunk-15-1.pdf used on input line 5
+44.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 619.
- [14 <./figure/pos-unnamed-chunk-15-1.pdf>] <figure/pos-unnamed-chunk-16-1.pdf,
- id=277, 505.89pt x 433.62pt>
+Package color Info: Redefining color shadecolor on input line 557.
+ [13 <./figure/pos-unnamed-chunk-15-1.pdf>] <figure/pos-unnamed-chunk-16-1.pdf,
+ id=288, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-16-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-16-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-16-1.pdf used on input line 6
-31.
+Package pdftex.def Info: figure/pos-unnamed-chunk-16-1.pdf used on input line 5
+69.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 661.
- [15 <./figure/pos-unnamed-chunk-16-1.pdf>] <figure/pos-unnamed-chunk-17-1.pdf,
- id=288, 505.89pt x 433.62pt>
+Package color Info: Redefining color shadecolor on input line 599.
+ [14 <./figure/pos-unnamed-chunk-16-1.pdf>] <figure/pos-unnamed-chunk-17-1.pdf,
+ id=299, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-17-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-17-1.pdf>
 Package pdftex.def Info: figure/pos-unnamed-chunk-17-1.pdf used on input line 6
-70.
+08.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [16 <./figure/pos-unnamed-chunk-17-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 703.
-Package color Info: Redefining color shadecolor on input line 717.
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 735
+ [15 <./figure/pos-unnamed-chunk-17-1.pdf>]
+Overfull \hbox (4.69872pt too wide) in paragraph at lines 638--639
+[]\OT1/cmr/m/n/10 Function \OT1/cmtt/m/n/10 read[]licor[]prn \OT1/cmr/m/n/10 wi
+ll au-to-ma-ti-cally de-tect whet-her the data is energy
+ []
+
+Package color Info: Redefining color shadecolor on input line 641.
+Package color Info: Redefining color shadecolor on input line 655.
+LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 673
 .
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmtt.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmtt.fd"
 File: ts1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-<figure/pos-unnamed-chunk-19-1.pdf, id=299, 505.89pt x 433.62pt>
+<figure/pos-unnamed-chunk-19-1.pdf, id=310, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-19-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-19-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-19-1.pdf used on input line 7
-54.
+Package pdftex.def Info: figure/pos-unnamed-chunk-19-1.pdf used on input line 6
+92.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [17]
-Package color Info: Redefining color shadecolor on input line 774.
- [18 <./figure/pos-unnamed-chunk-19-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 808.
- <figure/pos-unnamed-chunk-21-1.pdf, id=315, 505.89pt x 433.62pt>
+ [16]
+! Undefined control sequence.
+l.724 ... an explicit argument for parameter \code
+                                                  {s.qty}.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Package color Info: Redefining color shadecolor on input line 727.
+[17 <./figure/pos-unnamed-chunk-19-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 741.
+
+<figure/pos-unnamed-chunk-21-1.pdf, id=326, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-21-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-21-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-21-1.pdf used on input line 8
-18.
+Package pdftex.def Info: figure/pos-unnamed-chunk-21-1.pdf used on input line 7
+77.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+ [18]
+Package color Info: Redefining color shadecolor on input line 797.
  [19 <./figure/pos-unnamed-chunk-21-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 839.
- [20]
-Package color Info: Redefining color shadecolor on input line 898.
- <figure/pos-unnamed-chunk-23-1.pdf, id=331, 505.89pt x 722.7pt>
+Package color Info: Redefining color shadecolor on input line 831.
+ <figure/pos-unnamed-chunk-23-1.pdf, id=342, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-23-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-23-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-23-1.pdf used on input line 9
-05.
-(pdftex.def)             Requested size: 345.0pt x 492.86307pt.
- [21]
-Package color Info: Redefining color shadecolor on input line 918.
- [22 <./figure/pos-unnamed-chunk-23-1.pdf>] [23]
-Package color Info: Redefining color shadecolor on input line 1031.
- [24]
-Package color Info: Redefining color shadecolor on input line 1077.
- [25]
-<figure/pos-unnamed-chunk-26-1.pdf, id=361, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-26-1.pdf Graphic file (type pdf)
-
-<use figure/pos-unnamed-chunk-26-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-26-1.pdf used on input line 1
-107.
+Package pdftex.def Info: figure/pos-unnamed-chunk-23-1.pdf used on input line 8
+41.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+ [20 <./figure/pos-unnamed-chunk-23-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 862.
+ [21]
+Package color Info: Redefining color shadecolor on input line 928.
+ <figure/pos-unnamed-chunk-25-1.pdf, id=357, 505.89pt x 722.7pt>
+File: figure/pos-unnamed-chunk-25-1.pdf Graphic file (type pdf)
 
-Overfull \hbox (50.25568pt too wide) in paragraph at lines 1125--1125
+<use figure/pos-unnamed-chunk-25-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-25-1.pdf used on input line 9
+35.
+(pdftex.def)             Requested size: 345.0pt x 492.86307pt.
+ [22]
+Package color Info: Redefining color shadecolor on input line 948.
+ [23 <./figure/pos-unnamed-chunk-25-1.pdf>] [24]
+Underfull \vbox (badness 10000) detected at line 1126
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1126
+ []
+
+[25]
+Underfull \vbox (badness 10000) detected at line 1126
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1126
+ []
+
+[26]
+Package color Info: Redefining color shadecolor on input line 1133.
+ [27]
+Package color Info: Redefining color shadecolor on input line 1186.
+ <figure/pos-unnamed-chunk-28-1.pdf, id=391, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-28-1.pdf Graphic file (type pdf)
+
+<use figure/pos-unnamed-chunk-28-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-28-1.pdf used on input line 1
+216.
+(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+ [28]
+Overfull \hbox (50.25568pt too wide) in paragraph at lines 1234--1234
 []  \OT1/cmtt/m/n/8 290.000  0.000000e+00  0.000000e+00  0.000000e+00  0.000000
 e+00  0.000000e+00  0.000000e+00[] 
  []
 
 
-Overfull \hbox (50.25568pt too wide) in paragraph at lines 1125--1125
+Overfull \hbox (50.25568pt too wide) in paragraph at lines 1234--1234
 []  \OT1/cmtt/m/n/8 291.000  1.046525e-11  4.800521e-06  1.674293e-07  2.374267
 e-12  5.342789e-07  2.664720e-08[] 
  []
 
 
-Overfull \hbox (50.25568pt too wide) in paragraph at lines 1125--1125
+Overfull \hbox (50.25568pt too wide) in paragraph at lines 1234--1234
 []  \OT1/cmtt/m/n/8 292.000  5.888299e-10  2.813865e-05  9.814190e-07  1.335888
 e-10  3.162808e-06  1.561977e-07[] 
  []
 
 
-Overfull \hbox (50.25568pt too wide) in paragraph at lines 1125--1125
+Overfull \hbox (50.25568pt too wide) in paragraph at lines 1234--1234
 []  \OT1/cmtt/m/n/8 293.000  4.383296e-09  5.764524e-05  2.010660e-06  9.944455
 e-10  6.522616e-06  3.200065e-07[] 
  []
 
-Package color Info: Redefining color shadecolor on input line 1129.
-[26 <./figure/pos-unnamed-chunk-26-1.pdf>]
-<figure/pos-unnamed-chunk-27-1.pdf, id=372, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-27-1.pdf Graphic file (type pdf)
+Package color Info: Redefining color shadecolor on input line 1238.
+[29 <./figure/pos-unnamed-chunk-28-1.pdf>]
+<figure/pos-unnamed-chunk-29-1.pdf, id=406, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-29-1.pdf Graphic file (type pdf)
 
-<use figure/pos-unnamed-chunk-27-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-27-1.pdf used on input line 1
-169.
+<use figure/pos-unnamed-chunk-29-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-29-1.pdf used on input line 1
+278.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 1180.
- [27 <./figure/pos-unnamed-chunk-27-1.pdf>] <figure/pos-unnamed-chunk-28-1.pdf,
- id=383, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-28-1.pdf Graphic file (type pdf)
+Package color Info: Redefining color shadecolor on input line 1289.
 
-<use figure/pos-unnamed-chunk-28-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-28-1.pdf used on input line 1
-188.
+<figure/pos-unnamed-chunk-30-1.pdf, id=407, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-30-1.pdf Graphic file (type pdf)
+
+<use figure/pos-unnamed-chunk-30-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-30-1.pdf used on input line 1
+297.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 1221.
- [28 <./figure/pos-unnamed-chunk-28-1.pdf>]
-LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 122
-8.
- (C:/PROGRA~1/R/R-33~1.1/share/texmf/tex/latex\omscmtt.fd
+ [30 <./figure/pos-unnamed-chunk-29-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 1330.
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 133
+7.
+ (C:/PROGRA~1/R/R-33~1.3/share/texmf/tex/latex\omscmtt.fd
 File: omscmtt.fd 
 )
 LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1228.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1337.
 
- [29]
-Package color Info: Redefining color shadecolor on input line 1291.
- [30]
-Package color Info: Redefining color shadecolor on input line 1349.
-Package color Info: Redefining color shadecolor on input line 1390.
-
-[31]
-Package color Info: Redefining color shadecolor on input line 1438.
-Package color Info: Redefining color shadecolor on input line 1453.
- [32]
-Package color Info: Redefining color shadecolor on input line 1520.
+ [31 <./figure/pos-unnamed-chunk-30-1.pdf>] [32]
+Package color Info: Redefining color shadecolor on input line 1400.
  [33]
-Package color Info: Redefining color shadecolor on input line 1560.
-Package color Info: Redefining color shadecolor on input line 1598.
+Package color Info: Redefining color shadecolor on input line 1462.
+Package color Info: Redefining color shadecolor on input line 1503.
  [34]
-Package color Info: Redefining color shadecolor on input line 1641.
+Package color Info: Redefining color shadecolor on input line 1551.
+Package color Info: Redefining color shadecolor on input line 1566.
  [35]
-Package color Info: Redefining color shadecolor on input line 1679.
-Package color Info: Redefining color shadecolor on input line 1721.
+Package color Info: Redefining color shadecolor on input line 1639.
+Package color Info: Redefining color shadecolor on input line 1657.
+ [36]
+<figure/pos-unnamed-chunk-38-1.pdf, id=449, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-38-1.pdf Graphic file (type pdf)
 
-Overfull \hbox (16.25519pt too wide) in paragraph at lines 1727--1727
-[]\OT1/cmtt/m/n/8 ## Warning in .local(.Object, ...): Spectra in data are overw
-ritten by argument spc.[] 
+<use figure/pos-unnamed-chunk-38-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-38-1.pdf used on input line 1
+686.
+(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+ [37 <./figure/pos-unnamed-chunk-38-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 1737.
+Package color Info: Redefining color shadecolor on input line 1750.
+
+Overfull \hbox (3.505pt too wide) in paragraph at lines 1798--1798
+[]\OT1/cmtt/m/n/8 ## ASTER database file drygrass-spectrum.txt imported on 20
+17-03-19 23:50:31 UTC[] 
  []
 
-<figure/pos-unnamed-chunk-40-1.pdf, id=423, 505.89pt x 433.62pt>
+[38] <figure/pos-unnamed-chunk-40-1.pdf, id=465, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-40-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-40-1.pdf>
 Package pdftex.def Info: figure/pos-unnamed-chunk-40-1.pdf used on input line 1
-740.
+804.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [36]
-Package color Info: Redefining color shadecolor on input line 1753.
-
-Overfull \hbox (7.75507pt too wide) in paragraph at lines 1780--1780
-[]\OT1/cmtt/m/n/8 ## Warning in plotspc(x, ...): Number of spectra exceeds spc.
-nmax. Only the first
- []
-
-[37 <./figure/pos-unnamed-chunk-40-1.pdf>]
-<figure/pos-unnamed-chunk-41-1.pdf, id=438, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-41-1.pdf Graphic file (type pdf)
-
-<use figure/pos-unnamed-chunk-41-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-41-1.pdf used on input line 1
-782.
-(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 1797.
-
-Overfull \hbox (7.75507pt too wide) in paragraph at lines 1820--1820
-[]\OT1/cmtt/m/n/8 ## Warning in plotspc(x, ...): Number of spectra exceeds spc.
-nmax. Only the first
- []
-
-[38 <./figure/pos-unnamed-chunk-41-1.pdf>]
-<figure/pos-unnamed-chunk-42-1.pdf, id=449, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-42-1.pdf Graphic file (type pdf)
-
-<use figure/pos-unnamed-chunk-42-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-42-1.pdf used on input line 1
-829.
-(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-
-<figure/pos-unnamed-chunk-42-2.pdf, id=450, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-42-2.pdf Graphic file (type pdf)
-
-<use figure/pos-unnamed-chunk-42-2.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-42-2.pdf used on input line 1
-830.
-(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [39 <./figure/pos-unnamed-chunk-42-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 1841.
- [40 <./figure/pos-unnamed-chunk-42-2.pdf>]
-Package color Info: Redefining color shadecolor on input line 1893.
+ [39]
+Package color Info: Redefining color shadecolor on input line 1824.
+ [40 <./figure/pos-unnamed-chunk-40-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 1864.
  [41]
-Package color Info: Redefining color shadecolor on input line 1950.
+Package color Info: Redefining color shadecolor on input line 1902.
+Package color Info: Redefining color shadecolor on input line 1945.
+ [42]
+Package color Info: Redefining color shadecolor on input line 1983.
+Package color Info: Redefining color shadecolor on input line 2025.
 
-<figure/pos-unnamed-chunk-45-1.pdf, id=474, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-45-1.pdf Graphic file (type pdf)
+Overfull \hbox (16.25519pt too wide) in paragraph at lines 2031--2031
+[]\OT1/cmtt/m/n/8 ## Warning in .local(.Object, ...): Spectra in data are overw
+ritten by argument spc.[] 
+ []
 
-<use figure/pos-unnamed-chunk-45-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-45-1.pdf used on input line 1
-957.
+[43] <figure/pos-unnamed-chunk-46-1.pdf, id=493, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-46-1.pdf Graphic file (type pdf)
+
+<use figure/pos-unnamed-chunk-46-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-46-1.pdf used on input line 2
+044.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 1966.
- [42 <./figure/pos-unnamed-chunk-45-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 1988.
- <figure/pos-unnamed-chunk-47-1.pdf, id=485, 505.89pt x 433.62pt>
+Package color Info: Redefining color shadecolor on input line 2057.
+
+Overfull \hbox (7.75507pt too wide) in paragraph at lines 2084--2084
+[]\OT1/cmtt/m/n/8 ## Warning in plotspc(x, ...): Number of spectra exceeds spc.
+nmax. Only the first
+ []
+
+[44 <./figure/pos-unnamed-chunk-46-1.pdf>]
+<figure/pos-unnamed-chunk-47-1.pdf, id=503, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-47-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-47-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-47-1.pdf used on input line 1
-995.
+Package pdftex.def Info: figure/pos-unnamed-chunk-47-1.pdf used on input line 2
+086.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 2004.
+Package color Info: Redefining color shadecolor on input line 2101.
 
-Overfull \hbox (16.25519pt too wide) in paragraph at lines 2019--2019
-[]\OT1/cmtt/m/n/8 ## the object describes 1 transparent materials, and the quan
-tity is transmittance.[] 
+Overfull \hbox (7.75507pt too wide) in paragraph at lines 2124--2124
+[]\OT1/cmtt/m/n/8 ## Warning in plotspc(x, ...): Number of spectra exceeds spc.
+nmax. Only the first
  []
 
-[43 <./figure/pos-unnamed-chunk-47-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 2024.
+[45 <./figure/pos-unnamed-chunk-47-1.pdf>]
+<figure/pos-unnamed-chunk-48-1.pdf, id=514, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-48-1.pdf Graphic file (type pdf)
 
-Overfull \hbox (101.25641pt too wide) in paragraph at lines 2041--2041
-[]\OT1/cmtt/m/n/8 ## the object describes a responder to light with 3 output ch
-annels, and the quantity is power->neural.[] 
- []
-
-Package color Info: Redefining color shadecolor on input line 2050.
-Package color Info: Redefining color shadecolor on input line 2074.
-[44]
-Package color Info: Redefining color shadecolor on input line 2127.
- <figure/pos-unnamed-chunk-52-1.pdf, id=500, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-52-1.pdf Graphic file (type pdf)
-
-<use figure/pos-unnamed-chunk-52-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-52-1.pdf used on input line 2
-136.
+<use figure/pos-unnamed-chunk-48-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-48-1.pdf used on input line 2
+133.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [45]
-Package color Info: Redefining color shadecolor on input line 2147.
- [46 <./figure/pos-unnamed-chunk-52-1.pdf>]
-Underfull \vbox (badness 10000) detected at line 2240
- []
 
+<figure/pos-unnamed-chunk-48-2.pdf, id=515, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-48-2.pdf Graphic file (type pdf)
 
-Underfull \vbox (badness 10000) detected at line 2240
- []
+<use figure/pos-unnamed-chunk-48-2.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-48-2.pdf used on input line 2
+134.
+(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+ [46 <./figure/pos-unnamed-chunk-48-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 2145.
+ [47 <./figure/pos-unnamed-chunk-48-2.pdf>]
+Package color Info: Redefining color shadecolor on input line 2197.
+ [48]
+Package color Info: Redefining color shadecolor on input line 2254.
 
-[47] <figure/pos-unnamed-chunk-53-1.pdf, id=518, 505.89pt x 433.62pt>
+<figure/pos-unnamed-chunk-51-1.pdf, id=539, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-51-1.pdf Graphic file (type pdf)
+
+<use figure/pos-unnamed-chunk-51-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-51-1.pdf used on input line 2
+261.
+(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+Package color Info: Redefining color shadecolor on input line 2270.
+ [49 <./figure/pos-unnamed-chunk-51-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 2292.
+ <figure/pos-unnamed-chunk-53-1.pdf, id=551, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-53-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-53-1.pdf>
 Package pdftex.def Info: figure/pos-unnamed-chunk-53-1.pdf used on input line 2
-242.
+299.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
-Package color Info: Redefining color shadecolor on input line 2253.
+Package color Info: Redefining color shadecolor on input line 2308.
 
-Overfull \hbox (29.00537pt too wide) in paragraph at lines 2255--2255
+Overfull \hbox (16.25519pt too wide) in paragraph at lines 2323--2323
+[]\OT1/cmtt/m/n/8 ## the object describes 1 transparent materials, and the quan
+tity is transmittance.[] 
+ []
+
+[50 <./figure/pos-unnamed-chunk-53-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 2328.
+
+Overfull \hbox (101.25641pt too wide) in paragraph at lines 2345--2345
+[]\OT1/cmtt/m/n/8 ## the object describes a responder to light with 3 output ch
+annels, and the quantity is power->neural.[] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 2354.
+Package color Info: Redefining color shadecolor on input line 2378.
+[51]
+Package color Info: Redefining color shadecolor on input line 2431.
+ <figure/pos-unnamed-chunk-58-1.pdf, id=565, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-58-1.pdf Graphic file (type pdf)
+
+<use figure/pos-unnamed-chunk-58-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-58-1.pdf used on input line 2
+440.
+(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+ [52]
+Package color Info: Redefining color shadecolor on input line 2451.
+ [53 <./figure/pos-unnamed-chunk-58-1.pdf>]
+Underfull \vbox (badness 10000) detected at line 2544
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 2544
+ []
+
+[54] <figure/pos-unnamed-chunk-59-1.pdf, id=583, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-59-1.pdf Graphic file (type pdf)
+
+<use figure/pos-unnamed-chunk-59-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-59-1.pdf used on input line 2
+546.
+(pdftex.def)             Requested size: 345.0pt x 295.71785pt.
+Package color Info: Redefining color shadecolor on input line 2557.
+
+Overfull \hbox (29.00537pt too wide) in paragraph at lines 2559--2559
 [][]\OT1/cmtt/m/n/8 refl.by.band[] []<-[] []reflectance[][](sicalis.mspct,[] []
 w.band[] []=[] []list[][]([][]Red[][](),[] []Green[][](),[] []Blue[][](),[] []U
 VA[][]()))[][] 
  []
 
-Package color Info: Redefining color shadecolor on input line 2262.
-<figure/pos-unnamed-chunk-55-1.pdf, id=519, 505.89pt x 433.62pt>
-File: figure/pos-unnamed-chunk-55-1.pdf Graphic file (type pdf)
+Package color Info: Redefining color shadecolor on input line 2566.
+<figure/pos-unnamed-chunk-61-1.pdf, id=584, 505.89pt x 433.62pt>
+File: figure/pos-unnamed-chunk-61-1.pdf Graphic file (type pdf)
 
-<use figure/pos-unnamed-chunk-55-1.pdf>
-Package pdftex.def Info: figure/pos-unnamed-chunk-55-1.pdf used on input line 2
-273.
+<use figure/pos-unnamed-chunk-61-1.pdf>
+Package pdftex.def Info: figure/pos-unnamed-chunk-61-1.pdf used on input line 2
+577.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
- [48 <./figure/pos-unnamed-chunk-53-1.pdf>]
-Overfull \hbox (21.63846pt too wide) in paragraph at lines 2285--2286
-\OT1/cmr/m/n/10 Most func-tions in this pack-age have a pa-ram-e-ter \OT1/cmtt/
-m/n/10 locale\OT1/cmr/m/n/10 , that ac-cepts \OT1/cmtt/m/n/10 readr::locale
+ [55 <./figure/pos-unnamed-chunk-59-1.pdf>]
+Overfull \hbox (21.63846pt too wide) in paragraph at lines 2589--2590
+\OT1/cmr/m/n/10 Most functi-ons in this package have a pa-ra-me-ter \OT1/cmtt/m
+/n/10 locale\OT1/cmr/m/n/10 , that accepts \OT1/cmtt/m/n/10 readr::locale
  []
 
-Package color Info: Redefining color shadecolor on input line 2288.
-[49 <./figure/pos-unnamed-chunk-55-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 2303.
-Package color Info: Redefining color shadecolor on input line 2334.
-Package color Info: Redefining color shadecolor on input line 2344.
-Package color Info: Redefining color shadecolor on input line 2361.
- [50]
-Package color Info: Redefining color shadecolor on input line 2378.
-Package color Info: Redefining color shadecolor on input line 2399.
+Package color Info: Redefining color shadecolor on input line 2592.
+[56 <./figure/pos-unnamed-chunk-61-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 2607.
+Package color Info: Redefining color shadecolor on input line 2638.
+Package color Info: Redefining color shadecolor on input line 2648.
+Package color Info: Redefining color shadecolor on input line 2665.
+ [57]
+Package color Info: Redefining color shadecolor on input line 2682.
+Package color Info: Redefining color shadecolor on input line 2703.
 
-Overfull \hbox (3.505pt too wide) in paragraph at lines 2402--2402
+Overfull \hbox (3.505pt too wide) in paragraph at lines 2706--2706
 []                               []\OT1/cmtt/m/n/8 geocode[] []=[] []geocode[][
 ]([][]"Vikki, 00790 Helsinki, Finland"[][],[][] 
  []
 
-[51]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2432.
- [52]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2432.
+[58]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2736.
+ [59]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2736.
  (user-guide.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2432.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2432.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2736.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2736.
 
 Package rerunfilecheck Info: File `user-guide.out' has not changed.
-(rerunfilecheck)             Checksum: B5E088E60F2572E3CB725C1F743F2332;5529.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2432.
+(rerunfilecheck)             Checksum: 501CFF385A95CB2393419D1628F861B9;6270.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2736.
  ) 
 Here is how much of TeX's memory you used:
- 11086 strings out of 493334
- 155669 string characters out of 3139301
- 225958 words of memory out of 3000000
- 14413 multiletter control sequences out of 15000+200000
+ 11115 strings out of 493367
+ 156398 string characters out of 3139905
+ 233859 words of memory out of 3000000
+ 14416 multiletter control sequences out of 15000+200000
  9700 words of font info for 35 fonts, out of 3000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 29i,9n,32p,1023b,489s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 1127 hyphenation exceptions out of 8191
+ 28i,9n,32p,1023b,489s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\aphalo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600
 \tctt0800.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10
 .pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:
@@ -1243,9 +1309,9 @@ Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program
 Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Program Files/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on user-guide.pdf (52 pages, 609552 bytes).
+Output written on user-guide.pdf (59 pages, 660341 bytes).
 PDF statistics:
- 628 PDF objects out of 1000 (max. 8388607)
- 84 named destinations out of 1000 (max. 500000)
- 358 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 695 PDF objects out of 1000 (max. 8388607)
+ 94 named destinations out of 1000 (max. 500000)
+ 397 words of extra memory for PDF output out of 10000 (max. 10000000)
 
