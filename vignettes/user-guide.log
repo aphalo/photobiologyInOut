@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.3.19)  19 MAR 2017 20:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.3.19)  19 MAR 2017 22:11
 entering extended mode
 **./user-guide.tex
 (user-guide.tex
@@ -814,14 +814,11 @@ Package color Info: Redefining color shadecolor on input line 105.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 109.
 Package color Info: Redefining color shadecolor on input line 126.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[2] [3]
+ [2] [3]
 Package color Info: Redefining color shadecolor on input line 231.
 Package color Info: Redefining color shadecolor on input line 249.
- <figure/pos-unnamed-chunk-3-1.pdf, id=190, 505.89pt x 433.62pt>
+
+<figure/pos-unnamed-chunk-3-1.pdf, id=190, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-3-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-3-1.pdf>
@@ -951,20 +948,10 @@ Package pdftex.def Info: figure/pos-unnamed-chunk-19-1.pdf used on input line 6
 92.
 (pdftex.def)             Requested size: 345.0pt x 295.71785pt.
  [16]
-! Undefined control sequence.
-l.724 ... an explicit argument for parameter \code
-                                                  {s.qty}.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Package color Info: Redefining color shadecolor on input line 727.
-[17 <./figure/pos-unnamed-chunk-19-1.pdf>]
+ [17 <./figure/pos-unnamed-chunk-19-1.pdf>]
 Package color Info: Redefining color shadecolor on input line 741.
-
-<figure/pos-unnamed-chunk-21-1.pdf, id=326, 505.89pt x 433.62pt>
+ <figure/pos-unnamed-chunk-21-1.pdf, id=326, 505.89pt x 433.62pt>
 File: figure/pos-unnamed-chunk-21-1.pdf Graphic file (type pdf)
 
 <use figure/pos-unnamed-chunk-21-1.pdf>
@@ -1099,7 +1086,7 @@ Package color Info: Redefining color shadecolor on input line 1750.
 
 Overfull \hbox (3.505pt too wide) in paragraph at lines 1798--1798
 []\OT1/cmtt/m/n/8 ## ASTER database file drygrass-spectrum.txt imported on 20
-17-03-19 23:50:31 UTC[] 
+17-03-20 01:11:42 UTC[] 
  []
 
 [38] <figure/pos-unnamed-chunk-40-1.pdf, id=465, 505.89pt x 433.62pt>
@@ -1309,7 +1296,7 @@ Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program
 Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti8.pfb><C:/Program Files/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on user-guide.pdf (59 pages, 660341 bytes).
+Output written on user-guide.pdf (59 pages, 660367 bytes).
 PDF statistics:
  695 PDF objects out of 1000 (max. 8388607)
  94 named destinations out of 1000 (max. 500000)

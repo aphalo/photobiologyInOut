@@ -34,7 +34,15 @@ sd_section("Import data from simulation models",
     )
 )
 
-sd_section("Exchange data with base R and other R packages.",
+sd_section("Import data from repositories",
+           "We provide functions for importing spectral data from files downloaded from repositories of spectral data.",
+           c(
+             "read_FReD_csv",
+             "read_ASTER_txt"
+           )
+)
+
+sd_section("Exchange data with base R and other R packages",
            "",
            c(
              "mat2mspct",

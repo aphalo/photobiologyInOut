@@ -90,7 +90,7 @@ different instruments, simulation
 models, and for data exchange with R packages
 'hyperSpec' and 'pavo' (Table \ref{tab:funs}).
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Functions for importing measured and simulated spectral data.}\label{tab:funs}
 \vspace{1ex}
 \centering
@@ -452,7 +452,7 @@ The first few lines of the file look like this:
 \end{footnotesize}
 
 Function \texttt{read\_licor\_prn} cannot automatically detect the spectral quantity in the file, and when the irradiance default is not correct, users
-need to override it with an explicit argument for parameter \code{s.qty}.
+need to override it with an explicit argument for parameter \texttt{s.qty}.
 
 <<>>=
 licor.file <- 
