@@ -118,7 +118,7 @@ mspct2mat <- function(x,
 #' 
 #' x <- matrix(1:100, nrow = 2, byrow = TRUE)
 #' wl <- (301:350)
-#' z <- mat2mspct(x, wl, "filter_spct", "Tpc", byrow = TRUE, spct.name = c("A", "B"))
+#' z <- mat2mspct(x, wl, "filter_spct", "Tpc", byrow = TRUE, spct.names = c("A", "B"))
 #' 
 mat2mspct <- function(x,
                       w.length,
