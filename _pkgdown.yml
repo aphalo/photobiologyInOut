@@ -1,0 +1,37 @@
+reference:
+  - title: Package overview
+    contents:
+    - '`photobiologyInOut-package`'
+  - title: Spectrometer output files
+    desc: Read files with data from spectrometers.
+    contents:
+    - read_oo_ssirrad
+    - read_oo_jazirrad
+    - read_oo_pidata
+    - read_avaspec_csv
+    - read_macam_dta
+    - read_licor_prn
+  - title: Data from loggers
+    desc: Read files with data from loggers.
+    contents:
+    - read_csi_dat
+  - title: Data from models.
+    desc: Read files with data from radiation transfer models.
+    contents:
+    - read_fmi_cum
+    - read_tuv_usrout
+    - read_uvspec_disort
+    - read_uvspec_disort_vesa
+  - title: Data from repositories.
+    desc: Read files with data downloaded from public repositories.
+    contents:
+    - read_FReD_csv
+    - read_ASTER_txt
+  - title: Data from other R packages.
+    desc: Read and write to objects belonging to classes defined in other R packages.
+    contents:
+    - hyperSpec2mspct
+    - mspct2hyperSpec
+    - colorSpec2mspct
+    - mat2mspct
+    - mspct2mat

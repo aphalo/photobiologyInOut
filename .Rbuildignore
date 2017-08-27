@@ -3,6 +3,5 @@
 ^data-raw$
 ^test$
 ^vignettes/figure$
-^vignettes/backups$
-^\.travis\.yml$
+^_pkgdown\.yml$
 ^docs$
