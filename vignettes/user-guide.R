@@ -8,15 +8,14 @@ options(replace.assign = TRUE, width = 55,
         warnPartialMatchArgs = FALSE)
 
 ## ---- example-0-hiden, eval=TRUE, include=FALSE------
-# this may be needed in some geographic locations as some Windows TZ strings are
-# not recognized by all versions of R
+# setting TZ may be needed in some geographic locations as some Windows TZ 
+# strings are not recognized by all versions of R
 Sys.setenv(TZ = 'UTC')
 library(photobiology)
 library(photobiologyWavebands)
 library(photobiologyInOut)
 library(lubridate)
 library(ggplot2)
-library(ggmap)
 library(ggspectra)
 library(hyperSpec)
 library(colorSpec)
@@ -27,15 +26,14 @@ library(readr)
 my_version <- packageVersion("photobiologyInOut")
 
 ## ---- example-0-hiden, eval=FALSE, include=TRUE------
-#  # this may be needed in some geographic locations as some Windows TZ strings are
-#  # not recognized by all versions of R
+#  # setting TZ may be needed in some geographic locations as some Windows TZ
+#  # strings are not recognized by all versions of R
 #  Sys.setenv(TZ = 'UTC')
 #  library(photobiology)
 #  library(photobiologyWavebands)
 #  library(photobiologyInOut)
 #  library(lubridate)
 #  library(ggplot2)
-#  library(ggmap)
 #  library(ggspectra)
 #  library(hyperSpec)
 #  library(colorSpec)
@@ -245,10 +243,12 @@ z.mspct
 #  z1.mspct
 
 ## ---- message=FALSE----------------------------------
+# because of Google's query limits call will frequently fail without a key
+# my.geocode <- ggmap::geocode("Kumpula, Helsinki, Finland", source = "google")
+my.geocode <- data.frame(lon = 24.96474, lat = 60.20911)
 z2.mspct <-
   read_m_fmi_cum(fmi.files,
-                 geocode = geocode("Kumpula, Helsinki, Finland",
-                                   source = "google"))
+                 geocode = my.geocode)
 class(z2.mspct)
 getWhenMeasured(z2.mspct)
 getWhereMeasured(z2.mspct)
@@ -425,9 +425,11 @@ jaz03.spct <- read_oo_jazirrad(file = jaz.s.irrad.file,
 getWhenMeasured(jaz03.spct)
 
 ## ---- message=FALSE,warning=FALSE--------------------
+# because of Google's query restrictions call may occasionally fail
+# my.geocode <- ggmap::geocode("Vikki, 00790 Helsinki, Finland", source = "google")
+my.geocode <- data.frame(lon = 25.02006, lat = 60.22525)
 jaz04.spct <- read_oo_jazirrad(file = jaz.s.irrad.file,
-                               geocode = geocode("Vikki, 00790 Helsinki, Finland",
-                                                 source = "google"))
+                               geocode = my.geocode)
 jaz04.spct
 getWhereMeasured(jaz04.spct)
 
