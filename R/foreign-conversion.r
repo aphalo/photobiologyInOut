@@ -463,20 +463,20 @@ colorSpec2mspct <- function(x, multiplier = 1, ...) {
   y <- as.data.frame(as.matrix(x) * multiplier)
   y[["w.length"]] <- colorSpec::wavelength(x)
   if (spct.type == "light") {
-    if (spct.quantity == 'power') {
+    if (colorSpec::is.radiometric(x)) {
       z <- photobiology::split2source_mspct(y, 
                                             spct.data.var = "s.e.irrad")
-    } else if (spct.quantity == 'photons/sec') {
+    } else if (colorSpec::is.actinometric(x)) {
       z <- photobiology::split2source_mspct(y, 
                                             spct.data.var = "s.q.irrad")
     } else {
       stop("unkown 'quantity': ", spct.quantity)
     }
   } else if (spct.type == 'responsivity.light') {
-    if (spct.quantity %in% c('power->electrical', 'power->neural', 'power->action')) {
+    if ( colorSpec::is.radiometric(x)) {
       z <- photobiology::split2response_mspct(y, 
                                               spct.data.var = "s.e.response")
-    } else if (spct.quantity %in% c('photons->electrical', 'photons->neural', 'photons->action')) {
+    } else if (colorSpec::is.actinometric(x)) {
       z <- photobiology::split2response_mspct(y, 
                                               spct.data.var = "s.q.response")
     } else {
@@ -524,7 +524,7 @@ colorSpec2spct <- function(x, multiplier = 1, ...) {
 colorSpec2chroma_spct <- function(x, multiplier = 1, ...) {
   spct.type <- colorSpec::type(x)
   spct.quantity <- colorSpec::quantity(x)
-  stopifnot(spct.quantity == 'power->neural')
+  stopifnot(spct.quantity == 'energy->neural')
   stopifnot(colorSpec::numSpectra(x) == 3)
   stopifnot(sort(tolower(names(x))) == c("x", "y", "z"))
   stopifnot(multiplier > 0)
@@ -570,7 +570,7 @@ mspct2colorSpec <- function(x,
       x <- q2e(x, action = "replace")
       spct.data.var <- "s.e.response"
     }
-    quantity <- 'power->action'
+    quantity <- 'energy->neural'
   } else if (class.mspct == "filter_mspct") {
     if (is.null(spct.data.var)) {
       x <- A2T(x, action = "replace")
