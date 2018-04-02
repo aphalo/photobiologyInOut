@@ -279,37 +279,6 @@ cat(comment(aster.spct))
 plot(aster.spct)
 
 ## ----------------------------------------------------
-x <- matrix(1:100, ncol = 2)
-wl <- 501:550 # in nanometres
-z <- mat2mspct(x, wl, "filter_spct", "Tpc")
-z
-
-## ----------------------------------------------------
-z <- mat2mspct(x, wl, "filter_spct", "Tpc", spct.names = c("A", "B"))
-z
-
-## ----------------------------------------------------
-xrow <- matrix(1:100, nrow = 2, byrow = TRUE)
-z1 <- mat2mspct(xrow, wl, "filter_spct", "Tpc")
-z1
-
-## ----------------------------------------------------
-z2c.mat <- mspct2mat(z2.mspct, "s.e.irrad")
-class(z2c.mat)
-dim(z2c.mat)
-head(dimnames(z2c.mat)$spct)
-head(dimnames(z2c.mat)$w.length)
-head(attr(z2c.mat, "w.length"))
-
-## ----------------------------------------------------
-z2r.mat <- mspct2mat(z2.mspct, "s.e.irrad", byrow = TRUE)
-class(z2r.mat)
-dim(z2r.mat)
-head(dimnames(z2r.mat)$spct)
-head(dimnames(z2r.mat)$w.length)
-head(attr(z2r.mat, "w.length"))
-
-## ----------------------------------------------------
 z2.hspct <- mspct2hyperSpec(z2.mspct, "s.e.irrad")
 class(z2.hspct)
 plot(z2.hspct)

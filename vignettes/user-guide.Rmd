@@ -775,7 +775,7 @@ plot(aster.spct)
 
 ## Other R packages
 
-A general way of exchanging data with other R packages or for use with base R functions is to create a matrix from a collection of spectra with `mspct2mat()`, or a collection of spectra from a matrix with `mat2mspct()`. package 'photobiology' exports method `join_mspct()` for conversion of collections of spectra into _wide_ data frames. However, a matrix is only guaranteed to contain numeric data and a `"dim"` attribute, while conversion to a data frame preserves only part of the metadata. These conversions cannot be reversed. When possible use the package specific functions as they automate much of the recovery and preservation of metadata.
+A general way of exchanging data with other R packages or for use with base R functions is to create a matrix from a collection of spectra with `as.matrix()`, or a collection of spectra from a matrix with one of the `as.xxxx_mspct()` methods such as `as.source_spct`. Such methods are defined in package 'photobiology' as well as method `join_mspct()` for conversion of collections of spectra into _wide_ data frames. However, a matrix is only guaranteed to contain numeric data and a `"dim"` attribute, while conversion to a data frame preserves only part of the metadata. These generic conversions cannot be reversed without loss of information. When possible use the package specific functions as they automate much of the recovery and preservation of metadata.
 
 Functions for exchanging data with _foreign_ R packages.
 
@@ -792,61 +792,6 @@ Functions for exchanging data with _foreign_ R packages.
 | chroma_spct2colorSpec()      | ’colorSpec’            | export            | colorSpec        |
 | rspec2mspct()          | ’pavo’                 | import            | source_mspct    |
 
-### From R matrix
-
-Spectral data can be stored in a matrix either by row or by column, and the user must supply this information explicitly. We also assume, that wavelengths are not stored as part of the matrix, and so the user needs to supply these values as a separate vector.
-
-We here use artificial data, in this first example with spectra saved by column.
-
-```{r}
-x <- matrix(1:100, ncol = 2)
-wl <- 501:550 # in nanometres
-z <- mat2mspct(x, wl, "filter_spct", "Tpc")
-z
-```
-
-In this second example we supply explicit names for the spectra.
-
-```{r}
-z <- mat2mspct(x, wl, "filter_spct", "Tpc", spct.names = c("A", "B"))
-z
-```
-
-There is no change in the call for data stored by row. To demonstrate this, we create a new matrix, with the same data as above, but stored by row, as some other packages do.
-
-```{r}
-xrow <- matrix(1:100, nrow = 2, byrow = TRUE)
-z1 <- mat2mspct(xrow, wl, "filter_spct", "Tpc")
-z1
-```
-
-There is only one case when an explicit argument for `byrow` is needed: square matrices (same number of spectra as of wavelength values in each spectrum).
-
-### To R matrix
-
-In this case, the metadata contained in the individual spectral objects is discarded, and only the `"comment"` attribute of the collection of spectra copied to the returned object. The wavelength values are preserved in an attribute named "w.length", but are not included as part of the matrix.
-
-```{r}
-z2c.mat <- mspct2mat(z2.mspct, "s.e.irrad")
-class(z2c.mat)
-dim(z2c.mat)
-head(dimnames(z2c.mat)$spct)
-head(dimnames(z2c.mat)$w.length)
-head(attr(z2c.mat, "w.length"))
-```
-
-Collections of spectra have a `spct.byrow` attribute but it is discarded as it describes dimensions would require spectral data to be stored in a three dimensional array and cannot be mapped to a matrix. The argument `byrow` in the conversion function has the same meaning as in the `matrix` constructor function.
-
-```{r}
-z2r.mat <- mspct2mat(z2.mspct, "s.e.irrad", byrow = TRUE)
-class(z2r.mat)
-dim(z2r.mat)
-head(dimnames(z2r.mat)$spct)
-head(dimnames(z2r.mat)$w.length)
-head(attr(z2r.mat, "w.length"))
-```
-
-These functions are not fully automatic, the user needs to provide the name of the variable to extract from each spectrum. If the wavelength values are not consistent among spectra, only those with the same values as the first spectrum in the collection are retained and the remaining ones dropped with a warning.
 
 ### To 'hyperSpec'
 

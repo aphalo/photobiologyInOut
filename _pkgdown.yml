@@ -34,5 +34,6 @@ reference:
     - mspct2hyperSpec
     - colorSpec2mspct
     - rspec2mspct
-    - mat2mspct
-    - mspct2mat
+    - as.colorSpec
+    - as.generic_spct
+    - as.generic_mspct
