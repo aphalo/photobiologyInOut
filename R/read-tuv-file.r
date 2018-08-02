@@ -125,13 +125,20 @@ read_qtuv_txt <- function(file,
   # "SPECTRAL IRRADIANCE (W m-2 nm-1):" -> top of data
   data.header.idx <- which(grepl("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)) + 2L
   if (!length(data.header.idx)) {
-    stop("File '", file, "' does not contain spectral data.")
+    warning("File '", file, "' does not contain spectral data.")
     return(source_spct())
   }
   data.header.line <- file_header[grepl("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)]
+  # find length of spectral data
+  grid.line <- grep("w-grid:", file_header, fixed = TRUE)
+  temp <-
+    scan(text = file_header[grid.line], what = list(NULL, length = 1L, wl.min = 1, wl.maX = 1))
+  length.spct <- temp[["length"]]
+  wl.min = temp[["wl.min"]]
+  wl.max = temp[["wl.max"]]
   # find lines of interest
   # read date
-  date.line <- which(grepl("idate =", file_header))
+  date.line <- grep("idate =", file_header)
   temp <- scan(text = file_header[date.line],
                     what = list(NULL, NULL, idate = "", NULL, NULL, esfact = 1))
   date <- lubridate::ymd(temp[["idate"]])
@@ -155,7 +162,7 @@ read_qtuv_txt <- function(file,
   if (length(geocode.line)) {
     temp <-
     unlist(
-      scan(text = geocode.line, what = list(NULL, lat = 1, NULL, long = 1, NULL, utc = 1))
+      scan(text = geocode.line, what = list(NULL, lat = 1, NULL, lon = 1, NULL, utc = 1))
     )
     lat <- temp["lat"]
     lon <- temp["lon"]
@@ -193,7 +200,8 @@ read_qtuv_txt <- function(file,
               col_names = c("w.length.s", "w.length.l",
                             "s.e.irrad.dir",
                             "s.e.irrad.diff.down", "s.e.irrad.diff.up",
-                            "s.e.irrad"))
+                            "s.e.irrad"),
+              n_max = length.spct)
   spct.tb <- stats::na.omit(spct.tb)
   z <-
     photobiology::source_spct(w.length = (spct.tb[["w.length.s"]] + spct.tb[["w.length.l"]]) / 2,
