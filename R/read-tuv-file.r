@@ -4,6 +4,7 @@
 #' extract the header and spectral data. The time field is converted to a date.
 #' 
 #' @param file character string
+#' @param ozone.du numeric Ozone column in Dobson units.
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
 #'   file is used, and if \code{NA} no date variable is added
 #' @param geocode A data frame with columns \code{lon} and \code{lat}.
@@ -23,11 +24,12 @@
 #' @references \url{http://www.r4photobiology.info} \url{https://www2.acom.ucar.edu/modeling/tuv-download}
 #' @keywords misc
 #'
-#' @note Tested only with TUV versison 5.0.
+#' @note The ozone column value used in the simulation cannot be retrieved from the fTested only with TUV versison 5.0.
 #' 
 #' @export
 #' 
 read_tuv_usrout <- function(file, 
+                            ozone.du = NULL,
                             date = lubridate::today(),
                             geocode = NULL,
                             label = NULL,
@@ -77,3 +79,134 @@ read_tuv_usrout <- function(file,
   z
 }
 
+#' Read Quick TUV output file.
+#' 
+#' Reads and parses the header of a text file output by the Quick TUV on-line
+#' web front-end at \url{http://cprm.acom.ucar.edu/Models/TUV/Interactive_TUV/}
+#' to extract the header and spectral data. The time field is converted to a
+#' date.
+#' 
+#' @param file character string with the name of a text file.
+#' @param ozone.du numeric Ozone column in Dobson units.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
+#' @param tz character Time zone is by default read from the file.
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
+#'   
+#' @return a source_spct object obtained by finding the center of wavelength
+#'   intervals in the Quick TUV output file, and adding variables \code{zenith.angle} and
+#'   \code{date}.
+#'   
+#' @references \url{http://www.r4photobiology.info} 
+#' \url{http://cprm.acom.ucar.edu/Models/TUV/Interactive_TUV/}
+#' 
+#' @note Tested only with Quick TUV versison 5.2 on 2018-07-30.
+#' 
+#' @export
+#' 
+read_qtuv_txt <- function(file, 
+                          ozone.du = NULL,
+                          label = NULL,
+                          tz = NULL,
+                          locale = readr::default_locale()) {
+  if (is.null(tz)) {
+    tz <- locale$tz
+  }
+  
+  label <- paste("File:", basename(file), label)
+  
+  # read whole header
+  file_header <- scan(file = file, nlines = 30L, what = "character", sep = "\n" )
+  # check that file contains spectral irradiance data
+  # "SPECTRAL IRRADIANCE (W m-2 nm-1):" -> top of data
+  data.header.idx <- which(grepl("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)) + 2L
+  if (!length(data.header.idx)) {
+    stop("File '", file, "' does not contain spectral data.")
+    return(source_spct())
+  }
+  data.header.line <- file_header[grepl("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)]
+  # find lines of interest
+  # read date
+  date.line <- which(grepl("idate =", file_header))
+  temp <- scan(text = file_header[date.line],
+                    what = list(NULL, NULL, idate = "", NULL, NULL, esfact = 1))
+  date <- lubridate::ymd(temp[["idate"]])
+  esfact <- temp[["esfact"]]
+  
+  # "solar zenith angle = " -> angle. Always present either user supplied or calculated
+  zenith.angle.line <- file_header[grepl("solar zenith angle", file_header)]
+  zenith.angle <- scan(text = sub("solar zenith angle =", "", zenith.angle.line, fixed = TRUE))     
+  
+  # "  measurement point: index            1  altitude=    0.000000". Always present.
+  altitude.line <- file_header[grepl("altitude=", file_header)]
+  temp <- unlist(
+    scan(text = sub("measurement point: ", "", altitude.line, fixed = TRUE),
+       what = list(NULL, index = 1, NULL, alt = 1))
+    )
+  ground.elevation <- temp["alt"]
+  observer.above.ground <- temp["index"]
+  # " lat=    0.000000      long=    0.000000      ut=    12.00000    ". 
+  # Present for option 1 (user supplied location and time)
+  geocode.line <- file_header[grepl("lat=", file_header)]
+  if (length(geocode.line)) {
+    temp <-
+    unlist(
+      scan(text = geocode.line, what = list(NULL, lat = 1, NULL, long = 1, NULL, utc = 1))
+    )
+    lat <- temp["lat"]
+    lon <- temp["lon"]
+    hours <- temp["utc"]
+    
+  } else {
+    lat <- lon <- hours <- NA_real_
+  }
+  
+  geocode <- tibble::tibble(lon = lon, lat = lat)
+  
+  if (!is.na(hours)) {
+    minutes <- trunc((hours - trunc(hours)) * 60)
+    seconds <- trunc((minutes - trunc(minutes)) * 60)
+    
+    lubridate::hour(date) <- trunc(hours) 
+    lubridate::minute(date) <- trunc(minutes)
+    lubridate::second(date) <- trunc(seconds)
+  }
+  # assemple comment
+  comment.txt <- paste(gsub(":", "", data.header.line), "\n",
+                       "from file: ", file, 
+                       " generated by Quick TUV on", "\n",
+                       file.info(file)[["ctime"]],
+                       "ozone column (DU) = ", ozone.du, "\n",
+                       "zenith angle (degrees) = ", zenith.angle, "\n",
+                       "altitude (km)  = ", ground.elevation, "\n",
+                       "observer elev. = ", observer.above.ground)
+  what.measured <- "Simulated solar spectrum from Quick TUV" 
+  
+  # read spectrum
+  spct.tb <-
+  readr::read_table2(file, skip = data.header.idx + 2L,
+              col_types = "dddddd",
+              col_names = c("w.length.s", "w.length.l",
+                            "s.e.irrad.dir",
+                            "s.e.irrad.diff.down", "s.e.irrad.diff.up",
+                            "s.e.irrad"))
+  spct.tb <- stats::na.omit(spct.tb)
+  z <-
+    photobiology::source_spct(w.length = (spct.tb[["w.length.s"]] + spct.tb[["w.length.l"]]) / 2,
+                s.e.irrad = spct.tb[["s.e.irrad"]],
+                s.e.irrad.dir = spct.tb[["s.e.irrad.dir"]],
+                s.e.irrad.diff.down = spct.tb[["s.e.irrad.diff.down"]],
+                s.e.irrad.diff.up = spct.tb[["s.e.irrad.diff.up"]],
+                comment = file)
+  photobiology::setWhatMeasured(z, what.measured)
+  photobiology::setWhenMeasured(z, date)
+  photobiology::setWhereMeasured(z, geocode)
+  comment(z) <- comment.txt
+  z
+}
+  
+  

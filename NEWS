@@ -7,6 +7,12 @@ Add alternative reader of TUV output files into a collection of spectra.
 Add test cases for new functions for exchange of foreign data (currently tested 
 through examples in vignette).
 
+photobiologyInOut 0.4.15
+========================
+
+Add read_qtuv_txt() to read spectral data output files from the on-line
+Quick TUV calculator.
+
 photobiologyInOut 0.4.14
 ========================
 
