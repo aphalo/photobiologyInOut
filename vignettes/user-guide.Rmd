@@ -436,6 +436,8 @@ Functions for importing simulated spectral data.
 | R function             | Simulation model       | Version           | `class` of value |
 |:-----------------------|:-----------------------|:------------------|:-----------------|
 | read_tuv_usrout()    | TUV (S. Madronich)     | version 5.0       | source_spct     |
+| read_tuv_usrout2mspct()    | TUV (S. Madronich)     | version 5.0       | source_mspct     |
+| read_qtuv_txt()    | TUV (S. Madronich)     | version 5.2       | source_spct     |
 | read_uvspec_disort() | libRadtran             | irradiance        | source_spct     |
 | read_uvspec_vesa()   | (T. & V. Kotilainen)   | irradiance        | source_spct     |
 | read_fmi_cum()       | (A. Lindfors)          | daily cumulated   | source_spct     |
@@ -447,7 +449,7 @@ The output from the TUV model can be imported either by editing it before
 import, or by making a simple edit to the output routine of TUV. This function
 is known to work with TUV version 5.0 output. The output from TUV can contain
 a variable number of spectra in ''parallel'' columns, which are _melted_
-into a single column, with a factor with letter as levels, a numeric variable
+into a single column, with a factor with letters as levels, a numeric variable
 with the zenith angle and a POSIXct column with times. A date needs to be
 always supplied as the output file from TUV has only time of day information.
 
@@ -478,12 +480,35 @@ tuv.mspct <- subset2mspct(tuv.spct)
 tuv.mspct
 ```
 
-With the default of `lubridate::today()` for date times are 'mapped' to
+A file can be directly read into a collection using `read_tuv_usrout2mspct()`
+which is a simple wrapper.
+
+With the default of `lubridate::today()` date times are 'mapped' to
 the current local date using the time zone of the computer as visible to R.
 
 ```{r}
 tuv_nd.spct <- read_tuv_usrout(file = tuv.file)
 tuv_nd.spct
+```
+
+### Quick TUV calculator
+
+The files output by the online calculator based on the TUV model, contain at
+most one spectrum, and arguments to only some parameters can be set by users.
+However, it is convenient to use when we only need a few simulations.
+
+Function `read_qtuv_txt()` can extract spectra and the corresponding metadata
+from these files. These files do contain date time information and geolocation
+data when they are supplied as arguments to the calculator interface, otherwise
+only zenith angle is available.
+
+```{r}
+qtuv.file <- 
+  system.file("extdata", "qtuv.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+qtuv.spct <- read_qtuv_txt(file = qtuv.file)
+summary(qtuv.spct)
+qtuv.spct
 ```
 
 ### libRadtran
