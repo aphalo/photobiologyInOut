@@ -46,7 +46,7 @@ test_that("read Quick TUV", {
   expect_equal(getTimeUnit(qtuv.spct), "second")
   expect_equal(length(comment(qtuv.spct)), 1L)
 
-  
+  skip_on_cran()
   file.name <- 
     system.file("extdata", "qtuv-long.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
@@ -148,6 +148,7 @@ test_that("read TUV", {
   expect_true(all(is.na(getWhereMeasured(usrouta.spct))))
   expect_named(getWhereMeasured(usrouta.spct), c("lon", "lat"))
   
+  skip_on_cran()
   file.name <- 
     system.file("extdata", "usrout2.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
@@ -175,5 +176,82 @@ test_that("read TUV", {
   expect_equal(getWhatMeasured(usrout2.spct), "TUV spectral simulation File: usrout2.txt ")
   expect_equal(length(comment(usrout.spct)), 1L)
 })
+
+test_that("read TUV to mspct", {
+  skip_on_cran()
+  file.name <- 
+    system.file("extdata", "usrout.txt", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  
+  usrout.mspct <- read_tuv_usrout2mspct(file = file.name,
+                                        ozone.du = 300,
+                                        geocode = data.frame(lon = -15, lat = 60),
+                                        tz = "UTC")
+  
+  expect_equal(length(usrout.mspct), 8L)
+  expect_equal(nrow(usrout.mspct[[1]]), 482L)
+  expect_equal(ncol(usrout.mspct[[1]]), 4L)
+  expect_equal(usrout.mspct[[1]][["w.length"]][1], 280.5, tolerance = 0.000001)
+  expect_equal(usrout.mspct[[1]][["w.length"]][482], 761.5, tolerance = 0.000001)
+  expect_is(usrout.mspct[[1]][["w.length"]], "numeric")
+  expect_equal(sum(is.na(usrout.mspct[[1]][["w.length"]])), 0)
+  expect_true(all(sign(usrout.mspct[[1]][["w.length"]]) > 0))
+  expect_is(usrout.mspct[[1]][["s.e.irrad"]], "numeric")
+  expect_equal(sum(is.na(usrout.mspct[[1]][["s.e.irrad"]])), 0)
+  expect_is(usrout.mspct, "source_mspct")
+  expect_is(usrout.mspct[[1]], "source_spct")
+  expect_named(usrout.mspct[[1]], 
+               c("w.length", "s.e.irrad",      
+                 "angle", "date"))
+  # bug un subset2mspct()
+  # expect_equal(length(getWhenMeasured(usrout.mspct[[1]])), 1L)
+  expect_equal(getWhereMeasured(usrout.mspct[[1]]), 
+               data.frame(lon = -15, lat = 60))
+  expect_equal(getWhatMeasured(usrout.mspct[[1]]), "TUV spectral simulation File: usrout.txt ")
+  expect_equal(length(comment(usrout.mspct[[1]])), 1L)
+  expect_equal(length(comment(usrout.mspct)), 0L)
+  
+  
+  usrouta.mspct <- read_tuv_usrout2mspct(file = file.name,
+                                        ozone.du = 300,
+                                        tz = "UTC")
+  
+  expect_true(all(is.na(getWhereMeasured(usrouta.mspct[[1]]))))
+  expect_named(getWhereMeasured(usrouta.mspct[[1]]), c("lon", "lat"))
+  
+  file.name <- 
+    system.file("extdata", "usrout2.txt", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  
+  usrout2.mspct <- read_tuv_usrout2mspct(file = file.name,
+                                  ozone.du = 300,
+                                  geocode = data.frame(lon = -15, lat = 60),
+                                  tz = "UTC")
+  
+  
+  expect_equal(length(usrout2.mspct), 13L)
+  expect_equal(nrow(usrout2.mspct[[1]]), 940L)
+  expect_equal(ncol(usrout2.mspct[[1]]), 4L)
+  expect_equal(usrout2.mspct[[1]][["w.length"]][1], 290.25, tolerance = 0.000001)
+  expect_equal(usrout2.mspct[[1]][["w.length"]][940], 759.75, tolerance = 0.000001)
+  expect_is(usrout2.mspct[[1]][["w.length"]], "numeric")
+  expect_equal(sum(is.na(usrout2.mspct[[1]][["w.length"]])), 0)
+  expect_true(all(sign(usrout2.mspct[[1]][["w.length"]]) > 0))
+  expect_is(usrout2.mspct[[1]][["s.e.irrad"]], "numeric")
+  expect_equal(sum(is.na(usrout2.mspct[[1]][["s.e.irrad"]])), 0)
+  expect_is(usrout2.mspct, "source_mspct")
+  expect_is(usrout2.mspct[[1]], "source_spct")
+  expect_named(usrout2.mspct[[1]], c("w.length", "s.e.irrad",      
+                               "angle", "date"))
+  # bug un subset2mspct()
+  # expect_equal(length(getWhenMeasured(usrout2.mspct[[1]])), 1L)
+  expect_equal(getWhereMeasured(usrout2.mspct[[1]]), 
+               data.frame(lon = -15, lat = 60))
+  expect_equal(getWhatMeasured(usrout2.mspct[[1]]),
+               "TUV spectral simulation File: usrout2.txt ")
+  expect_equal(length(comment(usrout2.mspct[[1]])), 1L)
+})
+
+
 
 

@@ -1,8 +1,8 @@
 #' Read TUV output file.
-#' 
+#'
 #' Reads and parses the header of a text file output by the TUV program to
 #' extract the header and spectral data. The time field is converted to a date.
-#' 
+#'
 #' @param file character string
 #' @param ozone.du numeric Ozone column in Dobson units.
 #' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
@@ -16,16 +16,17 @@
 #'   \code{\link[readr]{locale}} to create your own locale that controls things
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
-#'   
-#' @return a source_spct object obtained by 'melting' the TUV file, and adding
-#'   a factor \code{spct.idx}, and variables \code{zenith.angle} and
-#'   \code{date}.
-#'   
-#' @references \url{http://www.r4photobiology.info} \url{https://www2.acom.ucar.edu/modeling/tuv-download}
+#'
+#' @return a source_spct object obtained by 'melting' the TUV file, and adding a
+#'   factor \code{spct.idx}, and variables \code{zenith.angle} and \code{date}.
+#'
+#' @references \url{http://www.r4photobiology.info}
+#'   \url{https://www2.acom.ucar.edu/modeling/tuv-download}
 #' @keywords misc
 #'
-#' @note The ozone column value used in the simulation cannot be retrieved from the fTested only with TUV versison 5.0.
-#' 
+#' @note The ozone column value used in the simulation cannot be retrieved from
+#' the file. Tested only with TUV version 5.0.
+#'
 #' @export
 #' 
 read_tuv_usrout <- function(file, 
@@ -77,10 +78,31 @@ read_tuv_usrout <- function(file,
                       paste(file_header, collapse = "\n"), sep = "\n")
   photobiology::setWhatMeasured(z, paste("TUV spectral simulation", label))
   photobiology::setWhereMeasured(z, geocode)
-  setWhenMeasured(z, unique(z[["date"]]))
+  photobiology::setWhenMeasured(z, unique(z[["date"]]))
   z
 }
 
+#' @rdname read_tuv_usrout
+#' 
+#' @export
+#' 
+read_tuv_usrout2mspct <- function(file, 
+                                  ozone.du = NULL,
+                                  date = lubridate::today(),
+                                  geocode = NULL,
+                                  label = NULL,
+                                  tz = NULL,
+                                  locale = readr::default_locale()) {
+  z <- read_tuv_usrout(file = file,
+                       ozone.du = ozone.du,
+                       date = date,
+                       geocode = geocode,
+                       label = label,
+                       tz = tz,
+                       locale = locale)
+  photobiology::subset2mspct(z)
+}
+  
 #' Read Quick TUV output file.
 #' 
 #' Reads and parses the header of a text file output by the Quick TUV on-line
@@ -106,7 +128,11 @@ read_tuv_usrout <- function(file,
 #' @references \url{http://www.r4photobiology.info} 
 #' \url{http://cprm.acom.ucar.edu/Models/TUV/Interactive_TUV/}
 #' 
-#' @note Tested only with Quick TUV versison 5.2 on 2018-07-30.
+#' @note The ozone column value used in the simulation cannot be retrieved from
+#' the file. Tested only with Quick TUV versison 5.2 on 2018-07-30. This 
+#' function can be expected to be robust to variations in the position of lines
+#' in the imported file and resistent to the presence of extraneous text or
+#' even summaries.
 #' 
 #' @export
 #' 
@@ -116,7 +142,7 @@ read_qtuv_txt <- function(file,
                           tz = NULL,
                           locale = readr::default_locale()) {
   if (is.null(tz)) {
-    tz <- locale$tz
+    tz <- locale[["tz"]]
   }
   
   label <- paste("File:", basename(file), label)
@@ -130,11 +156,13 @@ read_qtuv_txt <- function(file,
     warning("File '", file, "' does not contain spectral data.")
     return(source_spct())
   }
-  data.header.line <- file_header[grepl("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)]
+  data.header.line <- file_header[grepl("SPECTRAL IRRADIANCE", 
+                                        file_header, fixed = TRUE)]
   # find length of spectral data
   grid.line <- grep("w-grid:", file_header, fixed = TRUE)
   temp <-
-    scan(text = file_header[grid.line], what = list(NULL, length = 1L, wl.min = 1, wl.maX = 1))
+    scan(text = file_header[grid.line], 
+         what = list(NULL, length = 1L, wl.min = 1, wl.maX = 1))
   length.spct <- temp[["length"]]
   wl.min = temp[["wl.min"]]
   wl.max = temp[["wl.max"]]
@@ -196,23 +224,23 @@ read_qtuv_txt <- function(file,
   
   # read spectrum
   spct.tb <-
-  readr::read_table2(file, skip = data.header.idx + 2L,
-              col_types = "dddddd",
-              col_names = c("w.length.s", "w.length.l",
-                            "s.e.irrad.dir",
-                            "s.e.irrad.diff.down", "s.e.irrad.diff.up",
-                            "s.e.irrad"),
-              n_max = length.spct)
+    readr::read_table2(file, skip = data.header.idx + 2L,
+                       col_types = "dddddd",
+                       col_names = c("w.length.s", "w.length.l",
+                                     "s.e.irrad.dir",
+                                     "s.e.irrad.diff.down", "s.e.irrad.diff.up",
+                                     "s.e.irrad"),
+                       n_max = length.spct)
   spct.tb <- stats::na.omit(spct.tb)
   z <-
     photobiology::source_spct(w.length = (spct.tb[["w.length.s"]] + spct.tb[["w.length.l"]]) / 2,
-                s.e.irrad = spct.tb[["s.e.irrad"]],
-                s.e.irrad.dir = spct.tb[["s.e.irrad.dir"]],
-                s.e.irrad.diff.down = spct.tb[["s.e.irrad.diff.down"]],
-                s.e.irrad.diff.up = spct.tb[["s.e.irrad.diff.up"]],
-                angle = zenith.angle,
-                date = rep(as.POSIXct(date), nrow(spct.tb)),
-                comment = comment.txt)
+                              s.e.irrad = spct.tb[["s.e.irrad"]],
+                              s.e.irrad.dir = spct.tb[["s.e.irrad.dir"]],
+                              s.e.irrad.diff.down = spct.tb[["s.e.irrad.diff.down"]],
+                              s.e.irrad.diff.up = spct.tb[["s.e.irrad.diff.up"]],
+                              angle = zenith.angle,
+                              date = rep(as.POSIXct(date), nrow(spct.tb)),
+                              comment = comment.txt)
   photobiology::setWhatMeasured(z, paste("Quick TUV spectral simulation", label))
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
