@@ -38,7 +38,9 @@ read_tuv_usrout <- function(file,
   if (is.null(tz)) {
     tz <- locale$tz
   }
-  
+  if (is.null(geocode)) {
+    geocode <- tibble::tibble(lon = NA_real_, lat = NA_real_)
+  }
   label <- paste("File:", basename(file), label)
   
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
@@ -74,7 +76,7 @@ read_tuv_usrout <- function(file,
                             lubridate::now(tzone = "UTC"), " UTC", sep = ""), 
                       paste(file_header, collapse = "\n"), sep = "\n")
   photobiology::setWhatMeasured(z, paste("TUV spectral simulation", label))
-  photobiology::setWhenMeasured(z, geocode)
+  photobiology::setWhereMeasured(z, geocode)
   setWhenMeasured(z, unique(z[["date"]]))
   z
 }
@@ -191,7 +193,6 @@ read_qtuv_txt <- function(file,
                        "zenith angle (degrees) = ", zenith.angle, "\n",
                        "altitude (km)  = ", ground.elevation, "\n",
                        "observer elev. = ", observer.above.ground)
-  what.measured <- "Simulated solar spectrum from Quick TUV" 
   
   # read spectrum
   spct.tb <-
@@ -209,11 +210,12 @@ read_qtuv_txt <- function(file,
                 s.e.irrad.dir = spct.tb[["s.e.irrad.dir"]],
                 s.e.irrad.diff.down = spct.tb[["s.e.irrad.diff.down"]],
                 s.e.irrad.diff.up = spct.tb[["s.e.irrad.diff.up"]],
-                comment = file)
-  photobiology::setWhatMeasured(z, what.measured)
+                angle = zenith.angle,
+                date = rep(as.POSIXct(date), nrow(spct.tb)),
+                comment = comment.txt)
+  photobiology::setWhatMeasured(z, paste("Quick TUV spectral simulation", label))
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
-  comment(z) <- comment.txt
   z
 }
   
