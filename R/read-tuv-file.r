@@ -147,26 +147,38 @@ read_qtuv_txt <- function(file,
   
   label <- paste("File:", basename(file), label)
   
-  # read whole header
-  file_header <- scan(file = file, nlines = 30L, what = "character", sep = "\n" )
-  # check that file contains spectral irradiance data
-  # "SPECTRAL IRRADIANCE (W m-2 nm-1):" -> top of data
-  data.header.idx <- which(grepl("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)) + 2L
-  if (!length(data.header.idx)) {
-    warning("File '", file, "' does not contain spectral data.")
+  # make sure we read whole header even is garbage present
+  file_header <- readr::read_lines(file = file, n_max = 100L)
+  # find top of header
+  header.start.idx <- grep("INPUT PARAMETERS:", file_header, fixed = TRUE)
+  if (!length(header.start.idx)) {
+    warning("File '", file, "' seems not to be output from Quick TUV Calculator.")
     return(source_spct())
   }
-  data.header.line <- file_header[grepl("SPECTRAL IRRADIANCE", 
-                                        file_header, fixed = TRUE)]
+  
+  # check that file contains spectral irradiance data
+  # "SPECTRAL IRRADIANCE (W m-2 nm-1):" -> top of data
+  header.end.idx <- grep("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)
+  if (!length(header.end.idx)) {
+    warning("File '", file, "' does not contain spectral data.")
+    return(source_spct())
+  } else {
+    data.header.line <- file_header[header.end.idx]
+  }
+  spct.header.idx <- header.end.idx + 2L
+
+  # trim garbage above and below header
+  file_header <- file_header[header.start.idx:header.end.idx]
+
   # find length of spectral data
-  grid.line <- grep("w-grid:", file_header, fixed = TRUE)
+  grid.line.idx <- grep("w-grid:", file_header, fixed = TRUE)
   temp <-
-    scan(text = file_header[grid.line], 
+    scan(text = file_header[grid.line.idx], 
          what = list(NULL, length = 1L, wl.min = 1, wl.maX = 1))
-  length.spct <- temp[["length"]]
+  length.spct <- temp[["length"]] - 1L # number of wl intervals
   wl.min = temp[["wl.min"]]
   wl.max = temp[["wl.max"]]
-  # find lines of interest
+  # decode metadata
   # read date
   date.line <- grep("idate =", file_header)
   temp <- scan(text = file_header[date.line],
@@ -224,7 +236,7 @@ read_qtuv_txt <- function(file,
   
   # read spectrum
   spct.tb <-
-    readr::read_table2(file, skip = data.header.idx + 2L,
+    readr::read_table2(file, skip = spct.header.idx,
                        col_types = "dddddd",
                        col_names = c("w.length.s", "w.length.l",
                                      "s.e.irrad.dir",

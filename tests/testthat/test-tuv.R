@@ -107,6 +107,40 @@ test_that("read Quick TUV", {
   expect_equal(getTimeUnit(qtuv_empty.spct), "second")
   expect_equal(length(comment(qtuv_empty.spct)), 0L)
   
+  
+  file.name <- 
+    system.file("extdata", "tuv-azimuth-00-O3-300.html", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  
+  qtuv_html.spct <- 
+    read_qtuv_txt(file = file.name,
+                  ozone.du = 300)
+  
+  expect_equal(nrow(qtuv_html.spct), 500L)
+  expect_equal(ncol(qtuv_html.spct), 7L)
+  expect_is(qtuv_html.spct[["w.length"]], "numeric")
+  expect_is(qtuv_html.spct[["s.e.irrad"]], "numeric")
+  expect_is(qtuv_html.spct, "source_spct")
+  expect_named(
+    qtuv_html.spct,
+    c(
+      "w.length",
+      "s.e.irrad",
+      "s.e.irrad.dir",
+      "s.e.irrad.diff.down",
+      "s.e.irrad.diff.up",
+      "angle",
+      "date"
+    )
+  )
+  expect_equal(format(getWhenMeasured(qtuv_html.spct)),
+               format(ymd("2015-06-30")))
+  expect_true(all(is.na(getWhereMeasured(qtuv_html.spct))))
+  expect_equal(getWhatMeasured(qtuv_html.spct), 
+               "Quick TUV spectral simulation File: tuv-azimuth-00-O3-300.html ")
+  expect_equal(getTimeUnit(qtuv_html.spct), "second")
+  expect_equal(length(comment(qtuv_html.spct)), 1L)
+  
 })
 
 

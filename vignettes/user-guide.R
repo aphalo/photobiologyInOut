@@ -175,6 +175,14 @@ tuv_nd.spct <- read_tuv_usrout(file = tuv.file)
 tuv_nd.spct
 
 ## ----------------------------------------------------
+qtuv.file <- 
+  system.file("extdata", "qtuv.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+qtuv.spct <- read_qtuv_txt(file = qtuv.file)
+summary(qtuv.spct)
+qtuv.spct
+
+## ----------------------------------------------------
 uvspec.2col.file <- 
   system.file("extdata", "uvspec-plain-2col.dat", 
               package = "photobiologyInOut", mustWork = TRUE)

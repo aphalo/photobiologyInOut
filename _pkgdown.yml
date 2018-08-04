@@ -1,3 +1,11 @@
+destination: ../photobiologyInOut-docs
+
+home:
+  strip_header: true
+  links:
+  - text: Photobiology packages
+    href: https://www.r4photobiology.info/
+
 reference:
   - title: Package overview
     contents:
@@ -20,6 +28,7 @@ reference:
     contents:
     - read_fmi_cum
     - read_tuv_usrout
+    - read_qtuv_txt
     - read_uvspec_disort
     - read_uvspec_disort_vesa
   - title: Data from repositories.
