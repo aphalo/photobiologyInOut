@@ -54,6 +54,7 @@ read_oo_pidata <- function(file,
     col_names = c("w.length", "counts"),
     skip = 5,
     n_max = npixels,
+    col_types = readr::cols(),
     locale = locale
   )
   

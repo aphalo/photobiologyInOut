@@ -61,6 +61,7 @@ read_tuv_usrout <- function(file,
   
   wide.df <- readr::read_table(file = file, skip = 5, 
                                col_names = c("w.length", LETTERS[1:num.spectra]),
+                               col_types = readr::cols(),
                                locale = locale)
   
   wl.length <- length(wide.df[["w.length"]])

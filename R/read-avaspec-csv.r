@@ -46,6 +46,7 @@ read_avaspec_csv <- function(file,
   z <- readr::read_csv(file = file,
                        col_names = c("w.length", "s.e.irrad"),
                        skip = 6,
+                       col_types = readr::cols(),
                        locale = locale)
   dots <- list(~s.e.irrad * mult)
   z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))

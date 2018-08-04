@@ -23,6 +23,7 @@ reference:
     desc: Read files with data from loggers.
     contents:
     - read_csi_dat
+    - read_yoctopuce_csv
   - title: Data from models.
     desc: Read files with data from radiation transfer models.
     contents:

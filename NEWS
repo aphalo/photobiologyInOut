@@ -9,6 +9,7 @@ through examples in vignette).
 photobiologyInOut 0.4.15
 ========================
 
+Add read_yoctopuce_csv() to read CSV files from YoctoPuce modules.
 Add read_qtuv_txt() to read spectral data output files from the on-line
 Quick TUV calculator.
 Add read_tuv_usrout2mspct() wrapper of read_tuv_usrout() and subset2mspct().

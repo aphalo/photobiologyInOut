@@ -25,8 +25,11 @@
 #'   loggers and software. Those were simple files, lacking metadata, which was
 #'   stored in separate .FLD files.
 #'   
-read_csi_dat <- function(file, geocode = NULL, label = NULL,
-                         data_skip = 0, n_max = Inf, 
+read_csi_dat <- function(file, 
+                         geocode = NULL, 
+                         label = NULL,
+                         data_skip = 0, 
+                         n_max = Inf, 
                          locale = readr::default_locale()) {
   label <- paste("File:", basename(file), label)
 
@@ -49,8 +52,12 @@ read_csi_dat <- function(file, geocode = NULL, label = NULL,
   # readr::read_csv automatically recognizes dates as well as numeric
   # values allowing this very simple and flexible implementation.
   z <-
-    readr::read_csv(file, skip = 4 + data_skip, n_max = n_max,
-             col_types = "", col_names = col_names)
+    readr::read_csv(file = file, 
+                    skip = 4 + data_skip, 
+                    n_max = n_max, 
+                    col_names = col_names,
+                    col_types = readr::cols())
+
   comment(z) <- comment.txt
   z
 }

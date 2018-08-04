@@ -79,6 +79,7 @@ read_oo_jazirrad <- function(file,
     col_names = TRUE,
     skip = 19,
     n_max = npixels,
+    col_types = readr::cols(),
     locale = locale
   )
   dots <- list(~W, ~P)
@@ -205,6 +206,7 @@ read_oo_jazdata <- function(file,
     col_names = TRUE,
     skip = 17,
     n_max = npixels,
+    col_types = readr::cols(),
     locale = locale
   )
   dots <- list(~W, ~S)
