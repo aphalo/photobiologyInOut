@@ -53,7 +53,7 @@ read_csi_dat <- function(file,
                     col_names = col_names,
                     col_types = readr::cols())
 
-  attr(z, "file.header", file_header)
+  attr(z, "file.header") <- file_header
   comment(z) <- comment.txt
   z
 }

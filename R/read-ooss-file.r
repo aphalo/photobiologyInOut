@@ -81,7 +81,7 @@ read_oo_ssirrad <- function(file,
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhatMeasured(z, label)
-  attr(z, "file.header", file_header)
+  attr(z, "file.header") <- file_header
   z
 }
 
@@ -145,7 +145,7 @@ read_oo_ssdata<- function(file,
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhatMeasured(z, label)
-  attr(z, "file.header", file_header)
+  attr(z, "file.header") <- file_header
   z
 }
 
