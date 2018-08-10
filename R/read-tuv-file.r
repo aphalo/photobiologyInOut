@@ -151,6 +151,7 @@ read_qtuv_txt <- function(file,
   
   # make sure we read whole header even is garbage present
   file_header <- readr::read_lines(file = file, n_max = 100L)
+  
   # find top of header
   header.start.idx <- grep("INPUT PARAMETERS:", file_header, fixed = TRUE)
   if (!length(header.start.idx)) {
@@ -172,21 +173,28 @@ read_qtuv_txt <- function(file,
   # trim garbage above and below header
   file_header <- file_header[header.start.idx:header.end.idx]
 
-  # find length of spectral data
-  grid.line.idx <- grep("w-grid:", file_header, fixed = TRUE)
+  # read wavelength grid data
+  wgrid.line.idx <- grep("w-grid:", file_header, fixed = TRUE)
   temp <-
-    scan(text = file_header[grid.line.idx], 
-         what = list(NULL, length = 1L, wl.min = 1, wl.maX = 1))
+    scan(text = file_header[wgrid.line.idx], 
+         what = list(NULL, length = 1L, wl.min = 1, wl.max = 1))
   length.spct <- temp[["length"]] - 1L # number of wl intervals
   wl.min = temp[["wl.min"]]
   wl.max = temp[["wl.max"]]
-  # decode metadata
+  
+  # read vertical grid data
+  zgrid.line.idx <- grep("z-grid:", file_header, fixed = TRUE)
+  temp <-
+    scan(text = file_header[zgrid.line.idx], 
+         what = list(NULL, NULL, z.min = 1, z.max = 1))
+  observer.km.asl <- temp["z.min"]
+
   # read date
   date.line <- grep("idate =", file_header)
   temp <- scan(text = file_header[date.line],
                     what = list(NULL, NULL, idate = "", NULL, NULL, esfact = 1))
   date <- lubridate::ymd(temp[["idate"]])
-  esfact <- temp[["esfact"]]
+#  esfact <- temp[["esfact"]]
   
   # "solar zenith angle = " -> angle. Always present either user supplied or calculated
   zenith.angle.line <- file_header[grepl("solar zenith angle", file_header)]
@@ -198,9 +206,9 @@ read_qtuv_txt <- function(file,
     scan(text = sub("measurement point: ", "", altitude.line, fixed = TRUE),
        what = list(NULL, index = 1, NULL, alt = 1))
     )
-  ground.elevation <- temp["alt"]
-  observer.above.ground <- temp["index"]
-  # " lat=    0.000000      long=    0.000000      ut=    12.00000    ". 
+  ground.km.asl <- temp["alt"]
+
+    # " lat=    0.000000      long=    0.000000      ut=    12.00000    ". 
   # Present for option 1 (user supplied location and time)
   geocode.line <- file_header[grepl("lat=", file_header)]
   if (length(geocode.line)) {
@@ -226,6 +234,7 @@ read_qtuv_txt <- function(file,
     lubridate::minute(date) <- trunc(minutes)
     lubridate::second(date) <- trunc(seconds)
   }
+  
   # assemple comment
   comment.txt <- paste(gsub(":", "", data.header.line), "\n",
                        "from file: ", file, 
@@ -233,8 +242,8 @@ read_qtuv_txt <- function(file,
                        file.info(file)[["ctime"]],
                        "ozone column (DU) = ", ozone.du, "\n",
                        "zenith angle (degrees) = ", zenith.angle, "\n",
-                       "altitude (km)  = ", ground.elevation, "\n",
-                       "observer elev. = ", observer.above.ground)
+                       "altitude (km)  = ", ground.km.asl, "\n",
+                       "observer elev. = ", observer.km.asl)
   
   # read spectrum
   spct.tb <-
@@ -246,6 +255,7 @@ read_qtuv_txt <- function(file,
                                      "s.e.irrad"),
                        n_max = length.spct)
   spct.tb <- stats::na.omit(spct.tb)
+  # convert to spectrum object
   z <-
     photobiology::source_spct(w.length = (spct.tb[["w.length.s"]] + spct.tb[["w.length.l"]]) / 2,
                               s.e.irrad = spct.tb[["s.e.irrad"]],
@@ -255,6 +265,8 @@ read_qtuv_txt <- function(file,
                               angle = zenith.angle,
                               date = rep(as.POSIXct(date), nrow(spct.tb)),
                               comment = comment.txt)
+  
+  # add metadata
   photobiology::setWhatMeasured(z, paste("Quick TUV spectral simulation", label))
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
