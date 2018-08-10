@@ -530,7 +530,7 @@ tuv_nd.spct
 
 The files output by the online calculator based on the TUV model, contain at
 most one spectrum, and arguments to only some parameters can be set by users.
-However, it is convenient to use when we only need a few simulations.
+However, it is convenient to use when we only need a few simple simulations.
 
 Function `read_qtuv_txt()` can extract spectra and the corresponding metadata
 from these files. These files do contain date time information and geolocation

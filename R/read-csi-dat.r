@@ -33,16 +33,11 @@ read_csi_dat <- function(file,
                          locale = readr::default_locale()) {
   label <- paste("File:", basename(file), label)
 
-  head_line <-  scan(file, 
-                     what = character(), nlines = 1, skip = 0,
-                     sep = ",")
+  file_header <- readr::read_lines(file, n_max = 4, skip = 0)
+  head_line <-  scan(text = file_header[1L], what = character(), sep = ",")
   head_line = paste(head_line, collapse = "\t")
-  col_names <- scan(file, 
-                    what = character(), nlines = 1, skip = 1,
-                    sep = ",")
-  units <- scan(file, 
-                what = character(), nlines = 1, skip = 2,
-                sep = ",", encoding = "UTF-8")
+  col_names <- scan(text = file_header[2L], what = character(), sep = ",")
+  units <- scan(text = file_header[3L], what = character(), sep = ",", encoding = "UTF-8")
   units <- sub("^$", "NA", units)
   qty <- scan(file, 
               what = character(), nlines = 1, skip = 3,
@@ -58,6 +53,7 @@ read_csi_dat <- function(file,
                     col_names = col_names,
                     col_types = readr::cols())
 
+  attr(z, "file.header", file_header)
   comment(z) <- comment.txt
   z
 }

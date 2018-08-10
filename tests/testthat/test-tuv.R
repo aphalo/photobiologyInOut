@@ -107,7 +107,46 @@ test_that("read Quick TUV", {
   expect_equal(getTimeUnit(qtuv_empty.spct), "second")
   expect_equal(length(comment(qtuv_empty.spct)), 0L)
   
+  file.name <- 
+    system.file("extdata", "qtuv-spct-and-summaries.txt", 
+                package = "photobiologyInOut", mustWork = TRUE)
   
+  qtuv_spct_summ.spct <- 
+    read_qtuv_txt(file = file.name,
+                  ozone.du = 300)
+  
+  expect_equal(nrow(qtuv_spct_summ.spct), 140L)
+  expect_equal(ncol(qtuv_spct_summ.spct), 7L)
+  expect_equal(qtuv_spct_summ.spct[["w.length"]][1L], 280.5, tolerance = 0.0001)
+  expect_equal(qtuv_spct_summ.spct[["w.length"]][140L], 419.5, tolerance = 0.0001)
+  expect_is(qtuv_spct_summ.spct[["w.length"]], "numeric")
+  expect_equal(sum(is.na(qtuv_spct_summ.spct[["w.length"]])), 0)
+  expect_true(all(sign(qtuv_spct_summ.spct[["w.length"]]) > 0))
+  expect_is(qtuv_spct_summ.spct[["s.e.irrad"]], "numeric")
+  expect_equal(sum(is.na(qtuv_spct_summ.spct[["s.e.irrad"]])), 0)
+  expect_is(qtuv_spct_summ.spct, "source_spct")
+  expect_named(
+    qtuv_spct_summ.spct,
+    c(
+      "w.length",
+      "s.e.irrad",
+      "s.e.irrad.dir",
+      "s.e.irrad.diff.down",
+      "s.e.irrad.diff.up",
+      "angle",
+      "date"
+    )
+  )
+  expect_equal(getWhenMeasured(qtuv_spct_summ.spct),
+               ymd_hms("2015-06-30 12:00:00"))
+  expect_true(all(getWhereMeasured(qtuv_spct_summ.spct) == 0))
+  expect_named(getWhereMeasured(qtuv_spct_summ.spct), c("lon", "lat"))
+  expect_equal(getWhatMeasured(qtuv_spct_summ.spct), 
+               "Quick TUV spectral simulation File: qtuv-spct-and-summaries.txt ")
+  expect_equal(getTimeUnit(qtuv_spct_summ.spct), "second")
+  expect_equal(length(comment(qtuv_spct_summ.spct)), 1L)
+  
+
   file.name <- 
     system.file("extdata", "tuv-azimuth-00-O3-300.html", 
                 package = "photobiologyInOut", mustWork = TRUE)
@@ -285,7 +324,3 @@ test_that("read TUV to mspct", {
                "TUV spectral simulation File: usrout2.txt ")
   expect_equal(length(comment(usrout2.mspct[[1]])), 1L)
 })
-
-
-
-

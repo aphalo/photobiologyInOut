@@ -80,7 +80,3 @@ test_that("read CSV", {
   expect_equal(length(comment(yoctopuce_skip.tb)), 1L)
   
 })
-
-
-
-

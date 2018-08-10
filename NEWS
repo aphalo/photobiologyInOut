@@ -15,6 +15,8 @@ Quick TUV calculator.
 Add read_tuv_usrout2mspct() wrapper of read_tuv_usrout() and subset2mspct().
 Revise read_tuv_usrout() with new formal parameter ozone.du and fix a bug in
 the setting of "where.measured" attribute.
+Revise all read functions so that they store the header of the imported file as
+a vector of character strings to attribute "file.header".
 
 photobiologyInOut 0.4.14
 ========================

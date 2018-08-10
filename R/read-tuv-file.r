@@ -80,6 +80,7 @@ read_tuv_usrout <- function(file,
   photobiology::setWhatMeasured(z, paste("TUV spectral simulation", label))
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhenMeasured(z, unique(z[["date"]]))
+  attr(z, "file.header", file_header)
   z
 }
 
@@ -238,7 +239,7 @@ read_qtuv_txt <- function(file,
   # read spectrum
   spct.tb <-
     readr::read_table2(file, skip = spct.header.idx,
-                       col_types = "dddddd",
+                       col_types = readr::cols(.default = readr::col_double()),
                        col_names = c("w.length.s", "w.length.l",
                                      "s.e.irrad.dir",
                                      "s.e.irrad.diff.down", "s.e.irrad.diff.up",
@@ -257,6 +258,7 @@ read_qtuv_txt <- function(file,
   photobiology::setWhatMeasured(z, paste("Quick TUV spectral simulation", label))
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
+  attr(z, "file.header", file_header)
   z
 }
   
