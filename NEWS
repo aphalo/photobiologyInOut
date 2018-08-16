@@ -6,7 +6,7 @@ Add a generic reader of files into a collection of spectra.
 Add test cases for new functions for exchange of foreign data (currently tested 
 through examples in vignette).
 
-photobiologyInOut 0.4.15 (2018-08-xx)
+photobiologyInOut 0.4.16 (2018-08-xx)
 =====================================
 
 Revise read_fmi_dat() to extract date from file header and save the file header

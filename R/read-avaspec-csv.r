@@ -33,7 +33,12 @@ read_avaspec_csv <- function(file,
     tz <- locale$tz
   }
   
-  label <- paste("File:", basename(file), label)
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else {
+    label <- paste(label.file, label, sep = "\n")
+  }
   
   file_header <- scan(file = file, nlines = 6, skip = 0, what = "character")
   # watt / cm ?
@@ -82,10 +87,14 @@ read_avaspec_xls <- function(path,
   if (is.null(tz)) {
     tz <- locale$tz
   }
-  if (is.null(label)) {
-    label <- paste("File:", path)
-  }
   
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else {
+    label <- paste(label.file, label, sep = "\n")
+  }
+
   file_header <- readxl::read_excel(path, skip = 0, col_names = FALSE)[1:4, 1]
 
   column_names <- readxl::read_excel(path, skip = 4, col_names = FALSE)[1, ]

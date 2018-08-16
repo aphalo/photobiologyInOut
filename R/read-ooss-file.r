@@ -32,7 +32,12 @@ read_oo_ssirrad <- function(file,
     tz <- locale$tz
   }
   
-  label <- paste("File:", basename(file), label)
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else {
+    label <- paste(label.file, label, sep = "\n")
+  }
   
   line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
   if (line01[1] != "SpectraSuite") {
@@ -99,7 +104,12 @@ read_oo_ssdata<- function(file,
     tz <- locale$tz
   }
   
-  label <- paste("File:", basename(file), label)
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else {
+    label <- paste(label.file, label, sep = "\n")
+  }
   
   line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
   if (line01[1] != "SpectraSuite") {

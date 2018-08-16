@@ -31,8 +31,13 @@ read_csi_dat <- function(file,
                          data_skip = 0, 
                          n_max = Inf, 
                          locale = readr::default_locale()) {
-  label <- paste("File:", basename(file), label)
-
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else {
+    label <- paste(label.file, label, sep = "\n")
+  }
+  
   file_header <- readr::read_lines(file, n_max = 4, skip = 0)
   head_line <-  scan(text = file_header[1L], what = character(), sep = ",")
   head_line = paste(head_line, collapse = "\t")

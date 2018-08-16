@@ -36,7 +36,12 @@ read_FReD_csv <- function(file,
     tz <- locale$tz
   }
   
-  label <- paste("File:", basename(file), label)
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else {
+    label <- paste(label.file, label, sep = "\n")
+  }
   
   z <- readr::read_csv(file = file, 
                       col_names = c("flower.id", "w.length", "Rfr"),

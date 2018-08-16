@@ -27,17 +27,18 @@
 #'
 #' @return \code{read_fmi_cum()} returns a \code{source_spct} object with
 #'   \code{time.unit} attribute set to \code{"day"} and \code{when.measured}
-#'   attribute set to the date-time extracted from the file name.
+#'   attribute set to the date-time extracted from the header at the top of
+#'   the read file.
 #'
 #' @note See \code{\link[readr]{read_table}} for details of acceptable values
 #'   for \code{file}.
 #'
 #' @examples
 #' 
-#'   file.name <- system.file("extdata", "2014-08-21_cum.hel", 
-#'   package = "photobiologyInOut", mustWork = TRUE)
-#'   fmi.spct <- read_fmi_cum(file = file.name)
-
+#' file.name <- system.file("extdata", "2014-08-21_cum.hel", 
+#'                          package = "photobiologyInOut", mustWork = TRUE)
+#' fmi.spct <- read_fmi_cum(file = file.name)
+#'   
 #' @export
 #' 
 read_fmi_cum <- function(file,
@@ -50,7 +51,12 @@ read_fmi_cum <- function(file,
                          .n_max = -1,
                          .date.f = lubridate::ymd) {
   file_header <- readr::read_lines(file = file, n_max = .skip)
-
+  
+  if (!grepl("(J/m2/nm)", file_header[.skip], fixed = TRUE)) {
+    warning("Skipping file with unrecognized format!")
+    return(source_spct())
+  }
+  
   if (is.null(tz)) {
     tz <- locale$tz
   }
@@ -95,7 +101,8 @@ read_fmi_cum <- function(file,
 #' @param files list or vector of paths each one with the same requirements as
 #'    described for argument \code{file}.
 #'
-#' @return \code{read_m_fmi_cum} returns a collection of \code{source_mspct}.
+#' @return \code{read_m_fmi_cum} returns a \code{source_mspct} containing one
+#' \code{source_spct} object for each one of the multiple files read.
 #'
 #' @export
 #'
@@ -114,7 +121,6 @@ read_m_fmi_cum <- function(files,
   for (f in files) {
     data.name <- sub("^.*/", "", f) # remove path!
     data.name <- gsub("-", "_", data.name, fixed = TRUE) # sanitize
-#    data.name <- paste(data.name, ".spct", sep = "")
     list.of.spectra[[data.name]] <-
       read_fmi_cum(
         file = f,
@@ -155,9 +161,10 @@ read_m_fmi_cum <- function(files,
 #'   passed as charecter sring to its first argument and which returns a
 #'   \code{POSIXct} object.
 #'
-#' @return \code{read_fmi_cum()} returns a \code{source_spct} object with
-#'   \code{time.unit} attribute set to \code{"day"} and \code{when.measured}
-#'   attribute set to the date-time extracted from the file name.
+#' @return \code{read_fmi2mspct()} returns a \code{source_mspct} object 
+#'   containing \code{source_spct} objects as members, \code{time.unit} 
+#'   attribute set to \code{"second"} and \code{when.measured}
+#'   attribute set to the date-time values extracted from the file body.
 #'
 #' @note See \code{\link[readr]{read_table}} for details of acceptable values
 #'  for \code{file}.
@@ -216,15 +223,21 @@ read_fmi2mspct <- function(file,
   
   whole_file <- readr::read_lines(file)
   header.start.idxs <- grep("# ", whole_file, fixed = TRUE)
-  data.start.idx <- header.start.idxs + 1L
+  data.start.idxs <- header.start.idxs + 1L
   data.end.idxs <- grep("end", whole_file, fixed = TRUE)
+  if (length(header.start.idxs) == 0 ||
+      length(header.start.idxs) != length(data.start.idxs) ||
+      length(header.start.idxs) != length(data.end.idxs)) {
+    warning("Unmatched delimiters or no delimiters found!")
+    return(source_mspct())
+  }
   
   zz <- list()
   for (idx in seq(along.with = header.start.idxs)) {
     zz <- c(zz,
             get_one_spct(x = whole_file,
                          i = header.start.idxs[idx],
-                         j = data.start.idx[idx],
+                         j = data.start.idxs[idx],
                          k = data.end.idxs[idx]
             ))
   }

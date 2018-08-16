@@ -39,7 +39,12 @@ read_oo_pidata <- function(file,
     tz <- locale$tz
   }
   
-  label <- paste("File:", basename(file), label)
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else {
+    label <- paste(label.file, label, sep = "\n")
+  }
   
   file_header <- scan(file = file, nlines = 4, 
                       skip = 0, what = "character", sep = "\n")

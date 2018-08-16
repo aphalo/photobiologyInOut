@@ -28,6 +28,7 @@ reference:
     desc: Read files with data from radiation transfer models.
     contents:
     - read_fmi_cum
+    - read_fmi2mspct
     - read_tuv_usrout
     - read_qtuv_txt
     - read_uvspec_disort

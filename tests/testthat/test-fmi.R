@@ -28,6 +28,24 @@ test_that("single cumulated spectrum file", {
   expect_equal(length(comment(fmi.spct)), 0)
 })
 
+test_that("single cumulated garbage", {
+  
+  file.name <- 
+    system.file("extdata", "garbage.txt", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  expect_warning(empty.spct <- read_fmi_cum(file = file.name))
+  
+  expect_equal(nrow(empty.spct), 0)
+  expect_equal(ncol(empty.spct), 2)
+  expect_is(empty.spct[[1]], "numeric")
+  expect_is(empty.spct[[2]], "numeric")
+  expect_is(empty.spct, "source_spct")
+  expect_named(empty.spct, c("w.length", "s.e.irrad"))
+  expect_equal(getWhenMeasured(empty.spct), 
+               ymd_hms(NA_character_, tz = "UTC"))
+  expect_equal(length(comment(empty.spct)), 0)
+})
+
 test_that("multiple multiple cummulated spectrum files", {
   
   my.files <- 
@@ -89,5 +107,18 @@ test_that("spectral irradiance", {
   expect_equal(getWhenMeasured(fmi.mspct[[1]]), 
                as.POSIXct(ymd_hms("2013-05-01 03:30:00", tz = "UTC")))
   expect_equal(length(comment(fmi.mspct[[1]])), 0)
+})
+
+test_that("spectral irradiance garbage", {
+  
+  file.name <- 
+    system.file("extdata", "garbage.txt", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  expect_warning(empty.mspct <- read_fmi2mspct(file = file.name))
+  
+  expect_is(empty.mspct, "source_mspct")
+  expect_equal(length(empty.mspct), 0)
+  expect_equal(dim(empty.mspct), c(0, 1))
+  expect_false(attr(empty.mspct, "mspct.byrow", exact = TRUE))
 })
 
