@@ -5,7 +5,8 @@
 #' header. Uses the comment attribute to store the metadata.
 #' 
 #' @param file Path to file as a character string.
-#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param geocode A data frame with columns \code{lon} and \code{lat} used to
+#'   set attribute \code{"where.measured"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param data_skip integer Number of records (rows) to skip from the actual
@@ -35,7 +36,7 @@ read_yoctopuce_csv <- function(file,
   label.file <- paste("File: ", basename(file), sep = "")
   if (is.null(label)) {
     label <- label.file
-  } else {
+  } else if (!is.na(label)) {
     label <- paste(label.file, label, sep = "\n")
   }
   

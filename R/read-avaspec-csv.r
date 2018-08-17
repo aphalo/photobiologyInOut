@@ -5,9 +5,11 @@
 #' values. The file header has little useful metadata information.
 #' 
 #' @param file character string
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
-#'   file is used, and if \code{NA} no date variable is added
-#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
+#'   attribute. If \code{NULL}, the default, the date is extracted from the
+#'   file header.
+#' @param geocode A data frame with columns \code{lon} and \code{lat} used to
+#'   set attribute \code{"where.measured"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the
@@ -36,7 +38,7 @@ read_avaspec_csv <- function(file,
   label.file <- paste("File: ", basename(file), sep = "")
   if (is.null(label)) {
     label <- label.file
-  } else {
+  } else if (!is.na(label)) {
     label <- paste(label.file, label, sep = "\n")
   }
   
@@ -91,10 +93,10 @@ read_avaspec_xls <- function(path,
   label.file <- paste("File: ", basename(file), sep = "")
   if (is.null(label)) {
     label <- label.file
-  } else {
+  } else if (!is.na(label)) {
     label <- paste(label.file, label, sep = "\n")
   }
-
+  
   file_header <- readxl::read_excel(path, skip = 0, col_names = FALSE)[1:4, 1]
 
   column_names <- readxl::read_excel(path, skip = 4, col_names = FALSE)[1, ]

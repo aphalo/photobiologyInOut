@@ -6,9 +6,11 @@
 #'
 #' @param file Either a path to a file, a connection, or literal data (either a
 #'   single string or a raw vector).
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
-#'   file is used, and if \code{NA} no date variable is added
-#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
+#'   attribute. If \code{NULL}, the default, the date is extracted from the
+#'   file header.
+#' @param geocode A data frame with columns \code{lon} and \code{lat} used to
+#'   set attribute \code{"where.measured"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the file
@@ -71,7 +73,7 @@ read_fmi_cum <- function(file,
   label.file <- paste("File: ", basename(file), sep = "")
   if (is.null(label)) {
     label <- label.file
-  } else {
+  } else if (!is.na(label)) {
     label <- paste(label.file, label, sep = "\n")
   }
   
@@ -143,9 +145,8 @@ read_m_fmi_cum <- function(files,
 #'
 #' @param file Either a path to a file, a connection, or literal data (either a
 #'   single string or a raw vector).
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
-#'   file is used, and if \code{NA} no date variable is added
-#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param geocode A data frame with columns \code{lon} and \code{lat} used to
+#'   set attribute \code{"where.measured"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the
@@ -157,9 +158,6 @@ read_m_fmi_cum <- function(files,
 #'   names.
 #' @param .skip Number of lines to skip before reading data.
 #' @param .n_max Maximum number of records to read.
-#' @param .date.f A function for extracting a date-time from the file name
-#'   passed as charecter sring to its first argument and which returns a
-#'   \code{POSIXct} object.
 #'
 #' @return \code{read_fmi2mspct()} returns a \code{source_mspct} object 
 #'   containing \code{source_spct} objects as members, \code{time.unit} 
@@ -172,14 +170,12 @@ read_m_fmi_cum <- function(files,
 #' @export
 #'  
 read_fmi2mspct <- function(file,
-                           date = NULL,
                            geocode = NULL,
                            label = NULL,
                            tz = NULL,
                            locale = readr::default_locale(),
                            .skip = 3,
-                           .n_max = -1,
-                           .date.f = lubridate::ymd) {
+                           .n_max = -1) {
   
   get_one_spct <- function(x, i, j, k) {
     header <- x[i]
@@ -218,7 +214,7 @@ read_fmi2mspct <- function(file,
   label.file <- paste("File: ", basename(file), sep = "")
   if (is.null(label)) {
     label <- label.file
-  } else {
+  } else if (!is.na(label)) {
     label <- paste(label.file, label, sep = "\n")
   }
   

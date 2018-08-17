@@ -264,6 +264,18 @@ getWhereMeasured(z2.mspct)
 z2.mspct
 
 ## ----------------------------------------------------
+fmi.file <- 
+  system.file("extdata", "2013-05-01.hel", 
+              package = "photobiologyInOut", mustWork = TRUE)
+z3.mspct <- read_fmi2mspct(fmi.file)
+class(z3.mspct)[1:2]
+getWhenMeasured(z3.mspct[[1]])
+length(z3.mspct)
+names(z3.mspct)
+getWhenMeasured(z3.mspct[[1]])
+getWhatMeasured(z3.mspct[[1]])
+
+## ----------------------------------------------------
 fred.file <- 
   system.file("extdata", "FReDflowerID_157.csv", 
               package = "photobiologyInOut", mustWork = TRUE)

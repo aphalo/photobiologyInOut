@@ -6,9 +6,11 @@
 #' contain year information. This instrument is no longer being manufactured.
 #' 
 #' @param file Path to file as a character string.
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
-#'   file is used, and if \code{NA} no date variable is added.
-#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
+#'   attribute. If \code{NULL}, the default, the date is extracted from the
+#'   file header.
+#' @param geocode A data frame with columns \code{lon} and \code{lat} used to
+#'   set attribute \code{"where.measured"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the
@@ -47,7 +49,7 @@ read_licor_prn <- function(file,
   label.file <- paste("File: ", basename(file), sep = "")
   if (is.null(label)) {
     label <- label.file
-  } else {
+  } else if (!is.na(label)) {
     label <- paste(label.file, label, sep = "\n")
   }
   

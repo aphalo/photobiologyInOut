@@ -5,9 +5,11 @@
 #'
 #' @param file character string
 #' @param ozone.du numeric Ozone column in Dobson units.
-#' @param date a \code{POSIXct} object, but if \code{NULL} the date stored in
-#'   file is used, and if \code{NA} no date variable is added
-#' @param geocode A data frame with columns \code{lon} and \code{lat}.
+#' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
+#'   attribute. If \code{NULL}, the default, the date is extracted from the
+#'   file header.
+#' @param geocode A data frame with columns \code{lon} and \code{lat} used to
+#'   set attribute \code{"where.measured"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone is by default read from the file.
@@ -42,7 +44,13 @@ read_tuv_usrout <- function(file,
   if (is.null(geocode)) {
     geocode <- tibble::tibble(lon = NA_real_, lat = NA_real_)
   }
-  label <- paste("File:", basename(file), label)
+
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else if (!is.na(label)) {
+    label <- paste(label.file, label, sep = "\n")
+  }
   
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "",
@@ -147,7 +155,12 @@ read_qtuv_txt <- function(file,
     tz <- locale[["tz"]]
   }
   
-  label <- paste("File:", basename(file), label)
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- label.file
+  } else if (!is.na(label)) {
+    label <- paste(label.file, label, sep = "\n")
+  }
   
   # make sure we read whole header even is garbage present
   file_header <- readr::read_lines(file = file, n_max = 100L)
