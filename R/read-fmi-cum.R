@@ -199,9 +199,10 @@ read_fmi2mspct <- function(file,
         locale = locale
       )[ , -1]
     # convert wavelength in Ångstrom to nm
+    # convert irradiance to W m-2 nm-1
     if (min(z$w.length) > 1000) {
-      dots <- list(~w.length / 10)
-      z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "w.length"))
+      dots <- list(~w.length / 10, ~s.e.irrad / 1000)
+      z <- dplyr::mutate_(z, .dots = stats::setNames(dots, c("w.length", "s.e.irrad")))
     }
     
     z <- photobiology::as.source_spct(z, time.unit = "second")
