@@ -4,4 +4,3 @@
 ^test$
 ^vignettes/figure$
 ^_pkgdown\.yml$
-^docs$

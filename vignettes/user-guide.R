@@ -1,6 +1,6 @@
 ## ---- setup, include=FALSE, cache=FALSE--------------
 library(knitr)
-opts_chunk$set(fig.path='figure/pos-', fig.align='center', fig.show='hold',
+opts_chunk$set(fig.align='center', fig.show='hold',
                fig.width=7, fig.height=6, size="footnotesize")
 options(replace.assign = TRUE, width = 55,
         warnPartialMatchAttr = FALSE,
