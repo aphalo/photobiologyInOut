@@ -52,7 +52,9 @@ read_fmi_cum <- function(file,
                          .skip = 3,
                          .n_max = -1,
                          .date.f = lubridate::ymd) {
-  file_header <- readr::read_lines(file = file, n_max = .skip)
+  file_header <- readr::read_lines(file = file, 
+                                   n_max = .skip, 
+                                   progress = FALSE)
   
   if (!grepl("(J/m2/nm)", file_header[.skip], fixed = TRUE)) {
     warning("Skipping file with unrecognized format!")
@@ -67,7 +69,7 @@ read_fmi_cum <- function(file,
   
   if (is.null(date)) {
     date.char <- scan(text = file_header[2], nlines = 1, what = "z")[2]
-    date <- .date.f(date.char)
+    date.time <- .date.f(date.char, tz = tz) # tz needed as otherwise a "Date" is returned
   }
   
   label.file <- paste("File: ", basename(file), sep = "")
@@ -80,10 +82,12 @@ read_fmi_cum <- function(file,
   z <- readr::read_table(
     file = file,
     col_names = c("w.length", "s.e.irrad"),
-    col_types = "dd",
+    col_types = readr::cols(w.length = readr::col_double(),
+                            s.e.irrad = readr::col_double()),
     skip = .skip,
     n_max = .n_max,
-    locale = locale
+    locale = locale,
+    progress = FALSE
   )
   # convert wavelength in Ångstrom to nm
   if (min(z$w.length) > 1000) {
@@ -91,7 +95,7 @@ read_fmi_cum <- function(file,
     z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "w.length"))
   }
   z <- photobiology::as.source_spct(z, time.unit = "day")
-  photobiology::setWhenMeasured(z, date)
+  photobiology::setWhenMeasured(z, date.time)
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhatMeasured(z, label)
   attr(z, "file.header") <- file_header
@@ -189,10 +193,13 @@ read_fmi2mspct <- function(file,
       readr::read_table2(
         file = file,
         col_names = c("minutes", "w.length", "s.e.irrad"),
-        col_types = "ddd",
+        col_types = readr::cols(minutes = readr::col_number(),
+                                w.length = readr::col_double(),
+                                s.e.irrad = readr::col_double()),
         skip = i,
         n_max = k - j,
-        locale = locale
+        locale = locale,
+        progress = FALSE
       )[ , -1]
     # convert wavelength in Ångstrom to nm
     # convert irradiance to W m-2 nm-1
@@ -218,7 +225,7 @@ read_fmi2mspct <- function(file,
     label <- paste(label.file, label, sep = "\n")
   }
   
-  whole_file <- readr::read_lines(file)
+  whole_file <- readr::read_lines(file, progress = FALSE)
   header.start.idxs <- grep("# ", whole_file, fixed = TRUE)
   data.start.idxs <- header.start.idxs + 1L
   data.end.idxs <- grep("end", whole_file, fixed = TRUE)
