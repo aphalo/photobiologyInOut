@@ -185,7 +185,9 @@ read_fmi2mspct <- function(file,
     header <- x[i]
     date.char <- stringr::word(header, start = 2L, end = 3L)
     # lubridate::ymd_hms() fails to parse single digit hours
-    when.measured <- lubridate::ymd(stringr::word(header, start = 2L, end = 2L)) +
+    # tz = tz is needed to get POSIXct instead Date which ends as POSIXlt
+    when.measured <- 
+      lubridate::ymd(stringr::word(header, start = 2L, end = 2L), tz = tz) +
       lubridate::hms(stringr::word(header, start = 3L, end = 3L))
     zenith.angle <- as.numeric(stringr::word(header, start = 5L, end = 5L))
     
