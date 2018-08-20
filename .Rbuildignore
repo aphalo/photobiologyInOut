@@ -4,3 +4,4 @@
 ^test$
 ^vignettes/figure$
 ^_pkgdown\.yml$
+^.*\.sh$
