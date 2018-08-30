@@ -6,12 +6,14 @@ Add a generic reader of files into a collection of spectra.
 Add test cases for new functions for exchange of foreign data (currently tested 
 through examples in vignette).
 
-photobiologyInOut 0.4.16 (2018-08-xx)
+photobiologyInOut 0.4.16 (2018-08-30)
 =====================================
 
 Revise read_fmi_dat() to extract date from file header and save the file header
 to the spectral object as a comment.
 Add read_fmi2mspct() for reading spectral irradiance.
+Bug fix: decoding of dates in fmi import functions for daily data not always 
+returned POSIXct objects triggering errors in downstream code.
 
 photobiologyInOut 0.4.15 (2018-08-10)
 =====================================
