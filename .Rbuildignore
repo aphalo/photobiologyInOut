@@ -3,5 +3,11 @@
 ^data-raw$
 ^test$
 ^vignettes/figure$
+^vignettes/backups/*
+^vignettes/*.html
+^vignettes/*.R
+^.*\.bak$
 ^_pkgdown\.yml$
+^README\.Rmd$
+^README-.*\.png$
 ^.*\.sh$
