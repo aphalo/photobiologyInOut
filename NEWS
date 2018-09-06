@@ -6,6 +6,11 @@ Add a generic reader of files into a collection of spectra.
 Add test cases for new functions for exchange of foreign data (currently tested 
 through examples in vignette).
 
+photobiologyInOut 0.4.16-1 (2018-09-06)
+=======================================
+
+Fix bug in decoding of time and date in functions read_fmi2mspct(), read_tuv_usrout() and read_qtuv_txt(). Decoding failed under R 3.4.4 (oldrel) but worked under R 3.5.1 due to functions from 'lubridate' returning POSIXlt values instead of POSIXct values. Now we force conversion to POSIXct.
+
 photobiologyInOut 0.4.16 (2018-08-30)
 =====================================
 

@@ -63,6 +63,7 @@ read_tuv_usrout <- function(file,
   lubridate::hour(date) <- trunc(hours) 
   lubridate::minute(date) <- trunc(minutes)
   lubridate::second(date) <- trunc(seconds)
+  date <- as.POSIXct(date)
   
   angles <- scan(text = sub(pattern = "sza = ", replacement = "", 
                             x = file_header[5], fixed = TRUE))
@@ -206,7 +207,7 @@ read_qtuv_txt <- function(file,
   date.line <- grep("idate =", file_header)
   temp <- scan(text = file_header[date.line],
                     what = list(NULL, NULL, idate = "", NULL, NULL, esfact = 1))
-  date <- lubridate::ymd(temp[["idate"]])
+  date <- lubridate::ymd(temp[["idate"]], tz = tz)
 #  esfact <- temp[["esfact"]]
   
   # "solar zenith angle = " -> angle. Always present either user supplied or calculated
@@ -247,6 +248,7 @@ read_qtuv_txt <- function(file,
     lubridate::minute(date) <- trunc(minutes)
     lubridate::second(date) <- trunc(seconds)
   }
+  date <- as.POSIXct(date)
   
   # assemple comment
   comment.txt <- paste(gsub(":", "", data.header.line), "\n",
