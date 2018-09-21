@@ -68,6 +68,8 @@ Functions for importing measured spectral data.
 | read_oo_ssirrad()    | Ocean Optics spectrom. | SpectraSuite      | source_spct     |
 | read_oo_ssdata()     | Ocean Optics spectrom. | SpectraSuite      | raw_spct        |
 | read_oo_jazirrad()   | Ocean Optics Jaz       | *instrument*      | source_spct     |
+| read_oo_jazpc()      | Ocean Optics Jaz       | *instrument*      | filter_spct     |
+| read_oo_jazpc()      | Ocean Optics Jaz       | *instrument*      | reflector_spct     |
 | read_oo_jazdata()    | Ocean Optics Jaz       | *instrument*      | raw_spct        |
 | read_oo_pidata()     | Ocean Optics spectrom. | STS DK (Raspbian) | raw_spct        |
 | read_avaspec_csv()   | Avantes spectrom.      | *instrument*      | source_spct     |

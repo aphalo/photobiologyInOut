@@ -16,6 +16,7 @@ reference:
     - read_oo_ssirrad
     - read_oo_jazirrad
     - read_oo_pidata
+    - read_oo_jazpc
     - read_avaspec_csv
     - read_macam_dta
     - read_licor_prn

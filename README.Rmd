@@ -23,7 +23,8 @@ This package is the core of a suite of R packages for photobiological calculatio
 
 **The functions in this package work with the example files I have access to for testing, but they may not work with your own files as file formats vary.**
 
-**PLEASE, BE VERY CAREFUL WHEN USING THIS PACKAGE. DO CHECK THAT UNITS USED IN THE IMPORTED FILE ARE THOSE EXPECTED BY THESE FUNCTIONS AND THAT THE VALUES ARE AS EXPECTED!**
+**PLEASE, BE VERY CAREFUL WHEN USING THIS PACKAGE. DO CHECK THAT UNITS USED IN THE IMPORTED FILE ARE THOSE EXPECTED BY THESE FUNCTIONS AND THAT THE VALUES IN THE
+RETRIEVED DATA ARE THOSE EXPECTED!**
 
 _If they do not work with your files, they hopefully will be useful as examples for developing your own functions. If you develop new functions or improve the existing ones, please, do contribute them back to this project._
 

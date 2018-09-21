@@ -1,8 +1,15 @@
-#' Read Absolute Irradiance File Saved by Ocean Optics' Jaz spectrometer.
+#' Read Files Saved by Ocean Optics' Jaz spectrometer.
 #' 
-#' Reads and parses the header of a processed data file as output by
-#' Jaz instruments to extract the whole header remark field The time field is
-#' retrieved.
+#' Reads and parses the header of processed data text files output by
+#' Jaz instruments extracting the spectral data from the body of the file 
+#' and the metadata, including time and date of measurement from the header.
+#' Jaz modular spectrometers are manufactured by Ocean Optics, Dunedin, Florida,
+#' USA.
+#' 
+#' @details Function \code{read_oo_jazirrad} can read processed irradiance
+#' output files. Function \code{read_oo_jazpc} can read processed transmittance
+#' and reflectance output files (expressed as \%s). Function 
+#' \code{read_oo_jazdata} can read raw-counts data.
 #' 
 #' @param file character string.
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
@@ -14,7 +21,7 @@
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param tz character Time zone used for interpreting times saved in the file
 #'   header.
-#' @param locale	The locale controls defaults that vary from place to place. The
+#' @param locale The locale controls defaults that vary from place to place. The
 #'   default locale is US-centric (like R), but you can use
 #'   \code{\link[readr]{locale}} to create your own locale that controls things
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
