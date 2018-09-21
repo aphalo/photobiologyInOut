@@ -302,37 +302,37 @@ plot(aster.spct)
 ## ----------------------------------------------------
 z2.hspct <- mspct2hyperSpec(z2.mspct, "s.e.irrad")
 class(z2.hspct)
-plot(z2.hspct)
+# plot(z2.hspct)
 
 ## ----------------------------------------------------
 class(laser)
 laser
 plot(laser)
 
-## ---- eval=FALSE-------------------------------------
-#  wl(laser) <- list (
-#    wl = 1e7 / (1/405e-7 - wl (laser)),
-#    label = expression (lambda / nm)
-#  )
-#  laser
-#  plot(laser)
-#  laser.mspct <-
-#    hyperSpec2mspct(laser, "source_spct", "s.e.irrad", multiplier = 1e-3)
-#  ggplot(laser.mspct[[1]]) +
-#    geom_line() +
-#    stat_peaks(geom = "text", vjust = -1, label.fmt = "%.6g nm", color = "red")
+## ----------------------------------------------------
+wl(laser) <- list (
+  wl = 1e7 / (1/405e-7 - wl (laser)),
+  label = expression (lambda / nm)
+)
+laser
+plot(laser)
+laser.mspct <-
+  hyperSpec2mspct(laser, "source_spct", "s.e.irrad", multiplier = 1e-3)
+ggplot(laser.mspct[[1]]) +
+  geom_line() +
+  stat_peaks(geom = "text", vjust = -1, label.fmt = "%.6g nm", color = "red")
 
-## ---- eval=FALSE-------------------------------------
-#  # bug that needs to be fixed
-#  fluorescent.mspct <- colorSpec2mspct(Fs.5nm)
-#  print(fluorescent.mspct, n = 3, n.members = 3)
+## ----------------------------------------------------
+# bug that needs to be fixed
+fluorescent.mspct <- colorSpec2mspct(Fs.5nm)
+print(fluorescent.mspct, n = 3, n.members = 3)
 
-## ---- eval=FALSE-------------------------------------
-#  colorSpec2mspct(Hoya)
+## ----------------------------------------------------
+colorSpec2mspct(Hoya)
 
-## ---- eval=FALSE-------------------------------------
-#  fluorescent.spct <- colorSpec2spct(Fs.5nm)
-#  plot(fluorescent.spct) + aes(linetype = spct.idx)
+## ----------------------------------------------------
+fluorescent.spct <- colorSpec2spct(Fs.5nm)
+plot(fluorescent.spct) + aes(linetype = spct.idx)
 
 ## ----------------------------------------------------
 colorSpec2chroma_spct(xyz1931.5nm)

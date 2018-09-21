@@ -898,7 +898,7 @@ Can export to `''hyperSpec''` objects only collections of spectra where all memb
 ```{r}
 z2.hspct <- mspct2hyperSpec(z2.mspct, "s.e.irrad")
 class(z2.hspct)
-plot(z2.hspct)
+# plot(z2.hspct)
 ```
 
 ### From 'hyperSpec'
@@ -917,7 +917,7 @@ wrong but for the sake of showing how the conversion takes place is irrelevant.
 The parameter `multiplier` can be passed a numeric argument to rescale
 the original data. The default multiplier is 1.
 
-```{r, eval=FALSE}
+```{r}
 wl(laser) <- list (
   wl = 1e7 / (1/405e-7 - wl (laser)),
   label = expression (lambda / nm)
@@ -933,17 +933,17 @@ ggplot(laser.mspct[[1]]) +
 
 ### From 'colorSpec'
 
-```{r, eval=FALSE}
+```{r}
 # bug that needs to be fixed
 fluorescent.mspct <- colorSpec2mspct(Fs.5nm)
 print(fluorescent.mspct, n = 3, n.members = 3)
 ```
 
-```{r, eval=FALSE}
+```{r}
 colorSpec2mspct(Hoya)
 ```
 
-```{r, eval=FALSE}
+```{r}
 fluorescent.spct <- colorSpec2spct(Fs.5nm)
 plot(fluorescent.spct) + aes(linetype = spct.idx)
 ```
