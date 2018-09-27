@@ -22,7 +22,7 @@
 #' @return a source_spct object obtained by 'melting' the TUV file, and adding a
 #'   factor \code{spct.idx}, and variables \code{zenith.angle} and \code{date}.
 #'
-#' @references \url{http://www.r4photobiology.info}
+#' @references \url{https://www.r4photobiology.info}
 #'   \url{https://www2.acom.ucar.edu/modeling/tuv-download}
 #' @keywords misc
 #'
@@ -136,7 +136,7 @@ read_tuv_usrout2mspct <- function(file,
 #'   intervals in the Quick TUV output file, and adding variables \code{zenith.angle} and
 #'   \code{date}.
 #'   
-#' @references \url{http://www.r4photobiology.info} 
+#' @references \url{https://www.r4photobiology.info} 
 #' \url{http://cprm.acom.ucar.edu/Models/TUV/Interactive_TUV/}
 #' 
 #' @note The ozone column value used in the simulation cannot be retrieved from

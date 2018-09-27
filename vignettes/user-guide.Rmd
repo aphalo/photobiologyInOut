@@ -442,7 +442,7 @@ ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
 
 ### YoctoPuce
 
-[Yocto Puce Sarl](http://www.yoctopuce.com/) sells numerous different USB modules. Those capable of data
+[Yocto Puce Sarl](https://www.yoctopuce.com/) sells numerous different USB modules. Those capable of data
 input can log the data to memory and these data can be downloaded as a CSV
 file. These files can be easily read into R but function `read_yoctopuce_csv()` makes this even simpler.
 

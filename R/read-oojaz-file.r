@@ -35,7 +35,7 @@
 #' 
 #' @export
 #' 
-#' @references \url{http://www.r4photobiology.info} \url{http://oceanoptics.com/}
+#' @references \url{https://www.r4photobiology.info} \url{https://oceanoptics.com/}
 #' 
 read_oo_jazirrad <- function(file,
                              date = NULL,
