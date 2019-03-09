@@ -53,6 +53,14 @@ read_tuv_usrout <- function(file,
   }
   
   file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
+  NonASCII <- tools::showNonASCII(file_header)
+  if (length(NonASCII) > 0L) {
+    warning("Found non-ASCII characters in file header: ", 
+            NonASCII,
+            "replacing with ' '.")
+    file_header <- iconv(file_header, to = "ASCII", sub = " ")
+  }
+  
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "",
                            x = file_header[4], fixed = TRUE))
   num.spectra <- length(hours)
