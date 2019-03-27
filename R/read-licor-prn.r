@@ -147,7 +147,7 @@ read_m_licor_prn <- function(files,
                              date = NULL,
                              geocode = NULL,
                              label = NULL,
-                             tz = Sys.timezone(location = FALSE),
+                             tz = Sys.timezone(),
                              locale = readr::default_locale(),
                              s.qty = NULL) {
   list.of.spectra <- list()
