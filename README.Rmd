@@ -72,7 +72,7 @@ Aphalo, P. J., Albert, A., Björn, L. O., McLeod, A. R., Robson, T. M., & Rosenq
 
 ## Contributing
 
-Pull requests, bug reports, and feature requests are welcome at (https://bitbucket.org/aphalo/photobiologyInOut). Example data files that could
+Pull requests, bug reports, and feature requests are welcome at (https://bitbucket.org/aphalo/photobiologyInOut). Contribution of example data files that could
 be supported in future versions will be very much appreciated.
 
 ## Citation
