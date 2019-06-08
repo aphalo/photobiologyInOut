@@ -100,9 +100,9 @@ Division of Plant Biology. ISBN 978-952-10-8363-1 (PDF),
 ## Contributing
 
 Pull requests, bug reports, and feature requests are welcome at
-(<https://bitbucket.org/aphalo/photobiologyInOut>). Example data files
-that could be supported in future versions will be very much
-appreciated.
+(<https://bitbucket.org/aphalo/photobiologyInOut>). Contribution of
+example data files that could be supported in future versions will be
+very much appreciated.
 
 ## Citation
 
