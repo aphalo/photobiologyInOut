@@ -55,9 +55,8 @@ read_avaspec_csv <- function(file,
                        skip = 6,
                        col_types = readr::cols(),
                        locale = locale)
-  dots <- list(~s.e.irrad * mult)
-  z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))
-  
+  z[ , "s.e.irrad"] <- z[ , "s.e.irrad"] * mult
+
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)

@@ -113,13 +113,13 @@ read_licor_prn <- function(file,
                       skip = 7
                       )
   if (mult != 1) {
-    dots <- list(~s.q.irrad * mult)
-    z <- dplyr::mutate_(z, .dots = stats::setNames(dots, s.qty))
+    z[ , s.qty] <- z[ , s.qty] * mult
   }
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- constructor(z)
   options(old.opts)
+  
   comment(z) <-
     paste(paste("LICOR LI-1800 file '", basename(file), "' imported on ", 
                 lubridate::now(tzone = "UTC"), " UTC", sep = ""),
