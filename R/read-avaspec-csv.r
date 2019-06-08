@@ -70,6 +70,8 @@ read_avaspec_csv <- function(file,
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhatMeasured(z, label)
+  how <- "Measured with an array spectrometer."
+  photobiology::setHowMeasured(z, how)
   attr(z, "file.header") <- file_header
   z
 }
@@ -136,6 +138,8 @@ read_avaspec_xls <- function(path,
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhatMeasured(z, label)
+  how <- "Measured with an array spectrometer."
+  photobiology::setHowMeasured(z, how)
   attr(z, "file.header") <- file_header
   z
 }

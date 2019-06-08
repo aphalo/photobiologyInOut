@@ -293,6 +293,8 @@ read_qtuv_txt <- function(file,
   photobiology::setWhatMeasured(z, paste("Quick TUV spectral simulation", label))
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
+  how <- "Computer simulation."
+  photobiology::setHowMeasured(z, how)
   attr(z, "file.header") <- file_header
   z
 }

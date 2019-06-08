@@ -215,6 +215,8 @@ read_fmi2mspct <- function(file,
     photobiology::setWhenMeasured(z, when.measured)
     photobiology::setWhereMeasured(z, geocode)
     photobiology::setWhatMeasured(z, label)
+    how <- "Computer simulation."
+    photobiology::setHowMeasured(z, how)
     attr(z, "file.header") <- header
     z<- list(z)
     names(z) <- date.char
