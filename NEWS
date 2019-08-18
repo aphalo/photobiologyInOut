@@ -10,6 +10,7 @@ photobiologyInOut 0.4.21 (2019-08-18)
 =======================================
 
 * Track changes in 'tidyr' (= 1.0.0).
+* Move packages 'pavo' and 'hyperSpec' to suggests.
 
 photobiologyInOut 0.4.20 (2019-06-08)
 =======================================
