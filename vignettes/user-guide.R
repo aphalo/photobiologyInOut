@@ -39,7 +39,7 @@ jazraw.spct <- read_oo_jazdata(file = jaz.raw.file)
 jazraw.spct <- trim_wl(jazraw.spct, range = c(250, 900))
 
 ## ----------------------------------------------------
-plot(jazraw.spct)
+autoplot(jazraw.spct)
 
 ## ----------------------------------------------------
 getWhenMeasured(jazraw.spct)

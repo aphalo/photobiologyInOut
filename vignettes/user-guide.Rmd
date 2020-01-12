@@ -140,7 +140,7 @@ jazraw.spct <- trim_wl(jazraw.spct, range = c(250, 900))
 Plotting the spectrum.
 
 ```{r}
-plot(jazraw.spct)
+autoplot(jazraw.spct)
 ```
 
 The metadata stored in attributes can be accessed with functions. It is clear, that not all settings can be recovered from the file. However, we store the record will all the fields which would have been filled if the data had been acquired directly from R using package 'ooacquire'.
