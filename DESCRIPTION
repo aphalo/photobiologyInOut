@@ -1,7 +1,7 @@
 Package: photobiologyInOut
 Type: Package
 Title: Read Spectral and Logged Data from Foreign Files
-Version: 0.4.21-2
+Version: 0.4.21-1.9000
 Date: 2020-03-23
 Authors@R:
    c(
