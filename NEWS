@@ -7,13 +7,13 @@ functions to handle character vectors of paths.
 Add test cases for new functions for exchange of foreign data (currently tested 
 through examples in vignette) (URGENT otherwise bugs creep-in easily).
 
-photobiologyInOut 0.4.22 (2020-03-23)
+photobiologyInOut 0.4.22 (2020-04-01)
 =======================================
 
 * Revise read_fmi2mspct() adding flexibility to cope with variation in date
 and time formats used in headers of spectra.
 * Update for compatibility with 'photobiology' (>= 0.10.0) which also provides 
-compatibility with 'dplyr' (>= 1.0.0).
+compatibility with 'dplyr' (>= 1.0.0) and 'tibble' (>= 1.5.0).
 * Update test cases for 'photobiology' (>= 0.10.0).
 * Depends now on 'photobiology' (>= 0.10.0).
 
