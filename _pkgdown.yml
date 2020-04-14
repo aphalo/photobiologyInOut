@@ -1,4 +1,5 @@
 destination: ../photobiologyInOut-docs
+url: https://docs.r4photobiology.info/photobiologyInOut/
 
 home:
   strip_header: true
