@@ -1,15 +1,3 @@
 .Rproj.user
 .Rhistory
 .RData
-man
-*.tex
-*.synctex.gz
-*.toc
-vignettes/*.pdf
-vignettes/*.pdf
-vignettes/user-guide.log
-vignettes/figure/
-vignettes/backups/
-vignettes/data-vignettes/readr-bug.dat
-inst/web
-docs

@@ -17,6 +17,7 @@
 #'   \code{\link[readr]{locale}} to create your own locale that controls things 
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
+#' @param ... Further named arguments currently passed to \code{read_csv()}.
 #'   
 #' @return \code{read_csi_dat()} returns a \code{tibble::tibble} object.
 #' @export
@@ -31,7 +32,8 @@ read_csi_dat <- function(file,
                          label = NULL,
                          data_skip = 0, 
                          n_max = Inf, 
-                         locale = readr::default_locale()) {
+                         locale = readr::default_locale(),
+                         ...) {
 
   label.file <- paste("File: ", basename(file), sep = "")
   if (is.null(label)) {
@@ -58,7 +60,8 @@ read_csi_dat <- function(file,
                     skip = 4 + data_skip, 
                     n_max = n_max, 
                     col_names = col_names,
-                    col_types = readr::cols())
+                    col_types = readr::cols(),
+                    ...)
 
   attr(z, "file.header") <- file_header
   comment(z) <- comment.txt
