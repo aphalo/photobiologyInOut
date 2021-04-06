@@ -1,8 +1,8 @@
 Package: photobiologyInOut
 Type: Package
 Title: Read Spectral and Logged Data from Foreign Files
-Version: 0.4.22-1.9000
-Date: 2020-08-30
+Version: 0.4.22-1.9001
+Date: 2021-04-06
 Authors@R:
    c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3385-972X")),
@@ -42,7 +42,6 @@ Suggests:
     photobiologyWavebands (>= 0.4.3),
     testthat (>= 2.1.1)
 LazyLoad: yes
-LazyData: yes
 ByteCompile: true
 Encoding: UTF-8
 URL: https://docs.r4photobiology.info/photobiologyInOut/

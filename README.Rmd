@@ -1,7 +1,6 @@
 ---
 output:
-  github_document:
-    html_preview: false
+  github_document
 ---
 
 ```{r, echo = FALSE}
@@ -11,7 +10,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# photobiologyInOut
+# photobiologyInOut <img src="man/figures/logo.png" align="right" width="120" />
 
 [![CRAN version](https://www.r-pkg.org/badges/version-last-release/photobiologyInOut)](https://cran.r-project.org/package=photobiologyInOut) 
 [![cran checks](https://cranchecks.info/badges/worst/photobiologyInOut)](https://cran.r-project.org/web/checks/check_results_photobiologyInOut.html)
