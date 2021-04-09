@@ -63,11 +63,11 @@ read_oo_jazirrad <- function(file,
     )
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   if (line01[3] != "Irradiance") {
     warning("Input file does not contain data labeled as 'Irradiance' as expected: skipping")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   file_header <-
     scan(
@@ -106,10 +106,9 @@ read_oo_jazirrad <- function(file,
   )
   dots <- list(~W, ~P)
   z <- dplyr::select(z, 
-                     w.length = W,
-                     s.e.irrad = S)
-  z <- dplyr::mutate(z, 
-                     s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
+                     w.length = "W",
+                     s.e.irrad = "S")
+  z[["s.e.irrad"]] <- z[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.source_spct(z, time.unit = "second")
@@ -200,10 +199,9 @@ read_oo_jazpc <- function(file,
     locale = locale
   )
 
-  z <- dplyr::select(z, 
-                     w.length = W, 
-                     !!qty.in := P)
-  
+  z <- z[ , c("W", "P")]
+  colnames(z) <- c("w.length", qty.in)
+
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   if (qty.in == "Rpc") {
     z <- photobiology::as.reflector_spct(z, Rfr.type = Rfr.type)
@@ -347,8 +345,8 @@ read_oo_jazdata <- function(file,
   )
 
   z <- dplyr::select(z, 
-                     w.length = W,
-                     counts = S)
+                     w.length = "W",
+                     counts = "S")
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.raw_spct(z)

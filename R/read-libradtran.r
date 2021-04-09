@@ -56,18 +56,12 @@ read_uvspec_disort_vesa <- function(file,
                          col_types = "dccdd",
                          locale = locale)
   
-  # dots <- list(~lubridate::ymd_hms(paste(day, time), tz = tz),
-  #              ~s.e.irrad.dir * multiplier,
-  #              ~s.e.irrad.diff * multiplier,
-  #              ~s.e.irrad.dir + s.e.irrad.diff)
-  # dots.names <- c("datetime", "s.e.irrad.dir", "s.e.irrad.diff", "s.e.irrad")
-  # z <- dplyr::mutate_(z, .dots = stats::setNames(dots, dots.names))
-  z <- dplyr::mutate(z, 
-                     datetime = paste(day, time),
-                     datetime = lubridate::ymd_hms(datetime, tz = tz),
-                     s.e.irrad.dir = s.e.irrad.dir * multiplier,
-                     s.e.irrad.diff = s.e.irrad.diff * multiplier,
-                     s.e.irrad = s.e.irrad.dir + s.e.irrad.diff)
+  z <- tibble::tibble(
+    w.length = z[["w.length"]],
+    datetime = lubridate::ymd_hms(paste(z[["day"]], z[["time"]]), tz = tz),
+    s.e.irrad.dir = z[["s.e.irrad.dir"]] * multiplier,
+    s.e.irrad.diff = z[["s.e.irrad.diff"]] * multiplier,
+    s.e.irrad = (z[["s.e.irrad.dir"]] + z[["s.e.irrad.diff"]]) * multiplier)
   datetimes <- unique(z[["datetime"]])
   num.spectra <- length(datetimes)
   if (simplify && num.spectra == 1) {
@@ -157,17 +151,11 @@ read_uvspec_disort <- function(file,
                                        "uavgdir", "uavgdn", "uavgup"),
                          col_types = "ddddddd",
                          locale = locale)
-  # dots <- list(~lambda,
-  #              ~edir * multiplier,
-  #              ~edn * multiplier,
-  #              ~(edir + edn) * multiplier)
-  # dots.names <- c("w.length", "s.e.irrad.dir", "s.e.irrad.diff", "s.e.irrad")
-  # z <- dplyr::transmute_(z, .dots = stats::setNames(dots, dots.names))
-  z <- dplyr::transmute(z, 
-                        w.length = lambda,
-                        s.e.irrad.dir = edir * multiplier,
-                        s.e.irrad.diff = edn * multiplier,
-                        s.e.irrad = (edir + edn) * multiplier)
+
+  z <- tibble::tibble(w.length = z[["lambda"]],
+                      s.e.irrad.dir = z[["edir"]] * multiplier,
+                      s.e.irrad.diff = z[["edn"]] * multiplier,
+                      s.e.irrad = (z[["edir"]] + z[["edn"]]) * multiplier)
   
   photobiology::setSourceSpct(z, time.unit = "second", multiple.wl = 1)
   comment(z) <- paste("libRadtran file '", basename(file),
