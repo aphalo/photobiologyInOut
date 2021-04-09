@@ -125,9 +125,8 @@ read_tuv_usrout2mspct <- function(file,
 #' Read Quick TUV output file.
 #' 
 #' Reads and parses the header of a text file output by the Quick TUV on-line
-#' web front-end at \url{http://cprm.acom.ucar.edu/Models/TUV/Interactive_TUV/}
-#' to extract the header and spectral data. The time field is converted to a
-#' date.
+#' web front-end at UCAR to extract the header and spectral data. The time field
+#' is converted to a date.
 #' 
 #' @param file character string with the name of a text file.
 #' @param ozone.du numeric Ozone column in Dobson units.
