@@ -4,7 +4,7 @@ editor_options:
     wrap: 72
 ---
 
-# TODO
+# Roadmap
 
 Add support for StellarNet, Brewer, and Bentham spectrometers (examples
 of data files are welcome for these and other instruments). Add a
@@ -21,6 +21,8 @@ examples in vignette) (URGENT otherwise bugs creep-in easily).
     not yet supported.
 -   Track various changes in the tidyverse that deprecated functions
     used in this package.
+-   **Move git repository from Bitbucket to Github.**
+-   Set up Github action for CRAN-checks on Windows, OS X and Ubuntu.
 
 # photobiologyInOut 0.4.22-1
 

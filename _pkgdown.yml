@@ -1,12 +1,6 @@
 destination: ../photobiologyInOut-docs
 url: https://docs.r4photobiology.info/photobiologyInOut/
 
-home:
-  strip_header: true
-  links:
-  - text: Photobiology packages
-    href: https://www.r4photobiology.info/
-
 reference:
   - title: Package overview
     contents:
@@ -21,6 +15,7 @@ reference:
     - read_avaspec_csv
     - read_macam_dta
     - read_licor_prn
+    - read_wasatch_csv
   - title: Data from loggers
     desc: Read files with data from loggers.
     contents:
@@ -50,3 +45,40 @@ reference:
     - as.colorSpec
     - as.generic_spct
     - as.generic_mspct
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    news:
+      text: Changelog
+      href: news/index.html
+    articles:
+      text: User Guide
+      menu:
+      - text: 'The R for Photobiology Suite'
+        href: articles/r4p-introduction.html
+      - text: 'User Guide'
+        href: articles/user-guide.html
+    tutorials:
+      text: Resources
+      menu:
+      - text: R for Photobiology web site
+        href: https://www.r4photobiology.info/
+      - text: A handbook of methods
+        href: https://doi.org/10.31885/9789521083631
+      - text: Photobiological Sciences Online
+        href: http://photobiology.info/

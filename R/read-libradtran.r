@@ -27,7 +27,7 @@
 #' @return a source_spct object, possibly containing several spectra in long
 #'  form and a datetime column.
 #'   
-#' @references \url{https://www.r4photobiology.info} \url{http://www.libradtran.org}
+#' @references \url{http://www.libradtran.org}
 #'
 #' @export
 #' 

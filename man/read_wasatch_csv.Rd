@@ -51,6 +51,7 @@ retrieved and decoded as well additional metadata.
 Tested only with two example files.
 }
 \references{
-\url{https://www.r4photobiology.info} \url{https://oceanoptics.com/}
+\url{https://wasatchphotonics.com/}
+  \url{https://wasatchphotonics.com/product-category/software/}
 }
 \keyword{misc}

@@ -26,7 +26,8 @@
 #' 
 #' @return A source_spct object.
 #' @export
-#' @references \url{https://www.r4photobiology.info} \url{https://oceanoptics.com/}
+#' @references \url{https://wasatchphotonics.com/}
+#'   \url{https://wasatchphotonics.com/product-category/software/}
 #' @keywords misc
 #' 
 read_wasatch_csv <- function(file,

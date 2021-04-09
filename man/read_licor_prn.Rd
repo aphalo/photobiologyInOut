@@ -77,6 +77,6 @@ data, only month, day, and time of day. Because of this, in the current
 version, if \code{NULL} is the argument to date, year is set to 0000.
 }
 \references{
-\url{https://www.r4photobiology.info} \url{https://www.licor.com}
+\url{https://www.licor.com}
 }
 \keyword{misc}

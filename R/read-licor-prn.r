@@ -27,7 +27,7 @@
 #'   \code{time.unit} attribute set to \code{"second"} and \code{when.measured}
 #'   attribute set to the date-time extracted from the file name, or supplied.
 #' @export
-#' @references \url{https://www.r4photobiology.info} \url{https://www.licor.com}
+#' @references \url{https://www.licor.com}
 #' 
 #' @keywords misc
 #'   

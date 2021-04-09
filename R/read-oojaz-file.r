@@ -3,8 +3,8 @@
 #' Reads and parses the header of processed data text files output by
 #' Jaz instruments extracting the spectral data from the body of the file 
 #' and the metadata, including time and date of measurement from the header.
-#' Jaz modular spectrometers are manufactured by Ocean Optics, Dunedin, Florida,
-#' USA.
+#' Jaz modular spectrometers were manufactured by Ocean Optics.
+#' The company formerly named Ocean Optics is now called Ocean Insight.
 #' 
 #' @details Function \code{read_oo_jazirrad} can read processed irradiance
 #' output files. Function \code{read_oo_jazpc} can read processed transmittance
@@ -35,7 +35,7 @@
 #' 
 #' @export
 #' 
-#' @references \url{https://www.r4photobiology.info} \url{https://oceanoptics.com/}
+#' @references \url{https://www.oceaninsight.com/}
 #' 
 read_oo_jazirrad <- function(file,
                              date = NULL,
@@ -252,11 +252,11 @@ read_oo_jazdata <- function(file,
     )
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   if (line01[2] != "Data") {
     warning("Input file does not contain data labeled as 'Data' as expected: skipping")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   file_header <-
     scan(

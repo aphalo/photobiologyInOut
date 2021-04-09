@@ -47,6 +47,5 @@ This function should be able to read data log files from any YoctoPuce
   consistent among them.
 }
 \references{
-\url{https://www.r4photobiology.info}
-  \url{https://www.yoctopuce.com/}
+\url{https://www.yoctopuce.com/}
 }

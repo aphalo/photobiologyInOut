@@ -2,7 +2,8 @@
 #' 
 #' Reads and parses the header of a processed data file as output by
 #' SpectraSuite to extract the whole header remark field. The time field is
-#' retrieved and decoded.
+#' retrieved and decoded. SpectraSuite was a program, now replaced by OceanView.
+#' The company formerly named Ocean Optics is now called Ocean Insight.
 #' 
 #' @param file character string
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
@@ -21,7 +22,7 @@
 #'   
 #' @return A source_spct object.
 #' @export
-#' @references \url{https://www.r4photobiology.info} \url{https://oceanoptics.com/}
+#' @references \url{https://www.oceaninsight.com/}
 #' @keywords misc
 #' 
 read_oo_ssirrad <- function(file,

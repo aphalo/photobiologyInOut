@@ -1,10 +1,12 @@
 
-# photobiologyInOut
+# photobiologyInOut <img src="man/figures/logo.png" align="right" width="120" />
 
 [![CRAN
 version](https://www.r-pkg.org/badges/version-last-release/photobiologyInOut)](https://cran.r-project.org/package=photobiologyInOut)
 [![cran
 checks](https://cranchecks.info/badges/worst/photobiologyInOut)](https://cran.r-project.org/web/checks/check_results_photobiologyInOut.html)
+[![R build
+status](https://github.com/aphalo/photobiologyInOut/workflows/R-CMD-check/badge.svg)](https://github.com/aphalo/photobiologyInOut/actions)
 
 Package ‘**photobiologyInOut**’ provides functions for importing
 spectral data from diverse sources including instrument-specific files,
@@ -49,7 +51,7 @@ formats vary.**
 
 **PLEASE, BE VERY CAREFUL WHEN USING THIS PACKAGE. DO CHECK THAT UNITS
 USED IN THE IMPORTED FILE ARE THOSE EXPECTED BY THESE FUNCTIONS AND THAT
-THE VALUES IN THE RETRIEVED DATA ARE THOSE EXPECTED\!**
+THE VALUES IN THE RETRIEVED DATA ARE THOSE EXPECTED!**
 
 *If the functions in this package do not work with your files, they
 hopefully will be useful as examples for developing your own functions.
@@ -96,14 +98,14 @@ handbook of best practice in plant UV photobiology (1st ed., p. xxx +
 174). Helsinki: University of Helsinki, Department of Biosciences,
 Division of Plant Biology. ISBN 978-952-10-8363-1 (PDF),
 978-952-10-8362-4 (paperback). PDF file available from
-(<http://hdl.handle.net/10138/37558>).
+(<https://doi.org/10.31885/9789521083631>).
 
 ## Contributing
 
 Pull requests, bug reports, and feature requests are welcome at
-(<https://bitbucket.org/aphalo/photobiologyInOut>). Contribution of
-example data files that could be supported in future versions will be
-very much appreciated.
+(<https://github.com/aphalo/photobiologyInOut>). Contribution of example
+data files that could be supported in future versions will be very much
+appreciated.
 
 ## Citation
 
@@ -134,6 +136,6 @@ citation("photobiologyInOut")
 
 ## License
 
-© 2015-2020 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
+© 2015-2021 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
 the GPL, version 2 or greater. This software carries no warranty of any
 kind.

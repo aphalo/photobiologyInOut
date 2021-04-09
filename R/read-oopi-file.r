@@ -2,7 +2,8 @@
 #' 
 #' Reads and parses the header of a raw data file as output by the server
 #' running on a Raspberry Pi board to extract the whole header remark field. The
-#' time field is retrieved and decoded.
+#' time field is retrieved and decoded. 
+#' The company formerly named Ocean Optics is now called Ocean Insight.
 #' 
 #' @param file character string
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
@@ -25,7 +26,7 @@
 #' @return A raw_spct object.
 #' 
 #' @export
-#' @references \url{https://www.r4photobiology.info} \url{https://oceanoptics.com/} \url{https://www.raspberrypi.org/}
+#' @references \url{https://www.oceaninsight.com/} \url{https://www.raspberrypi.org/}
 #' 
 #' @note The header in these files has very little information, so the user
 #' needs to supply the number of pixels in the array as well as the date-time.

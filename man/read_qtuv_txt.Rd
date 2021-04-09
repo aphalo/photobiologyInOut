@@ -47,6 +47,5 @@ in the imported file and resistent to the presence of extraneous text or
 even summaries.
 }
 \references{
-\url{https://www.r4photobiology.info} 
-\url{http://cprm.acom.ucar.edu/Models/TUV/Interactive_TUV/}
+\url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}
 }

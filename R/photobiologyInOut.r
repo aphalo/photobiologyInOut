@@ -1,3 +1,12 @@
+#' @section Data acquisition: The support for Ocean Insight, formerly Ocean
+#'   Optics, spectrometers in package 'photobiologyInOut' is limited to the 
+#'   import of data acquired with Ocean Optics' software as is. In contrast,
+#'   package 'ooacquire', part of these same suite, makes it possible to 
+#'   control, modify settings and acquire spectral data from Ocean Optics 
+#'   spectrometers directly from within R. 
+#'   'ooacquire' also supports the conversion of raw-counts data into physical 
+#'   quantities.
+#'   
 #' @section Warning!: Most of the file formats supported are not standardized,
 #'   and are a moving target because of changes in instrument firmware and
 #'   support software. In addition the output format, especially with models,

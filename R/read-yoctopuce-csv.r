@@ -20,8 +20,7 @@
 #'
 #' @return \code{read_yoctopuce_csv()} returns a \code{tibble::tibble} object.
 #' @export
-#' @references \url{https://www.r4photobiology.info}
-#'   \url{https://www.yoctopuce.com/}
+#' @references  \url{https://www.yoctopuce.com/}
 #'
 #' @note This function should be able to read data log files from any YoctoPuce
 #'   USB interface module with data logging capabilities as the format is

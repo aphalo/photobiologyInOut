@@ -52,9 +52,10 @@ A raw_spct object.
 \description{
 Reads and parses the header of a processed data file as output by
 SpectraSuite to extract the whole header remark field. The time field is
-retrieved and decoded.
+retrieved and decoded. SpectraSuite was a program, now replaced by OceanView.
+The company formerly named Ocean Optics is now called Ocean Insight.
 }
 \references{
-\url{https://www.r4photobiology.info} \url{https://oceanoptics.com/}
+\url{https://www.oceaninsight.com/}
 }
 \keyword{misc}

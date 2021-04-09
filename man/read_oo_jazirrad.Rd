@@ -73,8 +73,8 @@ A source_spct object, a filter_spct object, a reflector_spct object
 Reads and parses the header of processed data text files output by
 Jaz instruments extracting the spectral data from the body of the file 
 and the metadata, including time and date of measurement from the header.
-Jaz modular spectrometers are manufactured by Ocean Optics, Dunedin, Florida,
-USA.
+Jaz modular spectrometers were manufactured by Ocean Optics.
+The company formerly named Ocean Optics is now called Ocean Insight.
 }
 \details{
 Function \code{read_oo_jazirrad} can read processed irradiance
@@ -87,5 +87,5 @@ Although the parameter is called \code{date} a date time is accepted
   and expected. Time resolution is 1 s.
 }
 \references{
-\url{https://www.r4photobiology.info} \url{https://oceanoptics.com/}
+\url{https://www.oceaninsight.com/}
 }
