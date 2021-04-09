@@ -6,6 +6,8 @@
 \alias{photobiologyInOut-package}
 \title{photobiologyInOut: Read Spectral and Logged Data from Foreign Files}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Functions for reading, and in some cases writing, foreign files 
     containing spectral data from spectrometers and their associated software, 
     output from daylight simulation models in common use, and some spectral 

@@ -82,7 +82,7 @@ hyperSpec2mspct <- function(x,
     # we transpose the matrix so that each spectrum is in a column
     y <- cbind(hyperSpec::wl(x), t(x$spc) * multiplier) 
     colnames(y) <- c("w.length", paste("spc", 1:nrow(x), sep = ""))
-    y <- tibble::as_data_frame(y)
+    y <- tibble::as_tibble(y)
     z <- split2mspct(x = y, 
                      member.class = member.class, 
                      spct.data.var = spct.data.var)

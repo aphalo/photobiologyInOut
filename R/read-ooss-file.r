@@ -79,10 +79,13 @@ read_oo_ssirrad <- function(file,
     locale = locale
   )
   
-  dots <- list(~s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
-  z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))
+  # dots <- list(~s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
+  # z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))
 
-  old.opts <- options("photobiology.strict.range" = NA_integer_)
+  z <- dplyr::mutate(z, 
+                     s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
+
+    old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.source_spct(z, time.unit = "second")
   options(old.opts)
 

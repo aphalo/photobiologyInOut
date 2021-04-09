@@ -105,9 +105,11 @@ read_oo_jazirrad <- function(file,
     locale = locale
   )
   dots <- list(~W, ~P)
-  z <- dplyr::select_(z, .dots = stats::setNames(dots, c("w.length", "s.e.irrad")))
-  dots <- list(~s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
-  z <- dplyr::mutate_(z, .dots = stats::setNames(dots, "s.e.irrad"))
+  z <- dplyr::select(z, 
+                     w.length = W,
+                     s.e.irrad = S)
+  z <- dplyr::mutate(z, 
+                     s.e.irrad = s.e.irrad * 1e-2) # uW cm-2 nm-1 -> W m-2 nm-1
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.source_spct(z, time.unit = "second")
@@ -197,8 +199,10 @@ read_oo_jazpc <- function(file,
     col_types = readr::cols(),
     locale = locale
   )
-  dots <- list(~W, ~P)
-  z <- dplyr::select_(z, .dots = stats::setNames(dots, c("w.length", qty.in)))
+
+  z <- dplyr::select(z, 
+                     w.length = W, 
+                     !!qty.in := P)
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   if (qty.in == "Rpc") {
@@ -341,8 +345,10 @@ read_oo_jazdata <- function(file,
     col_types = readr::cols(),
     locale = locale
   )
-  dots <- list(~W, ~S)
-  z <- dplyr::select_(z, .dots = stats::setNames(dots, c("w.length", "counts")))
+
+  z <- dplyr::select(z, 
+                     w.length = W,
+                     counts = S)
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.raw_spct(z)

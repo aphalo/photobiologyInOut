@@ -8,10 +8,12 @@ functions to handle character vectors of paths.
 Add test cases for new functions for exchange of foreign data (currently tested 
 through examples in vignette) (URGENT otherwise bugs creep-in easily).
 
-photobiologyInOut 0.4.23 (2020-09-xx)
+photobiologyInOut 0.4.23 (2021-04-09)
 =====================================
 
 * Add parameter ... to read_csi_data().
+* Track various changes in the tidyverse that deprecated function used in this
+package.
 
 photobiologyInOut 0.4.22-1 (2020-04-09)
 =======================================
