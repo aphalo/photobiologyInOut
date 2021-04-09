@@ -66,11 +66,11 @@ Installation of the most recent stable version from CRAN:
 install.packages("photobiologyInOut")
 ```
 
-Installation of the current unstable version from Bitbucket:
+Installation of the current unstable version from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_bitbucket("aphalo/photobiologyInOut")
+devtools::install_github("aphalo/photobiologyInOut")
 ```
 
 ## Documentation
