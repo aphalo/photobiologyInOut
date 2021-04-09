@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 
 [![CRAN version](https://www.r-pkg.org/badges/version-last-release/photobiologyInOut)](https://cran.r-project.org/package=photobiologyInOut) 
 [![cran checks](https://cranchecks.info/badges/worst/photobiologyInOut)](https://cran.r-project.org/web/checks/check_results_photobiologyInOut.html)
+[![R build status](https://github.com/aphalo/photobiologyInOut/workflows/R-CMD-check/badge.svg)](https://github.com/aphalo/photobiologyInOut/actions)
 
 Package '**photobiologyInOut**' provides functions for importing spectral data from diverse sources including instrument-specific files, spectral data output by solar-radiation simulation models, and files from on-line data repositories. It also includes functions for conversion of spectral data from/to classes defined in other R packages. Package '**photobiologyInOut**' complements other packages in the '**r4photobiology suite**' by allowing reading and writing "foreign" spectral data as well as reading data saved from data loggers.
 
@@ -70,7 +71,7 @@ Aphalo, P. J., Albert, A., Björn, L. O., McLeod, A. R., Robson, T. M., & Rosenq
 
 ## Contributing
 
-Pull requests, bug reports, and feature requests are welcome at (https://bitbucket.org/aphalo/photobiologyInOut). Contribution of example data files that could
+Pull requests, bug reports, and feature requests are welcome at (https://github.com/aphalo/photobiologyInOut). Contribution of example data files that could
 be supported in future versions will be very much appreciated.
 
 ## Citation
