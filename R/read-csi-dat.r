@@ -17,6 +17,8 @@
 #'   \code{\link[readr]{locale}} to create your own locale that controls things 
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
+#' @param na character Vector of strings to interpret as missing values. Set 
+#'   this option to character() to indicate no missing values.
 #' @param ... Further named arguments currently passed to \code{read_csv()}.
 #'   
 #' @return \code{read_csi_dat()} returns a \code{tibble::tibble} object.
@@ -33,6 +35,7 @@ read_csi_dat <- function(file,
                          data_skip = 0, 
                          n_max = Inf, 
                          locale = readr::default_locale(),
+                         na = c("", "NA", "NAN"),
                          ...) {
 
   label.file <- paste("File: ", basename(file), sep = "")

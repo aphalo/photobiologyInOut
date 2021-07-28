@@ -15,7 +15,7 @@ examples in vignette) (URGENT otherwise bugs creep-in easily).
 
 # photobiologyInOut 0.4.23
 
--   Add parameter ... to `read_csi_data()`.
+-   Add parameters `na` and `...` to `read_csi_data()`.
 -   Add function `read_wasatch_csv()` supporting data import from
     spectrum files saved by Wasatch's Enlighten program. Session files
     not yet supported.
