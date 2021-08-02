@@ -104,6 +104,19 @@ macam.raw.file <-
 autoplot(read_macam_dta(file = macam.raw.file))
 
 ## ----------------------------------------------------
+licor_espd.file <- 
+  system.file("extdata", "ESPD_LIGHT.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+licor_espd.spct <- read_licor_espd(file = licor_espd.file)
+
+## ----------------------------------------------------
+licor_espd.spct
+cat(comment(licor_espd.spct))
+getInstrDesc(licor_espd.spct)
+getInstrSettings(licor_espd.spct)
+autoplot(licor_espd.spct, unit.out = "photon")
+
+## ----------------------------------------------------
 licor.file <- 
   system.file("extdata", "spectrum.PRN", 
               package = "photobiologyInOut", mustWork = TRUE)

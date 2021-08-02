@@ -141,7 +141,7 @@ read_licor_prn <- function(file,
 #' @return Function \code{read_m_licor_prn()} returns a source_mspct object
 #'   containing one spectrum per file read.
 #'   
-#' @details Function \code{read_m_licor_prn()} calls \code{red_licor_file()} 
+#' @details Function \code{read_m_licor_prn()} calls \code{red_licor_prn()} 
 #'   for each file in \code{files}. See \code{\link[readr]{read_table}} for
 #'   a description of valid arguments for \code{files}.
 #' 
