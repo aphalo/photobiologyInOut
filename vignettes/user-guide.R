@@ -1,28 +1,35 @@
 ## ---- setup, include=FALSE, cache=FALSE--------------
 library(knitr)
+# Are the packages used in examples installed?
+eval_chunks <- requireNamespace("ggspectra", quietly = TRUE) &&
+                 requireNamespace("photobiologyWavebands", quietly = TRUE)
+# eval_colorSpec <- requireNamespace("colorSpec", quietly = TRUE) && eval_chunks
+eval_colorSpec <- eval_chunks
+eval_pavo <- requireNamespace("pavo", quietly = TRUE) && eval_chunks
+eval_hyperSpec <- requireNamespace("hyperSpec", quietly = TRUE) && eval_chunks
+
 opts_chunk$set(fig.align='center', fig.show='hold',
-               fig.width=7, fig.height=6, size="footnotesize")
+               fig.width=7, fig.height=6, size="footnotesize",
+               eval=eval_chunks)
+
 options(replace.assign = TRUE, width = 55,
         warnPartialMatchAttr = FALSE,
         warnPartialMatchDollar = FALSE,
         warnPartialMatchArgs = FALSE)
-
-## ---- example-0-hiden, eval=TRUE, message=FALSE------
 # setting TZ may be needed in some geographic locations as some Windows TZ 
 # strings are not recognized by all versions of R
 Sys.setenv(TZ = 'UTC')
+
+## ---- message=FALSE----------------------------------
+# eval_colorSpec <- requireNamespace("colorSpec", quietly = TRUE)
 library(photobiology)
 library(photobiologyWavebands)
 library(photobiologyInOut)
 library(lubridate)
 library(ggspectra)
 library(readr)
-# eval_colorSpec <- requireNamespace("colorSpec", quietly = TRUE)
 library(colorSpec)
-eval_colorSpec <- TRUE
-eval_pavo <- requireNamespace("pavo", quietly = TRUE)
 if (eval_pavo) {library(pavo)}
-eval_hyperSpec <- requireNamespace("hyperSpec", quietly = TRUE)
 if (eval_hyperSpec) {library(hyperSpec)}
 
 ## ----------------------------------------------------
