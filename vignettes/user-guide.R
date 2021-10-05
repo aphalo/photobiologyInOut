@@ -112,16 +112,16 @@ autoplot(read_macam_dta(file = macam.raw.file))
 
 ## ----------------------------------------------------
 licor_espd.file <- 
-  system.file("extdata", "ESPD_LIGHT.txt", 
+  system.file("extdata", "LI-180-irradiance.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
-licor_espd.spct <- read_licor_espd(file = licor_espd.file)
+li180.spct <- read_li180_txt(file = licor_espd.file)
 
 ## ----------------------------------------------------
-licor_espd.spct
-cat(comment(licor_espd.spct))
-getInstrDesc(licor_espd.spct)
-getInstrSettings(licor_espd.spct)
-autoplot(licor_espd.spct, unit.out = "photon")
+li180.spct
+cat(comment(li180.spct))
+getInstrDesc(li180.spct)
+getInstrSettings(li180.spct)
+autoplot(li180.spct, unit.out = "photon")
 
 ## ----------------------------------------------------
 licor.file <- 

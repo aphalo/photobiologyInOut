@@ -2,7 +2,7 @@
 % Please edit documentation in R/read-yoctopuce-csv.r
 \name{read_yoctopuce_csv}
 \alias{read_yoctopuce_csv}
-\title{Read '.CSV' file(s) dowloaded from YoctoPuce modules.}
+\title{Read '.CSV' file(s) downloaded from YoctoPuce modules.}
 \usage{
 read_yoctopuce_csv(
   file,
@@ -38,13 +38,26 @@ names.}
 }
 \description{
 Reads and parses the header of processed data CSV files as output by the
-virtual- or hardware-hubs and modules from Yoctupuce. Uses the comment
+virtual- or hardware-hubs and modules from Yoctopuce. Uses the comment
 attribute to store the metadata.
 }
 \note{
 This function should be able to read data log files from any YoctoPuce
   USB interface module with data logging capabilities as the format is
   consistent among them.
+}
+\examples{
+
+
+ file.name <- 
+   system.file("extdata", "yoctopuce-data.csv", 
+               package = "photobiologyInOut", mustWork = TRUE)
+                
+ yoctopc.tb <- read_yoctopuce_csv(file = file.name)
+ 
+ yoctopc.tb
+ cat(comment(yoctopc.tb))
+
 }
 \references{
 \url{https://www.yoctopuce.com/}

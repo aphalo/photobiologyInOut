@@ -25,6 +25,19 @@
 #' @references \url{https://www.oceaninsight.com/}
 #' @keywords misc
 #' 
+#' @examples
+#' 
+#'  file.name <- 
+#'    system.file("extdata", "spectrum.ssirrad", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  ooss.spct <- read_oo_ssirrad(file = file.name)
+#'  
+#'  ooss.spct
+#'  getWhenMeasured(ooss.spct)
+#'  getWhatMeasured(ooss.spct)
+#'  cat(comment(ooss.spct))
+#' 
 read_oo_ssirrad <- function(file,
                             date = NULL,
                             geocode = NULL,
@@ -45,7 +58,7 @@ read_oo_ssirrad <- function(file,
   line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
   if (line01[1] != "SpectraSuite") {
     warning("Input file was not created by SpectrSuite as expected: skipping")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   file_header <- scan(file = file, nlines = 16, 
                       skip = 0, what="character", sep = "\n")
@@ -126,7 +139,7 @@ read_oo_ssdata<- function(file,
   line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
   if (line01[1] != "SpectraSuite") {
     warning("Input file was not created by SpectrSuite as expected: skipping")
-    return(raw_spct())
+    return(photobiology::raw_spct())
   }
   file_header <- scan(file = file, nlines = 16, 
                       skip = 0, what="character", sep = "\n")

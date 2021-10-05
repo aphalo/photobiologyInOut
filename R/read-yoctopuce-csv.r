@@ -1,7 +1,7 @@
-#' Read '.CSV' file(s) dowloaded from YoctoPuce modules.
+#' Read '.CSV' file(s) downloaded from YoctoPuce modules.
 #'
 #' Reads and parses the header of processed data CSV files as output by the
-#' virtual- or hardware-hubs and modules from Yoctupuce. Uses the comment
+#' virtual- or hardware-hubs and modules from Yoctopuce. Uses the comment
 #' attribute to store the metadata.
 #'
 #' @param file Path to file as a character string.
@@ -26,6 +26,19 @@
 #'   USB interface module with data logging capabilities as the format is
 #'   consistent among them.
 #'   
+#' @examples
+#' 
+#' @examples
+#' 
+#'  file.name <- 
+#'    system.file("extdata", "yoctopuce-data.csv", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  yoctopc.tb <- read_yoctopuce_csv(file = file.name)
+#'  
+#'  yoctopc.tb
+#'  cat(comment(yoctopc.tb))
+#' 
 read_yoctopuce_csv <- function(file,
                                geocode = NULL,
                                label = NULL,

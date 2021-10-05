@@ -55,6 +55,20 @@ SpectraSuite to extract the whole header remark field. The time field is
 retrieved and decoded. SpectraSuite was a program, now replaced by OceanView.
 The company formerly named Ocean Optics is now called Ocean Insight.
 }
+\examples{
+
+ file.name <- 
+   system.file("extdata", "spectrum.ssirrad", 
+               package = "photobiologyInOut", mustWork = TRUE)
+                
+ ooss.spct <- read_oo_ssirrad(file = file.name)
+ 
+ ooss.spct
+ getWhenMeasured(ooss.spct)
+ getWhatMeasured(ooss.spct)
+ cat(comment(ooss.spct))
+
+}
 \references{
 \url{https://www.oceaninsight.com/}
 }

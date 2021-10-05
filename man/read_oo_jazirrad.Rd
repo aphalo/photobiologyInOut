@@ -84,7 +84,22 @@ and reflectance output files (expressed as \%s). Function
 }
 \note{
 Although the parameter is called \code{date} a date time is accepted 
-  and expected. Time resolution is 1 s.
+  and expected. Time resolution is < 1 s if seconds are entered with a
+  decimal fraction, such as "2021-10-05 10:10:10.1234".
+}
+\examples{
+
+ file.name <- 
+   system.file("extdata", "spectrum.jaz", 
+               package = "photobiologyInOut", mustWork = TRUE)
+                
+ jaz.spct <- read_oo_jazpc(file = file.name)
+ 
+ jaz.spct
+ getWhenMeasured(jaz.spct)
+ getWhatMeasured(jaz.spct)
+ cat(comment(jaz.spct))
+
 }
 \references{
 \url{https://www.oceaninsight.com/}

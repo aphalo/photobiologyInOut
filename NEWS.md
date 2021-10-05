@@ -16,33 +16,36 @@ examples in vignette) (URGENT otherwise bugs creep-in easily).
 # photobiologyInOut 0.4.23
 
 -   Add parameters `na` and `...` to `read_csi_data()`.
--   Add function `read_wasatch_csv()` supporting data import from
-    spectrum files saved by Wasatch's Enlighten program. Session files
+-   Add function `read_wasatch_csv()` supporting data import from long
+    form CSV spectrum files saved by Wasatch's Enlighten program.
+    Metadata parsed and added to spectral object. Session and JSON files
     not yet supported.
+-   Add function
 -   Track various changes in the tidyverse that deprecated functions
     used in this package.
 -   **Move git repository from Bitbucket to Github.**
 -   Set up Github action for CRAN-checks on Windows, OS X and Ubuntu.
+-   Fix bugs in some imports from 'photobiology'.
 
 # photobiologyInOut 0.4.22-1
 
 -   Fix two bad test cases that passed with 'photobiology' (== 0.10.0)
-    but not with 'photobiology' (\>= 0.10.1).
+    but not with 'photobiology' (>= 0.10.1).
 
 # photobiologyInOut 0.4.22
 
 -   Revise `read_fmi2mspct()` adding flexibility to cope with variation
     in date and time formats used in headers of spectra.
--   Update for compatibility with 'tibble' (\>= 3.0.0).
--   Update for compatibility with 'photobiology' (\>= 0.10.0) which also
-    provides compatibility with 'dplyr' (\>= 1.0.0).
--   Depends now on 'photobiology' (\>= 0.10.0).
+-   Update for compatibility with 'tibble' (>= 3.0.0).
+-   Update for compatibility with 'photobiology' (>= 0.10.0) which also
+    provides compatibility with 'dplyr' (>= 1.0.0).
+-   Depends now on 'photobiology' (>= 0.10.0).
 
 # photobiologyInOut 0.4.21-1
 
 -   Package code unchanged.
--   Update test cases for 'photobiology' (\>= 0.9.30).
--   Depends now on 'photobiology' (\>= 0.9.30).
+-   Update test cases for 'photobiology' (>= 0.9.30).
+-   Depends now on 'photobiology' (>= 0.9.30).
 
 # photobiologyInOut 0.4.21
 
@@ -57,11 +60,11 @@ examples in vignette) (URGENT otherwise bugs creep-in easily).
 # photobiologyInOut 0.4.19
 
 -   Add checks for non-ASCII characters in headers.
--   Track code breaking change in 'readr' (\>= 1.3.0).
+-   Track code breaking change in 'readr' (>= 1.3.0).
 
 # photobiologyInOut 0.4.18
 
--   Track code breaking change in 'readr' (\>= 1.2.0).
+-   Track code breaking change in 'readr' (>= 1.2.0).
 -   Fix bug in `read_oo_pidata()` that was preventing reading of Ocean
     Optics "Raspberry Pi" Flame files with a sequence header line at the
     top.
@@ -132,7 +135,7 @@ data saved from modern Campbell Scientific loggers.
 Make compatible with upcoming version of package 'lubridate' (pull
 request by vspinu NA). Add function `read_avaspec_xls()` which can
 import spectral data from Excel files exported from Avantes software.
-Fix code to avoid partial matches of function parameter names (tz -\>
+Fix code to avoid partial matches of function parameter names (tz ->
 tzone).
 
 # photobiologyInOut 0.4.9
@@ -156,7 +159,7 @@ without triggering a note.
 
 # photobiologyInOut 0.4.5
 
-Fix for compatibility with 'dplyr' (\> 0.4.3). Add functions to exchange
+Fix for compatibility with 'dplyr' (> 0.4.3). Add functions to exchange
 data with package 'colorSpec': `colorSpec2spct()`,
 `colorSpec2chroma_spct()`, `colorSpec2mspct()`, `spct2colorSpec()`,
 `chroma_spct2colorSpec()`, and `mspct2colorSpec()`. Add or revise
@@ -181,7 +184,7 @@ an argument to the functions!
 
 # photobiologyInOut 0.4.3
 
-Update for compatibility with 'lubridate' (\>= 1.5.6) Add function
+Update for compatibility with 'lubridate' (>= 1.5.6) Add function
 read_oo_jazdata() to read Jaz files containing raw counts. Add
 preliminary versions of functions to exchange data with package
 'hyperSpec': `mspct2hyperSpec()` and `hyperSpec2mspct()`. Add

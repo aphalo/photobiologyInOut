@@ -58,7 +58,7 @@ read_fmi_cum <- function(file,
   
   if (!grepl("(J/m2/nm)", file_header[.skip], fixed = TRUE)) {
     warning("Skipping file with unrecognized format!")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   
   if (is.null(tz)) {
@@ -279,7 +279,7 @@ read_fmi2mspct <- function(file,
       length(header.start.idxs) != length(data.start.idxs) ||
       length(header.start.idxs) != length(data.end.idxs)) {
     warning("Unmatched delimiters or no delimiters found!")
-    return(source_mspct())
+    return(photobiology::source_mspct())
   }
   
   zz <- list()

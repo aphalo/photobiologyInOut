@@ -28,7 +28,8 @@
 #'   names.
 #'   
 #' @note Although the parameter is called \code{date} a date time is accepted 
-#'   and expected. Time resolution is 1 s.
+#'   and expected. Time resolution is < 1 s if seconds are entered with a
+#'   decimal fraction, such as "2021-10-05 10:10:10.1234".
 #'   
 #' @return A source_spct object, a filter_spct object, a reflector_spct object
 #'   or a raw_spct object.
@@ -36,6 +37,19 @@
 #' @export
 #' 
 #' @references \url{https://www.oceaninsight.com/}
+#' 
+#' @examples
+#' 
+#'  file.name <- 
+#'    system.file("extdata", "spectrum.jaz", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  jaz.spct <- read_oo_jazpc(file = file.name)
+#'  
+#'  jaz.spct
+#'  getWhenMeasured(jaz.spct)
+#'  getWhatMeasured(jaz.spct)
+#'  cat(comment(jaz.spct))
 #' 
 read_oo_jazirrad <- function(file,
                              date = NULL,
@@ -168,7 +182,7 @@ read_oo_jazpc <- function(file,
     )
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   file_header <-
     scan(

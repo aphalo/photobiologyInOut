@@ -20,11 +20,23 @@
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
 #'
-#' @return A source_spct object.
+#' @return A \code{source_spct} object.
 #' @export
 #' @references \url{http://www.irradian.co.uk/}
-#' @keywords misc
-#'
+#' 
+#' @examples
+#' 
+#'  file.name <- 
+#'    system.file("extdata", "spectrum.DTA", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  macam.spct <- read_macam_dta(file = file.name)
+#'  
+#'  macam.spct
+#'  getWhenMeasured(macam.spct)
+#'  getWhatMeasured(macam.spct)
+#'  cat(comment(macam.spct))
+#' 
 read_macam_dta <- function(file,
                            date = NULL,
                            geocode = NULL,

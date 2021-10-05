@@ -1,9 +1,10 @@
 #' Read '.TXT' File(s) Saved by LI-COR's LI-180 spectroradiometer.
 #' 
 #' Reads and parses the header of a data file as output by the LI-180
-#' spectrometer to extract the whole header remark field and also decode whether
-#' data is in photon or energy based units. This is a new instrument released in
-#' year 2020.
+#' spectrometer (not to be confused with the LI-1800 spectrometer released in
+#' the 1980's by LI-COR) to extract the whole header remark field and also
+#' decode whether data is in photon or energy based units. This is a new
+#' instrument released in year 2020.
 #' 
 #' @param file Path to file as a character string.
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
@@ -38,14 +39,27 @@
 #'   user or configured. The length of the file header does not seem to be
 #'   fixed, so the start of the spectral data is detected by searching for
 #'   "380nm".
+#'   
+#' @examples
 #' 
-read_licor_espd <- function(file,
-                            date = NULL,
-                            geocode = NULL,
-                            label = NULL,
-                            tz = NULL,
-                            locale = readr::default_locale(),
-                            s.qty = "s.e.irrad") {
+#'   file.name <- 
+#'     system.file("extdata", "LI-180-irradiance.txt", 
+#'                 package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'   licor180.spct <- read_li180_txt(file = file.name)
+#'   
+#'   licor180.spct
+#'   getWhenMeasured(licor180.spct)
+#'   getWhatMeasured(licor180.spct)
+#'   cat(comment(licor180.spct))
+#'   
+read_li180_txt <- function(file,
+                           date = NULL,
+                           geocode = NULL,
+                           label = NULL,
+                           tz = NULL,
+                           locale = readr::default_locale(),
+                           s.qty = "s.e.irrad") {
   if (is.null(tz)) {
     tz <- locale$tz
   }
@@ -82,7 +96,7 @@ read_licor_espd <- function(file,
   first.data.line <- which(grepl("^380nm", file_header))
   if (length(first.data.line) != 1L) {
     stop("No spectral data found in file: ", file)
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   file_header <- file_header[1:(first.data.line - 1L)]
   
@@ -153,7 +167,7 @@ read_licor_espd <- function(file,
   z
 }
 
-#' @rdname read_licor_espd
+#' @rdname read_li180_txt
 #' @param files A list or vector of character strings.
 #' @export
 #' @return Function \code{read_m_licor_espd()} returns a source_mspct object
@@ -175,7 +189,7 @@ read_m_licor_espd <- function(files,
     spct.name <- tolower(sub(".PRN", "", f))
     
     list.of.spectra[[spct.name]] <-
-      read_licor_espd(
+      read_li180_txt(
         file = f,
         date = date,
         geocode = geocode,

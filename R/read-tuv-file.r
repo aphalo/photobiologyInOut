@@ -176,7 +176,7 @@ read_qtuv_txt <- function(file,
   header.start.idx <- grep("INPUT PARAMETERS:", file_header, fixed = TRUE)
   if (!length(header.start.idx)) {
     warning("File '", file, "' seems not to be output from Quick TUV Calculator.")
-    return(source_spct())
+    return(photobiology::source_spct())
   }
   
   # check that file contains spectral irradiance data
@@ -184,7 +184,7 @@ read_qtuv_txt <- function(file,
   header.end.idx <- grep("SPECTRAL IRRADIANCE", file_header, fixed = TRUE)
   if (!length(header.end.idx)) {
     warning("File '", file, "' does not contain spectral data.")
-    return(source_spct())
+    return(photobiology::source_spct())
   } else {
     data.header.line <- file_header[header.end.idx]
   }

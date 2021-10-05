@@ -1,9 +1,13 @@
 #' Read '.PRN' File(s) Saved by LI-COR's PC1800 Program.
 #' 
-#' Reads and parses the header of a processed data file as output by the PC1800
+#' Read and parse the header of a processed data file as output by the PC1800
 #' program to extract the whole header remark field and also decode whether data
-#' is in photon or energy based units. The time field is ignored as it does not
-#' contain year information. This instrument is no longer being manufactured.
+#' is irradiance in photon or energy based units, transmittance, reflectance or
+#' absorbance and then extract the wavelength and spectral data. PC1800 is an
+#' MS-DOS program provided for use with the LI-1800 spectrometer. This
+#' instrument was released in the 1980's and was sold until the early 2000's. It
+#' was very popular and several of them remain in use. (It should not be
+#' confused with the LI-180, a new spectrometer released released in 2020.)
 #' 
 #' @param file Path to file as a character string.
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
@@ -34,6 +38,19 @@
 #' @note The LI-1800 spectroradiometer does not store the year as part of the
 #' data, only month, day, and time of day. Because of this, in the current
 #' version, if \code{NULL} is the argument to date, year is set to 0000.
+#' 
+#' @examples
+#' 
+#'  file.name <- 
+#'    system.file("extdata", "spectrum.PRN", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  licor.spct <- read_licor_prn(file = file.name)
+#'  
+#'  licor.spct
+#'  getWhenMeasured(licor.spct)
+#'  getWhatMeasured(licor.spct)
+#'  cat(comment(licor.spct))
 #' 
 read_licor_prn <- function(file,
                            date = NULL,

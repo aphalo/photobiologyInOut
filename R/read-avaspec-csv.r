@@ -25,6 +25,18 @@
 #' @references \url{https://www.avantes.com/}
 #' @keywords misc
 #' 
+#' @examples
+#' 
+#'  file.name <- 
+#'     system.file("extdata", "spectrum-avaspec.csv", 
+#'                 package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  avaspec.spct <- read_avaspec_csv(file = file.name)
+#'  
+#'  avaspec.spct
+#'  getWhatMeasured(avaspec.spct)
+#'  cat(comment(avaspec.spct))
+#'  
 read_avaspec_csv <- function(file,
                              date = NULL,
                              geocode = NULL,
