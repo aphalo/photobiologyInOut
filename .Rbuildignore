@@ -9,7 +9,5 @@
 ^.*\.bak$
 ^_pkgdown\.yml$
 ^README\.Rmd$
-^README-.*\.png$
 ^.*\.sh$
 ^\.github$
-^pkgdown$

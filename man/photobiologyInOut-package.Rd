@@ -44,7 +44,7 @@ Aphalo, Pedro J. (2015) The r4photobiology suite. UV4Plants Bulletin, 2015:1,
 Useful links:
 \itemize{
   \item \url{https://docs.r4photobiology.info/photobiologyInOut/}
-  \item Report bugs at \url{https://bitbucket.org/aphalo/photobiologyinout/issues/}
+  \item Report bugs at \url{https://github.com/aphalo/photobiologyinout/issues/}
 }
 
 }

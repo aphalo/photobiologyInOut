@@ -46,14 +46,17 @@ read_csi_dat <- function(file,
   }
   
   file_header <- readr::read_lines(file, n_max = 4, skip = 0)
-  head_line <-  scan(text = file_header[1L], what = character(), sep = ",")
+  head_line <-  scan(text = file_header[1L], what = character(), 
+                     sep = ",", quiet = TRUE)
   head_line = paste(head_line, collapse = "\t")
-  col_names <- scan(text = file_header[2L], what = character(), sep = ",")
-  units <- scan(text = file_header[3L], what = character(), sep = ",", encoding = "UTF-8")
+  col_names <- scan(text = file_header[2L], what = character(), 
+                    sep = ",", quiet = TRUE)
+  units <- scan(text = file_header[3L], what = character(), 
+                sep = ",", encoding = "UTF-8", quiet = TRUE)
   units <- sub("^$", "NA", units)
   qty <- scan(file, 
               what = character(), nlines = 1, skip = 3,
-              sep = ",")
+              sep = ",", quiet = TRUE)
   metadata <- paste(col_names, units, qty, sep = "\t", collapse = "\n")
   comment.txt <- paste(label, head_line, metadata, sep = "\n---\n")
   # readr::read_csv automatically recognizes dates as well as numeric
@@ -64,6 +67,7 @@ read_csi_dat <- function(file,
                     n_max = n_max, 
                     col_names = col_names,
                     col_types = readr::cols(),
+                    progress = FALSE,
                     ...)
 
   attr(z, "file.header") <- file_header

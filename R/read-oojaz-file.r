@@ -73,7 +73,8 @@ read_oo_jazirrad <- function(file,
       file = file,
       nlines =  1,
       skip = 0,
-      what = "character"
+      what = "character", 
+      quiet = TRUE
     )
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
@@ -89,7 +90,8 @@ read_oo_jazirrad <- function(file,
       nlines = 18,
       skip = 0,
       what = "character",
-      sep = "\n"
+      sep = "\n", 
+      quiet = TRUE
     )
   NonASCII <- tools::showNonASCII(file_header)
   if (length(NonASCII) > 0L) {
@@ -116,6 +118,7 @@ read_oo_jazirrad <- function(file,
     skip = 19,
     n_max = npixels,
     col_types = readr::cols(),
+    progress = FALSE,
     locale = locale
   )
   dots <- list(~W, ~P)
@@ -178,7 +181,8 @@ read_oo_jazpc <- function(file,
       file = file,
       nlines =  1,
       skip = 0,
-      what = "character"
+      what = "character", 
+      quiet = TRUE
     )
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
@@ -190,7 +194,8 @@ read_oo_jazpc <- function(file,
       nlines = 16,
       skip = 0,
       what = "character",
-      sep = "\n"
+      sep = "\n", 
+      quiet = TRUE
     )
   
   npixels <- as.integer(sub("Number of Pixels in Processed Spectrum: ", "", 
@@ -210,6 +215,7 @@ read_oo_jazpc <- function(file,
     skip = 17,
     n_max = npixels,
     col_types = readr::cols(),
+    progress = FALSE,
     locale = locale
   )
 
@@ -262,7 +268,8 @@ read_oo_jazdata <- function(file,
       file = file,
       nlines =  1,
       skip = 0,
-      what = "character"
+      what = "character", 
+      quiet = TRUE
     )
   if (line01[1] != "Jaz") {
     warning("Input file was not created by a Jaz spectrometer as expected: skipping")
@@ -278,7 +285,8 @@ read_oo_jazdata <- function(file,
       nlines = 16,
       skip = 0,
       what = "character",
-      sep = "\n"
+      sep = "\n", 
+      quiet = TRUE
     )
   
   npixels <- as.integer(sub("Number of Pixels in Processed Spectrum: ", "", 
@@ -355,6 +363,7 @@ read_oo_jazdata <- function(file,
     skip = 17,
     n_max = npixels,
     col_types = readr::cols(),
+    progress = FALSE,
     locale = locale
   )
 

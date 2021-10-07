@@ -56,7 +56,7 @@ read_ASTER_txt <- function(file,
                            npixels = Inf) {
   
   file_header <- scan(file = file, nlines = 26, 
-                      skip = 0, what = "character", sep = "\n")
+                      skip = 0, what = "character", sep = "\n", quiet = TRUE)
   
   label.file <- paste("File: ", basename(file), sep = "")
   label.file <- paste(file_header[[1]], label.file, sep = "\n") 

@@ -54,6 +54,7 @@ read_uvspec_disort_vesa <- function(file,
                          col_names = c("w.length", "day", "time", 
                                        "s.e.irrad.dir", "s.e.irrad.diff"),
                          col_types = "dccdd",
+                         progress = FALSE,
                          locale = locale)
   
   z <- tibble::tibble(
@@ -150,6 +151,7 @@ read_uvspec_disort <- function(file,
                                        "edir", "edn", "eup", 
                                        "uavgdir", "uavgdn", "uavgup"),
                          col_types = "ddddddd",
+                         progress = FALSE,
                          locale = locale)
 
   z <- tibble::tibble(w.length = z[["lambda"]],

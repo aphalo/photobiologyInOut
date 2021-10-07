@@ -54,7 +54,8 @@ read_avaspec_csv <- function(file,
     label <- paste(label.file, label, sep = "\n")
   }
   
-  file_header <- scan(file = file, nlines = 6, skip = 0, what = "character")
+  file_header <- scan(file = file, nlines = 6, skip = 0, 
+                      what = "character", quiet = TRUE)
   # watt / cm ?
   if (length(grep("Watt/cm", file_header[2], fixed = TRUE))) {
     mult <- 10e-4
@@ -66,6 +67,7 @@ read_avaspec_csv <- function(file,
                        col_names = c("w.length", "s.e.irrad"),
                        skip = 6,
                        col_types = readr::cols(),
+                       progress = FALSE,
                        locale = locale)
   z[ , "s.e.irrad"] <- z[ , "s.e.irrad"] * mult
 
@@ -120,6 +122,7 @@ read_avaspec_xls <- function(path,
 
   z <- readxl::read_excel(path,
                           col_names = column_names,
+                          progress = FALSE,
                           skip = 6)
   
   z <- z[!is.na(z["w.length"]),

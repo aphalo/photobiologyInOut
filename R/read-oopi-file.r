@@ -74,12 +74,14 @@ read_oo_pidata <- function(file,
   }
   
   first.line <- scan(file = file, nlines = 1, 
-                     skip = 0, what = "character", sep = "\n")
+                     skip = 0, what = "character", 
+                     sep = "\n", quiet = TRUE)
   
   skip.n <- ifelse(grepl("sequence", first.line), 1L, 0L)
   
   file_header <- scan(file = file, nlines = 4, 
-                      skip = skip.n, what = "character", sep = "\n")
+                      skip = skip.n, what = "character", 
+                      sep = "\n", quiet = TRUE)
   NonASCII <- tools::showNonASCII(file_header)
   if (length(NonASCII) > 0L) {
     warning("Found non-ASCII characters in file header: ", 
@@ -141,6 +143,7 @@ read_oo_pidata <- function(file,
     skip = 5 + skip.n,
     n_max = npixels,
     col_types = readr::cols(),
+    progress = FALSE,
     locale = locale
   )
   

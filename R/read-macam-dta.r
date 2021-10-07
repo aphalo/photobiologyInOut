@@ -54,7 +54,8 @@ read_macam_dta <- function(file,
     label <- paste(label.file, label, sep = "\n")
   }
   
-  file_header <- scan(file = file, nlines = 3, skip = 0, what = "character")
+  file_header <- scan(file = file, nlines = 3, skip = 0,
+                      what = "character", quiet = TRUE)
   if (is.null(date)) {
     date <- lubridate::dmy(sub(pattern = "@", replacement = "",
                                x = file_header[1], fixed = TRUE),
@@ -65,7 +66,7 @@ read_macam_dta <- function(file,
   }
   z <- scan(file = file,
                    what = list(w.length = double(), s.e.irrad = double()),
-                   skip = 3)
+                   skip = 3, quiet = TRUE)
 
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.source_spct(z, time.unit = "second")

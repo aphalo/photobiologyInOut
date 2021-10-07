@@ -51,7 +51,8 @@ read_tuv_usrout <- function(file,
     label <- paste(label.file, label, sep = "\n")
   }
   
-  file_header <- scan(file = file, nlines = 5, what = "character", sep = "\n" )
+  file_header <- scan(file = file, nlines = 5, what = "character", 
+                      sep = "\n", quiet = TRUE)
   NonASCII <- tools::showNonASCII(file_header)
   if (length(NonASCII) > 0L) {
     warning("Found non-ASCII characters in file header: ", 
@@ -61,7 +62,8 @@ read_tuv_usrout <- function(file,
   }
   
   hours <- scan(text = sub(pattern = "wc, nm", replacement = "",
-                           x = file_header[4], fixed = TRUE))
+                           x = file_header[4], fixed = TRUE), 
+                quiet = TRUE)
   num.spectra <- length(hours)
   
   minutes <- trunc((hours - trunc(hours)) * 60)
@@ -73,11 +75,13 @@ read_tuv_usrout <- function(file,
   date <- as.POSIXct(date)
   
   angles <- scan(text = sub(pattern = "sza = ", replacement = "", 
-                            x = file_header[5], fixed = TRUE))
+                            x = file_header[5], fixed = TRUE), 
+                 quiet = TRUE)
   
   wide.df <- readr::read_table(file = file, skip = 5, 
                                col_names = c("w.length", LETTERS[1:num.spectra]),
                                col_types = readr::cols(),
+                               progress = FALSE,
                                locale = locale)
   
   wl.length <- length(wide.df[["w.length"]])
@@ -197,7 +201,8 @@ read_qtuv_txt <- function(file,
   wgrid.line.idx <- grep("w-grid:", file_header, fixed = TRUE)
   temp <-
     scan(text = file_header[wgrid.line.idx], 
-         what = list(NULL, length = 1L, wl.min = 1, wl.max = 1))
+         what = list(NULL, length = 1L, wl.min = 1, wl.max = 1), 
+         quiet = TRUE)
   length.spct <- temp[["length"]] - 1L # number of wl intervals
   wl.min = temp[["wl.min"]]
   wl.max = temp[["wl.max"]]
@@ -206,25 +211,30 @@ read_qtuv_txt <- function(file,
   zgrid.line.idx <- grep("z-grid:", file_header, fixed = TRUE)
   temp <-
     scan(text = file_header[zgrid.line.idx], 
-         what = list(NULL, NULL, z.min = 1, z.max = 1))
+         what = list(NULL, NULL, z.min = 1, z.max = 1), 
+         quiet = TRUE)
   observer.km.asl <- temp["z.min"]
 
   # read date
   date.line <- grep("idate =", file_header)
   temp <- scan(text = file_header[date.line],
-                    what = list(NULL, NULL, idate = "", NULL, NULL, esfact = 1))
+               what = list(NULL, NULL, idate = "", NULL, NULL, esfact = 1), 
+               quiet = TRUE)
   date <- lubridate::ymd(temp[["idate"]], tz = tz)
 #  esfact <- temp[["esfact"]]
   
   # "solar zenith angle = " -> angle. Always present either user supplied or calculated
   zenith.angle.line <- file_header[grepl("solar zenith angle", file_header)]
-  zenith.angle <- scan(text = sub("solar zenith angle =", "", zenith.angle.line, fixed = TRUE))     
+  zenith.angle <- scan(text = sub("solar zenith angle =", "", 
+                                  zenith.angle.line, fixed = TRUE), 
+                       quiet = TRUE)     
   
   # "  measurement point: index            1  altitude=    0.000000". Always present.
   altitude.line <- file_header[grepl("altitude=", file_header)]
   temp <- unlist(
     scan(text = sub("measurement point: ", "", altitude.line, fixed = TRUE),
-       what = list(NULL, index = 1, NULL, alt = 1))
+         what = list(NULL, index = 1, NULL, alt = 1), 
+         quiet = TRUE)
     )
   ground.km.asl <- temp["alt"]
 
@@ -234,7 +244,9 @@ read_qtuv_txt <- function(file,
   if (length(geocode.line)) {
     temp <-
     unlist(
-      scan(text = geocode.line, what = list(NULL, lat = 1, NULL, lon = 1, NULL, utc = 1))
+      scan(text = geocode.line, 
+           what = list(NULL, lat = 1, NULL, lon = 1, NULL, utc = 1), 
+           quiet = TRUE)
     )
     lat <- temp["lat"]
     lon <- temp["lon"]
@@ -274,6 +286,7 @@ read_qtuv_txt <- function(file,
                                      "s.e.irrad.dir",
                                      "s.e.irrad.diff.down", "s.e.irrad.diff.up",
                                      "s.e.irrad"),
+                       progress = FALSE,
                        n_max = length.spct)
   spct.tb <- stats::na.omit(spct.tb)
   # convert to spectrum object

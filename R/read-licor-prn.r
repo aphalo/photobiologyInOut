@@ -75,7 +75,8 @@ read_licor_prn <- function(file,
     nlines = 7,
     skip = 0,
     what = "character",
-    sep = "\n"
+    sep = "\n",
+    quiet = TRUE
   )
   
   NonASCII <- tools::showNonASCII(file_header)

@@ -68,7 +68,8 @@ read_fmi_cum <- function(file,
 #  file_date <- file.mtime(file, tz = tz)[1]
   
   if (is.null(date)) {
-    date.char <- scan(text = file_header[2], nlines = 1, what = "z")[2]
+    date.char <- scan(text = file_header[2], nlines = 1, 
+                      what = "z", quiet = TRUE)[2]
     date.time <- .date.f(date.char, tz = tz) # tz needed as otherwise a "Date" is returned
   }
   

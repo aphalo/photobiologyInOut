@@ -57,7 +57,6 @@ Sys.setenv(TZ = 'UTC')
 When loading suggested packages flags are set based on success and later used to selectively evaluate code chunks.
 
 ```{r, message=FALSE}
-# eval_colorSpec <- requireNamespace("colorSpec", quietly = TRUE)
 library(photobiology)
 library(photobiologyWavebands)
 library(photobiologyInOut)
@@ -70,7 +69,10 @@ if (eval_hyperSpec) {library(hyperSpec)}
 ```
 
 ```{r}
+# plot defaults
 theme_set(theme_bw()) # ggplot2
+set_annotations_default(annotations = c("+", "title:what:when"))
+# decrease lines printed
 options(tibble.print_max = 5,
         tibble.print_min = 3,
         photobiology.strict.range = NA_integer_)
@@ -88,19 +90,23 @@ Functions for importing measured spectral data.
 | read_oo_ssdata()     | Ocean Optics spectrom. | SpectraSuite      | raw_spct        |
 | read_oo_jazirrad()   | Ocean Optics Jaz       | *instrument*      | source_spct     |
 | read_oo_jazpc()      | Ocean Optics Jaz       | *instrument*      | filter_spct     |
-| read_oo_jazpc()      | Ocean Optics Jaz       | *instrument*      | reflector_spct     |
+| read_oo_jazpc()      | Ocean Optics Jaz       | *instrument*      | reflector_spct  |
 | read_oo_jazdata()    | Ocean Optics Jaz       | *instrument*      | raw_spct        |
 | read_oo_pidata()     | Ocean Optics spectrom. | STS DK (Raspbian) | raw_spct        |
-| read_avaspec_csv()   | Avantes spectrom.      | *instrument*      | source_spct     |
+| read_wasatch_csv()   | Wasatch Phot. spectrom. | Enlighten        | raw_spct        |
+| read_wasatch_csv()   | Wasatch Phot. spectrom. | Enlighten        | filter_spct     |
+| read_wasatch_csv()   | Wasatch Phot. spectrom. | Enlighten        | reflector_spct  |
+| read_wasatch_csv()   | Wasatch Phot. spectrom. | Enlighten        | source_spct     |
+| read_avaspec_csv()   | Avantes spectrom.      | *instrument?*     | source_spct     |
 | read_macam_file()    | Macam                  | *instrument*      | source_spct     |
-| read_licor_espd()    | LI-COR LI-180          | *instrument*      | source_spct     |
-| read_m_licor_espd()  | LI-COR LI-180          | *instrument*      | source_mspct    |
-| read_licor_file()    | LI-COR LI-1800         | PC1800 (MS-DOS)   | source_spct     |
-| read_licor_file()    | LI-COR LI-1800         | PC1800 (MS-DOS)   | filter_spct     |
-| read_licor_file()    | LI-COR LI-1800         | PC1800 (MS-DOS)   | reflector_spct  |
-| read_m_licor_file() | LI-COR LI-1800         | PC1800 (MS-DOS)   | source_mspct    |
-| read_m_licor_file() | LI-COR LI-1800         | PC1800 (MS-DOS)   | filter_mspct    |
-| read_m_licor_file() | LI-COR LI-1800         | PC1800 (MS-DOS)   | reflector_mspct |
+| read_li180_txt()    | LI-COR LI-180          | *instrument*      | source_spct     |
+| read_m_li180_txt()  | LI-COR LI-180          | *instrument*      | source_mspct    |
+| read_licor_prn()    | LI-COR LI-1800         | PC1800 (MS-DOS)   | source_spct     |
+| read_licor_prn()    | LI-COR LI-1800         | PC1800 (MS-DOS)   | filter_spct     |
+| read_licor_prn()    | LI-COR LI-1800         | PC1800 (MS-DOS)   | reflector_spct  |
+| read_m_licor_prn() | LI-COR LI-1800         | PC1800 (MS-DOS)   | source_mspct    |
+| read_m_licor_prn() | LI-COR LI-1800         | PC1800 (MS-DOS)   | filter_mspct    |
+| read_m_licor_prn() | LI-COR LI-1800         | PC1800 (MS-DOS)   | reflector_mspct |
 
 ### Ocean Optics Jaz
 
@@ -300,6 +306,68 @@ q.raw.file <-
   system.file("extdata", "spectrum.SSIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_oo_ssirrad(file = q.raw.file))
+```
+
+### Array spectrometers from Wasatch Photonics
+
+Enlighten can save spectral data in a variety of file formats. The function `read_wasatch_csv()` reads CSV files with spectral data in columns. It is designed so that it can read any variation of this file format. In Enlighten it is possible to select which columns are included in the file so their number can vary. However, the header is rich in information and this allows in many but not all cases to guess based on the "Technique" used in Enlighten the type of data being imported. This means that in some cases the user needs to pass an argument to parameter `s.qty`. This is also the case when the column to be extracted is not that with heading "Processed" in the CSV file. The metadata is as for Ocean Insight/Ocean Optics spectrometers copied to attributes in the returned object.
+
+Format of the header is simple and rather easy to parse. The header of the file and the first few lines look like this:
+```
+ENLIGHTEN Version,2.2.7
+Measurement ID,20211003-134004-612972-WP-00591
+Serial Number,WP-00591
+Model,WP-UV-VIS-C-S-25
+Label,13:40:04 WP-00591
+Declared Match,
+Declared Score,0
+Scan Averaging,1
+Boxcar,0
+Technique,Scope
+Baseline Correction Algo,
+ROI Pixel Start,0
+ROI Pixel End,1023
+Slit Width,25
+Vignetted,False
+Interpolated,False
+Raman Intensity Corrected,False
+Deconvolved,False
+Integration Time,60
+Timestamp,2021-10-03 13:40:04.612972
+Note,Dark substracted
+Temperature,-15.327480412352088
+CCD C0,247.9385986328125
+CCD C1,0.5131465792655945
+CCD C2,-0.00012270470324438065
+CCD C3,7.728250039917839e-08
+CCD Offset,0
+CCD Gain,1.9
+Laser Wavelength,0.0
+Laser Enable,False
+Laser Power,100
+Laser Temperature,0
+Pixel Count,1024
+
+Pixel,Wavelength,Processed
+0,247.94,175.00
+1,248.45,178.00
+```
+
+```{r}
+file.name <- 
+    system.file("extdata", "enlighten-wasatch-scope.csv",
+                package = "photobiologyInOut", mustWork = TRUE)
+              
+wasatch.raw.spct <- 
+    read_wasatch_csv(file = file.name, extra.cols = "drop")
+```
+
+```{r}
+summary(wasatch.raw.spct)
+```
+
+```{r}
+autoplot(wasatch.raw.spct)
 ```
 
 ### Modular spectrometers from Avantes
@@ -588,7 +656,7 @@ ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
 
 [Yocto Puce Sarl](https://www.yoctopuce.com/) sells numerous different USB modules. Those capable of data
 input can log the data to memory and these data can be downloaded as a CSV
-file. These files can be easily read into R but function `read_yoctopuce_csv()` makes this even simpler.
+file. These files can be easily read into R using base functions but function `read_yoctopuce_csv()` makes this even a bit simpler.
 
 ```{r}
 yoctopuce_hour.file <- 

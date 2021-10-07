@@ -55,13 +55,15 @@ read_oo_ssirrad <- function(file,
     label <- paste(label.file, label, sep = "\n")
   }
   
-  line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
+  line01 <- scan(file = file, nlines =  1, skip = 0, 
+                 what="character", quiet = TRUE)
   if (line01[1] != "SpectraSuite") {
     warning("Input file was not created by SpectrSuite as expected: skipping")
     return(photobiology::source_spct())
   }
   file_header <- scan(file = file, nlines = 16, 
-                      skip = 0, what="character", sep = "\n")
+                      skip = 0, what="character", 
+                      sep = "\n", quiet = TRUE)
   NonASCII <- tools::showNonASCII(file_header)
   if (length(NonASCII) > 0L) {
     warning("Found non-ASCII characters in file header: ", 
@@ -90,6 +92,7 @@ read_oo_ssirrad <- function(file,
     skip = 17,
     n_max = npixels,
     col_types = readr::cols(),
+    progress = FALSE,
     locale = locale
   )
   
@@ -136,13 +139,15 @@ read_oo_ssdata<- function(file,
     label <- paste(label.file, label, sep = "\n")
   }
   
-  line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
+  line01 <- scan(file = file, nlines =  1, skip = 0, 
+                 what="character", quiet = TRUE)
   if (line01[1] != "SpectraSuite") {
     warning("Input file was not created by SpectrSuite as expected: skipping")
     return(photobiology::raw_spct())
   }
   file_header <- scan(file = file, nlines = 16, 
-                      skip = 0, what="character", sep = "\n")
+                      skip = 0, what="character", 
+                      sep = "\n", quiet = TRUE)
   
   npixels <- as.integer(sub("Number of Pixels in Processed Spectrum: ", "", 
                             file_header[16], fixed = TRUE))
@@ -164,6 +169,7 @@ read_oo_ssdata<- function(file,
     skip = 17,
     n_max = npixels,
     col_types = readr::cols(),
+    progress = FALSE,
     locale = locale
   )
   

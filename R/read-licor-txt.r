@@ -76,7 +76,8 @@ read_li180_txt <- function(file,
     nlines = 50,
     skip = 0,
     what = "character",
-    sep = "\n"
+    sep = "\n", 
+    quiet = TRUE
   )
   
   NonASCII <- tools::showNonASCII(file_header)

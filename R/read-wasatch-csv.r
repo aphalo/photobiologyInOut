@@ -118,13 +118,14 @@ read_wasatch_csv <- function(file,
     label <- paste(label.file, label, sep = "\n")
   }
   
-  line01 <- scan(file = file, nlines =  1, skip = 0, what="character")
+  line01 <- scan(file = file, nlines =  1, skip = 0,
+                 what="character", quiet = TRUE)
   if (line01[1] != "ENLIGHTEN") {
     warning("Input file was not created by ENLIGHTEN as expected: skipping")
     return(photobiology::generic_spct())
   }
-  file_header <- scan(file = file, nlines = 40, 
-                      skip = 0, what="character", sep = "\n")
+  file_header <- scan(file = file, nlines = 40, skip = 0,
+                      what="character", sep = "\n", quiet = TRUE)
   NonASCII <- tools::showNonASCII(file_header)
   if (length(NonASCII) > 0L) {
     warning("Found non-ASCII characters in file header: ", 
@@ -211,7 +212,8 @@ read_wasatch_csv <- function(file,
   
   # inspect column names
   column.names <- file_header[i]
-  column.names <- scan(text = column.names, what = "", sep = ",")
+  column.names <- scan(text = column.names, what = "", 
+                       sep = ",", quiet = TRUE)
 
   x <- utils::read.csv(file = file,
                        header = TRUE,

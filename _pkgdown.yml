@@ -12,9 +12,11 @@ reference:
     - read_oo_jazirrad
     - read_oo_pidata
     - read_oo_jazpc
+    - read_wasatch_txt
     - read_avaspec_csv
     - read_macam_dta
     - read_licor_prn
+    - read_li180_txt
     - read_wasatch_csv
   - title: Data from loggers
     desc: Read files with data from loggers.

@@ -15,10 +15,14 @@ from on-line data repositories. It also includes functions for
 conversion of spectral data from/to classes defined in other R packages.
 Package ‘**photobiologyInOut**’ complements other packages in the
 ‘**r4photobiology suite**’ by allowing reading and writing “foreign”
-spectral data as well as reading data saved from data loggers.
+spectral data as well as reading non-spectral data acquired with data
+loggers. The functions transfer metadata from file headers to attributes
+of the returned objects, in most cases both the headers as text and
+parsed metadata extracted from them.
 
 Data files from **spectrometers** from the following suppliers are
-currently supported: Avantes, LI-COR, Macam Photonics, and Ocean Optics.
+currently supported: Wasatch Photonics, Avantes, LI-COR, Macam
+Photonics, and Ocean Optics/Ocean Insight.
 
 Data files from **data loggers** from the following suppliers are
 currently supported: Campbell Scientific and YoctoPuce.
@@ -45,7 +49,7 @@ calculations described at the
 
 ## Warning
 
-**The functions in this package work with the example files I have
+**The functions in this package work with the example files I have had
 access to for testing, but they may not work with your own files as file
 formats vary.**
 

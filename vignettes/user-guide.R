@@ -21,7 +21,6 @@ options(replace.assign = TRUE, width = 55,
 Sys.setenv(TZ = 'UTC')
 
 ## ---- message=FALSE----------------------------------
-# eval_colorSpec <- requireNamespace("colorSpec", quietly = TRUE)
 library(photobiology)
 library(photobiologyWavebands)
 library(photobiologyInOut)
@@ -33,7 +32,10 @@ if (eval_pavo) {library(pavo)}
 if (eval_hyperSpec) {library(hyperSpec)}
 
 ## ----------------------------------------------------
+# plot defaults
 theme_set(theme_bw()) # ggplot2
+set_annotations_default(annotations = c("+", "title:what:when"))
+# decrease lines printed
 options(tibble.print_max = 5,
         tibble.print_min = 3,
         photobiology.strict.range = NA_integer_)
@@ -96,6 +98,20 @@ q.raw.file <-
   system.file("extdata", "spectrum.SSIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_oo_ssirrad(file = q.raw.file))
+
+## ----------------------------------------------------
+file.name <- 
+    system.file("extdata", "enlighten-wasatch-scope.csv",
+                package = "photobiologyInOut", mustWork = TRUE)
+              
+wasatch.raw.spct <- 
+    read_wasatch_csv(file = file.name, extra.cols = "drop")
+
+## ----------------------------------------------------
+summary(wasatch.raw.spct)
+
+## ----------------------------------------------------
+autoplot(wasatch.raw.spct)
 
 ## ----------------------------------------------------
 ava.raw.file <- 
