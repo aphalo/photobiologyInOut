@@ -178,13 +178,13 @@ read_li180_txt <- function(file,
 #'   for each file in \code{files}. See \code{\link{read.table}} for
 #'   a description of valid arguments for \code{files}.
 #' 
-read_m_licor_espd <- function(files,
-                              date = NULL,
-                              geocode = NULL,
-                              label = NULL,
-                              tz = Sys.timezone(),
-                              locale = readr::default_locale(),
-                              s.qty = NULL) {
+read_m_li180_txt <- function(files,
+                             date = NULL,
+                             geocode = NULL,
+                             label = NULL,
+                             tz = Sys.timezone(),
+                             locale = readr::default_locale(),
+                             s.qty = NULL) {
   list.of.spectra <- list()
   for (f in files) {
     spct.name <- tolower(sub(".PRN", "", f))

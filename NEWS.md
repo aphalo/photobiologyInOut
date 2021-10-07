@@ -20,12 +20,14 @@ examples in vignette) (URGENT otherwise bugs creep-in easily).
     form CSV spectrum files saved by Wasatch's Enlighten program.
     Metadata parsed and added to spectral object. Session and JSON files
     not yet supported.
--   Add function
+-   Add function read_li180_txt() supporting data import from files
+    saved by the LI-180 handheld array spectrometer from LI-COR.
+-   Avoid spurious progress messages when reading files.
 -   Track various changes in the tidyverse that deprecated functions
     used in this package.
+-   Fix bugs in some imports from 'photobiology'.
 -   **Move git repository from Bitbucket to Github.**
 -   Set up Github action for CRAN-checks on Windows, OS X and Ubuntu.
--   Fix bugs in some imports from 'photobiology'.
 
 # photobiologyInOut 0.4.22-1
 

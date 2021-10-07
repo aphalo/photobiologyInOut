@@ -2,7 +2,7 @@
 % Please edit documentation in R/read-licor-txt.r
 \name{read_li180_txt}
 \alias{read_li180_txt}
-\alias{read_m_licor_espd}
+\alias{read_m_li180_txt}
 \title{Read '.TXT' File(s) Saved by LI-COR's LI-180 spectroradiometer.}
 \usage{
 read_li180_txt(
@@ -15,7 +15,7 @@ read_li180_txt(
   s.qty = "s.e.irrad"
 )
 
-read_m_licor_espd(
+read_m_li180_txt(
   files,
   date = NULL,
   geocode = NULL,

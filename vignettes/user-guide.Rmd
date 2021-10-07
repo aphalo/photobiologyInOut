@@ -1160,7 +1160,7 @@ colorSpec2mspct(colorSpec::Hoya)
 
 ```{r, eval = eval_colorSpec}
 fluorescent.spct <- colorSpec2spct(colorSpec::Fs.5nm)
-autoplot(fluorescent.spct) + aes(linetype = spct.idx)
+autoplot(fluorescent.spct, annotations = "")
 ```
 
 ```{r, eval = eval_colorSpec}
