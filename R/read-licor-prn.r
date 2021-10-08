@@ -31,7 +31,7 @@
 #'   \code{time.unit} attribute set to \code{"second"} and \code{when.measured}
 #'   attribute set to the date-time extracted from the file name, or supplied.
 #' @export
-#' @references \url{https://www.licor.com}
+#' @references \url{https://www.licor.com/}
 #' 
 #' @keywords misc
 #'   
@@ -188,4 +188,3 @@ read_m_licor_prn <- function(files,
   photobiology::generic_mspct(list.of.spectra, 
                               class = class(list.of.spectra[[1]]))
 }
-

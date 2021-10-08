@@ -97,5 +97,5 @@ The LI-180 spectroradiometer stores little information of the
   
 }
 \references{
-\url{https://www.licor.com}
+\url{https://www.licor.com/}
 }

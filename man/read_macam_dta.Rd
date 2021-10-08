@@ -58,5 +58,5 @@ and then imports wavelengths and spectral energy irradiance values.
 
 }
 \references{
-\url{http://www.irradian.co.uk/}
+\url{https://www.irradian.co.uk/}
 }

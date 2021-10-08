@@ -314,7 +314,8 @@ read_wasatch_csv <- function(file,
                            pix.selector = TRUE,
                            integ.time = integ.time * 1e3, # ms -> us
                            num.scans = num.scans,
-                           total.time = integ.time * num.scans * 1e3, # ms -> us
+                           tot.time = integ.time * num.scans * 1e3, # ms -> us
+                           rel.signal = NA_real_,
                            boxcar.width = boxcar,
                            linearized = TRUE,
                            dark.subtracted = dark.subtracted,

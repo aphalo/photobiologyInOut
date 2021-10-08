@@ -22,7 +22,7 @@
 #'
 #' @return A \code{source_spct} object.
 #' @export
-#' @references \url{http://www.irradian.co.uk/}
+#' @references \url{https://www.irradian.co.uk/}
 #' 
 #' @examples
 #' 

@@ -32,7 +32,7 @@
 #'   while the footer is discarded.
 #'   
 #' @export
-#' @references \url{https://www.licor.com}
+#' @references \url{https://www.licor.com/}
 #' 
 #' @note The LI-180 spectroradiometer stores little information of the
 #'   instrument and settings, possibly because they cannot be altered by the
