@@ -28,7 +28,7 @@
 #' @examples
 #' 
 #'  file.name <- 
-#'    system.file("extdata", "spectrum.ssirrad", 
+#'    system.file("extdata", "spectrum.SSIrrad", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  ooss.spct <- read_oo_ssirrad(file = file.name)
