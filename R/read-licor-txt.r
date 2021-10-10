@@ -34,7 +34,6 @@
 #' @export
 #' 
 #' @references LI-COR Biosciences, Environmental.
-#'   \url{https://www.licor.com/env/}
 #' 
 #' @note The LI-180 spectroradiometer stores little information of the
 #'   instrument and settings, possibly because they cannot be altered by the
