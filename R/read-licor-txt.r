@@ -22,17 +22,19 @@
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
 #' @param s.qty character The name of the spectral quantity to be read. One of
-#'   "s.e.irrad" or "s.q.irrad"..
+#'   "s.e.irrad" or "s.q.irrad".
 #'   
 #' @return \code{read_licor_espd()} returns a \code{source_spct} object with
 #'   \code{time.unit} attribute set to \code{"second"} and \code{when.measured}
 #'   attribute set to the date-time extracted from the file header, or supplied
-#'   by the user. Spectromer model, serial number and integration time are
+#'   by the user. Spectrometer model, serial number and integration time are
 #'   stored in attributes. The whole file header is saved as a \code{comment}
 #'   while the footer is discarded.
 #'   
 #' @export
-#' @references \url{https://www.licor.com/}
+#' 
+#' @references LI-COR Biosciences, Environmental.
+#'   \url{https://www.licor.com/env/}
 #' 
 #' @note The LI-180 spectroradiometer stores little information of the
 #'   instrument and settings, possibly because they cannot be altered by the

@@ -31,7 +31,9 @@
 #'   \code{time.unit} attribute set to \code{"second"} and \code{when.measured}
 #'   attribute set to the date-time extracted from the file name, or supplied.
 #' @export
-#' @references \url{https://www.licor.com/}
+#' 
+#' @references LI-COR Biosciences, Environmental.
+#'   \url{https://www.licor.com/env/}
 #' 
 #' @keywords misc
 #'   
