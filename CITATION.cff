@@ -1,0 +1,43 @@
+# -----------------------------------------------------------
+# CITATION file created with {cffr} R package, v0.1.1
+# See also: https://docs.ropensci.org/cffr/
+# -----------------------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "photobiologyInOut" in publications use:'
+type: software
+license: GPL-2.0-or-later
+title: 'photobiologyInOut: Read Spectral and Logged Data from Foreign Files'
+version: 0.4.23
+doi: 10.19232/uv4pb.2015.1.14
+abstract: Functions for reading, and in some cases writing, foreign files containing
+  spectral data from spectrometers and their associated software, output from daylight
+  simulation models in common use, and some spectral data repositories. As well as
+  functions for exchange of spectral data with other R packages. Part of the 'r4photobiology'
+  suite, Aphalo P. J. (2015) <doi:10.19232/uv4pb.2015.1.14>.
+authors:
+- family-names: Aphalo
+  given-names: Pedro J.
+  email: pedro.aphalo@helsinki.fi
+  orcid: https://orcid.org/0000-0003-3385-972X
+preferred-citation:
+  type: article
+  title: The r4photobiology suite
+  authors:
+  - family-names: Aphalo
+    given-names: Pedro J.
+  journal: UV4Plants Bulletin
+  volume: '2015'
+  number: '1'
+  pages: 21-29
+  year: '2015'
+  doi: 10.19232/uv4pb.2015.1.14
+repository: https://CRAN.R-project.org/package=photobiologyInOut
+repository-code: https://github.com/aphalo/photobiologyinout/issues/
+url: https://docs.r4photobiology.info/photobiologyInOut/
+date-released: '2021-10-08'
+contact:
+- family-names: Aphalo
+  given-names: Pedro J.
+  email: pedro.aphalo@helsinki.fi
+  orcid: https://orcid.org/0000-0003-3385-972X
