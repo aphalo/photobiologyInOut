@@ -126,7 +126,7 @@ read_cid_spectravue_csv <- function(file,
   }
   
   # read whole file
-  data <- read.csv(file = file, header = FALSE, as.is = TRUE)
+  data <- utils::read.csv(file = file, header = FALSE, as.is = TRUE)
   
   # extract metadata and do conversions
   headers <- tibble::as_tibble(data[-1, 1:9])
@@ -245,7 +245,6 @@ read_cid_spectravue_csv <- function(file,
   if (simplify && length(zz) == 1) {
     zz[[1]]
   } else {
-    # need to add here code to change class of homogeneous collections
     zz
   }
 }

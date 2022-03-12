@@ -17,6 +17,7 @@ reference:
     - read_licor_prn
     - read_li180_txt
     - read_wasatch_csv
+    - read_cid_spectravue_csv
   - title: Data from loggers
     desc: Read files with data from loggers.
     contents:

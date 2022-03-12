@@ -97,6 +97,9 @@ Functions for importing measured spectral data.
 | read_wasatch_csv()   | Wasatch Phot. spectrom. | Enlighten        | filter_spct     |
 | read_wasatch_csv()   | Wasatch Phot. spectrom. | Enlighten        | reflector_spct  |
 | read_wasatch_csv()   | Wasatch Phot. spectrom. | Enlighten        | source_spct     |
+| read_cid_spectravue_csv()   | CID Bio-Science | *instrument*      | filter_spct     |
+| read_cid_spectravue_csv()   | CID Bio-Science | *instrument*      | reflector_spct  |
+| read_cid_spectravue_csv()   | CID Bio-Science | *instrument*      | object_spct     |
 | read_avaspec_csv()   | Avantes spectrom.      | *instrument?*     | source_spct     |
 | read_macam_file()    | Macam                  | *instrument*      | source_spct     |
 | read_li180_txt()    | LI-COR LI-180          | *instrument*      | source_spct     |

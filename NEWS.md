@@ -15,7 +15,7 @@ examples in vignette) (URGENT otherwise bugs creep-in easily).
 
 # photobiologyInOut 0.4.24
 
--   Add support for CID Bio-Science SpectraVue leaf spectrometer.
+-   Add function `read_cid_spectravue_csv()` supporting data import from measurements CSV files output by CID Bio-Science's SpectraVue CI-710s leaf spectrometer.
 
 # photobiologyInOut 0.4.23
 
