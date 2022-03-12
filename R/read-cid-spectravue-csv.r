@@ -1,18 +1,13 @@
 #' Read File Saved by CID's SpectraVue.
 #'
-#' Read wavelength and spectral data from Measurements.CSV files exported from CID
-#' Bio-Sciences' SpectraVue CI-710s leaf spectrometer, importing them into R.
-#' Available metadata is also extracted from the file.
+#' Read wavelength and spectral data from Measurements.CSV files exported from
+#' CID Bio-Sciences' SpectraVue CI-710s leaf spectrometer, importing them into
+#' R. Available metadata is also extracted from the file.
 #'
 #' \code{read_cid_spectravue_csv()} only accepts "row oriented" CSV files. These
 #' may contain multiple spectra, one per row.
 #'
 #' @param file character
-#' @param ... additional arguments passed to the constructor of the `filter_spct`
-#'   object.
-#' @param scale.factor numeric vector of length 1, or length equal to the number
-#'   of data rows (= number of spectra). Numeric multiplier applied to returned
-#'   spectral values.
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
 #'   attribute. If \code{NULL}, the default, the date and time are extracted
 #'   from the file.
@@ -29,22 +24,81 @@
 #'   \code{\link[readr]{locale}} to create your own locale that controls things
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
+#' @param range	numeric A vector of length two, or any other object for which
+#'   function range() will return range of wavelengths expressed in nanometres.
+#' @param simplify logical If TRUE, single spectra are returned as individual
+#'   spectra instead of collections of length one.
+#' @param absorbance.to character Affects only absorbance measurements:
+#'   \code{"object"} or \code{"all"}.
+#' @param ... additional arguments passed to the constructor of the
+#'   `filter_spct` object.
 #'
-#' @details SpectrVue's row-wise spectral Measurements.CSV files contain columns
-#'   with metadata on the right edge, followed by columns with data for each
-#'   wavelength. The value in column "Mode" indicates the quantity measured,
-#'   decoded into Tfr, Rfr or A. The data in each row in the CSV file are read
-#'   and stored in a `filter_spct` object. These objects are collected into a
-#'   single `filter_mspct` object to be returned.
+#' @details SpectrVue's row-wise spectral \code{Measurements.CSV} files contain
+#'   columns with metadata on the right edge, followed by columns with data for
+#'   each of the 2048 pixels or wavelengths. The value in column "Mode"
+#'   indicates the quantity measured, decoded into \code{Tpc}, \code{Rpc} or
+#'   \code{A}. The data in each row in the CSV file are read and stored in a
+#'   \code{filter_spct} object. These objects are collected into a single
+#'   \code{filter_mspct} object and returned.
 #'
-#' @note SpectraVue creates four files for each measurement, from these, this
-#'   function reads the one with name ending in "Measurements.CSV". The first
-#'   part of the file name gives the time of measurement.
+#' @note SpectraVue creates four \code{.CSV} files for each measurement, from
+#'   these, this function reads the one with name ending in
+#'   \code{Measurements.CSV}. The first part of the file name gives the time of
+#'   the session, but as the files can contain multiple spectra measured at
+#'   different times, the time metadata is extracted separately for each
+#'   spectrum. We provide a default argument for \code{range} that discards data
+#'   for short and long wavelengths because values outside this range are
+#'   according to the instrument's manual outside the usable range and in
+#'   practice extremely noisy.
 #'
-#' @return An object of class \code{filter_spct}.
+#' @return An object of class \code{filter_spct}, \code{relector_spct},
+#'   \code{object_spct} or \code{generic_mspct}.
 #'
 #' @export
 #' @references \url{https://cid-inc.com/}
+#'
+#' @examples
+#'
+#' # read file containing a single reflectaance spectrum
+#'
+#'  file.name <-
+#'    system.file("extdata", "cid-spectravue-Rpc-Measurements.csv",
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'
+#'  cid_filter.spct <-
+#'    read_cid_spectravue_csv(file = file.name)
+#'  summary(cid_filter.spct)
+#'
+#'  cid_filter.mspct <-
+#'    read_cid_spectravue_csv(file = file.name, simplify = FALSE)
+#'  summary(cid_filter.mspct)
+#'
+#'  # read file containing two "mixed" spectra
+#'
+#'  file.name <-
+#'    system.file("extdata", "cid-spectravue-multi-Measurements.csv",
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'
+#'  cid.generic_mspct <-
+#'    read_cid_spectravue_csv(file = file.name)
+#'  summary(cid.generic_mspct)
+#'
+#'  # read data measured as absorbance (A, Rpc and Tpc)
+#'
+#'  file.name <-
+#'    system.file("extdata", "cid-spectravue-Abs-Measurements.csv",
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'  cid.object_spct <-
+#'    read_cid_spectravue_csv(file = file.name)
+#'  summary(cid.object_spct)
+#'
+#'  cid.object_spct <-
+#'    read_cid_spectravue_csv(file = file.name, simplify = FALSE)
+#'  summary(cid.object_spct)
+#'
+#'  cid.generic_mspct <-
+#'    read_cid_spectravue_csv(file = file.name, absorbance.to = "all")
+#'  summary(cid.generic_mspct)
 #' 
 read_cid_spectravue_csv <- function(file,
                                     date = NULL,
@@ -52,8 +106,9 @@ read_cid_spectravue_csv <- function(file,
                                     label = NULL,
                                     tz = NULL,
                                     locale = readr::default_locale(),
-                                    scale.factor = 1,
                                     range = c(380, 1000),
+                                    simplify = TRUE,
+                                    absorbance.to = "object",
                                     ...) {
   if (!grepl("Measurements.csv$", file, ignore.case = TRUE)) {
     warning("Only processed measurements CSV files from CID's SpectraVue CI-710s",
@@ -70,18 +125,18 @@ read_cid_spectravue_csv <- function(file,
     message("Dates and times from file overriden by user!")
   }
   
-  # read file to memory
-  file_data <- readr::read_file(file)
-
-  # read metadata from all rows
-  headers <- readr::read_csv(file = file_data, 
-                             col_names = TRUE, 
-                             skip = 0,
-                             col_types = "ccdnnccccd", 
-                             col_select = 1:10)
+  # read whole file
+  data <- read.csv(file = file, header = FALSE, as.is = TRUE)
   
-  names(headers)[3:5] <- c("integ.time", "boxcar", "num.scans") # ms, number, number
-
+  # extract metadata and do conversions
+  headers <- tibble::as_tibble(data[-1, 1:9])
+  colnames(headers) <- c("Date", "Mode", "integ.time", 
+                         "boxcar", "num.scans", "Tag",
+                         "Version", "CalibrationID", "Coordinates") 
+  
+  headers[["integ.time"]] <- as.double(headers[["integ.time"]])
+  headers[["boxcar"]] <- as.integer(headers[["boxcar"]])
+  headers[["num.scans"]] <- as.integer(headers[["num.scans"]])
   headers[["var.name"]] <- c(Transmittance = "Tpc",
                              Reflectance = "Rpc",
                              Absorbance = "A",
@@ -95,6 +150,7 @@ read_cid_spectravue_csv <- function(file,
       date
     }
   
+  # I do not have information about the format used for Coordinates
   headers[["where.measured"]] <-
     if (is.null(geocode) || is.na(geocode)) {
       photobiology::na_geocode()
@@ -104,37 +160,46 @@ read_cid_spectravue_csv <- function(file,
   
   # fill missing Tags
   selector <- is.na(headers[["Tag"]])
-  headers[["Tag"]][selector] <- paste("Tag", 1:sum(selector), sep = "")
+  headers[["Tag"]][selector] <- "NN"
+  headers[["Tag"]] <- paste(headers[["Tag"]], headers[["Mode"]], sep = ".")
+  headers[["Tag"]] <- make.names(headers[["Tag"]], unique = TRUE)
+    
+  # extract wavelengths and spectral data
+  # file rows have a trailing "," and leftmost columns with metadata
+  data <- t(unname(data[ , -c(1:10, 2059)])) # data becomes a matrix
   
-  # read wavelengths from top row
-  w.length <- as.numeric(readr::read_csv(file = file_data, 
-                                         col_names = FALSE,
-                                         n_max = 1, 
-                                         skip = 0,
-                                         col_types = "d", 
-                                         col_select = 11:2058))
-  
-  # read spectral data starting at row 2
-  data <- t(readr::read_csv(file = file_data, 
-                                     col_names = FALSE,
-                                     skip = 1,
-                                     col_types = "d", 
-                                     col_select = 11:2058))
-  
-  zz <- photobiology::generic_mspct()
-  for (col in 1:ncol(data)) {
-    z <- list(w.length, data[ , col]) # data is a matrix!
-    names(z) <- c("w.length", headers[["var.name"]][col])
+  w.length <- data[ , 1] 
+  data <- data[ , -1, drop = FALSE]
 
-    old.opts <- options("photobiology.strict.range" = NA_integer_)
-    if (headers[["var.name"]][col] %in% c("Afr", "Tfr", "Apc", "Tpc", "A")) {
-      z <- photobiology::as.filter_spct(z, ...)
-    } else if (headers[["var.name"]][col] %in% c("Rfr", "Rpc")) {
-      z <- photobiology::as.reflector_spct(z, ...)
+  zz <- photobiology::generic_mspct()
+  # we use a while loop as the number of spectra (= rows) per iteration varies
+  col <- 1L
+  while (col <= ncol(data)) {
+    if (absorbance.to == "object" && headers[["var.name"]][col] == "A") {
+      # A is always followed by Rpc and Tpc
+      z <- data.frame(w.length, data[[col + 1]], data[[col + 2]]) # data is a matrix!
+      names(z) <- c("w.length", headers[["var.name"]][col + 1:2])
+
+      old.opts <- options("photobiology.strict.range" = NA_integer_)
+      z <- photobiology::as.object_spct(z, ...)
+      spct.name <- headers[["Tag"]][col]
+      col <- col + 2
     } else {
-      z <- photobiology::as.generic_spct(z, ...)
+      z <- list(w.length, data[ , col]) # data is a matrix!
+      names(z) <- c("w.length", headers[["var.name"]][col])
+      
+      old.opts <- options("photobiology.strict.range" = NA_integer_)
+      
+      if (headers[["var.name"]][col] %in% c("Afr", "Tfr", "Apc", "Tpc", "A")) {
+        z <- photobiology::as.filter_spct(z, ...)
+      } else if (headers[["var.name"]][col] %in% c("Rfr", "Rpc")) {
+        z <- photobiology::as.reflector_spct(z, ...)
+      } else {
+        z <- photobiology::as.generic_spct(z, ...)
+      }
+      spct.name <- headers[["Tag"]][col]
     }
-    z <- clip_wl(x = z, range = range)
+    z <- photobiology::clip_wl(x = z, range = range)
     options(old.opts)
     
     comment(z) <-
@@ -172,13 +237,15 @@ read_cid_spectravue_csv <- function(file,
     
     photobiology::setInstrSettings(z, instr.settings)
     
-    zz[[headers[["Tag"]][col]]] <- z
+    zz[[spct.name]] <- z
     
+    col <- col + 1
   }
   
-  if (length(zz) == 1) {
+  if (simplify && length(zz) == 1) {
     zz[[1]]
   } else {
+    # need to add here code to change class of homogeneous collections
     zz
   }
 }
