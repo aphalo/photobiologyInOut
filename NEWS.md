@@ -13,6 +13,10 @@ functions to handle character vectors of paths. Add test cases for new
 functions for exchange of foreign data (currently tested through
 examples in vignette) (URGENT otherwise bugs creep-in easily).
 
+# photobiologyInOut 0.4.24
+
+-   Add support for CID Bio-Science SpectraVue leaf spectrometer.
+
 # photobiologyInOut 0.4.23
 
 -   Add parameters `na` and `...` to `read_csi_data()`.
