@@ -48,7 +48,7 @@ function range() will return range of wavelengths expressed in nanometres.}
 spectra instead of collections of length one.}
 
 \item{absorbance.to}{character Affects only absorbance measurements:
-\code{"object"} or \code{"all"}.}
+\code{"object"}, \code{"all"} or \code{"A"}.}
 
 \item{...}{additional arguments passed to the constructor of the
 `filter_spct` object.}
@@ -85,6 +85,25 @@ SpectraVue creates four \code{.CSV} files for each measurement, from
   according to the instrument's manual outside the usable range and in
   practice extremely noisy.
 }
+\section{Internal _vs._ total transmittance and absorbance}{
+ Spectravue
+  returns _total_ transmittance values labelled with `Transmittance` as
+  `Mode`. Absorbance (`Abs`) values returned labelled with `Absorbance` as
+  `Mode` are for _internal(??)_ absorbance. It is thus best to save spectral
+  data acquired as absorbance into objects of class `object_spct`, the
+  default, as this preserves all the acquired data. Preserving them allows
+  computation of both internal and total absorption values expressed as
+  absorbance, absorptance or transmittance at any later time. As data
+  acquisition is very fast there is little reason not to use routinely the
+  "Absorbance" setting in the spectrometer.
+}
+
+\section{Specular _vs._ total reflectance}{
+ This function assumes that
+  SpectraVue returns _total_ reflectance readings. Given the opticss of the
+  instrument this is likely only an approximation.
+}
+
 \examples{
 
 # read file containing a single reflectaance spectrum
@@ -120,13 +139,17 @@ SpectraVue creates four \code{.CSV} files for each measurement, from
    read_cid_spectravue_csv(file = file.name)
  summary(cid.object_spct)
 
- cid.object_spct <-
+ cid.object_mspct <-
    read_cid_spectravue_csv(file = file.name, simplify = FALSE)
- summary(cid.object_spct)
+ summary(cid.object_mspct)
 
- cid.generic_mspct <-
+ cid_all.generic_mspct <-
    read_cid_spectravue_csv(file = file.name, absorbance.to = "all")
- summary(cid.generic_mspct)
+ summary(cid_all.generic_mspct)
+
+ cid_A.filter_spct <-
+   read_cid_spectravue_csv(file = file.name, absorbance.to = "A")
+ summary(cid_A.filter_spct)
 
 }
 \references{

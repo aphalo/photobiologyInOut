@@ -25,11 +25,11 @@
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
 #' @param range	numeric A vector of length two, or any other object for which
-#'   function range() will return range of wavelengths expressed in nanometres.
+#'   function code{range()} will return range of wavelengths expressed in nanometres.
 #' @param simplify logical If TRUE, single spectra are returned as individual
 #'   spectra instead of collections of length one.
 #' @param absorbance.to character Affects only absorbance measurements:
-#'   \code{"object"} or \code{"all"}.
+#'   \code{"object"}, \code{"all"} or \code{"A"}.
 #' @param ... additional arguments passed to the constructor of the
 #'   `filter_spct` object.
 #'
@@ -41,6 +41,21 @@
 #'   \code{filter_spct} object. These objects are collected into a single
 #'   \code{filter_mspct} object and returned.
 #'
+#' @section Internal _vs._ total transmittance and absorbance: Spectravue
+#'   returns _total_ transmittance values labelled with `Transmittance` as
+#'   `Mode`. Absorbance (`Abs`) values returned labelled with `Absorbance` as
+#'   `Mode` are for _internal(??)_ absorbance. It is thus best to save spectral
+#'   data acquired as absorbance into objects of class `object_spct`, the
+#'   default, as this preserves all the acquired data. Preserving them allows
+#'   computation of both internal and total absorption values expressed as
+#'   absorbance, absorptance or transmittance at any later time. As data
+#'   acquisition is very fast there is little reason not to use routinely the
+#'   "Absorbance" setting in the spectrometer.
+#'
+#' @section Specular _vs._ total reflectance: This function assumes that
+#'   SpectraVue returns _total_ reflectance readings. Given the opticss of the
+#'   instrument this is likely only an approximation.
+#' 
 #' @note SpectraVue creates four \code{.CSV} files for each measurement, from
 #'   these, this function reads the one with name ending in
 #'   \code{Measurements.CSV}. The first part of the file name gives the time of
@@ -69,19 +84,9 @@
 #'    read_cid_spectravue_csv(file = file.name)
 #'  summary(cid_filter.spct)
 #'
-#'  cid_filter.mspct <-
+#'  cid_filter.spct <-
 #'    read_cid_spectravue_csv(file = file.name, simplify = FALSE)
-#'  summary(cid_filter.mspct)
-#'
-#'  # read file containing two "mixed" spectra
-#'
-#'  file.name <-
-#'    system.file("extdata", "cid-spectravue-multi-Measurements.csv",
-#'                package = "photobiologyInOut", mustWork = TRUE)
-#'
-#'  cid.generic_mspct <-
-#'    read_cid_spectravue_csv(file = file.name)
-#'  summary(cid.generic_mspct)
+#'  summary(cid_filter.spct)
 #'
 #'  # read data measured as absorbance (A, Rpc and Tpc)
 #'
@@ -92,13 +97,9 @@
 #'    read_cid_spectravue_csv(file = file.name)
 #'  summary(cid.object_spct)
 #'
-#'  cid.object_spct <-
-#'    read_cid_spectravue_csv(file = file.name, simplify = FALSE)
-#'  summary(cid.object_spct)
-#'
-#'  cid.generic_mspct <-
-#'    read_cid_spectravue_csv(file = file.name, absorbance.to = "all")
-#'  summary(cid.generic_mspct)
+#'  cid_A.filter_spct <-
+#'    read_cid_spectravue_csv(file = file.name, absorbance.to = "A")
+#'  summary(cid_A.filter_spct)
 #' 
 read_cid_spectravue_csv <- function(file,
                                     date = NULL,
@@ -106,7 +107,7 @@ read_cid_spectravue_csv <- function(file,
                                     label = NULL,
                                     tz = NULL,
                                     locale = readr::default_locale(),
-                                    range = c(380, 1000),
+                                    range = c(380, 1100),
                                     simplify = TRUE,
                                     absorbance.to = "object",
                                     ...) {
@@ -177,11 +178,14 @@ read_cid_spectravue_csv <- function(file,
   while (col <= ncol(data)) {
     if (absorbance.to == "object" && headers[["var.name"]][col] == "A") {
       # A is always followed by Rpc and Tpc
-      z <- data.frame(w.length, data[[col + 1]], data[[col + 2]]) # data is a matrix!
+      z <- data.frame(w.length, data[ , col + 1], data[ , col + 2]) # data is a matrix!
       names(z) <- c("w.length", headers[["var.name"]][col + 1:2])
 
       old.opts <- options("photobiology.strict.range" = NA_integer_)
-      z <- photobiology::as.object_spct(z, ...)
+      z <- photobiology::as.object_spct(z, 
+                                        Tfr.type = "total", 
+                                        Rfr.type = "total", 
+                                        ...)
       spct.name <- headers[["Tag"]][col]
       col <- col + 2
     } else {
@@ -190,12 +194,17 @@ read_cid_spectravue_csv <- function(file,
       
       old.opts <- options("photobiology.strict.range" = NA_integer_)
       
-      if (headers[["var.name"]][col] %in% c("Afr", "Tfr", "Apc", "Tpc", "A")) {
-        z <- photobiology::as.filter_spct(z, ...)
+      if (headers[["var.name"]][col] == "A") {
+        z <- photobiology::as.filter_spct(z, Tfr.type = "internal", ...)
+        if (absorbance.to != "all") {
+          col <- col + 2
+        } 
+      } else if (headers[["var.name"]][col] %in% c("Afr", "Tfr", "Apc", "Tpc")) {
+        z <- photobiology::as.filter_spct(z, Tfr.type = "total", ...)
       } else if (headers[["var.name"]][col] %in% c("Rfr", "Rpc")) {
-        z <- photobiology::as.reflector_spct(z, ...)
+        z <- photobiology::as.reflector_spct(z, Rfr.type = "total", ...)
       } else {
-        z <- photobiology::as.generic_spct(z, ...)
+        stop("Assertion failed for column named: ", headers[["var.name"]][col])
       }
       spct.name <- headers[["Tag"]][col]
     }
@@ -243,8 +252,12 @@ read_cid_spectravue_csv <- function(file,
   }
   
   if (simplify && length(zz) == 1) {
-    zz[[1]]
+      zz[[1]]
   } else {
-    zz
+    switch(photobiology::shared_member_class(zz)[[1]],
+           object_spct = photobiology::as.object_mspct(zz),
+           filter_spct = photobiology::as.filter_mspct(zz),
+           reflector_spct = photobiology::as.reflector_mspct(zz),
+           zz)
   }
 }

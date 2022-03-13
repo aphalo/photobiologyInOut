@@ -336,6 +336,13 @@ read_wasatch_csv <- function(file,
   if (simplify && length(zz) == 1) {
     zz[[1]]
   } else {
-    zz
+    switch(photobiology::shared_member_class(zz)[[1]],
+           raw_spct = photobiology::as.raw_mspct(zz),
+           cps_spct = photobiology::as.cps_mspct(zz),
+           source_spct = photobiology::as.source_mspct(zz),
+           object_spct = photobiology::as.object_mspct(zz),
+           filter_spct = photobiology::as.filter_mspct(zz),
+           reflector_spct = photobiology::as.reflector_mspct(zz),
+           zz)
   }
 }
