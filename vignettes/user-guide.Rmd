@@ -619,7 +619,19 @@ autoplot(licor.spct)
 
 This all-in-one spectrometer measures spectral reflectance, spectral transmittance or spectral absorbance of plant leaves or in fact any thin film. There is a single configuration available and being based on a microcontroller this instrument is used autonomously and spectral data saved internally can be exported as CSV files.
 
-Reflectance and transmittance generate a single spectrum per measurement while absorbance generates three: spectral absorbance, spectral reflectance and spectral transmittance. The last two are needed to compute absorbance, and, wisely, they are also returned. In the case of absorbance measurements it is possible to import the data into an `object_spct` containing variables `Rfr` and `Tfr` or as separate objects.  
+Reflectance and transmittance generate a single spectrum per measurement while absorbance generates three: spectral absorbance, spectral reflectance and spectral transmittance. The last two are needed to compute absorbance, and, wisely, they are also returned. In the case of absorbance measurements it is possible to import the data into an `object_spct` containing variables `Rfr` and `Tfr` or as separate objects.
+
+```{r}
+  file.name <- 
+    system.file("extdata", "cid-spectravue-Rpc-Measurements.csv", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  cid_Rpc.spct <- read_cid_spectravue_csv(file = file.name)
+  summary(cid_Rpc.spct)
+  autoplot(smooth_spct(cid_Rpc.spct, method = "supsmu"), 
+           range = c(400, 1000), annotations = "") %+%
+    ylim(0, 0.55)
+```
+
 
 ## Data from loggers
 
@@ -727,7 +739,7 @@ plot them in different panels.
 
 ```{r, fig.height=10}
 autoplot(tuv.spct, annotations = c("colour.guide")) +
-  facet_wrap(~date, ncol = 2)
+  facet_wrap(~as.character(date), ncol = 2)
 ```
 
 The output is a single `source_spct} object that can be easily converted
@@ -736,7 +748,8 @@ members of the collection.
 
 ```{r}
 tuv.mspct <- subset2mspct(tuv.spct)
-tuv.mspct
+summary(tuv.mspct)
+autoplot(tuv.mspct)
 ```
 
 A file can be directly read into a collection using `read_tuv_usrout2mspct()`
@@ -744,10 +757,11 @@ which is a simple wrapper.
 
 With the default of `lubridate::today()` date times are 'mapped' to
 the current local date using the time zone of the computer as visible to R.
+**This is unlikely to be correct!**
 
 ```{r}
 tuv_nd.spct <- read_tuv_usrout(file = tuv.file)
-tuv_nd.spct
+when_measured(tuv_nd.spct)
 ```
 
 ### Quick TUV calculator

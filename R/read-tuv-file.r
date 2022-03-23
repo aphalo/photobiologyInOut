@@ -93,10 +93,11 @@ read_tuv_usrout <- function(file,
     data = wide.df,
     cols = tidyselect::all_of(setdiff(colnames(wide.df), "w.length")),
     names_to = "spct.idx",
-    values_to = "s.e.irrad")
+    values_to = "s.e.irrad") 
+  z <- z[order(z[["spct.idx"]]), ]
   
-  z[["angle"]] <- with(z, rep(angles, rep(wl.length, num.spectra)))
-  z[["date"]] <- with(z, rep(as.POSIXct(date), rep(wl.length, num.spectra)))
+  z[["angle"]] <- rep(angles, rep(wl.length, num.spectra))
+  z[["date"]] <- rep(as.POSIXct(date), rep(wl.length, num.spectra))
   
   photobiology::setSourceSpct(z, 
                               time.unit = "second", 

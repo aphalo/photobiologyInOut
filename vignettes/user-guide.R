@@ -162,6 +162,16 @@ cat(comment(licor.spct))
 autoplot(licor.spct)
 
 ## ----------------------------------------------------
+  file.name <- 
+    system.file("extdata", "cid-spectravue-Rpc-Measurements.csv", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  cid_Rpc.spct <- read_cid_spectravue_csv(file = file.name)
+  summary(cid_Rpc.spct)
+  autoplot(smooth_spct(cid_Rpc.spct, method = "supsmu"), 
+           range = c(400, 1000), annotations = "") %+%
+    ylim(0, 0.55)
+
+## ----------------------------------------------------
 cs.day.file <- 
   system.file("extdata", "cr6-day.dat", 
               package = "photobiologyInOut", mustWork = TRUE)
@@ -205,15 +215,16 @@ tuv.spct
 
 ## ---- fig.height=10----------------------------------
 autoplot(tuv.spct, annotations = c("colour.guide")) +
-  facet_wrap(~date, ncol = 2)
+  facet_wrap(~as.character(date), ncol = 2)
 
 ## ----------------------------------------------------
 tuv.mspct <- subset2mspct(tuv.spct)
-tuv.mspct
+summary(tuv.mspct)
+autoplot(tuv.mspct)
 
 ## ----------------------------------------------------
 tuv_nd.spct <- read_tuv_usrout(file = tuv.file)
-tuv_nd.spct
+when_measured(tuv_nd.spct)
 
 ## ----------------------------------------------------
 qtuv.file <- 

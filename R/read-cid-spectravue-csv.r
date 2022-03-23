@@ -244,7 +244,7 @@ read_cid_spectravue_csv <-
     
     photobiology::setWhenMeasured(z, headers[col, "when.measured"])
     photobiology::setWhereMeasured(z, photobiology::na_geocode())
-    photobiology::setWhatMeasured(z, paste(headers[["Mode"]][col], headers[["Tag"]][col], label, sep = ", "))
+    photobiology::setWhatMeasured(z, paste(label, headers[["Tag"]][col]))
     photobiology::setHowMeasured(z, "CID Bio-Science SpectraVue CI-710s leaf spectrometer")
     
     instr.descriptor <- list(time = headers[["when.measured"]][col],
