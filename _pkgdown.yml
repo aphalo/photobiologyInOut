@@ -18,12 +18,7 @@ reference:
     - read_li180_txt
     - read_wasatch_csv
     - read_cid_spectravue_csv
-  - title: Data from loggers
-    desc: Read files with data from loggers.
-    contents:
-    - read_csi_dat
-    - read_yoctopuce_csv
-  - title: Data from models.
+  - title: Spectral data from radiation tarnsfer models
     desc: Read files with data from radiation transfer models.
     contents:
     - read_fmi_cum
@@ -32,12 +27,12 @@ reference:
     - read_qtuv_txt
     - read_uvspec_disort
     - read_uvspec_disort_vesa
-  - title: Data from repositories.
+  - title: Sepctral data from public repositories
     desc: Read files with data downloaded from public repositories.
     contents:
     - read_FReD_csv
     - read_ASTER_txt
-  - title: Data from other R packages.
+  - title: Spectral data from other R packages
     desc: Read and write to objects belonging to classes defined in other R packages.
     contents:
     - hyperSpec2mspct
@@ -47,6 +42,15 @@ reference:
     - as.colorSpec
     - as.generic_spct
     - as.generic_mspct
+  - title: Data from loggers
+    desc: Read data files with data from loggers into data frames.
+    contents:
+    - read_csi_dat
+    - read_yoctopuce_csv
+  - title: Utilities
+    desc: Tools to facilitate the use of other functions.
+    contents:
+    - read_foreign2mspct
 
 navbar:
   structure:
