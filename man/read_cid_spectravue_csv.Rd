@@ -11,9 +11,10 @@ read_cid_spectravue_csv(
   label = NULL,
   tz = NULL,
   locale = readr::default_locale(),
-  range = c(380, 1000),
+  range = c(380, 1100),
   simplify = TRUE,
   absorbance.to = "object",
+  strict.range = NA,
   ...
 )
 }
@@ -42,13 +43,18 @@ like the default time zone, encoding, decimal mark, big mark, and day/month
 names.}
 
 \item{range}{numeric A vector of length two, or any other object for which
-function range() will return range of wavelengths expressed in nanometres.}
+function code{range()} will return range of wavelengths expressed in
+nanometres.}
 
 \item{simplify}{logical If TRUE, single spectra are returned as individual
 spectra instead of collections of length one.}
 
 \item{absorbance.to}{character Affects only absorbance measurements:
 \code{"object"}, \code{"all"} or \code{"A"}.}
+
+\item{strict.range}{logical Flag indicating whether off-range values result
+in an error (\code{TRUE}) instead of a warning (\code{FALSE}), or the test
+is disabled (\code{NA}).}
 
 \item{...}{additional arguments passed to the constructor of the
 `filter_spct` object.}
@@ -61,47 +67,58 @@ An object of class \code{filter_spct}, \code{relector_spct},
 Read wavelength and spectral data from Measurements.CSV files exported from
 CID Bio-Sciences' SpectraVue CI-710s leaf spectrometer, importing them into
 R. Available metadata is also extracted from the file.
-}
-\details{
 \code{read_cid_spectravue_csv()} only accepts "row oriented" CSV files. These
 may contain multiple spectra, one per row.
-
-SpectrVue's row-wise spectral \code{Measurements.CSV} files contain
+}
+\details{
+SpectraVue's row-wise spectral \code{Measurements.CSV} files contain
   columns with metadata on the right edge, followed by columns with data for
   each of the 2048 pixels or wavelengths. The value in column "Mode"
-  indicates the quantity measured, decoded into \code{Tpc}, \code{Rpc} or
-  \code{A}. The data in each row in the CSV file are read and stored in a
-  \code{filter_spct} object. These objects are collected into a single
-  \code{filter_mspct} object and returned.
+  indicates the quantity measured, decoded into variables \code{Tpc},
+  \code{Rpc} or \code{A}. The data the rows in the CSV file are read and
+  stored in \code{filter_spct},  \code{reflector_spct} or \code{object_spct}
+  objects. These objects are collected into a single \code{filter_mspct},
+  \code{reflector_mspct}, \code{object_mspct} or \code{generic_spct} object
+  and returned.
+
+  Spectral data outside the range 400 nm to 1000 nm are very noisy and thus
+  outside the valid range for the measurements. Out-of-range spectral data
+  can also be cause by calibration drift. Consequently, reading of data is
+  done always with the range check disabled, while whether a check is used
+  before returning the collection of spectra depends on the argument passed
+  to \code{strict.range} which by default is set to disable checks. This is
+  done, because in most cases measurements from this instrument tend to
+  require further processing before they comply with theoretical expectations
+  of Tfr + Rfr + Afr = 1.
 }
 \note{
-SpectraVue creates four \code{.CSV} files for each measurement, from
-  these, this function reads the one with name ending in
-  \code{Measurements.CSV}. The first part of the file name gives the time of
-  the session, but as the files can contain multiple spectra measured at
-  different times, the time metadata is extracted separately for each
-  spectrum. We provide a default argument for \code{range} that discards data
-  for short and long wavelengths because values outside this range are
+SpectraVue creates three or four \code{.CSV} files for each series of
+  measurements saved. Of these files, this function reads the one with name
+  ending in \code{Measurements.CSV}. The first part of the file name gives
+  the time of the session, but as the files can contain multiple spectra
+  measured at different times, the time metadata is extracted separately for
+  each spectrum. We provide a default argument for \code{range} that discards
+  data for short and long wavelengths because values outside this range are
   according to the instrument's manual outside the usable range and in
   practice extremely noisy.
 }
 \section{Internal _vs._ total transmittance and absorbance}{
  Spectravue
-  returns _total_ transmittance values labelled with `Transmittance` as
-  `Mode`. Absorbance (`Abs`) values returned labelled with `Absorbance` as
-  `Mode` are for _internal(??)_ absorbance. It is thus best to save spectral
-  data acquired as absorbance into objects of class `object_spct`, the
-  default, as this preserves all the acquired data. Preserving them allows
-  computation of both internal and total absorption values expressed as
-  absorbance, absorptance or transmittance at any later time. As data
-  acquisition is very fast there is little reason not to use routinely the
-  "Absorbance" setting in the spectrometer.
+  returns transmittance values labelled with `Transmittance` as `Mode`.
+  Transmittance values are not _total_ as most of the scattered light
+  transmitted is not detected. Absorbance (`Abs`) values returned labelled
+  with `Absorbance` as `Mode` are for absorbance computed from the
+  Transmittance. This estimate of absorbance overestimates real absorbance in
+  the case of scattering materials like plant leaves. It is best to save
+  spectral data acquired as absorbance into objects of class `object_spct`
+  containing reflectance and transmittance, the default, as this preserves
+  all the acquired data.
 }
 
 \section{Specular _vs._ total reflectance}{
  This function assumes that
-  SpectraVue returns _total_ reflectance readings. Given the opticss of the
-  instrument this is likely only an approximation.
+  SpectraVue returns close to _total_ reflectance readings. Given the optics
+  of the instrument this is likely only an approximation.
 }
 
 \examples{
@@ -116,19 +133,9 @@ SpectraVue creates four \code{.CSV} files for each measurement, from
    read_cid_spectravue_csv(file = file.name)
  summary(cid_filter.spct)
 
- cid_filter.mspct <-
+ cid_filter.spct <-
    read_cid_spectravue_csv(file = file.name, simplify = FALSE)
- summary(cid_filter.mspct)
-
- # read file containing two "mixed" spectra
-
- file.name <-
-   system.file("extdata", "cid-spectravue-multi-Measurements.csv",
-               package = "photobiologyInOut", mustWork = TRUE)
-
- cid.generic_mspct <-
-   read_cid_spectravue_csv(file = file.name)
- summary(cid.generic_mspct)
+ summary(cid_filter.spct)
 
  # read data measured as absorbance (A, Rpc and Tpc)
 
@@ -138,14 +145,6 @@ SpectraVue creates four \code{.CSV} files for each measurement, from
  cid.object_spct <-
    read_cid_spectravue_csv(file = file.name)
  summary(cid.object_spct)
-
- cid.object_mspct <-
-   read_cid_spectravue_csv(file = file.name, simplify = FALSE)
- summary(cid.object_mspct)
-
- cid_all.generic_mspct <-
-   read_cid_spectravue_csv(file = file.name, absorbance.to = "all")
- summary(cid_all.generic_mspct)
 
  cid_A.filter_spct <-
    read_cid_spectravue_csv(file = file.name, absorbance.to = "A")

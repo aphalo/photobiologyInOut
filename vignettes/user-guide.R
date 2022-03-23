@@ -143,7 +143,7 @@ autoplot(li180.spct, unit.out = "photon")
 licor.file <- 
   system.file("extdata", "spectrum.PRN", 
               package = "photobiologyInOut", mustWork = TRUE)
-licor.spct <- read_licor_prn(file = licor.file)
+licor.spct <- read_licor_prn(file = licor.file, tz = "EET")
 
 ## ----------------------------------------------------
 licor.spct
