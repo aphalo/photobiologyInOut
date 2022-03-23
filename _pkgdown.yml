@@ -1,6 +1,9 @@
 destination: ../photobiologyInOut-docs
 url: https://docs.r4photobiology.info/photobiologyInOut/
 
+template:
+  bootstrap: 5
+
 reference:
   - title: Package overview
     contents:

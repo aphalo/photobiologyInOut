@@ -19,7 +19,7 @@ License: GPL (>= 2)
 VignetteBuilder: knitr
 Depends:
     R (>= 3.6.0),
-    photobiology (>= 0.10.6)
+    photobiology (>= 0.10.9)
 Imports:
     methods,
     tools,
