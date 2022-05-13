@@ -1205,6 +1205,16 @@ spct2colorSpec(yellow_gel.spct)
 ```{r, eval = eval_colorSpec}
 chroma_spct2colorSpec(beesxyzCMF.spct)
 ```
+### Wrappers on 'colorSpec' functions.
+
+Functions `spct_CCT()`, `spct_CRI()` and `spct_SSI()` call the respective `compute` functions after converting `source_spct` objects. CCT, CRI and SSI are meaningful for human vision although they are used not only for general illumination but also in photography and cinematography. They can be generalized by overriding the default references from human vision with those of cameras or other visual systems.
+
+```{r}
+spct_CCT(white_led.source_spct) # correlated color temperature
+spct_CRI(white_led.source_spct) # color rendition index
+spct_CRI(white_led.source_spct, named = TRUE)
+spct_SSI(white_led.source_spct, sun.spct) # spectral similarity index
+```
 
 ### From 'pavo'
 

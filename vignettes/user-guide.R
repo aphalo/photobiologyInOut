@@ -399,6 +399,11 @@ spct2colorSpec(yellow_gel.spct)
 ## ---- eval = eval_colorSpec--------------------------
 chroma_spct2colorSpec(beesxyzCMF.spct)
 
+## ----------------------------------------------------
+spct_CCT(white_led.source_spct) # correlated color temperature
+spct_CRI(white_led.source_spct) # color rendition index
+spct_SSI(white_led.source_spct, sun.spct) # spectral similarity index
+
 ## ---- eval = eval_pavo-------------------------------
 data(sicalis)
 class(sicalis)
