@@ -45,6 +45,12 @@ reference:
     - as.colorSpec
     - as.generic_spct
     - as.generic_mspct
+  - title: Wrappers on functions from other R packages
+    desc: Call functions from package 'colorSpec' with on-the-fly conversion of spectral objects passed as arguments.
+    contents:
+    - spct_CCT
+    - spct_CRI
+    - spct_SSI
   - title: Data from loggers
     desc: Read data files with data from loggers into data frames.
     contents:
