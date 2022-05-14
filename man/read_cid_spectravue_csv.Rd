@@ -65,10 +65,10 @@ An object of class \code{filter_spct}, \code{relector_spct},
 }
 \description{
 Read wavelength and spectral data from Measurements.CSV files exported from
-CID Bio-Sciences' SpectraVue CI-710s leaf spectrometer, importing them into
-R. Available metadata is also extracted from the file.
-\code{read_cid_spectravue_csv()} only accepts "row oriented" CSV files. These
-may contain multiple spectra, one per row.
+CID Bio-Sciences' \strong{SpectraVue CI-710s} (not the older CI-710!) leaf
+spectrometer, importing them into R. Available metadata is also extracted
+from the file. \code{read_cid_spectravue_csv()} only accepts "row oriented"
+CSV files. These may contain multiple spectra, one per row.
 }
 \details{
 SpectraVue's row-wise spectral \code{Measurements.CSV} files contain
@@ -89,7 +89,7 @@ SpectraVue's row-wise spectral \code{Measurements.CSV} files contain
   to \code{strict.range} which by default is set to disable checks. This is
   done, because in most cases measurements from this instrument tend to
   require further processing before they comply with theoretical expectations
-  of Tfr + Rfr + Afr = 1.
+  of \eqn{Tfr + Rfr + Afr = 1}.
 }
 \note{
 SpectraVue creates three or four \code{.CSV} files for each series of
@@ -102,32 +102,32 @@ SpectraVue creates three or four \code{.CSV} files for each series of
   according to the instrument's manual outside the usable range and in
   practice extremely noisy.
 }
-\section{Internal _vs._ total transmittance and absorbance}{
+\section{Internal \emph{vs.} total transmittance and absorbance}{
  Spectravue
-  returns transmittance values labelled with `Transmittance` as `Mode`.
-  Transmittance values are not _total_ as most of the scattered light
-  transmitted is not detected. Absorbance (`Abs`) values returned labelled
-  with `Absorbance` as `Mode` are for absorbance computed from the
-  Transmittance. This estimate of absorbance overestimates real absorbance in
-  the case of scattering materials like plant leaves. It is best to save
-  spectral data acquired as absorbance into objects of class `object_spct`
-  containing reflectance and transmittance, the default, as this preserves
-  all the acquired data.
+  returns transmittance values labelled with \code{Transmittance} as
+  \code{Mode}. Transmittance values are not \emph{total} as most of the
+  scattered light transmitted is not detected. Absorbance (\code{Abs}) values
+  returned labelled with \code{Absorbance} as \code{Mode} are for absorbance
+  computed from the Transmittance. This estimate of absorbance overestimates
+  real absorbance in the case of scattering materials like plant leaves. It
+  is best to save spectral data acquired as absorbance into objects of class
+  `object_spct` containing reflectance and transmittance, the default, as
+  this preserves all the acquired data.
 }
 
-\section{Specular _vs._ total reflectance}{
+\section{Specular \emph{vs.} total reflectance}{
  This function assumes that
-  SpectraVue returns close to _total_ reflectance readings. Given the optics
+  SpectraVue returns close to \emph{total} reflectance readings. Given the optics
   of the instrument this is likely only an approximation.
 }
 
 \section{Warning!!}{
 
 I have made repeated attempts to get an answer from CID's support about the
-extremely biased (plainly wrong) values of transmittance measured by this
+extremely biased (plainly wrong!) values of transmittance measured by this
 instrument. This has been to no avail, no useful information provided by any
 of the different CID staff members answering to my messages, but not to my
-questions. In practice, reflectance seems biased but  usable as an
+questions. In practice, reflectance seems biased but usable as an
 instrument-specific quantity with arbitrary units. Transmittance and
 absorbance seem useless as values are wrong by an order of magnitude or
 more.
