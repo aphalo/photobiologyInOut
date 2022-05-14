@@ -402,6 +402,7 @@ chroma_spct2colorSpec(beesxyzCMF.spct)
 ## ----------------------------------------------------
 spct_CCT(white_led.source_spct) # correlated color temperature
 spct_CRI(white_led.source_spct) # color rendition index
+spct_CRI(white_led.source_spct, named = TRUE)
 spct_SSI(white_led.source_spct, sun.spct) # spectral similarity index
 
 ## ---- eval = eval_pavo-------------------------------

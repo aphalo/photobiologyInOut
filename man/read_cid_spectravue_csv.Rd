@@ -121,6 +121,18 @@ SpectraVue creates three or four \code{.CSV} files for each series of
   of the instrument this is likely only an approximation.
 }
 
+\section{Warning!!}{
+
+I have made repeated attempts to get an answer from CID's support about the
+extremely biased (plainly wrong) values of transmittance measured by this
+instrument. This has been to no avail, no useful information provided by any
+of the different CID staff members answering to my messages, but not to my
+questions. In practice, reflectance seems biased but  usable as an
+instrument-specific quantity with arbitrary units. Transmittance and
+absorbance seem useless as values are wrong by an order of magnitude or
+more.
+}
+
 \examples{
 
 # read file containing a single reflectaance spectrum
