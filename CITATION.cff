@@ -243,7 +243,17 @@ references:
     given-names: Glenn
   year: '2022'
   url: https://CRAN.R-project.org/package=colorSpec
-  version: '>= 0.9-1'
+  version: '>= 1.4-0'
+- type: software
+  title: spacesXYZ
+  abstract: 'spacesXYZ: CIE XYZ and some of Its Derived Color Spaces'
+  notes: Suggests
+  authors:
+  - family-names: Davis
+    given-names: Glenn
+  year: '2022'
+  url: https://CRAN.R-project.org/package=spacesXYZ
+  version: '>= 1.2-1'
 - type: software
   title: hyperSpec
   abstract: 'hyperSpec: Work with Hyperspectral Data, i.e. Spectra + Meta Information
