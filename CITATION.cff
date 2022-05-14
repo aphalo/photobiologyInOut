@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.2.1
+# CITATION file created with {cffr} R package, v0.2.2
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
@@ -8,7 +8,7 @@ message: 'To cite package "photobiologyInOut" in publications use:'
 type: software
 license: GPL-2.0-or-later
 title: 'photobiologyInOut: Read Spectral and Logged Data from Foreign Files'
-version: 0.4.23.9001
+version: 0.4.24
 doi: 10.19232/uv4pb.2015.1.14
 abstract: Functions for reading, and in some cases writing, foreign files containing
   spectral data from spectrometers and their associated software, output from daylight
@@ -37,7 +37,7 @@ preferred-citation:
 repository: https://CRAN.R-project.org/package=photobiologyInOut
 repository-code: https://github.com/aphalo/photobiologyinout/issues/
 url: https://docs.r4photobiology.info/photobiologyInOut/
-date-released: '2022-03-23'
+date-released: '2022-05-14'
 contact:
 - family-names: Aphalo
   given-names: Pedro J.
@@ -234,17 +234,6 @@ references:
   year: '2022'
   url: https://CRAN.R-project.org/package=readxl
   version: '>= 1.3.1'
-- type: software
-  title: lazyeval
-  abstract: 'lazyeval: Lazy (Non-Standard) Evaluation'
-  notes: Imports
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@rstudio.com
-  year: '2022'
-  url: https://CRAN.R-project.org/package=lazyeval
-  version: '>= 0.2.2'
 - type: software
   title: colorSpec
   abstract: 'colorSpec: Color Calculations with Emphasis on Spectral Data'
