@@ -2,7 +2,7 @@ Package: photobiologyInOut
 Type: Package
 Title: Read Spectral and Logged Data from Foreign Files
 Version: 0.4.24.9000
-Date: 2022-05-15
+Date: 2022-05-19
 Authors@R:
    c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3385-972X")),
@@ -24,6 +24,7 @@ Imports:
     methods,
     tools,
     utils,
+    stats,
     stringr (>= 1.4.0),
     lubridate (>= 1.7.4),
     anytime (>= 0.3.9),
@@ -49,4 +50,4 @@ ByteCompile: true
 Encoding: UTF-8
 URL: https://docs.r4photobiology.info/photobiologyInOut/
 BugReports: https://github.com/aphalo/photobiologyinout/issues/
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
