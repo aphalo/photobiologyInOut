@@ -37,7 +37,7 @@ preferred-citation:
 repository: https://CRAN.R-project.org/package=photobiologyInOut
 repository-code: https://github.com/aphalo/photobiologyinout/issues/
 url: https://docs.r4photobiology.info/photobiologyInOut/
-date-released: '2022-05-15'
+date-released: '2022-05-19'
 contact:
 - family-names: Aphalo
   given-names: Pedro J.
@@ -94,6 +94,18 @@ references:
     name: R Foundation for Statistical Computing
 - type: software
   title: utils
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2022'
+  url: https://www.R-project.org/
+  institution:
+    name: R Foundation for Statistical Computing
+- type: software
+  title: stats
   abstract: 'R: A Language and Environment for Statistical Computing'
   notes: Imports
   authors:
