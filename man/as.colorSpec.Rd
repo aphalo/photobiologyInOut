@@ -40,11 +40,11 @@ Convert spectral objects (xxxx_spct, xxxx_mspct) as defined in package
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{generic_spct}: 
+\item \code{as.colorSpec(generic_spct)}: 
 
-\item \code{chroma_spct}: 
+\item \code{as.colorSpec(chroma_spct)}: 
+
 }}
-
 \note{
 Objects of class \code{colorSpec::colorSpec} do not contain metadata or
   class data from which the units of expression could be obtained. When using
