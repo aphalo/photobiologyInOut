@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.2.2
+# CITATION file created with {cffr} R package, v0.3.0
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
@@ -8,7 +8,7 @@ message: 'To cite package "photobiologyInOut" in publications use:'
 type: software
 license: GPL-2.0-or-later
 title: 'photobiologyInOut: Read Spectral and Logged Data from Foreign Files'
-version: 0.4.25
+version: 0.4.25.9000
 doi: 10.19232/uv4pb.2015.1.14
 abstract: Functions for reading, and in some cases writing, foreign files containing
   spectral data from spectrometers and their associated software, output from daylight
@@ -37,7 +37,7 @@ preferred-citation:
 repository: https://CRAN.R-project.org/package=photobiologyInOut
 repository-code: https://github.com/aphalo/photobiologyinout/issues/
 url: https://docs.r4photobiology.info/photobiologyInOut/
-date-released: '2022-08-13'
+date-released: '2022-10-12'
 contact:
 - family-names: Aphalo
   given-names: Pedro J.
