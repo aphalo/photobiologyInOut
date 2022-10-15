@@ -50,7 +50,7 @@ PSI (Photon Systems Instruments, Czech Republic) SpectraPen miniature
 spectrometer.
 }
 \examples{
-
+ # fetch path to example file to read
  file.name <-
    system.file("extdata", "spectrum-psi-spectrapen-SP.csv",
                package = "photobiologyInOut", mustWork = TRUE)

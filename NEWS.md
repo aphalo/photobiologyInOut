@@ -11,7 +11,7 @@ of data files are welcome for these and other instruments).
 
 # photobiologyInOut 0.4.26
 
-- Add function `read_spectrapen_csv()`.
+- Add function `read_spectrapen_csv()` supporting PSI's SpectraPen spectrometer.
 - Update for code-breaking changes in package 'readr'.
 
 # photobiologyInOut 0.4.25

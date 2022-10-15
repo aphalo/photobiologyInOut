@@ -1,7 +1,7 @@
 Package: photobiologyInOut
 Type: Package
 Title: Read Spectral and Logged Data from Foreign Files
-Version: 0.4.25.9000
+Version: 0.4.26
 Date: 2022-10-12
 Authors@R:
    c(
@@ -18,8 +18,8 @@ Description: Functions for reading, and in some cases writing, foreign files
 License: GPL (>= 2)
 VignetteBuilder: knitr
 Depends:
-    R (>= 3.6.0),
-    photobiology (>= 0.10.9)
+    R (>= 4.0.0),
+    photobiology (>= 0.10.10)
 Imports:
     methods,
     tools,
