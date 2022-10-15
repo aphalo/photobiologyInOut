@@ -13,3 +13,4 @@
 ^\.github$
 ^pkgdown$
 ^CITATION\.cff$
+^build-pkgdown-offline.R$

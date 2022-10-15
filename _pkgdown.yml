@@ -20,6 +20,7 @@ reference:
     - read_licor_prn
     - read_li180_txt
     - read_wasatch_csv
+    - read_spectrapen_csv
     - read_cid_spectravue_csv
   - title: Spectral data from radiation tarnsfer models
     desc: Read files with data from radiation transfer models.
