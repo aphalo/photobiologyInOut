@@ -841,3 +841,107 @@ as.colorSpec.chroma_spct <- function(x,
                        wavelength = x[["w.length"]],
                        quantity = 'energy->neural')
 }
+
+# FDA ---------------------------------------------------------------------
+
+#' Convert spectra into 'fda.usc::fdata' objects
+#' 
+#' Convert spectral objects (xxxx_spct, xxxx_mspct) as defined in package
+#' 'photobiology' into \code{fda.usc::fdata} objects, preserving as much
+#' information as possible. As \code{fdata} objects can contain many other kinds
+#' of data, currently only export is supported.
+#' 
+#' @section Warning!: Always check the sanity of the imported or exported data
+#'   values, as guessing is needed when matching the different classes, and the
+#'   functions defined here are NOT guaranteed to return valid data whitout help
+#'   from the user through optional function arguments.
+#' 
+#' @param x generic_mspct or generic_spct object.
+#' @param spct.data.var character The name of the column containing data to
+#'   export. If \code{NULL} the first spectral data column found is used.
+#' @param multiplier numeric A multiplier to be applied to the 'spc' data to do
+#'   unit or scale conversion. For example "a.u." units in some examples in
+#'   package 'hyperSpec' seem to have scale factors applied.
+#' @param ... currently ignored.
+#' 
+#' @export
+#' 
+#' @examples 
+#' if (requireNamespace("fda.usc", quietly = TRUE)) {
+#'   spct2fdata(sun.spct)
+#'   spct2fdata(polyester.spct)
+#' }
+#' 
+#' @export
+#' 
+mspct2fdata <- function(x, 
+                        spct.data.var = NULL,
+                        multiplier = 1,
+                        ...) {
+  if (requireNamespace("fda.usc", quietly = TRUE)) {
+    stopifnot(photobiology::is.any_mspct(x))
+    if (is.null(spct.data.var )) {
+      spct.data.var <- setdiff(colnames(x[[1]]), "w.length")[1]
+    }
+    spct.names <- names(x)
+    spct.selector <- rep(TRUE, length(x))
+    for (i in seq_along(x)) {
+      temp <- x[[i]]
+      if (!spct.data.var %in% colnames(temp)) {
+        message("Missing column, skipping: ", spct.names[i])
+        spct.selector[i] <- FALSE
+        next()
+      }
+      s.column <- temp[[spct.data.var]] * multiplier
+      wl.current <- temp[["w.length"]]
+      if (i == 1L) {
+        mat <- s.column
+        wl.prev <- wl.current
+      } else {
+        if (!all(wl.current == wl.prev)) {
+          message("Inconsistent wavelength values, skipping: ", spct.names[i])
+          spct.selector[i] <- FALSE
+          next()
+        }
+        mat <- rbind(mat, s.column) # as row!
+      }
+    }
+    message("Created 'fdata' object containing ", sum(spct.selector), " spectra.")
+    z <- fda.usc::fdata(mdata = mat,
+                        argvals = wl.prev,
+                        names = list(main = "", 
+                                     xlab = "w.length", 
+                                     ylab = spct.data.var),
+                        fdata2d = FALSE)
+    comment(z) <- paste("Spectra: ", paste(spct.names[spct.selector], collapse = ", "), sep = "")
+    z
+  } else {
+    warning("Package 'fda.usc' needs to be installed.")
+    NA
+  }
+}
+
+#' @rdname mspct2fdata
+#' 
+#' @export
+#' 
+spct2fdata <- function(x, 
+                       spct.data.var = NULL,
+                       multiplier = 1,
+                       ...) {
+  stopifnot(is.any_spct(x))
+  if (is.null(spct.data.var )) {
+    spct.data.var <- setdiff(colnames(x), "w.length")[1]
+  }
+  stopifnot(spct.data.var %in% colnames(x))
+  if (getMultipleWl(x) == 1L) {
+    y <- photobiology::generic_mspct(list(x), class = class(x)[1])
+  } else {
+    y <- subset2mspct(x)
+  }
+  mspct2fdata(y, 
+              spct.data.var = spct.data.var,
+              multiplier = multiplier,
+              ...)
+}
+

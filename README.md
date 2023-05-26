@@ -4,7 +4,7 @@
 [![CRAN
 version](https://www.r-pkg.org/badges/version-last-release/photobiologyInOut)](https://cran.r-project.org/package=photobiologyInOut)
 [![cran
-checks](https://cranchecks.info/badges/worst/photobiologyInOut)](https://cran.r-project.org/web/checks/check_results_photobiologyInOut.html)
+checks](https://badges.cranchecks.info/worst/photobiologyInOut.svg)](https://cran.r-project.org/web/checks/check_results_photobiologyInOut.html)
 [![R build
 status](https://github.com/aphalo/photobiologyInOut/workflows/R-CMD-check/badge.svg)](https://github.com/aphalo/photobiologyInOut/actions)
 
