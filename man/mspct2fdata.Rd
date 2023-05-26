@@ -5,24 +5,21 @@
 \alias{spct2fdata}
 \title{Convert spectra into 'fda.usc::fdata' objects}
 \usage{
-mspct2fdata(x, spct.data.var, multiplier = 1, ...)
+mspct2fdata(x, spct.data.var = NULL, multiplier = 1, ...)
 
-spct2fdata(x, spct.data.var, multiplier = 1, ...)
+spct2fdata(x, spct.data.var = NULL, multiplier = 1, ...)
 }
 \arguments{
-\item{x}{hyperSpec object}
+\item{x}{generic_mspct or generic_spct object.}
 
-\item{spct.data.var}{character The name to be used for the 'spc' data when
-constructing the spectral objects.}
+\item{spct.data.var}{character The name of the column containing data to
+export. If \code{NULL} the first spectral data column found is used.}
 
 \item{multiplier}{numeric A multiplier to be applied to the 'spc' data to do
 unit or scale conversion. For example "a.u." units in some examples in
 package 'hyperSpec' seem to have scale factors applied.}
 
 \item{...}{currently ignored.}
-
-\item{member.class}{character One of the spectrum classes defined in package
-'photobiology'.}
 }
 \description{
 Convert spectral objects (xxxx_spct, xxxx_mspct) as defined in package
@@ -39,8 +36,10 @@ of data, currently only export is supported.
 
 \examples{
 if (requireNamespace("fda.usc", quietly = TRUE)) {
-  spct2fdata(sun.spct, "s.e.irrad")
-  spct2fdata(polyester.spct, "Tfr")
+  sun.fdata <- spct2fdata(sun.spct)
+  str(sun.fdata)
+  polyester.fdata <- spct2fdata(polyester.spct)
+  str(polyester.fdata)
 }
 
 }

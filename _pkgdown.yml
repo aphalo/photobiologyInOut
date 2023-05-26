@@ -44,6 +44,7 @@ reference:
     - colorSpec2mspct
     - rspec2mspct
     - as.colorSpec
+    - mspct2fdata
   - title: Wrappers on functions from other R packages
     desc: Call functions from package 'colorSpec' with on-the-fly conversion of spectral objects passed as arguments.
     contents:

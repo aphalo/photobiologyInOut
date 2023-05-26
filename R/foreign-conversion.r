@@ -868,8 +868,10 @@ as.colorSpec.chroma_spct <- function(x,
 #' 
 #' @examples 
 #' if (requireNamespace("fda.usc", quietly = TRUE)) {
-#'   spct2fdata(sun.spct)
-#'   spct2fdata(polyester.spct)
+#'   sun.fdata <- spct2fdata(sun.spct)
+#'   str(sun.fdata)
+#'   polyester.fdata <- spct2fdata(polyester.spct)
+#'   str(polyester.fdata)
 #' }
 #' 
 #' @export
@@ -895,7 +897,7 @@ mspct2fdata <- function(x,
       s.column <- temp[[spct.data.var]] * multiplier
       wl.current <- temp[["w.length"]]
       if (i == 1L) {
-        mat <- s.column
+        vec <- s.column
         wl.prev <- wl.current
       } else {
         if (!all(wl.current == wl.prev)) {
@@ -903,9 +905,10 @@ mspct2fdata <- function(x,
           spct.selector[i] <- FALSE
           next()
         }
-        mat <- rbind(mat, s.column) # as row!
+        vec <- c(vec, s.column)
       }
     }
+    mat <- matrix(vec, nrow = sum(spct.selector), dimnames = list(spct.names[spct.selector]))
     message("Created 'fdata' object containing ", sum(spct.selector), " spectra.")
     z <- fda.usc::fdata(mdata = mat,
                         argvals = wl.prev,
