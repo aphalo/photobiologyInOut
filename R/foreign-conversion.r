@@ -932,19 +932,20 @@ spct2fdata <- function(x,
                        spct.data.var = NULL,
                        multiplier = 1,
                        ...) {
-  stopifnot(is.any_spct(x))
-  if (is.null(spct.data.var )) {
-    spct.data.var <- setdiff(colnames(x), "w.length")[1]
-  }
-  stopifnot(spct.data.var %in% colnames(x))
-  if (getMultipleWl(x) == 1L) {
-    y <- photobiology::generic_mspct(list(x), class = class(x)[1])
+  if (requireNamespace("fda.usc", quietly = TRUE)) {
+    stopifnot(is.any_spct(x))
+    if (is.null(spct.data.var )) {
+      spct.data.var <- setdiff(colnames(x), "w.length")[1]
+    }
+    mdata <- t(as.matrix(x))
+    argvals <- x[["w.length"]]
+    fda.usc::fdata(mdata = mdata,
+                   names = list(main = "", 
+                                xlab = "w.length", 
+                                ylab = spct.data.var))
   } else {
-    y <- subset2mspct(x)
+    warning("Package 'fda.usc' needs to be installed.")
+    NA
   }
-  mspct2fdata(y, 
-              spct.data.var = spct.data.var,
-              multiplier = multiplier,
-              ...)
 }
 
