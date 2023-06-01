@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+^inst-not$
 ^test$
 ^vignettes/figure$
 ^vignettes/backups/*
@@ -12,5 +13,4 @@
 ^.*\.sh$
 ^\.github$
 ^pkgdown$
-^CITATION\.cff$
 ^build-pkgdown-offline.R$
