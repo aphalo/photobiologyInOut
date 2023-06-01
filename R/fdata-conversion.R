@@ -110,6 +110,9 @@ spct2fdata <- function(x,
 
 #' @rdname mspct2fdata
 #' 
+#' @param member.class character Name of the class of the spectrum or of the
+#'    members of the collection of spectra.
+#' 
 #' @export
 #' 
 fdata2spct <- function(x, 
@@ -165,6 +168,9 @@ fdata2spct <- function(x,
 }
 
 #' @rdname mspct2fdata
+#' 
+#' @param drop.idx logical Flag indicating whether to drop or keep
+#'   \code{idx.var} in the collection members.
 #' 
 #' @export
 #' 

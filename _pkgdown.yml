@@ -22,7 +22,7 @@ reference:
     - read_wasatch_csv
     - read_spectrapen_csv
     - read_cid_spectravue_csv
-  - title: Spectral data from radiation tarnsfer models
+  - title: Spectral data from radiation transfer models
     desc: Read files with data from radiation transfer models.
     contents:
     - read_fmi_cum
@@ -31,12 +31,12 @@ reference:
     - read_qtuv_txt
     - read_uvspec_disort
     - read_uvspec_disort_vesa
-  - title: Sepctral data from public repositories
+  - title: Spectral data from public repositories
     desc: Read files with data downloaded from public repositories.
     contents:
     - read_FReD_csv
     - read_ASTER_txt
-  - title: Spectral data from other R packages
+  - title: Spectral data to and from other R packages
     desc: Read and write to objects belonging to classes defined in other R packages.
     contents:
     - hyperSpec2mspct

@@ -30,8 +30,8 @@ currently supported: Campbell Scientific and YoctoPuce.
 Data files from output by **radiation transfer models**: libRadtran and
 TUV.
 
-Data objects of classes defined in **R packages**: ‘hyperSpec’,
-‘colorSpec’ and ‘pavo’.
+Data objects of classes defined in **R packages**: ‘hyperSpec’ (2-way),
+‘colorSpec’, ‘pavo’ and ‘fda.usc’ (2-way).
 
 Data files downloaded from **repositories of spectral data**: ASTER
 (NASA’s ECOSTRESS Spectral Library) and FReD (Floral Reflectance
@@ -118,7 +118,6 @@ publications, please cite according to:
 
 ``` r
 citation("photobiologyInOut")
-#> 
 #> To cite package 'photobiologyInOut' in publications, please use:
 #> 
 #>   Aphalo, Pedro J. (2015) The r4photobiology suite. UV4Plants Bulletin,
@@ -140,6 +139,6 @@ citation("photobiologyInOut")
 
 ## License
 
-© 2015-2022 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
+© 2015-2023 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
 the GPL, version 2 or greater. This software carries no warranty of any
 kind.

@@ -26,6 +26,12 @@ export. If \code{NULL} the first spectral data column found is used.}
 unit or scale conversion.}
 
 \item{...}{possibly additional named arguments passed to object constructors.}
+
+\item{member.class}{character Name of the class of the spectrum or of the
+members of the collection of spectra.}
+
+\item{drop.idx}{logical Flag indicating whether to drop or keep
+\code{idx.var} in the collection members.}
 }
 \description{
 Convert spectral objects (xxxx_spct, xxxx_mspct) as defined in package
