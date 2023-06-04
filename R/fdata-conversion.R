@@ -30,10 +30,15 @@
 #' 
 #' @examples 
 #' if (requireNamespace("fda.usc", quietly = TRUE)) {
+#' # from spectra to fdata
 #'   sun.fdata <- spct2fdata(sun.spct)
 #'   str(sun.fdata)
 #'   polyester.fdata <- spct2fdata(polyester.spct)
 #'   str(polyester.fdata)
+#' # from fdata to spectra
+#'   fdata2spct(sun.fdata)
+#'   fdata2spct(sun.fdata, drop.idx = TRUE)
+#'   fdata2spct(polyester.fdata, drop.idx = TRUE)
 #' }
 #' 
 #' @export
@@ -116,9 +121,10 @@ spct2fdata <- function(x,
 #' @export
 #' 
 fdata2spct <- function(x, 
-                        multiplier = 1,
-                        member.class = NULL,
-                        ...) {
+                       multiplier = 1,
+                       member.class = NULL,
+                       drop.idx = FALSE,
+                       ...) {
   if (requireNamespace("fda.usc", quietly = TRUE)) {
     stopifnot(inherits(x, "fdata"))
     if (!is.null(member.class) &&
@@ -150,12 +156,27 @@ fdata2spct <- function(x,
     }
     
     spct.names <- rownames(x[["data"]])
-    args <- list(w.length = rep(x[["argvals"]], times = length(spct.names)),
-                 as.vector(x[["data"]]),
-                 spct.idx = rep(spct.names, each = length(x[["argvals"]])),
-                 multiple.wl = length(spct.names),
-                 idfactor = "spct.idx",
-                 ...)
+    if (is.null(spct.names)) {
+      if (!is.null(x[["names"]][["main"]])) {
+        name.root <- x[["names"]][["main"]]
+      } else {
+        name.root <- "row"
+      }
+      spct.names <- paste(name.root, seq(1, nrow(x[["data"]])), sep = "_")
+    }
+    if (length(spct.names) == 1L && drop.idx) {
+      args <- list(w.length = rep(x[["argvals"]], times = length(spct.names)),
+                   as.vector(x[["data"]]),
+                   multiple.wl = 1L,
+                   ...)
+    } else {
+      args <- list(w.length = rep(x[["argvals"]], times = length(spct.names)),
+                   as.vector(x[["data"]]),
+                   spct.idx = rep(spct.names, each = length(x[["argvals"]])),
+                   multiple.wl = length(spct.names),
+                   idfactor = "spct.idx",
+                   ...)
+    }
     names(args)[2] <- spct.data.var
     z <- do.call(member.class, args = args)
     photobiology::what_measured(z) <- x[["names"]][["main"]]
@@ -182,6 +203,7 @@ fdata2mspct <- function(x,
   y <- fdata2spct(x = x,
                   multiplier = multiplier,
                   member.class = member.class,
+                  drop.idx = FALSE,
                   ...)
   photobiology::subset2mspct(y, drop.idx = drop.idx)
 }
