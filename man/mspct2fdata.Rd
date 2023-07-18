@@ -11,7 +11,7 @@ mspct2fdata(x, spct.data.var = NULL, multiplier = 1, ...)
 
 spct2fdata(x, spct.data.var = NULL, multiplier = 1, ...)
 
-fdata2spct(x, multiplier = 1, member.class = NULL, ...)
+fdata2spct(x, multiplier = 1, member.class = NULL, drop.idx = FALSE, ...)
 
 fdata2mspct(x, multiplier = 1, member.class = NULL, drop.idx = FALSE, ...)
 }
@@ -54,10 +54,15 @@ affected spectrum is skipped with a warning.
 
 \examples{
 if (requireNamespace("fda.usc", quietly = TRUE)) {
+# from spectra to fdata
   sun.fdata <- spct2fdata(sun.spct)
   str(sun.fdata)
   polyester.fdata <- spct2fdata(polyester.spct)
   str(polyester.fdata)
+# from fdata to spectra
+  fdata2spct(sun.fdata)
+  fdata2spct(sun.fdata, drop.idx = TRUE)
+  fdata2spct(polyester.fdata, drop.idx = TRUE)
 }
 
 }
