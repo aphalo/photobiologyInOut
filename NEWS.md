@@ -9,6 +9,11 @@ editor_options:
 Add support for StellarNet, Brewer, and Bentham spectrometers (examples
 of data files are welcome for these and other instruments).
 
+# photobiologyInOut 0.4.28
+
+- Track change in package 'colorSpec' to avoid an error by triggering a 
+warning, instead. Affects functions `spct_CRI` and `spct_CCT`.
+
 # photobiologyInOut 0.4.27
 
 - Add functions `mspct2fdata()` and `spct2fdata()` to export spectra as `fdata`
