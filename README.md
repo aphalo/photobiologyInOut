@@ -70,11 +70,20 @@ Installation of the most recent stable version from CRAN:
 install.packages("photobiologyInOut")
 ```
 
+Installation of the current unstable version from R-Universe CRAN-like
+repository:
+
+``` r
+install.packages('photobiologyInOut', 
+                 repos = c('https://aphalo.r-universe.dev', 
+                           'https://cloud.r-project.org'))
+```
+
 Installation of the current unstable version from GitHub:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("aphalo/photobiologyInOut")
+# install.packages("remotes")
+remotes::install_github("aphalo/photobiologyInOut")
 ```
 
 ## Documentation
@@ -118,7 +127,7 @@ publications, please cite according to:
 
 ``` r
 citation("photobiologyInOut")
-#> To cite package 'photobiologyInOut' in publications, please use:
+#> To cite package ‘photobiologyInOut’ in publications use:
 #> 
 #>   Aphalo, Pedro J. (2015) The r4photobiology suite. UV4Plants Bulletin,
 #>   2015:1, 21-29. DOI:10.19232/uv4pb.2015.1.14
@@ -139,6 +148,6 @@ citation("photobiologyInOut")
 
 ## License
 
-© 2015-2023 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
+© 2015-2024 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
 the GPL, version 2 or greater. This software carries no warranty of any
 kind.

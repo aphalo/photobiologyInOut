@@ -48,11 +48,19 @@ Installation of the most recent stable version from CRAN:
 install.packages("photobiologyInOut")
 ```
 
+Installation of the current unstable version from R-Universe CRAN-like repository:
+
+```{r, eval=FALSE}
+install.packages('photobiologyInOut', 
+                 repos = c('https://aphalo.r-universe.dev', 
+                           'https://cloud.r-project.org'))
+```
+
 Installation of the current unstable version from GitHub:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("aphalo/photobiologyInOut")
+# install.packages("remotes")
+remotes::install_github("aphalo/photobiologyInOut")
 ```
 
 ## Documentation 
@@ -84,5 +92,5 @@ citation("photobiologyInOut")
 
 ## License
 
-© 2015-2023 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
+© 2015-2024 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
 
