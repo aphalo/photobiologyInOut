@@ -93,7 +93,7 @@
 #'   \code{object_spct} or \code{generic_mspct}.
 #'
 #' @export
-#' @references \url{https://cid-inc.com/}
+#' @references \emph{https://cid-inc.com/}
 #'
 #' @examples
 #'

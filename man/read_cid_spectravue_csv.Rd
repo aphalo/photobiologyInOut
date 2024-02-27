@@ -162,5 +162,5 @@ values are wrong by about an order of magnitude.
 
 }
 \references{
-\url{https://cid-inc.com/}
+\emph{https://cid-inc.com/}
 }
