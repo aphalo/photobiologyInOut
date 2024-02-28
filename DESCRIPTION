@@ -34,7 +34,8 @@ Imports:
     tidyselect(>= 1.2.0),
     readr (>= 2.1.4),
     readxl (>= 1.4.3),
-    colorSpec (>= 1.4-0)
+    colorSpec (>= 1.4-0),
+    jsonlite (>= 1.8.8)
 Suggests:
     spacesXYZ (>= 1.2-1),
     hyperSpec (>= 0.100.0),
