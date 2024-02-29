@@ -13,6 +13,8 @@ of data files are welcome for these and other instruments).
 
 - Track change in package 'colorSpec' (1.5-0) to avoid an error by triggering a 
 warning, instead. Affects functions `spct_CRI()`, `spct_CCT()`, and `spct_SSI()`.
+- Add function `read_CIE_csv()` to read the CSV and JSON files from CIE, recently
+published at the [CIE Datasets page](https://cie.co.at/data-tables).
 
 ## photobiologyInOut 0.4.27
 
