@@ -188,9 +188,9 @@ read_qtuv_txt <- function(file,
   }
   
   # make sure we read whole header even is garbage present
-  file_header <- readr::read_lines(file = file, n_max = 100L)
+  file_header <- readr::read_lines(file = file, n_max = 60L)
   
-  # find top of header
+  # find top of file header
   header.start.idx <- grep("INPUT PARAMETERS:", file_header, fixed = TRUE)
   if (!length(header.start.idx)) {
     warning("File '", file, "' seems not to be output from Quick TUV Calculator.")
@@ -206,8 +206,11 @@ read_qtuv_txt <- function(file,
   } else {
     data.header.line <- file_header[header.end.idx]
   }
-  spct.header.idx <- header.end.idx + 2L
 
+  # find data column headers
+  # used later but should have whole fil_header as argument
+  spct.header.idx <- grep("LOWER WVL", file_header, fixed = TRUE)
+  
   # trim garbage above and below header
   file_header <- file_header[header.start.idx:header.end.idx]
 

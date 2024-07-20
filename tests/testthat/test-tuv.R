@@ -5,7 +5,7 @@ library("readr")
 
 context("import from TUV")
 
-test_that("read Quick TUV", {
+test_that("read Quick TUV txt", {
 
   file.name <- 
     system.file("extdata", "qtuv.txt", 
@@ -181,6 +181,50 @@ test_that("read Quick TUV", {
   expect_equal(getTimeUnit(qtuv_html.spct), "second")
   expect_equal(length(comment(qtuv_html.spct)), 1L)
   
+})
+
+test_that("read Quick TUV HTML", {
+  
+  file.name <- 
+    system.file("extdata", "qtuv-00.htm", 
+                package = "photobiologyInOut", mustWork = TRUE)
+  
+  qtuv_00_htm.spct <- 
+    read_qtuv_txt(file = file.name,
+                  ozone.du = 300)
+  
+  expect_equal(nrow(qtuv_00_htm.spct), 410L)
+  expect_equal(ncol(qtuv_00_htm.spct), 7L)
+  expect_equal(qtuv_00_htm.spct[["w.length"]][1L], 290.5, tolerance = 0.0001)
+  expect_equal(qtuv_00_htm.spct[["w.length"]][410L], 699.5, tolerance = 0.0001)
+  expect_is(qtuv_00_htm.spct[["w.length"]], "numeric")
+  expect_equal(sum(is.na(qtuv_00_htm.spct[["w.length"]])), 0)
+  expect_true(all(sign(qtuv_00_htm.spct[["w.length"]]) > 0))
+  expect_is(qtuv_00_htm.spct[[2]], "numeric")
+  expect_equal(sum(is.na(qtuv_00_htm.spct[["s.e.irrad"]])), 0)
+  expect_is(qtuv_00_htm.spct, "source_spct")
+  expect_named(
+    qtuv_00_htm.spct,
+    c(
+      "w.length",
+      "s.e.irrad",
+      "s.e.irrad.dir",
+      "s.e.irrad.diff.down",
+      "s.e.irrad.diff.up",
+      "angle",
+      "date"
+    )
+  )
+  expect_equal(format(getWhenMeasured(qtuv_00_htm.spct)),
+               format(ymd("2015-06-30")))
+  expect_true(all(is.na(getWhereMeasured(qtuv_00_htm.spct))))
+  expect_named(getWhereMeasured(qtuv_00_htm.spct), c("lon", "lat", "address"))
+  expect_equal(getWhatMeasured(qtuv_00_htm.spct), 
+               "Quick TUV spectral simulation File: qtuv-00.htm")
+  expect_equal(getTimeUnit(qtuv_00_htm.spct), "second")
+  expect_equal(length(comment(qtuv_00_htm.spct)), 1L)
+  
+
 })
 
 

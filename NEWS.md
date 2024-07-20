@@ -9,6 +9,13 @@ editor_options:
 Add support for StellarNet, Brewer, and Bentham spectrometers (examples
 of data files are welcome for these and other instruments).
 
+## photobiologyInOut 0.4.29
+
+- Update `read_qtuv_txt()` handle text/HTML files from Quick TUV saved with 
+embedded _new line escapes_ (`"\n") instead of actual new lines. This 
+seems to be how some browsers save the output from the on-line Quick TUV
+calculator by default.
+
 ## photobiologyInOut 0.4.28
 
 - Track change in package 'colorSpec' (1.5-0) to avoid an error by triggering a 
