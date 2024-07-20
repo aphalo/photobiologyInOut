@@ -36,6 +36,7 @@ reference:
     contents:
     - read_FReD_csv
     - read_ASTER_txt
+    - read_CIE_csv
   - title: Spectral data to and from other R packages
     desc: Read and write to objects belonging to classes defined in other R packages.
     contents:
@@ -75,6 +76,7 @@ navbar:
     home:
       icon: fas fa-home fa-lg
       href: index.html
+      aria-label: View Home page
     reference:
       text: Reference
       href: reference/index.html
