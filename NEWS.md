@@ -9,17 +9,14 @@ editor_options:
 Add support for StellarNet, Brewer, and Bentham spectrometers (examples
 of data files are welcome for these and other instruments).
 
-## photobiologyInOut 0.4.29
-
-- Update `read_qtuv_txt()` handle text/HTML files from Quick TUV saved with 
-embedded _new line escapes_ (`"\n") instead of actual new lines. This 
-seems to be how some browsers save the output from the on-line Quick TUV
-calculator by default.
-
 ## photobiologyInOut 0.4.28
 
 - Track change in package 'colorSpec' (1.5-0) to avoid an error by triggering a 
 warning, instead. Affects functions `spct_CRI()`, `spct_CCT()`, and `spct_SSI()`.
+- Update `read_qtuv_txt()` handle text/HTML files from Quick TUV saved with 
+embedded _new line escapes_ (`"\n") instead of actual new lines. This 
+seems to be how some browsers save the output from the on-line Quick TUV
+calculator by default.
 - Add function `read_CIE_csv()` to read the CSV and JSON files from CIE, recently
 published at the [CIE Datasets page](https://cie.co.at/data-tables).
 
