@@ -30,8 +30,8 @@ names.}
 }
 \value{
 a source_spct object obtained by finding the center of wavelength
-  intervals in the Quick TUV output file, and adding variables \code{zenith.angle} and
-  \code{date}.
+  intervals in the Quick TUV output file, and adding variables
+  \code{zenith.angle} and \code{date}.
 }
 \description{
 Reads and parses the header of a text file output by the Quick TUV on-line
@@ -40,10 +40,16 @@ is converted to a date.
 }
 \note{
 The ozone column value used in the simulation cannot be retrieved from
-the file. Tested only with Quick TUV versison 5.2 on 2018-07-30. This 
+the file. Tested files from Quick TUV version 5.2 on 2018-07-30 and also
+with more recent files in early 2024. This 
 function can be expected to be robust to variations in the position of lines
-in the imported file and resistent to the presence of extraneous text or
-even summaries.
+in the imported file and resistant to the presence of extraneous text or
+even summaries. By default web browsers save the output returned by the
+Quick TUV calculator as an HTML output, some of them with minimal headers
+and other with more extensive ones. In some cases, character escapes replace
+actual new lines. In most cases these HTML files are decoded correctly, but
+if not, use "save as" in the browser and select "text" when saving. As a
+last recourse, messed up files can be manually edited before import.
 }
 \references{
 \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}

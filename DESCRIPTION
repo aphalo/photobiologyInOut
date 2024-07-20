@@ -52,4 +52,4 @@ ByteCompile: true
 Encoding: UTF-8
 URL: https://docs.r4photobiology.info/photobiologyInOut/
 BugReports: https://github.com/aphalo/photobiologyinout/issues/
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
