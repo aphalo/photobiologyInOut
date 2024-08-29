@@ -332,5 +332,284 @@ read_qtuv_txt <- function(file,
   attr(z, "file.header") <- file_header
   z
 }
-  
-  
+
+#' Spectral irradiance from the Quick TUV calculator
+#'
+#' Call the Quick TUV calculator web server and return a \code{source_spct}
+#' object with the simulated spectral energy irradiance data.
+#'
+#' @param w.length list of parameters describing the wavelengths, or a numeric
+#'   vector from which the parameters will be constructed.
+#' @param sun.elevation numeric Angle in degrees above the horizon. If NULL its
+#'   value is computed from \code{geocode} and \code{time}, otherwise 
+#'   arguments passed to these two parameters are ignored.
+#' @param geocode data frame with variables lon and lat as numeric values
+#'   (degrees), nrow > 1, allowed.
+#' @param time A "vector" of POSIXct time, with any valid time zone (TZ) is
+#'   allowed, default is current time.
+#' @param tz character Time zone is by default read from the file.
+#' @param locale	The locale controls defaults that vary from place to place. The
+#'   default locale is US-centric (like R), but you can use
+#'   \code{\link[readr]{locale}} to create your own locale that controls things
+#'   like the default time zone, encoding, decimal mark, big mark, and day/month
+#'   names.
+#' @param ozone.du numeric Ozone column in Dobson units.
+#' @param albedo numeric Surface albedo (= reflectance) as a fraction of one.
+#' @param measurement.altitude,ground.altitude numeric Altitudes above sea level
+#'   expressed in km.
+#' @param clouds list Parameters \code{optical.depth} (vertical), \code{top} and 
+#'   \code{base} expressed in km.
+#' @param aerosols list Parameters \code{optical.depth} (total extinction), \code{ssaaer} 
+#'   (cloud single scattering albedo) and \code{alpha} (wavelength dependence of 
+#'   optical depth).
+#' @param num.streams integer Number of streams used in computations, 2 or 4.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
+#' @param spectra named list with weights for the different components of the 
+#'   spectrum.
+#' @param file character The name under which the file returned by the server is
+#'   locally saved. If \code{NULL} a temporary file is used and discarded
+#'   immediately. File paths are supported when valid.
+#'   
+#' @return a \code{source_spct} object obtained by finding the center of wavelength
+#'   intervals in the Quick TUV output file, and adding variables
+#'   \code{zenith.angle} and \code{date}.
+#'
+#' @references \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}
+#'
+#' @details The Quick TUV calculator, is an on-line freely accessible server
+#'   running the TUV atmospheric chemistry and radiation transfer model with
+#'   a simplified user interface. In this case, version 5.3 is called passing 
+#'   the parameter values passed as arguments in the call to 
+#'   \code{qtuv_s.e.irrd()}. The response is saved in a temporary file
+#'   that is subsequently passed as argument to function \code{read_qtuv_txt()}
+#'   to read the spectral data and metadata into a \code{source_spct} object.
+#'   The formal parameter names are informative and consistent with other 
+#'   functions in the R for Photobiology Suite and differ from the short names
+#'   used for the parameters in the FORTRAN code of the TUV model. In the case
+#'   of \code{w.length} two ways of specifying wavelengths are supported. Some
+#'   defaults also differ from those of the Quick TUV calculator.
+#' 
+#' @note The Quick TUV calculator has multiple output modes that return
+#'   different types of computed values. The use of output mode 5 is hard-coded
+#'   in this function as other modes return summary values rather than spectral
+#'   data. Package 'foqat' provides a more flexible alternative supporting other
+#'   output modes in addition to mode 5.
+#'   
+#'   If the argument passed to \code{w.length} is a numeric vector, the extreme
+#'   w.lengths and its length are used. The returned spectrum has always a
+#'   uniformly spaced wavelengths.
+#'   
+#'   In interactive use of the Quick TUV Calculator, the same parameters as
+#'   accepted by \code{qtuv_s.e.irradiance()} as arguments are
+#'   entered through the web interface at 
+#'   \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}. This page 
+#'   together with its documentation, can be consulted for additional
+#'   information on the parameters and the model. 
+#'   
+#' @section Warning!: This function connects to a server managed by UCAR, the
+#'   University Corporation for Atmospheric Research located in the U.S.A. to
+#'   obtain simulated spectral data. UCAR manages the U.S. National Science
+#'   Foundation National Center for Atmospheric Research (NSF NCAR) on behalf of
+#'   NSF. As any download with the HTTPS protocol, using this function entails
+#'   some risk. To minimize the risk, the returned page is saved as plain text,
+#'   checked for conformity with the expected content, and if valid decoded into
+#'   an R data object. When using the default argument \code{file = NULL}, the
+#'   file used is a temporary one and is deleted before the function returns the
+#'   call, irrespective of it being conformant or not.
+#' 
+#'   The administrators of the Quick TUV Calculator at UCAR suggest a maximum
+#'   load of approximately 100 spectral simulations per day and user. For larger
+#'   workloads they encourage the local installation of the TUV model which is
+#'   open-source and freely available. A local installation, also allows access
+#'   to the full set of input parameters and outputs. Currently a local instance
+#'   of the TUV model can be called from R with package 'foqat'.
+#'       
+#' @references
+#' Sasha Madronich (2017-2021) Tropospheric Ultraviolet and Visible radiation (TUV) 
+#' model. \url{https://www2.acom.ucar.edu/modeling/tropospheric-ultraviolet-and-visible-tuv-radiation-model}.
+#' Visited on 2024-08-29.
+#' 
+#' @export
+#' 
+qtuv_s.e.irrad <- 
+  function(w.length = list(wStart=280, 
+                           wStop=420, 
+                           wIntervals=140), 
+           sun.elevation = NULL,
+           geocode = tibble::tibble(lon = 0, 
+                                    lat = 51.5, 
+                                    address = "Greenwich"), 
+           time = lubridate::now(),
+           tz = NULL,
+           locale = readr::default_locale(),
+           ozone.du = 300, 
+           albedo = 0.1, 
+           ground.altitude = 0, 
+           measurement.altitude = 0, 
+           clouds = list(optical.depth = 0.00, 
+                         base = 4.00, 
+                         top = 5.00),
+           aerosols = list(optical.depth = 0.235,
+                           ssaaer = 0.990, 
+                           alpha = 1.000),
+           num.streams = 2,
+           spectra = list(direct = 1.0, 
+                          diffuse.down = 1.0, 
+                          diffuse.up = 0),
+           label = 
+             "Solar spectrum by the Quick TUV calculator",
+           file = NULL) {
+    # check parameters
+    num.streams <- as.integer(abs(num.streams))
+    if (num.streams == 2L) {
+      num.streams <- -2L
+    }
+    stopifnot("'num.streams' must be 2 or 4" = num.streams %in% c(-2L, 4L))
+    
+    # Select inputMode
+    if (is.null(sun.elevation)) {
+      # use geocode and time
+      inputMode <- 0L
+      zenith <- 0 # ignored
+    } else {
+      inputMode <- 1L
+      stopifnot(sun.elevation >= -20 && sun.elevation <= 90)
+      zenith <- sun.elevation - 90
+    }
+    
+    # always use the same outputMode
+    outputMode <- 5L # spectral irradiance 
+    if (is.null(tz)) {
+      tz <- locale[["tz"]]
+    }
+    # timeStamp uses the time zone of the time passed by the user
+    tz <- lubridate::tz(time)
+    timeStamp <- strftime(time, 
+                          format = "%H:%M:%S", 
+                          tz = tz)
+    # computations are always based on "UTC" (="GMT")
+    time <- lubridate::with_tz(time, tzone = "UTC")
+    date <- strftime(time, 
+                     format = "%Y%m%d", 
+                     tz = "UTC")
+    time.h <- lubridate::hour(time) + 
+      lubridate::minute(time) / 60 + 
+      lubridate::second(time) /3600
+    
+    if (is.numeric(w.length)) {
+      # numeric vectors need to be converted to parameter values
+      wIntervals = length(w.length) - 1
+      wl.step <- (max(w.length) - min(w.length)) / wIntervals
+      wStart = min(w.length) - wl.step / 2 
+      wStop = max(w.length) + wl.step / 2 
+      wIntervals = length(w.length) - 1
+    } else if (is.list(w.length) && 
+      # parameters supplied by user
+               all(c("wStart", "wStop", "wIntervals") %in% 
+                   names(w.length))) {
+      wStart <- w.length$wStart
+      wStop <- w.length$wStop
+      wIntervals <- w.length$wIntervals
+    } else {
+      stop("Invalid defintion of wavelengths in 'w.length'")
+    }
+    # build URL to call Quick TUV
+    server_url <- "https://www.acom.ucar.edu/cgi-bin/acom/TUV/V5.3/tuv"
+    
+    url <- paste0(c(server_url, 
+                    "?wStart=", wStart, 
+                    "&wStop=", wStop, 
+                    "&wIntervals=", wIntervals, 
+                    "&inputMode=", inputMode, 
+                    "&latitude=", geocode$lat, 
+                    "&longitude=", geocode$lon, 
+                    "&date=", date, 
+                    "&timeStamp=", timeStamp,  
+                    "&zenith=", zenith, 
+                    "&ozone=", ozone.du, 
+                    "&albedo=", albedo, 
+                    "&gAltitude=", ground.altitude, 
+                    "&mAltitude=", measurement.altitude, 
+                    "&taucld=", clouds$optical.depth, 
+                    "&zbase=", clouds$base, 
+                    "&ztop=", clouds$top, 
+                    "&tauaer=", aerosols$optical.depth, 
+                    "&ssaaer=", aerosols$ssaaer, 
+                    "&alpha=", aerosols$alpha, 
+                    "&time=", time.h, 
+                    "&outputMode=", 5, 
+                    "&nStreams=", num.streams, 
+                    "&dirsun=", spectra$direct, 
+                    "&difdn=", spectra$diffuse.down, 
+                    "&difup=", spectra$diffuse.up), 
+                  collapse='')
+    
+    # NOTE: I need to check if textConnection could be used instead
+    if (is.null(file)) {
+      qtuv.file <- tempfile()
+      on.exit(unlink(qtuv.file))
+    } else {
+      qtuv.file <- file
+    }
+    utils::download.file(url, 
+                         destfile = qtuv.file, 
+                         quiet = !getOption("photobiology.verbose", 
+                                            default = FALSE))
+    if (file.exists(qtuv.file)) {
+      z <- read_qtuv_txt(file = qtuv.file,
+                         ozone.du = ozone.du,
+                         label = label,
+                         tz = "UTC",
+                         locale = locale)
+      where_measured(z) <- geocode
+    } else {
+      warning("No file was returned by the server")
+      z <- source_spct()
+    }
+    attr(z, "qtuv.url") <- url
+    z
+  }
+
+#' Clouds descriptor
+#' 
+#' Constructor of a named list of parameter values to be used as argument to
+#' parameter \code{clouds} of function \code{\link{qtuv_s.e.irrad}()}.
+#' 
+#' @param cloud.type character One of "clear.sky", "cirrus", "stratocumulus" or
+#'   "overcast". 
+#'   
+#' @details This function provide a rough approximation for parameter values.
+#'   In reality there is large variation in the cloud optical depths (COD) and
+#'   in the elevation at which clouds are located, within each type of cloud.
+#'   The TUV model assumes a continuous uniform cloud layer, thus the normally
+#'   discontinuous cover of cumulus clouds cannot be described.
+#'   
+#' @return A named list with members "optical.depth", "base" and "top".
+#'   
+#' @export
+#' 
+#' @examples
+#' 
+#' clouds_descriptor("clear.sky")
+#' clouds_descriptor("cirrus")
+#' 
+clouds_descriptor <- function(cloud.type = "clear.sky") {
+  switch(cloud.type,
+         clear.sky = list(optical.depth = 0.00, 
+                      base = 4.00, 
+                      top = 5.00),
+         cirrus = list(optical.depth = 5.00, 
+                       base = 6.00, 
+                       top = 8.00),
+         stratocumulus = list(optical.depth = 10.00, 
+                         base = 4.00, 
+                         top = 5.00),
+         overcast = list(optical.depth = 20.00, 
+                         base = 0.50, 
+                         top = 2.00),
+         list(optical.density = 0.00, 
+              base = 4.00, 
+              top = 5.00)
+  )
+}
