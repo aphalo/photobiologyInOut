@@ -17,6 +17,7 @@ warning, instead. Affects functions `spct_CRI()`, `spct_CCT()`, and `spct_SSI()`
 embedded _new line escapes_ (`"\n") instead of actual new lines. This 
 seems to be how some browsers save the output from the on-line Quick TUV
 calculator by default.
+- Add function `qtuv_s.e.irrad()` to directly obtain simulated spectral irradiance from the Quick TUV calculator.
 - Add function `read_CIE_csv()` to read the CSV and JSON files from CIE, recently
 published at the [CIE Datasets page](https://cie.co.at/data-tables).
 
