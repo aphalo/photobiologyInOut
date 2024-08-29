@@ -9,7 +9,8 @@ read_qtuv_txt(
   ozone.du = NULL,
   label = NULL,
   tz = NULL,
-  locale = readr::default_locale()
+  locale = readr::default_locale(),
+  added.vars = NULL
 )
 }
 \arguments{
@@ -27,11 +28,15 @@ default locale is US-centric (like R), but you can use
 \code{\link[readr]{locale}} to create your own locale that controls things
 like the default time zone, encoding, decimal mark, big mark, and day/month
 names.}
+
+\item{added.vars}{character vector Accepted member values are \code{"sun.elevation"},
+\code{zenith.angle}, \code{"date"} and \code{"ozone.du"}.}
 }
 \value{
 a source_spct object obtained by finding the center of wavelength
-  intervals in the Quick TUV output file, and adding variables
-  \code{zenith.angle} and \code{date}.
+  intervals in the Quick TUV output file, and adding the variables listed
+  in \code{added.vars}. To obtain the same value as in version (<= 0.4.28)
+  pass \code{added.vars = c("angle", "date")} in the call.
 }
 \description{
 Reads and parses the header of a text file output by the Quick TUV on-line

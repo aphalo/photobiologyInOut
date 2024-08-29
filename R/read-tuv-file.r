@@ -156,10 +156,13 @@ read_tuv_usrout2mspct <- function(file,
 #'   \code{\link[readr]{locale}} to create your own locale that controls things
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
+#' @param added.vars character vector Accepted member values are \code{"sun.elevation"},
+#'   \code{zenith.angle}, \code{"date"} and \code{"ozone.du"}.
 #'   
 #' @return a source_spct object obtained by finding the center of wavelength
-#'   intervals in the Quick TUV output file, and adding variables
-#'   \code{zenith.angle} and \code{date}.
+#'   intervals in the Quick TUV output file, and adding the variables listed
+#'   in \code{added.vars}. To obtain the same value as in version (<= 0.4.28)
+#'   pass \code{added.vars = c("angle", "date")} in the call.
 #'   
 #' @references \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}
 #' 
@@ -181,7 +184,8 @@ read_qtuv_txt <- function(file,
                           ozone.du = NULL,
                           label = NULL,
                           tz = NULL,
-                          locale = readr::default_locale()) {
+                          locale = readr::default_locale(),
+                          added.vars = NULL) {
   if (is.null(tz)) {
     tz <- locale[["tz"]]
   }
@@ -319,15 +323,28 @@ read_qtuv_txt <- function(file,
                               s.e.irrad.dir = spct.tb[["s.e.irrad.dir"]],
                               s.e.irrad.diff.down = spct.tb[["s.e.irrad.diff.down"]],
                               s.e.irrad.diff.up = spct.tb[["s.e.irrad.diff.up"]],
-                              angle = zenith.angle,
-                              date = rep(as.POSIXct(date), nrow(spct.tb)),
                               comment = comment.txt)
-  
+  # add optional columns with values of input params
+  if ("sun.elevation" %in% added.vars) {
+    z[["sun.elevation"]] <- rep(90 - zenith.angle, nrow(z))
+  }
+  if ("zenith.angle" %in% added.vars) {
+    z[["zenith.angle"]] <- rep(zenith.angle, nrow(z))
+  }
+  if ("angle" %in% added.vars) {
+    z[["angle"]] <- rep(zenith.angle, nrow(z))
+  }
+  if ("date" %in% added.vars) {
+    z[["date"]] <- rep(as.POSIXct(date), nrow(z))
+  }
+  if ("ozone.du" %in% added.vars) {
+    z[["ozone.du"]] <- rep(ozone.du, nrow(z))
+  }
   # add metadata
-  photobiology::setWhatMeasured(z, paste("Quick TUV spectral simulation", label))
+  photobiology::setWhatMeasured(z, paste("Solar spectrum (model simulation).", label))
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
-  how <- "Computer simulation."
+  how <- "Computer simulation with TUV model."
   photobiology::setHowMeasured(z, how)
   attr(z, "file.header") <- file_header
   z
@@ -363,17 +380,19 @@ read_qtuv_txt <- function(file,
 #'   (cloud single scattering albedo) and \code{alpha} (wavelength dependence of 
 #'   optical depth).
 #' @param num.streams integer Number of streams used in computations, 2 or 4.
-#' @param label character string, but if \code{NULL} the value of \code{file} is
-#'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param spectra named list with weights for the different components of the 
 #'   spectrum.
+#' @param added.vars character vector Accepted member values are \code{"sun.elevation"},
+#'   \code{zenith.angle}, \code{"date"} and \code{"ozone.du"}.
+#' @param label character string, but if \code{NULL} the value of \code{file} is
+#'   used, and if \code{NA} the "what.measured" attribute is not set.
 #' @param file character The name under which the file returned by the server is
 #'   locally saved. If \code{NULL} a temporary file is used and discarded
 #'   immediately. File paths are supported when valid.
 #'   
-#' @return a \code{source_spct} object obtained by finding the center of wavelength
-#'   intervals in the Quick TUV output file, and adding variables
-#'   \code{zenith.angle} and \code{date}.
+#' @return a source_spct object obtained by finding the center of wavelength
+#'   intervals in the Quick TUV output file, and adding the variables listed
+#'   in \code{added.vars}.
 #'
 #' @references \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}
 #'
@@ -457,8 +476,8 @@ qtuv_s.e.irrad <-
            spectra = list(direct = 1.0, 
                           diffuse.down = 1.0, 
                           diffuse.up = 0),
-           label = 
-             "Solar spectrum by the Quick TUV calculator",
+           added.vars = NULL,
+           label = "",
            file = NULL) {
     # check parameters
     num.streams <- as.integer(abs(num.streams))
@@ -561,7 +580,8 @@ qtuv_s.e.irrad <-
                          ozone.du = ozone.du,
                          label = label,
                          tz = "UTC",
-                         locale = locale)
+                         locale = locale,
+                         added.vars = added.vars)
       where_measured(z) <- geocode
     } else {
       warning("No file was returned by the server")

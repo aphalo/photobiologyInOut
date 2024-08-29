@@ -19,7 +19,8 @@ qtuv_s.e.irrad(
   aerosols = list(optical.depth = 0.235, ssaaer = 0.99, alpha = 1),
   num.streams = 2,
   spectra = list(direct = 1, diffuse.down = 1, diffuse.up = 0),
-  label = "Solar spectrum by the Quick TUV calculator",
+  added.vars = NULL,
+  label = "",
   file = NULL
 )
 }
@@ -64,6 +65,9 @@ optical depth).}
 \item{spectra}{named list with weights for the different components of the 
 spectrum.}
 
+\item{added.vars}{character vector Accepted member values are \code{"sun.elevation"},
+\code{zenith.angle}, \code{"date"} and \code{"ozone.du"}.}
+
 \item{label}{character string, but if \code{NULL} the value of \code{file} is
 used, and if \code{NA} the "what.measured" attribute is not set.}
 
@@ -72,9 +76,9 @@ locally saved. If \code{NULL} a temporary file is used and discarded
 immediately. File paths are supported when valid.}
 }
 \value{
-a \code{source_spct} object obtained by finding the center of wavelength
-  intervals in the Quick TUV output file, and adding variables
-  \code{zenith.angle} and \code{date}.
+a source_spct object obtained by finding the center of wavelength
+  intervals in the Quick TUV output file, and adding the variables listed
+  in \code{added.vars}.
 }
 \description{
 Call the Quick TUV calculator web server and return a \code{source_spct}

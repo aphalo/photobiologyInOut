@@ -18,7 +18,7 @@ Constructor of a named list of parameter values to be used as argument to
 parameter \code{clouds} of function \code{\link{qtuv_s.e.irrad}()}.
 }
 \details{
-These functions provide a rough approximation for parameter values.
+This function provide a rough approximation for parameter values.
   In reality there is large variation in the cloud optical depths (COD) and
   in the elevation at which clouds are located, within each type of cloud.
   The TUV model assumes a continuous uniform cloud layer, thus the normally
