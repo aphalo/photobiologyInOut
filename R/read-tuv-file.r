@@ -611,10 +611,10 @@ qtuv_s.e.irrad <-
 #' 
 #' @examples
 #' 
-#' clouds_descriptor("clear.sky")
-#' clouds_descriptor("cirrus")
+#' qtuv_clouds("clear.sky")
+#' qtuv_clouds("cirrus")
 #' 
-clouds_descriptor <- function(cloud.type = "clear.sky") {
+qtuv_clouds <- function(cloud.type = "clear.sky") {
   switch(cloud.type,
          clear.sky = list(optical.depth = 0.00, 
                       base = 4.00, 

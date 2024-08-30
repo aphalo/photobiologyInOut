@@ -23,12 +23,14 @@ reference:
     - read_spectrapen_csv
     - read_cid_spectravue_csv
   - title: Spectral data from radiation transfer models
-    desc: Read files with data from radiation transfer models.
+    desc: Run simulations and/or read files with data from radiation transfer models.
     contents:
     - read_fmi_cum
     - read_fmi2mspct
     - read_tuv_usrout
     - read_qtuv_txt
+    - qtuv_s.e.irrad
+    - qtuv_clouds
     - read_uvspec_disort
     - read_uvspec_disort_vesa
   - title: Spectral data from public repositories
@@ -84,12 +86,14 @@ navbar:
       text: Changelog
       href: news/index.html
     articles:
-      text: User Guide
+      text: Articles
       menu:
       - text: 'The R for Photobiology Suite'
         href: articles/r4p-introduction.html
       - text: 'User Guide'
         href: articles/user-guide.html
+      - text: 'Quick TUV calculator examples'
+        href: articles/tuv-examples.html
     tutorials:
       text: Resources
       menu:
