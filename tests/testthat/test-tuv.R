@@ -230,14 +230,15 @@ test_that("read Quick TUV HTML", {
   qtuv_00_htm.spct <- 
     read_qtuv_txt(file = file.name,
                   ozone.du = 300,
-                  added.vars = c("sun.elevation", 
-                                 "date",
-                                 "angle",
+                  added.vars = c("time",
+                                 "sun.elevation",
                                  "zenith.angle",
-                                 "ozone.du"))
+                                 "ozone.du", 
+                                 "date",
+                                 "angle"))
   
   expect_equal(nrow(qtuv_00_htm.spct), 410L)
-  expect_equal(ncol(qtuv_00_htm.spct), 10L)
+  expect_equal(ncol(qtuv_00_htm.spct), 11L)
   expect_equal(qtuv_00_htm.spct[["w.length"]][1L], 290.5, tolerance = 0.0001)
   expect_equal(qtuv_00_htm.spct[["w.length"]][410L], 699.5, tolerance = 0.0001)
   expect_is(qtuv_00_htm.spct[["w.length"]], "numeric")
@@ -254,11 +255,12 @@ test_that("read Quick TUV HTML", {
       "s.e.irrad.dir",
       "s.e.irrad.diff.down",
       "s.e.irrad.diff.up",
+      "time",
       "sun.elevation",
       "zenith.angle",
+      "ozone.du",
       "angle",
-      "date",
-      "ozone.du"
+      "date"
     )
   )
   expect_equal(qtuv_00_htm.spct[["ozone.du"]][1L], 300)

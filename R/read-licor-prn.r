@@ -166,12 +166,6 @@ read_licor_prn <- function(file,
 #' @details Function \code{read_m_licor_prn()} calls \code{red_licor_prn()} 
 #'   for each file in \code{files}. See \code{\link[readr]{read_table}} for
 #'   a description of valid arguments for \code{files}.
-#'   
-#' @note The LI-1800 spectroradiometer does not store the year as part of the
-#' data, only month, day, and time of day. Because of this, in the current
-#' version, if \code{NULL} is the argument to date, year is set to 0000.
-#' In addition, the argument passed to \code{tz} does not recognize "summer-time" 
-#' shifts if the year is unknown (date read from the file header).
 #' 
 read_m_licor_prn <- function(files,
                              date = NULL,

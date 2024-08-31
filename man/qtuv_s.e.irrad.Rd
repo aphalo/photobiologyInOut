@@ -8,7 +8,7 @@
 qtuv_s.e.irrad(
   w.length = list(wStart = 280, wStop = 420, wIntervals = 140),
   sun.elevation = NULL,
-  geocode = tibble::tibble(lon = 0, lat = 51.5, address = "Greenwich"),
+  geocode = data.frame(lon = 0, lat = 51.5, address = "Greenwich"),
   time = lubridate::now(),
   tz = NULL,
   locale = readr::default_locale(),
@@ -16,8 +16,8 @@ qtuv_s.e.irrad(
   albedo = 0.1,
   ground.altitude = 0,
   measurement.altitude = 0,
-  clouds = list(optical.depth = 0, base = 4, top = 5),
-  aerosols = list(optical.depth = 0.235, ssaaer = 0.99, alpha = 1),
+  clouds = data.frame(optical.depth = 0, base = 4, top = 5),
+  aerosols = data.frame(optical.depth = 0.235, ssaaer = 0.99, alpha = 1),
   num.streams = 2,
   spectra = list(direct = 1, diffuse.down = 1, diffuse.up = 0),
   added.vars = NULL,
@@ -28,7 +28,7 @@ qtuv_s.e.irrad(
 qtuv_m_s.e.irrad(
   w.length = list(wStart = 280, wStop = 420, wIntervals = 140),
   sun.elevation = NULL,
-  geocode = tibble::tibble(lon = 0, lat = 51.5, address = "Greenwich"),
+  geocode = data.frame(lon = 0, lat = 51.5, address = "Greenwich"),
   time = lubridate::now(),
   tz = NULL,
   locale = readr::default_locale(),
@@ -53,7 +53,7 @@ vector from which the parameters will be constructed.}
 value is computed from \code{geocode} and \code{time}, otherwise 
 arguments passed to these two parameters are ignored.}
 
-\item{geocode}{data frame with variables \code{lon} and \code{lat} as numeric values
+\item{geocode}{data.frame with variables \code{lon} and \code{lat} as numeric values
 (degrees), and character variable \code{address}; nrow > 1, allowed for collections.}
 
 \item{time}{A "vector" of POSIXct time, with any valid time zone (TZ) is
@@ -98,8 +98,8 @@ immediately. File paths are supported when valid.}
 }
 \value{
 In the case of \code{qtuv_s.e.irrad()}, a source_spct object obtained
-  by finding the center of wavelength intervals in the Quick TUV output file,
-  and adding the variables listed in \code{added.vars}. In the case of
+  by finding the center of each wavelength interval in the Quick TUV output
+  file, and adding the variables listed in \code{added.vars}. In the case of
   \code{qtuv_m_s.e.irrad()}, a source_mspct object containing a collection of
   spectra.
 }
@@ -109,12 +109,12 @@ object with the simulated spectral energy irradiance data.
 }
 \details{
 The Quick TUV calculator, is an on-line freely accessible server
-  running the TUV atmospheric chemistry and radiation transfer model with
-  a simplified user interface. In this case, version 5.3 is called passing 
-  the parameter values passed as arguments in the call to 
-  \code{qtuv_s.e.irrad()}. The response is saved in a temporary file
-  that is subsequently passed as argument to function \code{read_qtuv_txt()}
-  to read the spectral data and metadata into a \code{source_spct} object.
+  running the TUV atmospheric chemistry and radiation transfer model with a
+  simplified user interface. In this case, version 5.3 is called passing the
+  parameter values passed as arguments in the call to
+  \code{qtuv_s.e.irrad()}. The response is saved in a text file that is
+  subsequently read with function \code{read_qtuv_txt()} into a
+  \code{source_spct} object.
   
   Function \code{qtuv_m_s.e.irrad()} calls \code{qtuv_s.e.irrad()} repeatedly 
   accepting a numeric vector longer than one as argument, for parameters: 
@@ -135,9 +135,13 @@ The Quick TUV calculator has multiple output modes that return
   data. Package 'foqat' provides a more flexible alternative supporting other
   output modes in addition to mode 5.
   
-  If the argument passed to \code{w.length} is a numeric vector, the extreme
-  w.lengths and its length are used. The returned spectrum has always a
-  uniformly spaced wavelengths.
+  If the argument passed to \code{w.length} is a numeric vector, the range
+  and length are used to reconstruct the accepted parameters. The returned
+  spectrum has always a uniformly spaced wavelengths.
+  
+  When using this function, more detailed metadata are available than when
+  reading an output file, as not all the simulation input parameters are
+  listed in the output text.
   
   In interactive use of the Quick TUV Calculator, the same parameters as
   accepted by \code{qtuv_s.e.irradiance()} as arguments are
@@ -146,6 +150,12 @@ The Quick TUV calculator has multiple output modes that return
   together with its documentation, can be consulted for additional
   information on the parameters and the model.
 }
+\section{Side effect}{
+ If a file name is passed as argument, the data as
+  downloaded are saved into persistent files, one file per spectrum. The
+  names of the saved files always end in `.txt`.
+}
+
 \section{Warning!}{
  This function connects to a server managed by UCAR, the
   University Corporation for Atmospheric Research located in the U.S.A. to
