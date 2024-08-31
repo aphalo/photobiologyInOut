@@ -11,7 +11,8 @@ qtuv_clouds(cloud.type = "clear.sky")
 "overcast".}
 }
 \value{
-A named list with members "optical.depth", "base" and "top".
+A one-row data frame with members "optical.depth", "base", "top" and
+  "label".
 }
 \description{
 Constructor of a named list of parameter values to be used as argument to
@@ -28,5 +29,6 @@ This function provide a rough approximation for parameter values.
 
 qtuv_clouds("clear.sky")
 qtuv_clouds("cirrus")
+qtuv_clouds(c("clear.sky", "cirrus"))
 
 }

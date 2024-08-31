@@ -157,7 +157,7 @@ read_tuv_usrout2mspct <- function(file,
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
 #' @param added.vars character vector Accepted member values are \code{"sun.elevation"},
-#'   \code{zenith.angle}, \code{"date"} and \code{"ozone.du"}.
+#'   \code{zenith.angle}, \code{"time"} and \code{"ozone.du"}.
 #'   
 #' @return a source_spct object obtained by finding the center of wavelength
 #'   intervals in the Quick TUV output file, and adding the variables listed
@@ -331,14 +331,17 @@ read_qtuv_txt <- function(file,
   if ("zenith.angle" %in% added.vars) {
     z[["zenith.angle"]] <- rep(zenith.angle, nrow(z))
   }
+  if ("time" %in% added.vars) {
+    z[["time"]] <- rep(as.POSIXct(date), nrow(z))
+  }
+  if ("ozone.du" %in% added.vars) {
+    z[["ozone.du"]] <- rep(ozone.du, nrow(z))
+  }
   if ("angle" %in% added.vars) {
     z[["angle"]] <- rep(zenith.angle, nrow(z))
   }
   if ("date" %in% added.vars) {
     z[["date"]] <- rep(as.POSIXct(date), nrow(z))
-  }
-  if ("ozone.du" %in% added.vars) {
-    z[["ozone.du"]] <- rep(ozone.du, nrow(z))
   }
   # add metadata
   photobiology::setWhatMeasured(z, paste("Solar spectrum (model simulation).", label))
@@ -360,8 +363,8 @@ read_qtuv_txt <- function(file,
 #' @param sun.elevation numeric Angle in degrees above the horizon. If NULL its
 #'   value is computed from \code{geocode} and \code{time}, otherwise 
 #'   arguments passed to these two parameters are ignored.
-#' @param geocode data frame with variables lon and lat as numeric values
-#'   (degrees), nrow > 1, allowed.
+#' @param geocode data frame with variables \code{lon} and \code{lat} as numeric values
+#'   (degrees), and character variable \code{address}; nrow > 1, allowed for collections.
 #' @param time A "vector" of POSIXct time, with any valid time zone (TZ) is
 #'   allowed, default is current time.
 #' @param tz character Time zone is by default read from the file.
@@ -374,11 +377,11 @@ read_qtuv_txt <- function(file,
 #' @param albedo numeric Surface albedo (= reflectance) as a fraction of one.
 #' @param measurement.altitude,ground.altitude numeric Altitudes above sea level
 #'   expressed in km.
-#' @param clouds list Parameters \code{optical.depth} (vertical), \code{top} and 
-#'   \code{base} expressed in km.
-#' @param aerosols list Parameters \code{optical.depth} (total extinction), \code{ssaaer} 
+#' @param clouds data.frame Parameters \code{optical.depth} (vertical), \code{top} and 
+#'   \code{base} expressed in km; nrow > 1, allowed for collections.
+#' @param aerosols data.frame Parameters \code{optical.depth} (total extinction), \code{ssaaer} 
 #'   (cloud single scattering albedo) and \code{alpha} (wavelength dependence of 
-#'   optical depth).
+#'   optical depth); nrow > 1, allowed for collections.
 #' @param num.streams integer Number of streams used in computations, 2 or 4.
 #' @param spectra named list with weights for the different components of the 
 #'   spectrum.
@@ -390,9 +393,11 @@ read_qtuv_txt <- function(file,
 #'   locally saved. If \code{NULL} a temporary file is used and discarded
 #'   immediately. File paths are supported when valid.
 #'   
-#' @return a source_spct object obtained by finding the center of wavelength
-#'   intervals in the Quick TUV output file, and adding the variables listed
-#'   in \code{added.vars}.
+#' @return In the case of \code{qtuv_s.e.irrad()}, a source_spct object obtained
+#'   by finding the center of wavelength intervals in the Quick TUV output file,
+#'   and adding the variables listed in \code{added.vars}. In the case of
+#'   \code{qtuv_m_s.e.irrad()}, a source_mspct object containing a collection of
+#'   spectra.
 #'
 #' @references \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}
 #'
@@ -400,9 +405,16 @@ read_qtuv_txt <- function(file,
 #'   running the TUV atmospheric chemistry and radiation transfer model with
 #'   a simplified user interface. In this case, version 5.3 is called passing 
 #'   the parameter values passed as arguments in the call to 
-#'   \code{qtuv_s.e.irrd()}. The response is saved in a temporary file
+#'   \code{qtuv_s.e.irrad()}. The response is saved in a temporary file
 #'   that is subsequently passed as argument to function \code{read_qtuv_txt()}
 #'   to read the spectral data and metadata into a \code{source_spct} object.
+#'   
+#'   Function \code{qtuv_m_s.e.irrad()} calls \code{qtuv_s.e.irrad()} repeatedly 
+#'   accepting a numeric vector longer than one as argument, for parameters: 
+#'   \code{sun.elevation}, \code{time} or \code{ozone.du}, and data frames with
+#'   nrow >= 1. In a given call, only one parameter at a time can obey multiple 
+#'   values, with others currently truncated to the first value.
+#'
 #'   The formal parameter names are informative and consistent with other 
 #'   functions in the R for Photobiology Suite and differ from the short names
 #'   used for the parameters in the FORTRAN code of the TUV model. In the case
@@ -564,12 +576,16 @@ qtuv_s.e.irrad <-
                     "&difup=", spectra$diffuse.up), 
                   collapse='')
     
-    # NOTE: I need to check if textConnection could be used instead
     if (is.null(file)) {
+      # NOTE: I need to check if textConnection could be used instead
       qtuv.file <- tempfile()
       on.exit(unlink(qtuv.file))
     } else {
-      qtuv.file <- file
+      if (grepl("\\.txt$", file)) {
+        qtuv.file <- file
+      } else {
+        qtuv.file <- paste(file, ".txt", sep = "")
+      }
     }
     utils::download.file(url, 
                          destfile = qtuv.file, 
@@ -591,6 +607,286 @@ qtuv_s.e.irrad <-
     z
   }
 
+#' @rdname qtuv_s.e.irrad
+#' 
+#' @export
+#' 
+qtuv_m_s.e.irrad <- 
+  function(w.length = list(wStart=280, 
+                           wStop=420, 
+                           wIntervals=140), 
+           sun.elevation = NULL,
+           geocode = tibble::tibble(lon = 0, 
+                                    lat = 51.5, 
+                                    address = "Greenwich"), 
+           time = lubridate::now(),
+           tz = NULL,
+           locale = readr::default_locale(),
+           ozone.du = 300, 
+           albedo = 0.1, 
+           ground.altitude = 0, 
+           measurement.altitude = 0, 
+           clouds = data.frame(optical.depth = 0.00, 
+                               base = 4.00, 
+                               top = 5.00),
+           aerosols = data.frame(optical.depth = 0.235,
+                                 ssaaer = 0.990, 
+                                 alpha = 1.000),
+           num.streams = 2,
+           spectra = list(direct = 1.0, 
+                          diffuse.down = 1.0, 
+                          diffuse.up = 0),
+           added.vars = NULL,
+           label = "",
+           file = NULL) {
+    # check parameters
+    num.streams <- as.integer(abs(num.streams))
+    if (num.streams == 2L) {
+      num.streams <- -2L
+    }
+    stopifnot("'num.streams' must be 2 or 4" = num.streams %in% c(-2L, 4L))
+    
+    if (length(ozone.du) > 1L) {
+      if (length(ozone.du) > 25) {
+        message("Please, do not overload the Quick TUV calculator")
+      }
+      z <- list()
+      for (ozone in ozone.du) {
+        member.name <- paste("ozone", ozone, sep = ".")
+        if (!is.null(file) && is.character(file)) {
+          file.name <- paste(gsub("\\.txt$", "", file), 
+                             "-", member.name, ".txt", sep = "")
+        } else {
+          file.name <- NULL
+        }
+        z[[paste(member.name)]] <-
+          qtuv_s.e.irrad(w.length = w.length, 
+                         sun.elevation = sun.elevation[[1]],
+                         geocode = geocode[1, ], 
+                         time = time[[1]],
+                         tz = tz,
+                         locale = locale,
+                         ozone.du = ozone, 
+                         albedo = albedo, 
+                         ground.altitude = ground.altitude, 
+                         measurement.altitude = measurement.altitude, 
+                         clouds = clouds[1, ],
+                         aerosols = aerosols[1, ],
+                         num.streams = num.streams,
+                         spectra = spectra,
+                         added.vars = added.vars,
+                         label = label,
+                         file = file.name)
+      }
+    } else if (length(sun.elevation) > 1L) {
+      if (length(sun.elevation) > 25) {
+        message("Please, do not overload the Quick TUV calculator")
+      }
+      z <- list()
+      for (one.elevation in sun.elevation) {
+        member.name <- paste("sun.elevation", one.elevation, sep = ".")
+        if (!is.null(file) && is.character(file)) {
+          file.name <- paste(gsub("\\.txt$", "", file), 
+                             "-", member.name, ".txt", sep = "")
+        } else {
+          file.name <- NULL
+        }
+        z[[paste(member.name)]] <-
+          qtuv_s.e.irrad(w.length = w.length, 
+                         sun.elevation = one.elevation,
+                         geocode = geocode[1, ], 
+                         time = time[[1]],
+                         tz = tz,
+                         locale = locale,
+                         ozone.du = ozone.du[[1]], 
+                         albedo = albedo, 
+                         ground.altitude = ground.altitude, 
+                         measurement.altitude = measurement.altitude, 
+                         clouds = clouds[1, ],
+                         aerosols = aerosols[1, ],
+                         num.streams = num.streams,
+                         spectra = spectra,
+                         added.vars = added.vars,
+                         label = label,
+                         file = file.name)
+      }
+    } else if (length(time) > 1L) {
+      if (length(time) > 25) {
+        message("Please, do not overload the Quick TUV calculator")
+      }
+      z <- list()
+      # use index as for converts POSIXct into numeric
+      for (i in seq_along(time)) {
+        member.name <- paste("time", format(time[[i]]), sep = ".")
+        if (!is.null(file) && is.character(file)) {
+          file.name <- paste(gsub("\\.txt$", "", file), 
+                             "-", member.name, ".txt", sep = "")
+        } else {
+          file.name <- NULL
+        }
+        z[[paste(member.name)]] <-
+          qtuv_s.e.irrad(w.length = w.length, 
+                         sun.elevation = sun.elevation[[1]],
+                         geocode = geocode[1, ], 
+                         time = time[[i]],
+                         tz = tz,
+                         locale = locale,
+                         ozone.du = ozone.du[[1]], 
+                         albedo = albedo, 
+                         ground.altitude = ground.altitude, 
+                         measurement.altitude = measurement.altitude, 
+                         clouds = clouds[1, ],
+                         aerosols = aerosols[1, ],
+                         num.streams = num.streams,
+                         spectra = spectra,
+                         added.vars = added.vars,
+                         label = label,
+                         file = file.name)
+      }
+    } else if (nrow(geocode) > 1L) {
+      if (nrow(geocode) > 25) {
+        message("Please, do not overload the Quick TUV calculator")
+      }
+      if (!"address" %in% colnames(geocode) || 
+          any(is.na(geocode[["address"]]))) {
+        geocode[["address"]] <- 
+          paste("geo", 1L:nrow(geocode), sep = ".")
+      } else {
+        geocode[["address"]] <- make.unique(geocode[["address"]])
+      }
+      z <- list()
+      # use index to walk through data frame rows
+      for (i in seq_along(geocode[[1]])) {
+        member.name <- paste("geocode", geocode[i, "address"], sep = ".")
+        if (!is.null(file) && is.character(file)) {
+          file.name <- paste(gsub("\\.txt$", "", file), 
+                             "-", member.name, ".txt", sep = "")
+        } else {
+          file.name <- NULL
+        }
+        z[[paste(member.name)]] <-
+          qtuv_s.e.irrad(w.length = w.length, 
+                         sun.elevation = sun.elevation[[1]],
+                         geocode = geocode[i, ], 
+                         time = time[[1]],
+                         tz = tz,
+                         locale = locale,
+                         ozone.du = ozone.du[[1]], 
+                         albedo = albedo, 
+                         ground.altitude = ground.altitude, 
+                         measurement.altitude = measurement.altitude, 
+                         clouds = clouds[1, ],
+                         aerosols = aerosols[1, ],
+                         num.streams = num.streams,
+                         spectra = spectra,
+                         added.vars = added.vars,
+                         label = label,
+                         file = file.name)
+      }
+    } else if (nrow(clouds) > 1L) {
+      if (nrow(clouds) > 25) {
+        message("Please, do not overload the Quick TUV calculator")
+      }
+      if (!"label" %in% colnames(clouds) || 
+          any(is.na(clouds[["label"]]))) {
+        clouds[["label"]] <- 
+          paste("geo", 1L:nrow(clouds), sep = ".")
+      } else {
+        clouds[["label"]] <- make.unique(clouds[["label"]])
+      }
+      z <- list()
+      # use index to walk through data frame rows
+      for (i in seq_along(clouds[[1]])) {
+        member.name <- paste("clouds", clouds[i, "label"], sep = ".")
+        if (!is.null(file) && is.character(file)) {
+          file.name <- paste(gsub("\\.txt$", "", file), 
+                             "-", member.name, ".txt", sep = "")
+        } else {
+          file.name <- NULL
+        }
+        z[[paste(member.name)]] <-
+          qtuv_s.e.irrad(w.length = w.length, 
+                         sun.elevation = sun.elevation[[1]],
+                         geocode = geocode[1, ], 
+                         time = time[[1]],
+                         tz = tz,
+                         locale = locale,
+                         ozone.du = ozone.du[[1]], 
+                         albedo = albedo, 
+                         ground.altitude = ground.altitude, 
+                         measurement.altitude = measurement.altitude, 
+                         clouds = clouds[i, ],
+                         aerosols = aerosols[1, ],
+                         num.streams = num.streams,
+                         spectra = spectra,
+                         added.vars = added.vars,
+                         label = label,
+                         file = file.name)
+      }
+    } else if (nrow(aerosols) > 1L) {
+      if (nrow(aerosols) > 25) {
+        message("Please, do not overload the Quick TUV calculator")
+      }
+      if (!"label" %in% colnames(aerosols) || 
+          any(is.na(aerosols[["label"]]))) {
+        aerosols[["label"]] <- 
+          paste("label", 1L:nrow(aerosols), sep = ".")
+      } else {
+        aerosols[["label"]] <- make.unique(aerosols[["label"]])
+      }
+      z <- list()
+      # use index to walk through data frame rows
+      for (i in seq_along(aerosols[[1]])) {
+        member.name <- paste("aerosols", aerosols[i, "label"], sep = ".")
+        if (!is.null(file) && is.character(file)) {
+          file.name <- paste(gsub("\\.txt$", "", file), 
+                             "-", member.name, ".txt", sep = "")
+        } else {
+          file.name <- NULL
+        }
+        z[[paste(member.name)]] <-
+          qtuv_s.e.irrad(w.length = w.length, 
+                         sun.elevation = sun.elevation[[1]],
+                         geocode = geocode[1, ], 
+                         time = time[[1]],
+                         tz = tz,
+                         locale = locale,
+                         ozone.du = ozone.du[[1]], 
+                         albedo = albedo, 
+                         ground.altitude = ground.altitude, 
+                         measurement.altitude = measurement.altitude, 
+                         clouds = clouds[1, ],
+                         aerosols = aerosols[i, ],
+                         num.streams = num.streams,
+                         spectra = spectra,
+                         added.vars = added.vars,
+                         label = label,
+                         file = file.name)
+      }
+    } else {
+      z <- list(
+        qtuv_s.e.irrad(w.length = w.length, 
+                       sun.elevation = sun.elevation[[1]],
+                       geocode = geocode[1, ], 
+                       time = time[[1]],
+                       tz = tz,
+                       locale = locale,
+                       ozone.du = ozone.du[[1]], 
+                       albedo = albedo, 
+                       ground.altitude = ground.altitude, 
+                       measurement.altitude = measurement.altitude, 
+                       clouds = clouds[1, ],
+                       aerosols = aerosols[1, ],
+                       num.streams = num.streams,
+                       spectra = spectra,
+                       added.vars = added.vars,
+                       label = label,
+                       file = file)
+      )
+    }
+    source_mspct(z)
+  }
+
 #' Clouds descriptor
 #' 
 #' Constructor of a named list of parameter values to be used as argument to
@@ -605,7 +901,8 @@ qtuv_s.e.irrad <-
 #'   The TUV model assumes a continuous uniform cloud layer, thus the normally
 #'   discontinuous cover of cumulus clouds cannot be described.
 #'   
-#' @return A named list with members "optical.depth", "base" and "top".
+#' @return A one-row data frame with members "optical.depth", "base", "top" and
+#'   "label".
 #'   
 #' @export
 #' 
@@ -613,23 +910,36 @@ qtuv_s.e.irrad <-
 #' 
 #' qtuv_clouds("clear.sky")
 #' qtuv_clouds("cirrus")
+#' qtuv_clouds(c("clear.sky", "cirrus"))
 #' 
 qtuv_clouds <- function(cloud.type = "clear.sky") {
-  switch(cloud.type,
-         clear.sky = list(optical.depth = 0.00, 
-                      base = 4.00, 
-                      top = 5.00),
-         cirrus = list(optical.depth = 5.00, 
-                       base = 6.00, 
-                       top = 8.00),
-         stratocumulus = list(optical.depth = 10.00, 
-                         base = 4.00, 
-                         top = 5.00),
-         overcast = list(optical.depth = 20.00, 
-                         base = 0.50, 
-                         top = 2.00),
-         list(optical.density = 0.00, 
-              base = 4.00, 
-              top = 5.00)
-  )
+  z <- data.frame()
+  for (cld in cloud.type) {
+    cld.df <- 
+      switch(cld,
+             clear.sky = data.frame(optical.depth = 0.00, 
+                                    base = 4.00, 
+                                    top = 5.00,
+                                    label = "clear.sky"),
+             cirrus = data.frame(optical.depth = 5.00, 
+                                 base = 6.00, 
+                                 top = 8.00,
+                                 label = "cirrus"),
+             stratocumulus = data.frame(optical.depth = 10.00, 
+                                        base = 4.00, 
+                                        top = 5.00,
+                                        label = "stratocumulus"),
+             overcast = data.frame(optical.depth = 20.00, 
+                                   base = 0.50, 
+                                   top = 2.00,
+                                   label = "overcast"),
+             data.frame(optical.density = 0.00, 
+                        base = 4.00, 
+                        top = 5.00,
+                        label = "clear.sky")
+      )
+    
+    z <- rbind(z, cld.df)
+   }
+  z
 }

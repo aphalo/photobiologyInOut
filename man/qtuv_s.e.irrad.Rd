@@ -2,6 +2,7 @@
 % Please edit documentation in R/read-tuv-file.r
 \name{qtuv_s.e.irrad}
 \alias{qtuv_s.e.irrad}
+\alias{qtuv_m_s.e.irrad}
 \title{Spectral irradiance from the Quick TUV calculator}
 \usage{
 qtuv_s.e.irrad(
@@ -23,6 +24,26 @@ qtuv_s.e.irrad(
   label = "",
   file = NULL
 )
+
+qtuv_m_s.e.irrad(
+  w.length = list(wStart = 280, wStop = 420, wIntervals = 140),
+  sun.elevation = NULL,
+  geocode = tibble::tibble(lon = 0, lat = 51.5, address = "Greenwich"),
+  time = lubridate::now(),
+  tz = NULL,
+  locale = readr::default_locale(),
+  ozone.du = 300,
+  albedo = 0.1,
+  ground.altitude = 0,
+  measurement.altitude = 0,
+  clouds = data.frame(optical.depth = 0, base = 4, top = 5),
+  aerosols = data.frame(optical.depth = 0.235, ssaaer = 0.99, alpha = 1),
+  num.streams = 2,
+  spectra = list(direct = 1, diffuse.down = 1, diffuse.up = 0),
+  added.vars = NULL,
+  label = "",
+  file = NULL
+)
 }
 \arguments{
 \item{w.length}{list of parameters describing the wavelengths, or a numeric
@@ -32,8 +53,8 @@ vector from which the parameters will be constructed.}
 value is computed from \code{geocode} and \code{time}, otherwise 
 arguments passed to these two parameters are ignored.}
 
-\item{geocode}{data frame with variables lon and lat as numeric values
-(degrees), nrow > 1, allowed.}
+\item{geocode}{data frame with variables \code{lon} and \code{lat} as numeric values
+(degrees), and character variable \code{address}; nrow > 1, allowed for collections.}
 
 \item{time}{A "vector" of POSIXct time, with any valid time zone (TZ) is
 allowed, default is current time.}
@@ -53,12 +74,12 @@ names.}
 \item{measurement.altitude, ground.altitude}{numeric Altitudes above sea level
 expressed in km.}
 
-\item{clouds}{list Parameters \code{optical.depth} (vertical), \code{top} and 
-\code{base} expressed in km.}
+\item{clouds}{data.frame Parameters \code{optical.depth} (vertical), \code{top} and 
+\code{base} expressed in km; nrow > 1, allowed for collections.}
 
-\item{aerosols}{list Parameters \code{optical.depth} (total extinction), \code{ssaaer} 
+\item{aerosols}{data.frame Parameters \code{optical.depth} (total extinction), \code{ssaaer} 
 (cloud single scattering albedo) and \code{alpha} (wavelength dependence of 
-optical depth).}
+optical depth); nrow > 1, allowed for collections.}
 
 \item{num.streams}{integer Number of streams used in computations, 2 or 4.}
 
@@ -76,9 +97,11 @@ locally saved. If \code{NULL} a temporary file is used and discarded
 immediately. File paths are supported when valid.}
 }
 \value{
-a source_spct object obtained by finding the center of wavelength
-  intervals in the Quick TUV output file, and adding the variables listed
-  in \code{added.vars}.
+In the case of \code{qtuv_s.e.irrad()}, a source_spct object obtained
+  by finding the center of wavelength intervals in the Quick TUV output file,
+  and adding the variables listed in \code{added.vars}. In the case of
+  \code{qtuv_m_s.e.irrad()}, a source_mspct object containing a collection of
+  spectra.
 }
 \description{
 Call the Quick TUV calculator web server and return a \code{source_spct}
@@ -89,9 +112,16 @@ The Quick TUV calculator, is an on-line freely accessible server
   running the TUV atmospheric chemistry and radiation transfer model with
   a simplified user interface. In this case, version 5.3 is called passing 
   the parameter values passed as arguments in the call to 
-  \code{qtuv_s.e.irrd()}. The response is saved in a temporary file
+  \code{qtuv_s.e.irrad()}. The response is saved in a temporary file
   that is subsequently passed as argument to function \code{read_qtuv_txt()}
   to read the spectral data and metadata into a \code{source_spct} object.
+  
+  Function \code{qtuv_m_s.e.irrad()} calls \code{qtuv_s.e.irrad()} repeatedly 
+  accepting a numeric vector longer than one as argument, for parameters: 
+  \code{sun.elevation}, \code{time} or \code{ozone.du}, and data frames with
+  nrow >= 1. In a given call, only one parameter at a time can obey multiple 
+  values, with others currently truncated to the first value.
+
   The formal parameter names are informative and consistent with other 
   functions in the R for Photobiology Suite and differ from the short names
   used for the parameters in the FORTRAN code of the TUV model. In the case

@@ -30,7 +30,7 @@ like the default time zone, encoding, decimal mark, big mark, and day/month
 names.}
 
 \item{added.vars}{character vector Accepted member values are \code{"sun.elevation"},
-\code{zenith.angle}, \code{"date"} and \code{"ozone.du"}.}
+\code{zenith.angle}, \code{"time"} and \code{"ozone.du"}.}
 }
 \value{
 a source_spct object obtained by finding the center of wavelength
