@@ -230,10 +230,14 @@ test_that("read Quick TUV HTML", {
   qtuv_00_htm.spct <- 
     read_qtuv_txt(file = file.name,
                   ozone.du = 300,
-                  added.vars = c("sun.elevation", "date"))
+                  added.vars = c("sun.elevation", 
+                                 "date",
+                                 "angle",
+                                 "zenith.angle",
+                                 "ozone.du"))
   
   expect_equal(nrow(qtuv_00_htm.spct), 410L)
-  expect_equal(ncol(qtuv_00_htm.spct), 7L)
+  expect_equal(ncol(qtuv_00_htm.spct), 10L)
   expect_equal(qtuv_00_htm.spct[["w.length"]][1L], 290.5, tolerance = 0.0001)
   expect_equal(qtuv_00_htm.spct[["w.length"]][410L], 699.5, tolerance = 0.0001)
   expect_is(qtuv_00_htm.spct[["w.length"]], "numeric")
@@ -251,9 +255,18 @@ test_that("read Quick TUV HTML", {
       "s.e.irrad.diff.down",
       "s.e.irrad.diff.up",
       "sun.elevation",
-      "date"
+      "zenith.angle",
+      "angle",
+      "date",
+      "ozone.du"
     )
   )
+  expect_equal(qtuv_00_htm.spct[["ozone.du"]][1L], 300)
+  expect_equal(qtuv_00_htm.spct[["angle"]][1L], 0)
+  expect_equal(qtuv_00_htm.spct[["zenith.angle"]][1L], 0)
+  expect_equal(qtuv_00_htm.spct[["sun.elevation"]][1L], 90)
+#  expect_equal(qtuv_00_htm.spct[["date"]][1L], 300)
+  
   expect_equal(format(getWhenMeasured(qtuv_00_htm.spct)),
                format(ymd("2015-06-30")))
   expect_true(all(is.na(getWhereMeasured(qtuv_00_htm.spct))))
