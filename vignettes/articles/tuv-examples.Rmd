@@ -30,13 +30,18 @@ opts_chunk$set(fig.align='center', fig.show='hold',
 ```{r setup}
 library(photobiologyInOut)
 library(ggspectra)
+library(lubridate)
+
+theme_set(theme_bw() + theme(legend.position = "top"))
 ```
+
+## Simuation of a single spectrum
 
 Using defaults for all arguments, the returned page is saved into a temporary file, the data read in and the file deleted.
 
 ```{r}
 sun_greenwich.spct <- 
-  qtuv_s.e.irrad(time = lubridate::ymd_hm("2024-06-23 12:00", tz = "UTC"))
+  qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:00", tz = "UTC"))
 colnames(sun_greenwich.spct)
 ```
 
@@ -76,9 +81,12 @@ To save the raw output from TUV into a persistent file, we have to provide a fil
 
 ```{r}
 my.geocode <- data.frame(lon = 24.96474, lat = 60.20911)
+```
 
+
+```{r}
 sun_viikki.spct <- 
-  qtuv_s.e.irrad(time = lubridate::ymd_hm("2024-06-23 12:20", tz = "EET"),
+  qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:20", tz = "EET"),
                  w.length = 290:800,
                  geocode = my.geocode,
                  file = "qtuv-viikki-test.txt")
@@ -102,3 +110,99 @@ autoplot(sun_viikki.spct)
 ```{r}
 autoplot(sun_viikki.spct, unit.out = "photon")
 ```
+
+## Simualtion of a collection of spectra
+
+To not to abuse the UCAR server, the examples in this section create collections of very few spectra. The functions do not impose any strict limit but keep in mind that the recommended maximum is 100 spectra per user and day.
+
+```{r}
+sun_viikki_ozone.mspct <- 
+  qtuv_m_s.e.irrad(
+    time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+    ozone.du = c(200, 250, 300, 350),
+    w.length = 290:450,
+    geocode = my.geocode
+  )
+
+summary(sun_viikki_ozone.mspct)
+autoplot(sun_viikki_ozone.mspct, 
+         range = c(NA, 340), 
+         annotations = c("-", "peaks"))
+```
+
+```{r}
+sun_viikki_elevation.mspct <- 
+  qtuv_m_s.e.irrad(
+    time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+    sun.elevation = c(60, 40, 20),
+    w.length = 290:450,
+    geocode = my.geocode
+  )
+
+summary(sun_viikki_elevation.mspct)
+autoplot(sun_viikki_elevation.mspct)
+```
+
+```{r, fig.height=8}
+sun_viikki_time.mspct <- 
+  qtuv_m_s.e.irrad(
+    time = ymd_hm("2024-06-23 12:20", tz = "EET") +
+      hours(c(0, 3, 6)),
+    w.length = 290:750,
+    geocode = my.geocode
+  )
+
+summary(sun_viikki_time.mspct)
+autoplot(sun_viikki_time.mspct, facets = 1)
+```
+
+```{r}
+my.geocodes <- data.frame(lat = c(30, 50, 70),
+                          lon = rep(25, 3))
+my.geocodes[["address"]] <- 
+  paste("lat", my.geocodes[["lat"]], sep = ".")
+```
+
+```{r, fig.height=8}
+sun_latitudes.mspct <- 
+  qtuv_m_s.e.irrad(
+    time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+    w.length = 290:750,
+    geocode = my.geocodes
+  )
+
+summary(sun_latitudes.mspct)
+autoplot(sun_latitudes.mspct, facets = 1)
+```
+
+```{r}
+my.clouds <- qtuv_clouds(c("clear.sky", "cirrus"))
+```
+
+```{r, fig.height=8}
+sun_viikki_clouds.mspct <- 
+  qtuv_m_s.e.irrad(
+    time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+    w.length = 290:750,
+    geocode = my.geocode,
+    clouds = my.clouds
+  )
+
+summary(sun_viikki_clouds.mspct)
+autoplot(sun_viikki_clouds.mspct, facets = 1)
+```
+
+For three times, as above, but keeping the downloaded files, by passing a filename "root".
+
+```{r}
+sun_viikki_time.mspct <- 
+  qtuv_m_s.e.irrad(
+    time = ymd_hm("2024-06-23 12:20", tz = "EET") +
+      hours(c(0, 3, 6)),
+    w.length = 290:750,
+    geocode = my.geocode,
+    file = "qtuv-viikki"
+  )
+
+```
+
