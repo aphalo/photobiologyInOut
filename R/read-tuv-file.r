@@ -395,6 +395,8 @@ read_qtuv_txt <- function(file,
 #'   \code{zenith.angle}, \code{"date"} and \code{"ozone.du"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
 #'   used, and if \code{NA} the "what.measured" attribute is not set.
+#' @param server.url character The URL used to access the Quick TUV calculator
+#'   server.
 #' @param file character The name under which the file returned by the server is
 #'   locally saved. If \code{NULL} a temporary file is used and discarded
 #'   immediately. File paths are supported when valid.
@@ -409,7 +411,9 @@ read_qtuv_txt <- function(file,
 #'   downloaded are saved into persistent files, one file per spectrum. The
 #'   names of the saved files always end in `.txt`.
 #'
-#' @references \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}
+#' @references \url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}. This
+#'   URL could change in the future as well as the server URL. The formal
+#'   parameter \code{server.url} was included only for use in such a case.
 #'
 #' @details The Quick TUV calculator, is an on-line freely accessible server
 #'   running the TUV atmospheric chemistry and radiation transfer model with a
@@ -478,9 +482,9 @@ read_qtuv_txt <- function(file,
 #' @export
 #' 
 qtuv_s.e.irrad <- 
-  function(w.length = list(wStart=280, 
-                           wStop=420, 
-                           wIntervals=140), 
+  function(w.length = list(wStart = 280, 
+                           wStop = 420, 
+                           wIntervals = 140), 
            sun.elevation = NULL,
            geocode = data.frame(lon = 0, 
                                 lat = 51.5, 
@@ -504,6 +508,7 @@ qtuv_s.e.irrad <-
                           diffuse.up = 0),
            added.vars = NULL,
            label = "",
+           server.url = "https://www.acom.ucar.edu/cgi-bin/acom/TUV/V5.3/tuv",
            file = NULL) {
     # check parameters
     num.streams <- as.integer(abs(num.streams))
@@ -560,9 +565,7 @@ qtuv_s.e.irrad <-
       stop("Invalid defintion of wavelengths in 'w.length'")
     }
     # build URL to call Quick TUV
-    server_url <- "https://www.acom.ucar.edu/cgi-bin/acom/TUV/V5.3/tuv"
-    
-    url <- paste0(c(server_url, 
+    url <- paste0(c(server.url, 
                     "?wStart=", wStart, 
                     "&wStop=", wStop, 
                     "&wIntervals=", wIntervals, 
@@ -654,6 +657,7 @@ qtuv_m_s.e.irrad <-
                           diffuse.up = 0),
            added.vars = NULL,
            label = "",
+           server.url = "https://www.acom.ucar.edu/cgi-bin/acom/TUV/V5.3/tuv",
            file = NULL) {
     # check parameters
     num.streams <- as.integer(abs(num.streams))

@@ -22,6 +22,7 @@ qtuv_s.e.irrad(
   spectra = list(direct = 1, diffuse.down = 1, diffuse.up = 0),
   added.vars = NULL,
   label = "",
+  server.url = "https://www.acom.ucar.edu/cgi-bin/acom/TUV/V5.3/tuv",
   file = NULL
 )
 
@@ -42,6 +43,7 @@ qtuv_m_s.e.irrad(
   spectra = list(direct = 1, diffuse.down = 1, diffuse.up = 0),
   added.vars = NULL,
   label = "",
+  server.url = "https://www.acom.ucar.edu/cgi-bin/acom/TUV/V5.3/tuv",
   file = NULL
 )
 }
@@ -91,6 +93,9 @@ spectrum.}
 
 \item{label}{character string, but if \code{NULL} the value of \code{file} is
 used, and if \code{NA} the "what.measured" attribute is not set.}
+
+\item{server.url}{character The URL used to access the Quick TUV calculator
+server.}
 
 \item{file}{character The name under which the file returned by the server is
 locally saved. If \code{NULL} a temporary file is used and discarded
@@ -177,7 +182,9 @@ The Quick TUV calculator has multiple output modes that return
 }
 
 \references{
-\url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}
+\url{https://www.acom.ucar.edu/Models/TUV/Interactive_TUV/}. This
+  URL could change in the future as well as the server URL. The formal
+  parameter \code{server.url} was included only for use in such a case.
 
 Sasha Madronich (2017-2021) Tropospheric Ultraviolet and Visible radiation (TUV) 
 model. \url{https://www2.acom.ucar.edu/modeling/tropospheric-ultraviolet-and-visible-tuv-radiation-model}.
