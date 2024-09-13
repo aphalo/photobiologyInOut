@@ -1,6 +1,8 @@
 
 # photobiologyInOut <img src="man/figures/logo.png" align="right" width="120" />
 
+<!-- badges: start -->
+
 [![CRAN
 version](https://www.r-pkg.org/badges/version-last-release/photobiologyInOut)](https://cran.r-project.org/package=photobiologyInOut)
 [![cran
@@ -9,6 +11,9 @@ checks](https://badges.cranchecks.info/worst/photobiologyInOut.svg)](https://cra
 badge](https://aphalo.r-universe.dev/badges/photobiologyInOut)](https://aphalo.r-universe.dev/photobiologyInOut)
 [![R build
 status](https://github.com/aphalo/photobiologyInOut/workflows/R-CMD-check/badge.svg)](https://github.com/aphalo/photobiologyInOut/actions)
+[![Documentation](https://img.shields.io/badge/documentation-photobiologyInOut-informational.svg)](https://docs.r4photobiology.info/photobiologyInOut/)
+[![doi](https://img.shields.io/badge/doi-10.32614/CRAN.package.photobiologyInOut-blue.svg)](https://doi.org/10.32614/CRAN.package.photobiologyInOut)
+<!-- badges: end -->
 
 Package ‘**photobiologyInOut**’ provides functions for importing
 spectral data from diverse sources including instrument-specific files,
