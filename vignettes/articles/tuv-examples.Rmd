@@ -214,12 +214,11 @@ ground_altitudes.mspct <-
     sun.elevation = 45
   )
 
-summary(sun_viikki_ozone.mspct)
-autoplot(sun_viikki_ozone.mspct, 
+summary(ground_altitudes.mspct)
+autoplot(ground_altitudes.mspct, 
          range = c(NA, 340), 
          annotations = c("-", "peaks"))
 
-  
 ```
 
 Two different cloud conditions.
@@ -257,9 +256,4 @@ summary(sun_viikki_time.mspct)
 autoplot(sun_viikki_time.mspct, facets = 1)
 ```
 
-Six different ground altitudes, with measurements at ground level.
-
-```{r}
-
-```
 
