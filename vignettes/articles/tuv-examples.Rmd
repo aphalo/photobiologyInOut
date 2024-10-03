@@ -204,6 +204,23 @@ summary(sun_latitudes.mspct)
 autoplot(sun_latitudes.mspct, facets = 1)
 ```
 
+Six different ground altitudes, with measurements at ground level.
+
+```{r}
+ground_altitudes.mspct <-
+  qtuv_m_s.e.irrad(
+    ground.altitude = 0:5,
+    w.length = 290:450,
+    sun.elevation = 45
+  )
+
+summary(ground_altitudes.mspct)
+autoplot(ground_altitudes.mspct, 
+         range = c(NA, 340), 
+         annotations = c("-", "peaks"))
+
+```
+
 Two different cloud conditions.
 
 ```{r}
@@ -238,3 +255,5 @@ sun_viikki_time.mspct <-
 summary(sun_viikki_time.mspct)
 autoplot(sun_viikki_time.mspct, facets = 1)
 ```
+
+
