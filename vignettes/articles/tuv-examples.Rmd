@@ -45,7 +45,13 @@ library(ggspectra)
 library(lubridate)
 
 theme_set(theme_bw() + theme(legend.position = "top"))
+
+force_qtuv_call <- FALSE # set to TRUE to recalculate cached QTUV-generated data
 ```
+
+In this file, we call the Quick TUV calculator server only once and save the
+returned value in a local file. Please, consider using this same approach in
+your scripts to avoid unnecessarily overloading the public server.
 
 ## Simulation of a single spectrum
 
@@ -53,11 +59,18 @@ In the first example, using default arguments for all parameters except `time`,
 the text returned by the sever is saved into a temporary file, the data read
 into a `source_spct()` and the file deleted. The default for `sun.elevation` is
 `NULL` and the sun elevation is compute from the geographic coordinates and time
-coordiantes.
+coordinates.
 
 ```{r}
-sun_greenwich.spct <- 
-  qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:00", tz = "UTC"))
+# avoid repeated calls to Quick TUV server
+sun_greenwich.spct.filepath <- "./sun-greenwich.spct.rda"
+if (!force_qtuv_call && file.exists(sun_greenwich.spct.filepath)) {
+  load(sun_greenwich.spct.filepath)
+} else {
+  sun_greenwich.spct <- 
+    qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:00", tz = "UTC"))
+  save(sun_greenwich.spct, file = sun_greenwich.spct.filepath)
+}
 colnames(sun_greenwich.spct)
 ```
 
@@ -104,16 +117,22 @@ my.geocode <- data.frame(lon = 24.96474, lat = 60.20911)
 ```
 
 ```{r}
-sun_viikki.spct <- 
-  qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:20", tz = "EET"),
-                 w.length = 290:800,
-                 geocode = my.geocode,
-                 file = "qtuv-viikki-test.txt")
-
+# avoid repeated calls to Quick TUV server
+sun_viikki.spctfile.path <- "./sun-viikki.spct.rda"
+if (!force_qtuv_call && file.exists(sun_viikki.spctfile.path)) {
+  load(sun_viikki.spctfile.path)
+} else {
+  sun_viikki.spct <-
+    qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+                   w.length = 290:800,
+                   geocode = my.geocode,
+                   file = "qtuv-viikki-test.txt")
+  save(sun_viikki.spct, file = sun_viikki.spctfile.path)
+}
 summary(sun_viikki.spct)
 ```
 
-The file was not deleted as a file name was supplied.
+The file was not deleted because a file name was passed as aargument in the call above.
 
 ```{r}
 file.exists("qtuv-viikki-test.txt")
@@ -137,13 +156,20 @@ Not to abuse the use of the UCAR server, the examples in this section create col
 Four different ozone column thicknesses.
 
 ```{r}
-sun_viikki_ozone.mspct <- 
-  qtuv_m_s.e.irrad(
-    time = ymd_hm("2024-06-23 12:20", tz = "EET"),
-    ozone.du = c(200, 250, 300, 350),
-    w.length = 290:450,
-    geocode = my.geocode
-  )
+# avoid repeated calls to Quick TUV server
+sun_viikki_ozone.mspct.filepath <- "./sun_viikki_ozone.mspct.rda"
+if (!force_qtuv_call && file.exists(sun_viikki_ozone.mspct.filepath)) {
+  load(sun_viikki_ozone.mspct.filepath)
+} else {
+  sun_viikki_ozone.mspct <- 
+    qtuv_m_s.e.irrad(
+      time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+      ozone.du = c(200, 250, 300, 350),
+      w.length = 290:450,
+      geocode = my.geocode
+    )
+  save(sun_viikki_ozone.mspct, file = sun_viikki_ozone.mspct.filepath)
+}
 
 summary(sun_viikki_ozone.mspct)
 autoplot(sun_viikki_ozone.mspct, 
@@ -157,12 +183,19 @@ supplied as in other examples, but if the angle is passed as an argument, they
 are ignored.
 
 ```{r}
-sun_viikki_elevation.mspct <- 
-  qtuv_m_s.e.irrad(
-    sun.elevation = c(60, 40, 20),
-    w.length = 290:450,
-    geocode = my.geocode
-  )
+# avoid repeated calls to Quick TUV server
+sun_viikki_elevation.mspct.filepath <- "./sun_viikki_elevation.mspct.rda"
+if (!force_qtuv_call && file.exists(sun_viikki_elevation.mspct.filepath)) {
+  load(sun_viikki_elevation.mspct.filepath)
+} else {
+  sun_viikki_elevation.mspct <- 
+    qtuv_m_s.e.irrad(
+      sun.elevation = c(60, 40, 20),
+      w.length = 290:450,
+      geocode = my.geocode
+    )
+  save(sun_viikki_elevation.mspct, file = sun_viikki_elevation.mspct.filepath)
+}
 
 summary(sun_viikki_elevation.mspct)
 autoplot(sun_viikki_elevation.mspct)
@@ -171,13 +204,20 @@ autoplot(sun_viikki_elevation.mspct)
 Three different times of the day.
 
 ```{r, fig.height=12}
-sun_viikki_time.mspct <- 
-  qtuv_m_s.e.irrad(
-    time = ymd_hm("2024-06-23 12:20", tz = "EET") +
-      hours(c(0, 3, 6)),
-    w.length = 290:750,
-    geocode = my.geocode
-  )
+# avoid repeated calls to Quick TUV server
+sun_viikki_time.mspct.filepath <- "./sun_viikki_time.mspct.rda"
+if (!force_qtuv_call && file.exists(sun_viikki_time.mspct.filepath)) {
+  load(sun_viikki_time.mspct.filepath)
+} else {
+  sun_viikki_time.mspct <- 
+    qtuv_m_s.e.irrad(
+      time = ymd_hm("2024-06-23 12:20", tz = "EET") +
+        hours(c(0, 3, 6)),
+      w.length = 290:750,
+      geocode = my.geocode
+    )
+  save(sun_viikki_time.mspct, file = sun_viikki_time.mspct.filepath)
+}
 
 summary(sun_viikki_time.mspct)
 autoplot(sun_viikki_time.mspct, facets = 1)
@@ -193,12 +233,19 @@ my.geocodes[["address"]] <-
 ```
 
 ```{r, fig.height=12}
-sun_latitudes.mspct <- 
-  qtuv_m_s.e.irrad(
-    time = ymd_hm("2024-06-23 12:20", tz = "EET"),
-    w.length = 290:750,
-    geocode = my.geocodes
-  )
+# avoid repeated calls to Quick TUV server
+sun_latitudes.mspct.filepath <- "./sun_latitudes.mspct.rda"
+if (!force_qtuv_call && file.exists(sun_latitudes.mspct.filepath)) {
+  load(sun_latitudes.mspct.filepath)
+} else {
+  sun_latitudes.mspct <- 
+    qtuv_m_s.e.irrad(
+      time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+      w.length = 290:750,
+      geocode = my.geocodes
+    )
+  save(sun_latitudes.mspct, file = sun_latitudes.mspct.filepath)
+}
 
 summary(sun_latitudes.mspct)
 autoplot(sun_latitudes.mspct, facets = 1)
@@ -207,12 +254,19 @@ autoplot(sun_latitudes.mspct, facets = 1)
 Six different ground altitudes, with measurements at ground level.
 
 ```{r}
-ground_altitudes.mspct <-
-  qtuv_m_s.e.irrad(
-    ground.altitude = 0:5,
-    w.length = 290:450,
-    sun.elevation = 45
-  )
+# avoid repeated calls to Quick TUV server
+ground_altitudes.mspct.filepath <- "./ground_altitudes.mspct.rda"
+if (!force_qtuv_call && file.exists(ground_altitudes.mspct.filepath)) {
+  load(ground_altitudes.mspct.filepath)
+} else {
+  ground_altitudes.mspct <-
+    qtuv_m_s.e.irrad(
+      ground.altitude = 0:5,
+      w.length = 290:450,
+      sun.elevation = 45
+    )
+  save(ground_altitudes.mspct, file = ground_altitudes.mspct.filepath)
+}
 
 summary(ground_altitudes.mspct)
 autoplot(ground_altitudes.mspct, 
@@ -228,13 +282,20 @@ my.clouds <- qtuv_clouds(c("clear.sky", "cirrus"))
 ```
 
 ```{r, fig.height=8}
-sun_viikki_clouds.mspct <- 
-  qtuv_m_s.e.irrad(
-    time = ymd_hm("2024-06-23 12:20", tz = "EET"),
-    w.length = 290:750,
-    geocode = my.geocode,
-    clouds = my.clouds
-  )
+# avoid repeated calls to Quick TUV server
+sun_viikki_clouds.mspct.filepath <- "./sun_viikki_clouds.mspct.rda"
+if (!force_qtuv_call && file.exists(sun_viikki_clouds.mspct.filepath)) {
+  load(sun_viikki_clouds.mspct.filepath)
+} else {
+  sun_viikki_clouds.mspct <- 
+    qtuv_m_s.e.irrad(
+      time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+      w.length = 290:750,
+      geocode = my.geocode,
+      clouds = my.clouds
+    )
+  save(sun_viikki_clouds.mspct, file = sun_viikki_clouds.mspct.filepath)
+}
 
 summary(sun_viikki_clouds.mspct)
 autoplot(sun_viikki_clouds.mspct, facets = 1)
@@ -243,6 +304,11 @@ autoplot(sun_viikki_clouds.mspct, facets = 1)
 For three times, as above, but keeping the downloaded files, by passing a file name "root".
 
 ```{r, fig.height=12}
+# avoid repeated calls to Quick TUV server
+sun_viikki_time.mspct.filepath <- "./sun_viikki_time.mspct.rda"
+if (!force_qtuv_call && file.exists(sun_viikki_time.mspct.filepath)) {
+  load(sun_viikki_time.mspct.filepath)
+} else {
 sun_viikki_time.mspct <- 
   qtuv_m_s.e.irrad(
     time = ymd_hm("2024-06-23 12:20", tz = "EET") +
@@ -251,9 +317,14 @@ sun_viikki_time.mspct <-
     geocode = my.geocode,
     file = "qtuv-viikki"
   )
+  save(sun_viikki_time.mspct, file = sun_viikki_time.mspct.filepath)
+}
 
 summary(sun_viikki_time.mspct)
 autoplot(sun_viikki_time.mspct, facets = 1)
 ```
 
+```{r}
+list.files(pattern = "^qtuv-viikki-time.*")
+```
 
