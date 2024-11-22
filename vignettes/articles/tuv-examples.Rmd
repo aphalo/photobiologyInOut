@@ -123,7 +123,7 @@ if (!force_qtuv_call && file.exists(sun_viikki.spctfile.path)) {
   load(sun_viikki.spctfile.path)
 } else {
   sun_viikki.spct <-
-    qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+    qtuv_s.e.irrad(time = ymd_hm("2024-06-23 12:20", tz = "Europe/Helsinki"),
                    w.length = 290:800,
                    geocode = my.geocode,
                    file = "qtuv-viikki-test.txt")
@@ -163,7 +163,7 @@ if (!force_qtuv_call && file.exists(sun_viikki_ozone.mspct.filepath)) {
 } else {
   sun_viikki_ozone.mspct <- 
     qtuv_m_s.e.irrad(
-      time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+      time = ymd_hm("2024-06-23 12:20", tz = "Europe/Helsinki"),
       ozone.du = c(200, 250, 300, 350),
       w.length = 290:450,
       geocode = my.geocode
@@ -211,7 +211,7 @@ if (!force_qtuv_call && file.exists(sun_viikki_time.mspct.filepath)) {
 } else {
   sun_viikki_time.mspct <- 
     qtuv_m_s.e.irrad(
-      time = ymd_hm("2024-06-23 12:20", tz = "EET") +
+      time = ymd_hm("2024-06-23 12:20", tz = "Europe/Helsinki") +
         hours(c(0, 3, 6)),
       w.length = 290:750,
       geocode = my.geocode
@@ -240,7 +240,7 @@ if (!force_qtuv_call && file.exists(sun_latitudes.mspct.filepath)) {
 } else {
   sun_latitudes.mspct <- 
     qtuv_m_s.e.irrad(
-      time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+      time = ymd_hm("2024-06-23 12:20", tz = "Europe/Helsinki"),
       w.length = 290:750,
       geocode = my.geocodes
     )
@@ -289,7 +289,7 @@ if (!force_qtuv_call && file.exists(sun_viikki_clouds.mspct.filepath)) {
 } else {
   sun_viikki_clouds.mspct <- 
     qtuv_m_s.e.irrad(
-      time = ymd_hm("2024-06-23 12:20", tz = "EET"),
+      time = ymd_hm("2024-06-23 12:20", tz = "Europe/Helsinki"),
       w.length = 290:750,
       geocode = my.geocode,
       clouds = my.clouds
@@ -311,7 +311,7 @@ if (!force_qtuv_call && file.exists(sun_viikki_time.mspct.filepath)) {
 } else {
 sun_viikki_time.mspct <- 
   qtuv_m_s.e.irrad(
-    time = ymd_hm("2024-06-23 12:20", tz = "EET") +
+    time = ymd_hm("2024-06-23 12:20", tz = "Europe/Helsinki") +
       hours(c(0, 3, 6)),
     w.length = 290:750,
     geocode = my.geocode,
