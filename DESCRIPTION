@@ -18,7 +18,7 @@ Description: Functions for reading, and in some cases writing, foreign files
 License: GPL (>= 2)
 VignetteBuilder: knitr
 Depends:
-    R (>= 4.3.0),
+    R (>= 4.2.0),
     photobiology (>= 0.11.4)
 Imports:
     methods,
