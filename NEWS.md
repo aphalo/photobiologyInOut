@@ -13,6 +13,8 @@ of data files are welcome for these and other instruments).
 
 - Update function `read_CIE_csv()` to also support reading of trichromatic 
  coordinates into `chroma_spct` objects.
+- Depend on 'SunCalcMeeus' as functions were migrated from 'photobiology' in
+version 0.12.0.
 
 ## photobiologyInOut 0.4.29
 
