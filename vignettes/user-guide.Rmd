@@ -278,7 +278,7 @@ autoplot(smooth_spct(read_oo_jazirrad(file = jaz.s.irrad.file)),
      range = c(250,850))
 ```
 
-### Other modular spectrometers from Ocean Optics
+### Other array spectrometers from Ocean Optics
 
 Now a file from an Ocean Optics' Q6500 spectrometer, with data processed with the Spectra Suite software.
 
@@ -376,7 +376,7 @@ summary(wasatch.raw.spct)
 autoplot(wasatch.raw.spct)
 ```
 
-### Modular spectrometers from Avantes
+### Array spectrometers from Avantes
 
 Avantes' two column .csv files can also be imported.
 

@@ -26,6 +26,8 @@
 #'   \code{\link[readr]{locale}} to create your own locale that controls things
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names.
+#' @param unit.in character One of "energy", "photon" (or "quantum"), for data
+#'   in uW cm-2 nm-1 and umol cm-2 nm-1.
 #'   
 #' @note Although the parameter is called \code{date} a date time is accepted 
 #'   and expected. Time resolution is < 1 s if seconds are entered with a
@@ -44,19 +46,32 @@
 #'    system.file("extdata", "spectrum.jaz", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
-#'  jaz.spct <- read_oo_jazpc(file = file.name)
+#'  jaz.filter_spct <- read_oo_jazpc(file = file.name)
 #'  
-#'  jaz.spct
-#'  getWhenMeasured(jaz.spct)
-#'  getWhatMeasured(jaz.spct)
-#'  cat(comment(jaz.spct))
+#'  jaz.filter_spct
+#'  getWhenMeasured(jaz.filter_spct)
+#'  getWhatMeasured(jaz.filter_spct)
+#'  cat(comment(jaz.filter_spct))
+#' 
+#'  file.name <- 
+#'    system.file("extdata", "spectrum.JazIrrad", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  jaz.source_spct <- read_oo_jazirrad(file = file.name, unit.in = "energy")
+#'  
+#'  jaz.source_spct
+#'  getWhenMeasured(jaz.source_spct)
+#'  getWhatMeasured(jaz.source_spct)
+#'  cat(comment(jaz.source_spct))
+#'  q_irrad(jaz.source_spct, waveband(c(400, 700)), scale.factor = 1e6) # mol -> umol
 #' 
 read_oo_jazirrad <- function(file,
                              date = NULL,
                              geocode = NULL,
                              label = NULL,
                              tz = NULL,
-                             locale = readr::default_locale()) {
+                             locale = readr::default_locale(),
+                             unit.in = "energy") {
   if (is.null(tz)) {
     tz <- locale$tz
   }
@@ -122,10 +137,19 @@ read_oo_jazirrad <- function(file,
     locale = locale
   )
   dots <- list(~W, ~P)
-  z <- dplyr::select(z, 
-                     w.length = "W",
-                     s.e.irrad = "S")
-  z[["s.e.irrad"]] <- z[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
+  if (unit.in == "energy") {
+    z <- dplyr::select(z, 
+                       w.length = "W",
+                       s.e.irrad = "P")
+    z[["s.e.irrad"]] <- z[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
+  } else if (unit.in == "photon") {
+    z <- dplyr::select(z, 
+                       w.length = "W",
+                       s.q.irrad = "P")
+    z[["s.q.irrad"]] <- z[["s.q.irrad"]] * 1e-2 # umol cm-2 nm-1 -> mol m-2 nm-1
+  } else {
+    stop("'unit.in' must be \"energy\" or \"photon\", not \"", unit.in, "\"")
+  } 
   
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   z <- photobiology::as.source_spct(z, time.unit = "second")

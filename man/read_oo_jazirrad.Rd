@@ -12,7 +12,8 @@ read_oo_jazirrad(
   geocode = NULL,
   label = NULL,
   tz = NULL,
-  locale = readr::default_locale()
+  locale = readr::default_locale(),
+  unit.in = "energy"
 )
 
 read_oo_jazpc(
@@ -58,6 +59,9 @@ default locale is US-centric (like R), but you can use
 like the default time zone, encoding, decimal mark, big mark, and day/month
 names.}
 
+\item{unit.in}{character One of "energy", "photon" (or "quantum"), for data
+in uW cm-2 nm-1 and umol cm-2 nm-1.}
+
 \item{qty.in}{character string, one of "Tpc" (spectral transmittance, \%), "A"
 (spectral absorbance), or "Rpc" (spectral reflectance, \%).}
 
@@ -93,12 +97,24 @@ Although the parameter is called \code{date} a date time is accepted
    system.file("extdata", "spectrum.jaz", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
- jaz.spct <- read_oo_jazpc(file = file.name)
+ jaz.filter_spct <- read_oo_jazpc(file = file.name)
  
- jaz.spct
- getWhenMeasured(jaz.spct)
- getWhatMeasured(jaz.spct)
- cat(comment(jaz.spct))
+ jaz.filter_spct
+ getWhenMeasured(jaz.filter_spct)
+ getWhatMeasured(jaz.filter_spct)
+ cat(comment(jaz.filter_spct))
+
+ file.name <- 
+   system.file("extdata", "spectrum.JazIrrad", 
+               package = "photobiologyInOut", mustWork = TRUE)
+                
+ jaz.source_spct <- read_oo_jazirrad(file = file.name, unit.in = "energy")
+ 
+ jaz.source_spct
+ getWhenMeasured(jaz.source_spct)
+ getWhatMeasured(jaz.source_spct)
+ cat(comment(jaz.source_spct))
+ q_irrad(jaz.source_spct, waveband(c(400, 700)), scale.factor = 1e6) # mol -> umol
 
 }
 \references{
