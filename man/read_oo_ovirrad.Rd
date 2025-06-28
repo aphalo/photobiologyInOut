@@ -50,6 +50,8 @@ replaces the no longer supported SpectraSuite program.
 }
 \examples{
 
+# energy spectral irradiance file
+
  file.name <- 
    system.file("extdata", "spectrum.OVIrrad", 
                package = "photobiologyInOut", mustWork = TRUE)
