@@ -9,6 +9,11 @@ editor_options:
 Add support for StellarNet, Brewer, and Bentham spectrometers (examples
 of data files are welcome for these and other instruments).
 
+## photobiologyInOut 0.4.32
+
+- Add function `read_oo_ovirrad()` for importing spectral energy irradiance data
+acquired with Ocean Optics' OceanView software and save into text files.
+
 ## photobiologyInOut 0.4.31
 
 - Fix bug in `read_oo_jazirrad()`: wrong column read as irradiance! (reported 
