@@ -3,6 +3,7 @@ url: https://docs.r4photobiology.info/photobiologyInOut/
 
 template:
   bootstrap: 5
+  math-rendering: katex
 
 reference:
   - title: Package overview
@@ -15,6 +16,7 @@ reference:
     - read_oo_jazirrad
     - read_oo_pidata
     - read_oo_jazpc
+    - read_oo_ovirrad
     - read_avaspec_csv
     - read_macam_dta
     - read_licor_prn
