@@ -10,7 +10,8 @@ read_oo_ovirrad(
   geocode = NULL,
   label = NULL,
   tz = NULL,
-  locale = readr::default_locale()
+  locale = readr::default_locale(),
+  range = NULL
 )
 }
 \arguments{
@@ -33,6 +34,10 @@ default locale is US-centric (like R), but you can use
 \code{\link[readr]{locale}} to create your own locale that controls things
 like the default time zone, encoding, decimal mark, big mark, and day/month
 names.}
+
+\item{range}{a numeric vector of length two, or any other object for which 
+function \code{range()} will return a range of wavelengths expressed in 
+nanometres.}
 }
 \value{
 A source_spct object.
@@ -40,7 +45,8 @@ A source_spct object.
 \description{
 Reads and parses the header of a processed data file as output by
 OceanView to extract the whole header remark field. The time field is
-retrieved and decoded.  OceanView is a program, that replaces SpectraSuite.
+retrieved and decoded. OceanView is a program from Ocean Optics that 
+replaces the no longer supported SpectraSuite program.
 }
 \examples{
 
@@ -48,12 +54,32 @@ retrieved and decoded.  OceanView is a program, that replaces SpectraSuite.
    system.file("extdata", "spectrum.OVIrrad", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
- ooss.spct <- read_oo_ovirrad(file = file.name)
+ ooov.spct <- 
+   read_oo_ovirrad(file = file.name,
+                   locale = readr::locale("en", 
+                                          decimal_mark = ",",
+                                          grouping_mark = "",
+                                          tz = "Europe/Paris"))
  
- ooss.spct
- getWhenMeasured(ooss.spct)
- getWhatMeasured(ooss.spct)
- cat(comment(ooss.spct))
+ ooov.spct
+ getWhenMeasured(ooov.spct)
+ getWhatMeasured(ooov.spct)
+ getHowMeasured(ooov.spct)
+ cat(comment(ooov.spct))
+
+ ooov_clipped.spct <- 
+   read_oo_ovirrad(file = file.name,
+                   locale = readr::locale("en", 
+                                          decimal_mark = ",",
+                                          grouping_mark = "",
+                                          tz = "Europe/Paris"),
+                   range = c(280, NA))
+ 
+ ooov_clipped.spct
+ getWhenMeasured(ooov_clipped.spct)
+ getWhatMeasured(ooov_clipped.spct)
+ getHowMeasured(ooov_clipped.spct)
+ cat(comment(ooov_clipped.spct))
 
 }
 \references{
