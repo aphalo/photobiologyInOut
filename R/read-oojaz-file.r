@@ -4,28 +4,13 @@
 #' Jaz instruments extracting the spectral data from the body of the file 
 #' and the metadata, including time and date of measurement from the header.
 #' Jaz modular spectrometers were manufactured by Ocean Optics.
-#' The company formerly named Ocean Optics is now called Ocean Insight.
 #' 
 #' @details Function \code{read_oo_jazirrad} can read processed irradiance
 #' output files. Function \code{read_oo_jazpc} can read processed transmittance
 #' and reflectance output files (expressed as \%s). Function 
 #' \code{read_oo_jazdata} can read raw-counts data.
 #' 
-#' @param file character string.
-#' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
-#'   attribute. If \code{NULL}, the default, the date is extracted from the
-#'   file header.
-#' @param geocode A data frame with columns \code{lon} and \code{lat} used to
-#'   set attribute \code{"where.measured"}.
-#' @param label character string, but if \code{NULL} the value of \code{file} is
-#'   used, and if \code{NA} the "what.measured" attribute is not set.
-#' @param tz character Time zone used for interpreting times saved in the file
-#'   header.
-#' @param locale The locale controls defaults that vary from place to place. The
-#'   default locale is US-centric (like R), but you can use
-#'   \code{\link[readr]{locale}} to create your own locale that controls things
-#'   like the default time zone, encoding, decimal mark, big mark, and day/month
-#'   names.
+#' @inheritParams read_oo_ovirrad
 #' @param unit.in character One of "energy", "photon" (or "quantum"), for data
 #'   in uW cm-2 nm-1 and umol cm-2 nm-1.
 #'   

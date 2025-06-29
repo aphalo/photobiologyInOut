@@ -11,7 +11,8 @@ read_oo_ssirrad(
   geocode = NULL,
   label = NULL,
   tz = NULL,
-  locale = readr::default_locale()
+  locale = readr::default_locale(),
+  range = NULL
 )
 
 read_oo_ssdata(
@@ -24,36 +25,58 @@ read_oo_ssdata(
 )
 }
 \arguments{
-\item{file}{character string}
+\item{file}{character string Path to the file to be read, following R's
+use of forward slashes as separator for folder names.}
 
 \item{date}{a \code{POSIXct} object to use to set the \code{"when.measured"}
 attribute. If \code{NULL}, the default, the date is extracted from the
 file header.}
 
-\item{geocode}{A data frame with columns \code{lon} and \code{lat} used to
-set attribute \code{"where.measured"}.}
+\item{geocode}{A data frame with columns \code{lon} and \code{lat}, and
+optionally \code{address} used to set attribute \code{"where.measured"}.}
 
-\item{label}{character string, but if \code{NULL} the value of \code{file} is
-used, and if \code{NA} the "what.measured" attribute is not set.}
+\item{label}{character string to which to set the \code{"what.measured"} 
+attribute. If \code{NULL} the value of \code{basename(file)} is used, 
+and if \code{NA} the \code{"what.measured"} attribute is not set.}
 
-\item{tz}{character Time zone is by default read from the file.}
+\item{tz}{character A time zone recognized by R. If \code{NULL}, the default,
+it is extracted from `locale`.}
 
-\item{locale}{The locale controls defaults that vary from place to place. The
-default locale is US-centric (like R), but you can use
+\item{locale}{The locale controls defaults that vary from place to place. 
+ The default locale is US-centric (like R), but you can use
 \code{\link[readr]{locale}} to create your own locale that controls things
 like the default time zone, encoding, decimal mark, big mark, and day/month
-names.}
+names. Its value must match that used to write the imported file, which
+is not necessarily the default one or the local one.}
+
+\item{range}{a numeric vector of length two, or any other object for which
+function \code{range()} will return a range of wavelengths expressed in
+nanometres.}
 }
 \value{
-A source_spct object.
-
 A raw_spct object.
 }
 \description{
-Reads and parses the header of a processed data file as output by
-SpectraSuite to extract the whole header remark field. The time field is
-retrieved and decoded. SpectraSuite was a program, now replaced by OceanView.
-The company formerly named Ocean Optics is now called Ocean Insight.
+Reads the spectral data and in addition parses the header of a energy
+irradiance data file as output by SpectraSuite. SpectraSuite is a program 
+from Ocean Optics used to measure UV, visible and NIR radiation with array
+spectrometers from the same company. OceanView replaces the no longer 
+supported SpectraSuite program.
+}
+\details{
+The header of the file is first decoded and parsed to extract the
+  time of data acquisition and serial number of the spectrometer, and to
+  locate the start of the spectral data. The fields are located by name.
+  The spectral irradiance is re-expressed in \eqn{W m^{-2} nm^{-1}} and 
+  returned as an object of class \code{\link[photobiology]{source_spct}} 
+  with metadata stored in attributes \code{when.measured},
+  \code{what.measured}, and \code{how.measured} set to values extracted from
+  the header. The value stored in the \code{how.measured} attribute includes
+  the User: and Serial Number: values extracted from the file header. 
+  If an argument is passed to parameter \code{geocode}, its value is
+  saved in attribute \code{where.measured}. The file header in whole
+  is copied to the object's \code{comment} preceded by the date of import
+  and name of the file read.
 }
 \examples{
 
@@ -66,10 +89,10 @@ The company formerly named Ocean Optics is now called Ocean Insight.
  ooss.spct
  getWhenMeasured(ooss.spct)
  getWhatMeasured(ooss.spct)
+ getHowMeasured(ooss.spct)
  cat(comment(ooss.spct))
 
 }
 \references{
 \url{https://www.oceanoptics.com/}
 }
-\keyword{misc}

@@ -38,26 +38,29 @@ read_oo_jazdata(
 )
 }
 \arguments{
-\item{file}{character string.}
+\item{file}{character string Path to the file to be read, following R's
+use of forward slashes as separator for folder names.}
 
 \item{date}{a \code{POSIXct} object to use to set the \code{"when.measured"}
 attribute. If \code{NULL}, the default, the date is extracted from the
 file header.}
 
-\item{geocode}{A data frame with columns \code{lon} and \code{lat} used to
-set attribute \code{"where.measured"}.}
+\item{geocode}{A data frame with columns \code{lon} and \code{lat}, and
+optionally \code{address} used to set attribute \code{"where.measured"}.}
 
-\item{label}{character string, but if \code{NULL} the value of \code{file} is
-used, and if \code{NA} the "what.measured" attribute is not set.}
+\item{label}{character string to which to set the \code{"what.measured"} 
+attribute. If \code{NULL} the value of \code{basename(file)} is used, 
+and if \code{NA} the \code{"what.measured"} attribute is not set.}
 
-\item{tz}{character Time zone used for interpreting times saved in the file
-header.}
+\item{tz}{character A time zone recognized by R. If \code{NULL}, the default,
+it is extracted from `locale`.}
 
-\item{locale}{The locale controls defaults that vary from place to place. The
-default locale is US-centric (like R), but you can use
+\item{locale}{The locale controls defaults that vary from place to place. 
+ The default locale is US-centric (like R), but you can use
 \code{\link[readr]{locale}} to create your own locale that controls things
 like the default time zone, encoding, decimal mark, big mark, and day/month
-names.}
+names. Its value must match that used to write the imported file, which
+is not necessarily the default one or the local one.}
 
 \item{unit.in}{character One of "energy", "photon" (or "quantum"), for data
 in uW cm-2 nm-1 and umol cm-2 nm-1.}
@@ -78,7 +81,6 @@ Reads and parses the header of processed data text files output by
 Jaz instruments extracting the spectral data from the body of the file 
 and the metadata, including time and date of measurement from the header.
 Jaz modular spectrometers were manufactured by Ocean Optics.
-The company formerly named Ocean Optics is now called Ocean Insight.
 }
 \details{
 Function \code{read_oo_jazirrad} can read processed irradiance
