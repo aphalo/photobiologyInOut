@@ -70,14 +70,16 @@ The header of the file is first decoded and parsed to extract the
   the User: and Serial Number: values extracted from the file header. 
   If an argument is passed to parameter \code{geocode}, its value is
   saved in attribute \code{where.measured}. The file header in whole
-  is copied to the object's \code{comment} preceded by the date of import
-  and name of the file read.
+  is copied to attribute \code{file.header}. The object's \code{comment}
+  always gives a text that includes the file name, time of import, function
+  name and the version of packages 'photobiology' and 'photobiologyInOut' 
+  used.
 }
 \examples{
 
 # energy spectral irradiance file
 
- file.name <- 
+ file.name <-
    system.file("extdata", "spectrum.OVIrrad", 
                package = "photobiologyInOut", mustWork = TRUE)
                 

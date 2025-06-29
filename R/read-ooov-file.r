@@ -39,8 +39,10 @@
 #'   the User: and Serial Number: values extracted from the file header. 
 #'   If an argument is passed to parameter \code{geocode}, its value is
 #'   saved in attribute \code{where.measured}. The file header in whole
-#'   is copied to the object's \code{comment} preceded by the date of import
-#'   and name of the file read.
+#'   is copied to attribute \code{file.header}. The object's \code{comment}
+#'   always gives a text that includes the file name, time of import, function
+#'   name and the version of packages 'photobiology' and 'photobiologyInOut' 
+#'   used.
 #'
 #' @return A \code{source_spct} object with columns \code{w.length} with
 #'   wavelengths in nanometres and \code{s.e.irrad} with spectral energy
@@ -57,7 +59,7 @@
 #'
 #' # energy spectral irradiance file
 #' 
-#'  file.name <- 
+#'  file.name <-
 #'    system.file("extdata", "spectrum.OVIrrad", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
@@ -178,12 +180,14 @@ read_oo_ovirrad <- function(file,
 
   comment(z) <-
     paste("Ocean Optics OceanView irradiance file '", basename(file), 
-          "' imported with function 'read_oo_ovirrad()' from R package ", "
-          'photobiologyInOut' ", 
+          "' imported on ", 
+          lubridate::round_date(lubridate::now(tzone = "UTC")), " UTC ",
+          "with function 'read_oo_ovirrad()'.\n",
+          "R packages 'photobiologyInOut' ", 
           utils::packageVersion(pkg = "photobiologyInOut"), 
-          " on ", lubridate::round_date(lubridate::now(tzone = "UTC")), 
-          " UTC\n\nThe header of the imported file has been saved ",
-          "to attribute 'file.header'", sep = "")
+          " and 'photobiology' ",
+          utils::packageVersion(pkg = "photobiology"), 
+          " were used.", sep = "")
   
   how.measured <- paste("Measured by user ", sr.user, 
                         " with Ocean Optics spectrometer with s.n. ",

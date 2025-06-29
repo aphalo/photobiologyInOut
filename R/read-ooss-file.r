@@ -113,12 +113,14 @@ read_oo_ssirrad <- function(file,
 
   comment(z) <-
     paste("Ocean Optics SpectraSuite irradiance file '", basename(file), 
-          "' imported with function 'read_oo_ssirrad()' from R package ", "
-          'photobiologyInOut' ",
+          "' imported on ", 
+          lubridate::round_date(lubridate::now(tzone = "UTC")), " UTC ",
+          "with function 'read_oo_ssirrad()'.\n",
+          "R packages 'photobiologyInOut' ", 
           utils::packageVersion(pkg = "photobiologyInOut"), 
-          " on ", lubridate::round_date(lubridate::now(tzone = "UTC")), 
-          " UTC\n\nThe header of the imported file has been saved ",
-          "to attribute 'file.header'", sep = "")
+          " and 'photobiology' ",
+          utils::packageVersion(pkg = "photobiology"), 
+          " were used.", sep = "")
   
   how.measured <- paste("Measured by user ", sr.user, 
                         " with Ocean Optics spectrometer with s.n. ",
