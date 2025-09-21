@@ -159,13 +159,8 @@ read_cid_spectravue_csv <-
     }
   
   # I do not have information about the format used for Coordinates
-  headers[["where.measured"]] <-
-    if (is.null(geocode) || is.na(geocode)) {
-      SunCalcMeeus::na_geocode()
-    } else {
-      geocode
-    }
-  
+  headers[["where.measured"]] <- geocode
+
   # fill missing Tags
   selector <- is.na(headers[["Tag"]])
   headers[["Tag"]][selector] <- "NN"
