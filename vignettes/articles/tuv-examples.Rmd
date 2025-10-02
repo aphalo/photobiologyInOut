@@ -182,7 +182,8 @@ coordinates are used to compute the sun elevation angle when the angle is not
 supplied as in other examples, but if the angle is passed as an argument, they
 are ignored.
 
-```{r}
+```{r, eval=FALSE}
+## NOT RUN
 # avoid repeated calls to Quick TUV server
 sun_viikki_elevation.mspct.filepath <- "./sun_viikki_elevation.mspct.rda"
 if (!force_qtuv_call && file.exists(sun_viikki_elevation.mspct.filepath)) {
@@ -198,12 +199,14 @@ if (!force_qtuv_call && file.exists(sun_viikki_elevation.mspct.filepath)) {
 }
 
 summary(sun_viikki_elevation.mspct)
-autoplot(sun_viikki_elevation.mspct)
+autoplot(sun_viikki_elevation.mspct,
+         annotations = c("-", "peaks"))
 ```
 
 Three different times of the day.
 
-```{r, fig.height=12}
+```{r, fig.height=12, eval=FALSE}
+## NOT RUN
 # avoid repeated calls to Quick TUV server
 sun_viikki_time.mspct.filepath <- "./sun_viikki_time.mspct.rda"
 if (!force_qtuv_call && file.exists(sun_viikki_time.mspct.filepath)) {
@@ -232,7 +235,8 @@ my.geocodes[["address"]] <-
   paste("lat", my.geocodes[["lat"]], sep = ".")
 ```
 
-```{r, fig.height=12}
+```{r, fig.height=12, eval=FALSE}
+## NOT RUN
 # avoid repeated calls to Quick TUV server
 sun_latitudes.mspct.filepath <- "./sun_latitudes.mspct.rda"
 if (!force_qtuv_call && file.exists(sun_latitudes.mspct.filepath)) {
@@ -253,7 +257,8 @@ autoplot(sun_latitudes.mspct, facets = 1)
 
 Six different ground altitudes, with measurements at ground level.
 
-```{r}
+```{r, eval=FALSE}
+## NOT RUN
 # avoid repeated calls to Quick TUV server
 ground_altitudes.mspct.filepath <- "./ground_altitudes.mspct.rda"
 if (!force_qtuv_call && file.exists(ground_altitudes.mspct.filepath)) {
@@ -303,7 +308,8 @@ autoplot(sun_viikki_clouds.mspct, facets = 1)
 
 For three times, as above, but keeping the downloaded files, by passing a file name "root".
 
-```{r, fig.height=12}
+```{r, fig.height=12, eval=FALSE}
+## NOT RUN
 # avoid repeated calls to Quick TUV server
 sun_viikki_time.mspct.filepath <- "./sun_viikki_time.mspct.rda"
 if (!force_qtuv_call && file.exists(sun_viikki_time.mspct.filepath)) {
