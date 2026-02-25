@@ -154,7 +154,7 @@ read_asdtxt_irrad <- function(file,
   stopifnot("Header parsing failure" = 
               !is.na(to.skip) && is.integer(to.skip) && length(to.skip == 1))
   
-  z <- read.table(
+  z <- utils::read.table(
     file = file,
     header = TRUE,
     col.names = c("w.length", "s.e.irrad"),
