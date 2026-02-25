@@ -173,39 +173,51 @@ spct2hyperSpec <- function(x,
 
 #' Convert "pavo::rspec" objects
 #' 
-#' Convert between 'pavo::rspec' objects containing spectral reflectance data 
-#' into spectral objects (xxxx_spct, xxxx_mspct) as defined in package
-#' 'photobiology'.
+#' Convert between objects of class \code{rspec} as used in package 'pavo' and
+#' similar objects returned by functions from package 'lightr' in objects of
+#' classes from 'photobiology'
 #' 
-#' @note Objects of class \code{pavo::rspec} do not contain metadata or class 
+#' @details \code{rspec} objects contain data for multiple spectra in wide form,
+#'   i.e., one column per spectrum. Function \code{rscpt2mspct()} converts them
+#'   into a list-like collection of spectra (xxxx_mspct) with spectra stored as
+#'   separate members. In contrast, \code{rscpt2spct()} stores the spectra in
+#'   long form into a single data-frame-like object (xxxx_spct). The classes of
+#'   the returned objects are defined in package 'photobiology' and derived from
+#'   \code{list} and \code{data.frame} respectively.
+#' 
+#'   Objects of class \code{pavo::rspec} do not contain metadata or class 
 #'   data from which the quantity measured and the units of expression could be 
-#'   obtained. When using this function the user needs to use parameter 
-#'   \code{multiplier} to convert the data to what is expected by the object 
-#'   constructors defined in package 'photobiology' and use parameter 
-#'   \code{spct.data.var} to select the quantity.
+#'   retrieved. Thus, when using this function users need to use parameter 
+#'   \code{multiplier} to convert the data to the units and scaling that is 
+#'   expected by the object constructors defined in package 'photobiology' and
+#'   use parameter \code{spct.data.var} to indicate the physical quantity.
 #'   
-#'   \code{pavo::rspec} objects may use memory more efficiently than spectral 
-#'   objects of the classes for collections of spectra defined in package 
-#'   'photobiology' as wavelengths are assumed to be the same for all member 
-#'   spectra, and stored only once while this assumption is not made for 
-#'   collections of spectra, allowing different wavelengths and lengths for the 
-#'   component spectra. Wavelengths are stored for each spectrum, but as 
-#'   spectral classes are derived from 'tbl_df' in many cases no redundant 
-#'   copies of wavelength data will be made in memory in spite of the more 
-#'   flexible semantics of the objects.
+#'  @note \code{pavo::rspec} objects may use memory more efficiently than
+#'    spectral objects of the classes for collections of spectra defined in
+#'    package 'photobiology' as in 'pavo' wavelengths are assumed to be the same for all
+#'    spectra stored in an object. So, wavelengths are always stored only once 
+#'    per object. In contrast, 'photobiology' avoids this assumption allowing
+#'    heterogeneous collections containing member spectra with different wavelengths 
+#'    and lengths. This requires storing Wavelengths for each spectrum, but as
+#'    spectral classes are derived from 'tbl_df' in many cases redundant
+#'    copies of wavelength data are avoided by optimizations in 'tibble'.
 #'   
 #' @section Warning!: Always check the sanity of the imported or exported data 
 #'   values, as guessing is needed when matching the different classes, and the 
-#'   functions defined here are NOT guaranteed to return valid data wihtout help
+#'   functions defined here are NOT guaranteed to return valid data without help
 #'   from the user through optional function arguments.
 #'   
 #' @param x rspec object
-#' @param member.class character One of the spectrum classes defined in package 
-#'   'photobiology'.
-#' @param spct.data.var character The name to be used for the 'spc' data when 
-#'   constructing the spectral objects.
-#' @param multiplier numeric A multiplier to be applied to the 'rspc' data to do
-#'   unit or scale conversion.
+#' @param member.class character One of the spectrum classes defined in package
+#'   'photobiology'. Examples are `reflector_spct`, `filter_spct`,
+#'   `source_spct`, etc.
+#' @param spct.data.var character The name to be used for the 'spc' data when
+#'   constructing the spectral objects. Examples are spectral reflectance as
+#'   percent or as a fraction of one, `Rpc`, `Rfr`, spectral transmittance`Tpc`,
+#'   `Tfr`, spectral energy irradiance in \eqn{w m^{-2}} `s.e.irrad`, spectral
+#'   photon irradiance in \eqn{mol m^{-2} s^{-1}} `s.q.irrad`, etc.
+#' @param multiplier numeric A multiplier to be applied to spectral data in the
+#'   'rspc' object to do unit or scale conversion.
 #' @param ... currently ignored.
 #'   
 #' @export
@@ -233,7 +245,7 @@ rspec2mspct <- function(x,
                         multiplier = 1,
                         ...) {
   if (requireNamespace("pavo", quietly = TRUE)) {
-  stopifnot(inherits(x, "rspec"))
+  stopifnot("Class of 'x' is not 'rspec' as expected!" = inherits(x, "rspec"))
   spct.names <- colnames(x)[-1]
   z <- photobiology::split2mspct(x = x, 
                                  member.class = member.class, 
@@ -246,7 +258,7 @@ rspec2mspct <- function(x,
                       '\ncolnames: ', paste(colnames(x), collapse = ", "),
                       sep = "")
   } else {
-    warning("Package 'pavo' needs to be installed.")
+    warning("Package 'pavo' is required for 'rspec2mspct()' and 'rspec2mspct()'.")
     z <- call(sub("spct", "mscpt", member.class))
   }
   z
@@ -262,7 +274,6 @@ rspec2spct <- function(x, multiplier = 1, ...) {
   comment(z) <- comment(x[[1]])
   z
 }
-
 
 # colorSpec ---------------------------------------------------------------
 

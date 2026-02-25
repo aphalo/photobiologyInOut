@@ -37,11 +37,25 @@ Developing a package like this is a never-ending task as I have only a limited s
 
 This package is part of a suite of R packages for photobiological calculations described at the [r4photobiology](https://www.r4photobiology.info) web site.
 
+## Alternatives
+
+Currently, 'photobiologyInOut' only supports data import from text files, not binary file formats. R package ['lightr'](https://docs.ropensci.org/lightr/) supports additional file formats including binary ones containing data from spectrometers already supported by 'photobiologyInOut' through different text file formats, and also additional instruments and instrument brands not supported by 'photobiologyInOut'. The reverse is also true, 'photobiologyInOut' supports some file formats not supported by 'lightr' and several instruments not supported by 'lightr', radiation transfer models, on-line spectral data repositories, as well as data exchange with other R packages. The two packages in several respects complement each other. 
+
+The objects returned by the functions in 'photobiologyInOut' are derived from `data.frame' and can be easily used with base R and with many different R packages. The data and metadata are in no way locked into a special format. However, using functions from package 'photobiology' ensures that a trace of data transformations is kept and that checks are applied on the validity of operations and consistency of metadata relative to data. However, there is a moderate overhead involved in computations and additional dependencies on other packages because 'photobiologyInOut' depends on package 'photobiology', which in turn has additional dependencies. 
+
+Package 'lightr' uses an object format compatible with package ['pavo'](https://pavo.colrverse.com/). As 'photobiologyInOut' includes functions to import spectral from objects created with package 'pavo', data read with functions from package 'lightr' can be imported into a workflow based on 'photobiology' and related packages.
+
+The main focus of 'photobiology' is on the photobiology of plants and spectral properties of vegetation, and natural and artificial illumination to which plants are exposed. In contrast, the main focus of 'pavo' is on animal vision and animal colouration.
+
+Both 'lightr' and 'photobiologyInOut' retrieve metadata from the files from where data are imported. Functions from 'photobiologyInOut', follow the same approach as used in 'photobiology' and 'ooacquire', and store the parsed metadata as attributes of the same returned objects containing the spectral data. The attributes are named lists, allowing both storage of a minimum consistent set of fields and additional fields relevant only to specific instruments, models or cases. Metadata are always imported together with the spectral data in the same operation with the whole unparsed text file header stored as an attribute in addition to the parsed metadata.  In contrast, when using 'lightr' metadata are imported using a different function, that returns the metadata separate from the spectral data. Thus, in 'lightr' data and metadata are not guaranteed to be both imported every time, while package 'photobiology' necessarily defines many method and operator specializations to ensure that metadata are copied and updated.
+
 ## Warning
 
 **The functions in this package work with the example files I have had access to for testing, but they may not work with your own files as file formats vary and are subject to revision.**
 
 **PLEASE, BE VERY CAREFUL WHEN USING THIS PACKAGE. DO CHECK THAT UNITS USED IN THE IMPORTED FILE ARE THOSE EXPECTED BY THESE FUNCTIONS AND THAT THE VALUES IN THE RETRIEVED DATA ARE THOSE EXPECTED!**
+
+*This warning applies to any package that reads data from proprietary file formats as these formats can be modified by equipment and software suppliers at their own discretion.*
 
 _If the functions in this package do not work with your files, these functions hopefully will be useful as examples for developing your own functions. If you develop new functions or improve the existing ones, please, do contribute them back to this project as a pull request at GitHub or contact the maintainer. Sharing with the maintainer files that fail to be read correctly is also of great help._
 
@@ -97,5 +111,5 @@ citation("photobiologyInOut")
 
 ## License
 
-© 2015-2025 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
+© 2015-2026 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
 
