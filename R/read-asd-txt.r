@@ -59,52 +59,79 @@
 #' # energy spectral irradiance file
 #' 
 #'  file.name <-
-#'    system.file("extdata", "spectrum.OVIrrad", 
+#'    system.file("extdata", "irrad-sky.asd.txt", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
-#'  ooov.spct <- 
-#'    read_oo_ovirrad(file = file.name,
+#'  asd.source_spct <- 
+#'    read_asdtxt(file = file.name,
 #'                    locale = readr::locale("en", 
 #'                                           decimal_mark = ",",
 #'                                           grouping_mark = "",
-#'                                           tz = "Europe/Warsaw"))
+#'                                           tz = "Europe/Helsinki"))
 #'  
-#'  ooov.spct
-#'  getWhenMeasured(ooov.spct)
-#'  getWhatMeasured(ooov.spct)
-#'  getHowMeasured(ooov.spct)
-#'  cat(comment(ooov.spct))
-#' 
-#'  ooov_clipped.spct <- 
-#'    read_oo_ovirrad(file = file.name,
-#'                    locale = readr::locale("en", 
-#'                                           decimal_mark = ",",
-#'                                           grouping_mark = "",
-#'                                           tz = "Europe/Warsaw"),
-#'                    range = c(280, NA))
+#'  class_spct(asd.source_spct)
+#'  summary(asd.source_spct)
+#'  getWhenMeasured(asd.source_spct)
+#'  getWhatMeasured(asd.source_spct)
+#'  getHowMeasured(asd.source_spct)
+#'  cat(comment(asd.source_spct))
+#'  e_irrad(asd.source_spct)
+#'  q_irrad(asd.source_spct, w.band = c(400, 700), 
+#'          scale.factor = 1e6)
 #'  
-#'  ooov_clipped.spct
-#'  getWhenMeasured(ooov_clipped.spct)
-#'  getWhatMeasured(ooov_clipped.spct)
-#'  getHowMeasured(ooov_clipped.spct)
-#'  cat(comment(ooov_clipped.spct))
+#'  asd_clipped.source_spct <- 
+#'    read_asdtxt(file = file.name,
+#'                locale = readr::locale("en", 
+#'                                       decimal_mark = ",",
+#'                                       grouping_mark = "",
+#'                                       tz = "Europe/Helsinki"),
+#'                range = c(400, 700))
+#'  
+#'  class_spct(asd_clipped.source_spct)
+#'  summary(asd_clipped.source_spct)
 #' 
-read_asdtxt_irrad <- function(file,
-                            date = NULL,
-                            geocode = NULL,
-                            label = NULL,
-                            tz = NULL,
-                            locale = readr::default_locale(),
-                            range = NULL) {
+#' # spectral reflectance file
+#' 
+#'  file.name <-
+#'    system.file("extdata", "reflec-panel-50pc.asd.txt", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  asd.reflector_spct <- 
+#'    read_asdtxt(file = file.name,
+#'                locale = readr::locale("en", 
+#'                                       decimal_mark = ",",
+#'                                       grouping_mark = "",
+#'                                       tz = "Europe/Helsinki"))
+#'  
+#'  class_spct(asd.reflector_spct)
+#'  summary(asd.reflector_spct)
+#'  getWhenMeasured(asd.reflector_spct)
+#'  getWhatMeasured(asd.reflector_spct)
+#'  getHowMeasured(asd.reflector_spct)
+#'  cat(comment(asd.reflector_spct))
+#' 
+#'  asd_clipped.reflector_spct <- 
+#'    read_asdtxt(file = file.name,
+#'                locale = readr::locale("en", 
+#'                                       decimal_mark = ",",
+#'                                       grouping_mark = "",
+#'                                       tz = "Europe/Helsinki"),
+#'                range = c(400, 700))
+#'  
+#'  class_spct(asd_clipped.reflector_spct)
+#'  summary(asd_clipped.reflector_spct)
+#' 
+read_asdtxt <- function(file,
+                        qty.in = NULL,
+                        scale.factor = 1,
+                        date = NULL,
+                        geocode = NULL,
+                        label = NULL,
+                        tz = NULL,
+                        locale = readr::default_locale(),
+                        range = NULL) {
   if (is.null(tz)) {
     tz <- locale$tz
-  }
-  
-  label.file <- paste("File: ", basename(file), sep = "")
-  if (is.null(label)) {
-    label <- label.file
-  } else if (!is.na(label)) {
-    label <- paste(label.file, label, sep = "\n")
   }
   
   # line02 <- scan(file = file, nlines =  1, skip = 1, 
@@ -117,79 +144,124 @@ read_asdtxt_irrad <- function(file,
                       skip = 0, what="character",
                       blank.lines.skip = FALSE, # to get start of data
                       sep = "\n", quiet = TRUE)
-  # NonASCII <- tools::showNonASCII(file_header)
-  # if (length(NonASCII) > 0L) {
-  #   warning("Found non-ASCII characters in file header: ", 
-  #           NonASCII,
-  #           "replacing with ' '.")
-  #   file_header <- iconv(file_header, to = "ASCII", sub = " ")
-  # }
-  # ln.idx <- which(grepl("^Number of Pixels in Spectrum: ",
-  #                    file_header))
-  # npixels <- as.integer(sub("Number of Pixels in Spectrum: ", "", 
-  #                           file_header[ln.idx], fixed = TRUE))
-  # stopifnot("Header parsing failure" = 
-  #             !is.na(npixels) && is.integer(npixels) && length(npixels == 1))
-  # 
-  # ln.idx <- which(grepl("^Spectrometer: ", file_header))
-  # sr.sn <- trimws(sub("Spectrometer: ", "", file_header[ln.idx], fixed = TRUE))
-  # 
-  # ln.idx <- which(grepl("^User: ", file_header))
-  # sr.user <- trimws(sub("User: ", "",  file_header[ln.idx], fixed = TRUE))
-  # 
-  # if (is.null(date)) {
-  #   ln.idx <- which(grepl("^Date: ",
-  #                         file_header))
-  #   line02 <- sub("Date: [[:alpha:]]{3} ", "", file_header[ln.idx])
-  #   if (is.null(tz)) {
-  #     tz <- sub("^(.{16})([[:upper:]]{3,4})(.{5})$", "\\2", line02)
-  #     if (nchar(tz) == 4) {
-  #       tz <- sub("S", "", tz)
-  #     }
-  #   }
-  #   date <- lubridate::parse_date_time(line02, "mdHMSy", tz = tz, locale = "C")
-  # }
   
+  NonASCII <- tools::showNonASCII(file_header)
+  if (length(NonASCII) > 0L) {
+    warning("Found non-ASCII characters in file header: ",
+            NonASCII,
+            "replacing with ' '.")
+    file_header <- iconv(file_header, to = "ASCII", sub = " ")
+  }
+  if (is.null(qty.in)) {
+    if (any(grepl("Data is compared to a white reference:",
+                  file_header, 
+                  fixed = TRUE)
+            )) {
+      qty.in <- "Rfr"
+    } else if (any(grepl("There was a remote cosine receptor attached",
+                         file_header,
+                         fixed = TRUE)) &&
+               any(grepl("Data is not compared to a white reference",
+                         file_header,
+                         fixed = TRUE))) {
+                           qty.in <- "s.e.irrad"
+    } else if (any(grepl("There was no foreoptic attached",
+                         file_header,
+                         fixed = TRUE)) &&
+               any(grepl("Data is not compared to a white reference",
+                         file_header,
+                         fixed = TRUE))) {
+      qty.in <- "s.qty"
+    }
+  } 
+  spct.class <- switch(qty.in,
+                       s.e.irrad = "source_spct",
+                       Rfr = "reflector_spct",
+                       Tfr = "filter_spct",
+                       "generic_spct")
+
+  ln.idx <- which(grepl("^The instrument number was", file_header))
+  sr.sn <- trimws(sub("The instrument number was", "", file_header[ln.idx], fixed = TRUE))
+
+  ln.idx <- which(grepl("^User: ", file_header))
+  sr.user <- trimws(sub("User: ", "",  file_header[ln.idx], fixed = TRUE))
+
+  if (is.null(date)) {
+    ln.idx <- which(grepl("^Spectrum saved:",
+                          file_header))
+    line.date <- gsub("Spectrum saved: | at", "", file_header[ln.idx])
+    date <- lubridate::mdy_hms(line.date, tz = tz)
+  }
+
   to.skip <- which(grepl("^Wavelength", file_header))
   stopifnot("Header parsing failure" = 
               !is.na(to.skip) && is.integer(to.skip) && length(to.skip == 1))
+  original.name <- gsub("^Wavelength", "", file_header[[to.skip]])
+  original.name <- trimws(original.name)
   
   z <- utils::read.table(
     file = file,
     header = TRUE,
-    col.names = c("w.length", "s.e.irrad"),
+    col.names = c("w.length", qty.in),
     skip = to.skip,
     colClasses = "numeric"
   )
   
-#  z[["s.e.irrad"]] <- z[["s.e.irrad"]] * 1e-2 # uW cm-2 nm-1 -> W m-2 nm-1
+  z[[qty.in]] <- z[[qty.in]] * scale.factor
 
   old.opts <- options("photobiology.strict.range" = NA_integer_)
-  z <- photobiology::as.source_spct(z, time.unit = "second")
-  if (!is.null(range)) {
-    z <- photobiology::clip_wl(z, range)
+  if (spct.class == "source_spct") {
+    z <- photobiology::as.source_spct(z, time.unit = "second")
+    if (!is.null(range)) {
+      z <- photobiology::clip_wl(z, range)
+    }
+  } else if (spct.class == "reflector_spct") {
+    z <- photobiology::as.reflector_spct(z)
+    if (!is.null(range)) {
+      z <- photobiology::clip_wl(z, range)
+    }
+  } else if (spct.class == "filter_spct") {
+    z <- photobiology::as.filter_spct(z, Tfr.type = "total")
+    if (!is.null(range)) {
+      z <- photobiology::clip_wl(z, range)
+    }
+  } else if (spct.class == "generic_spct") {
+    z <- photobiology::as.generic_spct(z)
+    if (!is.null(range)) {
+      z <- photobiology::clip_wl(z, range)
+    }
+  } else {
+    warning("Returning a data frame!!")
   }
+  
   options(old.opts)
 
-  # comment(z) <-
-  #   paste("Ocean Optics OceanView irradiance file '", basename(file), 
-  #         "' imported on ", 
-  #         lubridate::round_date(lubridate::now(tzone = "UTC")), " UTC ",
-  #         "with function 'read_oo_ovirrad()'.\n",
-  #         "R packages 'photobiologyInOut' ", 
-  #         utils::packageVersion(pkg = "photobiologyInOut"), 
-  #         " and 'photobiology' ",
-  #         utils::packageVersion(pkg = "photobiology"), 
-  #         " were used.", sep = "")
-  # 
+  comment(z) <-
+    paste("Imported ASD text-converted file '", basename(file),
+          "' with quantity name '", original.name,
+          "' imported on ",
+          lubridate::round_date(lubridate::now(tzone = "UTC")), " UTC ",
+          "with function 'read_asdtxt()'.\n",
+          "R packages 'photobiologyInOut' ",
+          utils::packageVersion(pkg = "photobiologyInOut"),
+          " and 'photobiology' ",
+          utils::packageVersion(pkg = "photobiology"),
+          " were used.", sep = "")
+
   # how.measured <- paste("Measured by user ", sr.user, 
   #                       " with Ocean Optics spectrometer with s.n. ",
   #                       sr.sn, " and OceanView software.", sep = "")
   # 
   # photobiology::setHowMeasured(z, how.measured)
-  # photobiology::setWhenMeasured(z, date)
+  photobiology::setWhenMeasured(z, date)
   # photobiology::setWhereMeasured(z, geocode)
-  # photobiology::setWhatMeasured(z, label)
+  label.file <- paste("File: ", basename(file), sep = "")
+  if (is.null(label)) {
+    label <- paste(label.file, "\nQty: '", original.name, "'", sep = "")
+  } else if (!is.na(label)) {
+    label <- paste(label.file, label, sep = "\n")
+  }
+  photobiology::setWhatMeasured(z, label)
   attr(z, "file.header") <- file_header[1:to.skip]
   z
 }
