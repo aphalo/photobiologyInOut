@@ -9,6 +9,12 @@ editor_options:
 Add support for StellarNet, Brewer, and Bentham spectrometers (examples
 of data files are welcome for these and other instruments).
 
+## photobiologyInOut 0.4.33
+
+- Add function `read_asdtxt()` for importing spectral energy irradiance,
+reflectance or transmittance data acquired ASD spectrometers and converted from
+binary to text with software from ASD.
+
 ## photobiologyInOut 0.4.32
 
 - Add function `read_oo_ovirrad()` for importing spectral energy irradiance data
