@@ -135,13 +135,13 @@ autoplot(read_avaspec_csv(file = ava.raw.file),
 asd.irrad.file <- 
   system.file("extdata", "irrad-sky.asd.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asdtxt(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
+read_asd_tsv(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
 
 ## ----------------------------------------------------
 asd.reflectance.file <- 
   system.file("extdata", "reflec-soil.asd.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asdtxt(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
+read_asd_tsv(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
 
 ## ----------------------------------------------------
 macam.raw.file <- 

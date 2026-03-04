@@ -438,7 +438,7 @@ autoplot(read_avaspec_csv(file = ava.raw.file),
 
 ### ASD array spectrometers 
 
-Data from ASD spectrometers is saved into binary files with name tag `.asd`. Software is available for conversion into tab-separated files of comma separated files. Function `read_asdtxt()` supports the import of tab-separated files. It extracts metadata from the file header and uses it to guess the quantity stored and then constructs an objects of one the classes from package 'photobiology'.
+Data from ASD spectrometers is saved into binary files with name tag `.asd`. Software is available for conversion into tab-separated files of comma separated files. Function `read_asd_tsv()` supports the import of tab-separated files. It extracts metadata from the file header and uses it to guess the quantity stored and then constructs an objects of one the classes from package 'photobiology'.
 
 The whole header and the first few rows of data from one of these files is shown below. The data are already expressed as expected by the functions from package 'photobiology'.
 
@@ -494,7 +494,7 @@ Energy irradiance, from the file shown above.
 asd.irrad.file <- 
   system.file("extdata", "irrad-sky.asd.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asdtxt(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
+read_asd_tsv(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
 ```
 
 Reflectance, from a different file. It is, however, not possible to extract from the header informatio to distinguish total, specular or at other angles of acceptance or direction measurements.
@@ -503,7 +503,7 @@ Reflectance, from a different file. It is, however, not possible to extract from
 asd.reflectance.file <- 
   system.file("extdata", "reflec-soil.asd.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asdtxt(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
+read_asd_tsv(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
 ```
 
 ### MACAM scanning spectrometers

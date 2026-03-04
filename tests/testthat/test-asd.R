@@ -1,14 +1,14 @@
 library("photobiology")
 library("lubridate")
 
-context("read ASD .txt file tab separated")
+context("read ASD ascii file tab separated")
 
 test_that("irradiance is read correctly", {
 
   file.name <- 
     system.file("extdata", "irrad-sky.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.source_spct <- read_asdtxt(file = file.name)
+  asd.source_spct <- read_asd_tsv(file = file.name)
   
   expect_equal(nrow(asd.source_spct), 2150)
   expect_equal(ncol(asd.source_spct), 2)
@@ -40,7 +40,7 @@ test_that("reflectance is read correctly", {
   file.name <- 
     system.file("extdata", "reflec-panel-50pc.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.reflector_spct <- read_asdtxt(file = file.name)
+  asd.reflector_spct <- read_asd_tsv(file = file.name)
   
   expect_equal(nrow(asd.reflector_spct), 2150)
   expect_equal(ncol(asd.reflector_spct), 2)
@@ -72,7 +72,7 @@ test_that("raw-counts are read correctly", {
   file.name <- 
     system.file("extdata", "DN-gravel.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.raw_spct <- read_asdtxt(file = file.name)
+  asd.raw_spct <- read_asd_tsv(file = file.name)
   
   expect_equal(nrow(asd.raw_spct), 2150)
   expect_equal(ncol(asd.raw_spct), 2)
@@ -100,7 +100,7 @@ test_that("arbitrary data is read correctly", {
   file.name <- 
     system.file("extdata", "DN-gravel.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.generic_spct <- read_asdtxt(file = file.name, s.qty = "zz")
+  asd.generic_spct <- read_asd_tsv(file = file.name, s.qty = "zz")
   
   expect_equal(nrow(asd.generic_spct), 2150)
   expect_equal(ncol(asd.generic_spct), 2)

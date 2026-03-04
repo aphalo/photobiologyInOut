@@ -11,9 +11,10 @@ of data files are welcome for these and other instruments).
 
 ## photobiologyInOut 0.4.33
 
-- Add function `read_asdtxt()` for importing spectral energy irradiance,
-reflectance or transmittance data acquired ASD spectrometers and converted from
-binary to text with software from ASD.
+- Add function `read_asd_tsv()` for importing spectral energy irradiance,
+reflectance or transmittance data acquired with ASD spectrometers and converted
+from binary to text with software from ASD.
+- Update the vignette.
 
 ## photobiologyInOut 0.4.32
 

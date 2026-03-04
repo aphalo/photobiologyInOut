@@ -1,10 +1,10 @@
 #' Read File Saved by ASD's conversion tool
 #' 
 #' Read the spectral data and parse the header of a energy irradiance, a
-#' reflectance or a transmittance data file as output by the text conversion
-#' tool for ASD spectrometers. ASD's field spectrometers measure VIS and SWIR
-#' radiation. The spectral irradiance text files seem to be tab plus space
-#' delimited.
+#' reflectance, a transmittance data, a raw-detector-counts data or arbitrary
+#' data file as output by the text conversion tool for ASD spectrometers when
+#' set for tab separated output. ASD's field spectrometers measure VIS and SWIR
+#' radiation.
 #' 
 #' @param file character string Path to the file to be read, following R's use
 #'   of forward slashes as separator for folder names.
@@ -36,19 +36,32 @@
 #' 
 #' @details The header of the file is first decoded and parsed to extract the
 #'   time of data acquisition and serial number of the spectrometer, and to
-#'   locate the start of the spectral data. The fields are located by name.
-#'   The spectral irradiance is re-expressed in \eqn{W m^{-2} nm^{-1}} and 
-#'   returned as an object of class \code{\link[photobiology]{source_spct}} 
-#'   with metadata stored in attributes \code{when.measured},
-#'   \code{what.measured}, and \code{how.measured} set to values extracted from
-#'   the header. The value stored in the \code{how.measured} attribute includes
-#'   the spectrometer serial number extracted from the file header. 
-#'   If an argument is passed to parameter \code{geocode}, its value is
-#'   saved in attribute \code{where.measured}. The file header in whole
-#'   is copied to attribute \code{file.header}. The object's \code{comment}
-#'   always gives a text that includes the file name, time of import, function
-#'   name and the version of packages 'photobiology' and 'photobiologyInOut' 
-#'   used.
+#'   locate the start of the spectral data. The time in the header is the local
+#'   time with no time zone information. Thus when file import takes place on a
+#'   different time zone than the measurement the measurement time zone must be
+#'   supplied by the user as an argument to parameter \code{tz} or as part of
+#'   the \code{locale}. The metadata fields in the header are located by text
+#'   matching.
+#'
+#'   Spectral irradiance is returned as an object of class
+#'   \code{\link[photobiology]{source_spct}}, reflectance as
+#'   \code{\link[photobiology]{reflector_spct}}, transmittance as
+#'   \code{\link[photobiology]{filter_spct}}, raw detector counts as
+#'   \code{\link[photobiology]{raw_spct}}, and arbitrary spectral values as
+#'   \code{\link[photobiology]{generic_spct}} objects with metadata stored in
+#'   attributes \code{when.measured}, \code{what.measured}, and
+#'   \code{how.measured}. The spectral quantity is guessed from the header
+#'   metadata by default, but an argument to \code{s.qty} can be passed to
+#'   override this default.
+#'
+#'   The value stored in the \code{how.measured} attribute includes the
+#'   spectrometer serial number extracted from the file header. If an argument
+#'   is passed to parameter \code{geocode}, its value is saved in attribute
+#'   \code{where.measured} (currently the geocode is not extracted from the file
+#'   header). The object's \code{comment} always gives a text that includes the
+#'   file name, time of import, function name and the version of packages
+#'   'photobiology' and 'photobiologyInOut' used. The file header in whole is
+#'   copied to attribute \code{file.header}.
 #'
 #' @return A \code{source_spct} object with a column \code{s.e.irrad} with
 #'   spectral energy irradiance in \eqn{W m^{-2} nm^{-1}}, or a
@@ -73,7 +86,7 @@
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  asd.source_spct <- 
-#'    read_asdtxt(file = file.name,
+#'    read_asd_tsv(file = file.name,
 #'                    locale = readr::locale("en", 
 #'                                           decimal_mark = ",",
 #'                                           grouping_mark = "",
@@ -90,7 +103,7 @@
 #'          scale.factor = 1e6)
 #'  
 #'  asd_clipped.source_spct <- 
-#'    read_asdtxt(file = file.name,
+#'    read_asd_tsv(file = file.name,
 #'                locale = readr::locale("en", 
 #'                                       decimal_mark = ",",
 #'                                       grouping_mark = "",
@@ -107,7 +120,7 @@
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  asd.reflector_spct <- 
-#'    read_asdtxt(file = file.name,
+#'    read_asd_tsv(file = file.name,
 #'                locale = readr::locale("en", 
 #'                                       decimal_mark = ",",
 #'                                       grouping_mark = "",
@@ -121,7 +134,7 @@
 #'  cat(comment(asd.reflector_spct))
 #' 
 #'  asd_clipped.reflector_spct <- 
-#'    read_asdtxt(file = file.name,
+#'    read_asd_tsv(file = file.name,
 #'                locale = readr::locale("en", 
 #'                                       decimal_mark = ",",
 #'                                       grouping_mark = "",
@@ -138,7 +151,7 @@
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  asd.raw_spct <- 
-#'    read_asdtxt(file = file.name,
+#'    read_asd_tsv(file = file.name,
 #'                    locale = readr::locale("en", 
 #'                                           decimal_mark = ",",
 #'                                           grouping_mark = "",
@@ -151,7 +164,7 @@
 #'  getHowMeasured(asd.raw_spct)
 #'  cat(comment(asd.raw_spct))
 #' 
-read_asdtxt <- function(file,
+read_asd_tsv <- function(file,
                         date = NULL,
                         geocode = NULL,
                         label = NULL,
@@ -273,7 +286,7 @@ read_asdtxt <- function(file,
           "' with quantity name '", original.name,
           "' imported on ",
           lubridate::round_date(lubridate::now(tzone = "UTC")), " UTC ",
-          "with function 'read_asdtxt()'.\n",
+          "with function 'read_asd_tsv()'.\n",
           "R packages 'photobiologyInOut' ",
           utils::packageVersion(pkg = "photobiologyInOut"),
           " and 'photobiology' ",
