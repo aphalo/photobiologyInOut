@@ -6,27 +6,19 @@
 \usage{
 read_asdtxt(
   file,
-  qty.in = NULL,
-  scale.factor = 1,
   date = NULL,
   geocode = NULL,
   label = NULL,
   tz = NULL,
   locale = readr::default_locale(),
+  s.qty = NULL,
+  scale.factor = 1,
   range = NULL
 )
 }
 \arguments{
 \item{file}{character string Path to the file to be read, following R's use
 of forward slashes as separator for folder names.}
-
-\item{qty.in}{character string The name of the quantity to be read as by
-object constructors from 'photobiology'. If \code{NULL} quantity is guessed
-from file header.}
-
-\item{scale.factor}{numeric Multiplier to be applied to the spectral data so
-that it matches \code{qty.in} in base of expression and units. In most cases
-the default of 1.0 is correct.}
 
 \item{date}{a \code{POSIXct} object to use to set the \code{"when.measured"}
 attribute. If \code{NULL}, the default, the date is extracted from the file
@@ -48,6 +40,14 @@ default locale is US-centric (like R), but you can use
 like the default time zone, encoding, decimal mark, big mark, and day/month
 names. Its value must match that used to write the imported file, which is
 not necessarily the default one or the local one.}
+
+\item{s.qty}{character string The name of the quantity to be read as by
+object constructors from 'photobiology'. If \code{NULL} quantity is guessed
+from file header.}
+
+\item{scale.factor}{numeric Multiplier to be applied to the spectral data so
+that it matches \code{s.qty} in base of expression and units. In most cases
+the default of 1.0 is correct.}
 
 \item{range}{a numeric vector of length two, or any other object for which
 function \code{range()} will return a range of wavelengths expressed in
@@ -154,6 +154,26 @@ The header of the file is first decoded and parsed to extract the
  
  class_spct(asd_clipped.reflector_spct)
  summary(asd_clipped.reflector_spct)
+ 
+ # Raw-counts data
+
+ file.name <-
+   system.file("extdata", "DN-gravel.asd.txt", 
+               package = "photobiologyInOut", mustWork = TRUE)
+                
+ asd.raw_spct <- 
+   read_asdtxt(file = file.name,
+                   locale = readr::locale("en", 
+                                          decimal_mark = ",",
+                                          grouping_mark = "",
+                                          tz = "Europe/Helsinki"))
+ 
+ class_spct(asd.raw_spct)
+ summary(asd.raw_spct)
+ getWhenMeasured(asd.raw_spct)
+ getWhatMeasured(asd.raw_spct)
+ getHowMeasured(asd.raw_spct)
+ cat(comment(asd.raw_spct))
 
 }
 \references{

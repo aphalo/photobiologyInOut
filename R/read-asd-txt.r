@@ -8,12 +8,6 @@
 #' 
 #' @param file character string Path to the file to be read, following R's use
 #'   of forward slashes as separator for folder names.
-#' @param qty.in character string The name of the quantity to be read as by
-#'   object constructors from 'photobiology'. If \code{NULL} quantity is guessed
-#'   from file header.
-#' @param scale.factor numeric Multiplier to be applied to the spectral data so
-#'   that it matches \code{qty.in} in base of expression and units. In most cases
-#'   the default of 1.0 is correct.
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
 #'   attribute. If \code{NULL}, the default, the date is extracted from the file
 #'   header.
@@ -30,6 +24,12 @@
 #'   like the default time zone, encoding, decimal mark, big mark, and day/month
 #'   names. Its value must match that used to write the imported file, which is
 #'   not necessarily the default one or the local one.
+#' @param s.qty character string The name of the quantity to be read as by
+#'   object constructors from 'photobiology'. If \code{NULL} quantity is guessed
+#'   from file header.
+#' @param scale.factor numeric Multiplier to be applied to the spectral data so
+#'   that it matches \code{s.qty} in base of expression and units. In most cases
+#'   the default of 1.0 is correct.
 #' @param range a numeric vector of length two, or any other object for which
 #'   function \code{range()} will return a range of wavelengths expressed in
 #'   nanometres.
@@ -130,15 +130,35 @@
 #'  
 #'  class_spct(asd_clipped.reflector_spct)
 #'  summary(asd_clipped.reflector_spct)
+#'  
+#'  # Raw-counts data
+#' 
+#'  file.name <-
+#'    system.file("extdata", "DN-gravel.asd.txt", 
+#'                package = "photobiologyInOut", mustWork = TRUE)
+#'                 
+#'  asd.raw_spct <- 
+#'    read_asdtxt(file = file.name,
+#'                    locale = readr::locale("en", 
+#'                                           decimal_mark = ",",
+#'                                           grouping_mark = "",
+#'                                           tz = "Europe/Helsinki"))
+#'  
+#'  class_spct(asd.raw_spct)
+#'  summary(asd.raw_spct)
+#'  getWhenMeasured(asd.raw_spct)
+#'  getWhatMeasured(asd.raw_spct)
+#'  getHowMeasured(asd.raw_spct)
+#'  cat(comment(asd.raw_spct))
 #' 
 read_asdtxt <- function(file,
-                        qty.in = NULL,
-                        scale.factor = 1,
                         date = NULL,
                         geocode = NULL,
                         label = NULL,
                         tz = NULL,
                         locale = readr::default_locale(),
+                        s.qty = NULL,
+                        scale.factor = 1,
                         range = NULL) {
   if (is.null(tz)) {
     tz <- locale$tz
@@ -161,32 +181,33 @@ read_asdtxt <- function(file,
             "'lacks the expected ASD header: skipping!!")
     return(photobiology::source_spct())
   }
-  if (is.null(qty.in)) {
+  if (is.null(s.qty)) {
     if (any(grepl("Data is compared to a white reference:",
                   file_header, 
                   fixed = TRUE)
             )) {
-      qty.in <- "Rfr"
+      s.qty <- "Rfr"
     } else if (any(grepl("There was a remote cosine receptor attached",
                          file_header,
                          fixed = TRUE)) &&
                any(grepl("Data is not compared to a white reference",
                          file_header,
                          fixed = TRUE))) {
-                           qty.in <- "s.e.irrad"
+                           s.qty <- "s.e.irrad"
     } else if (any(grepl("There was no foreoptic attached",
                          file_header,
                          fixed = TRUE)) &&
                any(grepl("Data is not compared to a white reference",
                          file_header,
                          fixed = TRUE))) {
-      qty.in <- "s.qty"
+      s.qty <- "counts"
     }
   } 
-  spct.class <- switch(qty.in,
+  spct.class <- switch(s.qty,
                        s.e.irrad = "source_spct",
                        Rfr = "reflector_spct",
                        Tfr = "filter_spct",
+                       counts = "raw_spct",
                        "generic_spct")
 
   ln.idx <- which(grepl("^The instrument number was", file_header))
@@ -208,12 +229,12 @@ read_asdtxt <- function(file,
   z <- utils::read.table(
     file = file,
     header = TRUE,
-    col.names = c("w.length", qty.in),
+    col.names = c("w.length", s.qty),
     skip = to.skip,
     colClasses = "numeric"
   )
   
-  z[[qty.in]] <- z[[qty.in]] * scale.factor
+  z[[s.qty]] <- z[[s.qty]] * scale.factor
 
   old.opts <- options("photobiology.strict.range" = NA_integer_)
   if (spct.class == "source_spct") {
@@ -228,6 +249,11 @@ read_asdtxt <- function(file,
     }
   } else if (spct.class == "filter_spct") {
     z <- photobiology::as.filter_spct(z, Tfr.type = "total")
+    if (!is.null(range)) {
+      z <- photobiology::clip_wl(z, range)
+    }
+  } else if (spct.class == "raw_spct") {
+    z <- photobiology::as.raw_spct(z)
     if (!is.null(range)) {
       z <- photobiology::clip_wl(z, range)
     }
