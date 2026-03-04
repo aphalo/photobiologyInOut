@@ -41,6 +41,23 @@ options(tibble.print_max = 5,
         photobiology.strict.range = NA_integer_)
 
 ## ----------------------------------------------------
+q.raw.file <- 
+  system.file("extdata", "spectrum.SSIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
+autoplot(read_oo_ssirrad(file = q.raw.file))
+
+## ----------------------------------------------------
+q.raw.file <- 
+  system.file("extdata", "spectrum.OVIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
+autoplot(read_oo_ovirrad(file = q.raw.file, 
+                         locale = readr::locale("en", 
+                                                decimal_mark = ",",
+                                                grouping_mark = "",
+                                                tz = "Europe/Warsaw")),
+         range = c(300, NA))
+
+## ----------------------------------------------------
 jaz.raw.file <- 
   system.file("extdata", "spectrum.jaz", 
               package = "photobiologyInOut", mustWork = TRUE)
@@ -94,12 +111,6 @@ autoplot(smooth_spct(read_oo_jazirrad(file = jaz.s.irrad.file)),
      range = c(250,850))
 
 ## ----------------------------------------------------
-q.raw.file <- 
-  system.file("extdata", "spectrum.SSIrrad", 
-              package = "photobiologyInOut", mustWork = TRUE)
-autoplot(read_oo_ssirrad(file = q.raw.file))
-
-## ----------------------------------------------------
 file.name <- 
     system.file("extdata", "enlighten-wasatch-scope.csv",
                 package = "photobiologyInOut", mustWork = TRUE)
@@ -119,6 +130,18 @@ ava.raw.file <-
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_avaspec_csv(file = ava.raw.file),
      range = c(280, 900), unit.out = "photon")
+
+## ----------------------------------------------------
+asd.irrad.file <- 
+  system.file("extdata", "irrad-sky.asd.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+read_asdtxt(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
+
+## ----------------------------------------------------
+asd.reflectance.file <- 
+  system.file("extdata", "reflec-soil.asd.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+read_asdtxt(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
 
 ## ----------------------------------------------------
 macam.raw.file <- 

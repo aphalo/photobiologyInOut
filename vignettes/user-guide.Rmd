@@ -88,22 +88,26 @@ Functions for importing measured spectral data.
 
 | R function             | Instrument             | Program           | `class` of value |
 |:-----------------------|:-----------------------|:------------------|:-----------------|
-| `read_oo_ssirrad()`    | Ocean Optics spectrom. | SpectraSuite      | `source_spct`     |
-| `read_oo_ssdata()`     | Ocean Optics spectrom. | SpectraSuite      | `raw_spct`        |
-| `read_oo_ovirrad()`    | Ocean Optics spectrom. | OceanView         | `source_spct`     |
-| `read_oo_jazirrad()`   | Ocean Optics Jaz       | *instrument*      | `source_spct`     |
-| `read_oo_jazpc()`      | Ocean Optics Jaz       | *instrument*      | `filter_spct`     |
-| `read_oo_jazpc()`      | Ocean Optics Jaz       | *instrument*      | `reflector_spct`  |
-| `read_oo_jazdata()`    | Ocean Optics Jaz       | *instrument*      | `raw_spct`        |
-| `read_oo_pidata()`     | Ocean Optics spectrom. | STS DK (Raspbian) | `raw_spct`        |
-| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `raw_spct`        |
-| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `filter_spct`     |
-| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `reflector_spct`  |
-| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `source_spct`     |
-| `read_cid_spectravue_csv()`   | CID Bio-Science CI-710s | *instrument*      | `filter_spct`     |
-| `read_cid_spectravue_csv()`   | CID Bio-Science CI-710s | *instrument*      | `reflector_spct`  |
-| `read_cid_spectravue_csv()`   | CID Bio-Science CI-710s | *instrument*      | `object_spct`     |
-| `read_avaspec_csv()`   | Avantes spectrom.      | *instrument?*     | `source_spct`     |
+| `read_oo_ssirrad()`    | Ocean Optics spectrom. | SpectraSuite      | `source_spct`    |
+| `read_oo_ssdata()`     | Ocean Optics spectrom. | SpectraSuite      | `raw_spct`       |
+| `read_oo_ovirrad()`    | Ocean Optics spectrom. | OceanView         | `source_spct`    |
+| `read_oo_jazirrad()`   | Ocean Optics Jaz       | *instrument*      | `source_spct`    |
+| `read_oo_jazpc()`      | Ocean Optics Jaz       | *instrument*      | `filter_spct`    |
+| `read_oo_jazpc()`      | Ocean Optics Jaz       | *instrument*      | `reflector_spct` |
+| `read_oo_jazdata()`    | Ocean Optics Jaz       | *instrument*      | `raw_spct`       |
+| `read_oo_pidata()`     | Ocean Optics spectrom. | STS DK (Raspbian) | `raw_spct`       |
+| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `raw_spct`       |
+| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `filter_spct`    |
+| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `reflector_spct` |
+| `read_wasatch_csv()`   | Wasatch Phot. spectrom. | Enlighten        | `source_spct`    |
+| `read_cid_spectravue_csv()` | CID Bio-Science CI-710s | *instrument* | `filter_spct`   |
+| `read_cid_spectravue_csv()` | CID Bio-Science CI-710s | *instrument* | `reflector_spct` |
+| `read_cid_spectravue_csv()` | CID Bio-Science CI-710s | *instrument* | `object_spct`   |
+| `read_avaspec_csv()`   | Avantes spectrom.      | *instrument?*     | `source_spct`    |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `source_spct`     |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `reflector_spct`  |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `filter_spct`     |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `generic_spct`    |
 | `read_macam_file()`    | Macam                  | *instrument*      | `source_spct`     |
 | `read_li180_txt()`    | LI-COR LI-180          | *instrument*      | `source_spct`     |
 | `read_m_li180_txt()`  | LI-COR LI-180          | *instrument*      | `source_mspct`    |
@@ -113,13 +117,92 @@ Functions for importing measured spectral data.
 | `read_m_licor_prn()` | LI-COR LI-1800         | PC1800 (MS-DOS)   | `source_mspct`    |
 | `read_m_licor_prn()` | LI-COR LI-1800         | PC1800 (MS-DOS)   | `filter_mspct`    |
 | `read_m_licor_prn()` | LI-COR LI-1800         | PC1800 (MS-DOS)   | `reflector_mspct` |
-| `read_spectrapen_csv()` | PSI SpectraPen      | *instrument* (?)    | `source_spct`     |
+| `read_spectrapen_csv()` | PSI SpectraPen      | *instrument* (?)    | `source_spct`   |
 
-### Ocean Optics Jaz
+### Ocean Optics spectrometers
 
-#### Raw detector counts
+Most Ocean Optics array spectrometers are used tethered to a computer, either locally through USB, or remotely through Ethernet. The Jaz modular spectrometer was an exception to this as it can be used autonomously through a simple built-in keyboard and a minuscule display. In addition to these two programs, software for use on Raspberry Pi SBCs was available for some time. See packages 'rOmniDriver' and 'ooacquire' for support of data acquisition directly from within R.
 
-Reading a raw data file generated by Ocean Optics' Jaz spectrometer. The light source was the Jaz PX pulsed Xenon light module.
+#### SpectraSuite software
+
+The _SpectraSuite_ program supported nearly all Ocean Optics array spectrometers returned similar text files for all of them. However, this program was later replaced by the _OceanView_ program.
+
+A file from an Ocean Optics' Q6500 spectrometer, with data processed with the SpectraSuite software.
+
+Format of the header is similar, but not identical. The first few lines of the file look like this:
+
+```
+SpectraSuite Data File
+++++++++++++++++++++++++++++++++++++
+Date: Mon May 06 15:13:40 CEST 2013
+User: User
+Dark Spectrum Present: Yes
+Reference Spectrum Present: No
+Number of Sampled Component Spectra: 1
+Spectrometers: QEB1523
+Integration Time (usec): 100000 (QEB1523)
+Spectra Averaged: 1 (QEB1523)
+Boxcar Smoothing: 0 (QEB1523)
+Correct for Electrical Dark: No (QEB1523)
+Strobe/Lamp Enabled: No (QEB1523)
+Correct for Detector Non-linearity: No (QEB1523)
+Correct for Stray Light: Yes (QEB1523)
+Number of Pixels in Processed Spectrum: 1044
+>>>>>Begin Processed Spectral Data<<<<<
+199.08	0.0000E00
+199.89	0.0000E00
+200.70	0.0000E00
+...
+```
+
+```{r}
+q.raw.file <- 
+  system.file("extdata", "spectrum.SSIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
+autoplot(read_oo_ssirrad(file = q.raw.file))
+```
+
+#### OceanView software
+
+SpectraSuite was replaced by the currently available OceanView program. Although the output files saved with this program are similar to those saved by SåectrSuite, they differ enough to require different decoding of metadata.
+
+```
+Data from zoltapolka77percent_AbsoluteIrradiance__0__19-20-35-388.txt Node
+
+Date: Thu Jun 19 19:20:35 CEST 2025
+User: DM
+Spectrometer: HR600768
+Trigger mode: 0
+Integration Time (sec): 1,000000E-1
+Scans to average: 5
+Nonlinearity correction enabled: true
+Boxcar width: 0
+Storing dark spectrum: false
+XAxis mode: Wavelengths
+Number of Pixels in Spectrum: 2048
+>>>>>Begin Spectral Data<<<<<
+178,699	0
+179,053	0
+179,407	0
+```
+
+```{r}
+q.raw.file <- 
+  system.file("extdata", "spectrum.OVIrrad", 
+              package = "photobiologyInOut", mustWork = TRUE)
+autoplot(read_oo_ovirrad(file = q.raw.file, 
+                         locale = readr::locale("en", 
+                                                decimal_mark = ",",
+                                                grouping_mark = "",
+                                                tz = "Europe/Warsaw")),
+         range = c(300, NA))
+```
+
+#### Jaz: Raw detector counts
+
+Contrary to other OceanOptics array spectrometers, the Jaz modular spectromter is autonomous and can save spectral data directly to memory cards. The format of these files is similar but not the same as those described above.
+
+Reading a raw data file generated by Ocean Optics' Jaz spectrometer is the first example. The light source was the Jaz PX pulsed Xenon light module. 
 
 The first few lines of the file look like this, with W for wavelength, D for dark, R for reference, S for sample and P for processed (all spectral data values are raw detector counts):
 
@@ -179,7 +262,7 @@ getInstrDesc(jazraw.spct)
 getInstrSettings(jazraw.spct)
 ```
 
-#### Spectral energy irradiance
+#### Jaz: Spectral energy irradiance
 
 Reading an "Absolute Irradiance File" (sic) generated by Ocean Optics' Jaz spectrometer results in a `source_spct` object. In this example, the light source measured was a `white' fluorescent tube.
 
@@ -227,7 +310,7 @@ Plotting the spectrum.
 autoplot(jaz.spct)
 ```
 
-### Cleaning spectral data
+#### "Cleaning" spectral data
 
 We can see that the data have problems. We get a warning because the data include
 negative values for spectral irradiance. We will use some methods from package
@@ -279,45 +362,9 @@ autoplot(smooth_spct(read_oo_jazirrad(file = jaz.s.irrad.file)),
      range = c(250,850))
 ```
 
-### Other array spectrometers from Ocean Optics
+### Wasatch Photonics array spectrometers
 
-A file from an Ocean Optics' Q6500 spectrometer, with data processed with the SpectraSuite software.
-
-Format of the header is similar, but not identical. The first few lines of the file look like this:
-```
-SpectraSuite Data File
-++++++++++++++++++++++++++++++++++++
-Date: Mon May 06 15:13:40 CEST 2013
-User: User
-Dark Spectrum Present: Yes
-Reference Spectrum Present: No
-Number of Sampled Component Spectra: 1
-Spectrometers: QEB1523
-Integration Time (usec): 100000 (QEB1523)
-Spectra Averaged: 1 (QEB1523)
-Boxcar Smoothing: 0 (QEB1523)
-Correct for Electrical Dark: No (QEB1523)
-Strobe/Lamp Enabled: No (QEB1523)
-Correct for Detector Non-linearity: No (QEB1523)
-Correct for Stray Light: Yes (QEB1523)
-Number of Pixels in Processed Spectrum: 1044
->>>>>Begin Processed Spectral Data<<<<<
-199.08	0.0000E00
-199.89	0.0000E00
-200.70	0.0000E00
-...
-```
-
-```{r}
-q.raw.file <- 
-  system.file("extdata", "spectrum.SSIrrad", 
-              package = "photobiologyInOut", mustWork = TRUE)
-autoplot(read_oo_ssirrad(file = q.raw.file))
-```
-
-### Array spectrometers from Wasatch Photonics
-
-Enlighten can save spectral data in a variety of file formats. The function `read_wasatch_csv()` reads CSV files with spectral data in columns. It is designed so that it can read any variation of this file format. In Enlighten it is possible to select which columns are included in the file so their number can vary. However, the header is rich in information and this allows in many but not all cases to guess based on the "Technique" used in Enlighten the type of data being imported. This means that in some cases the user needs to pass an argument to parameter `s.qty`. This is also the case when the column to be extracted is not that with heading "Processed" in the CSV file. The metadata is as for Ocean Insight/Ocean Optics spectrometers copied to attributes in the returned object.
+The _Enlighten_ program from Wasatch Photonics can save spectral data in a variety of file formats. The function `read_wasatch_csv()` reads CSV files with spectral data in columns. It is designed so that it can read any variation of this file format. In _Enlighten_ it is possible to select which columns are included in the file so their number can vary. However, the header is rich in information and this allows in many but not all cases to guess based on the `"Technique"` used in _Enlighten_ the type of data being imported. This means that in some cases the user needs to pass an argument to parameter `s.qty`. This is also the case when the column to be extracted is not that with heading "Processed" in the CSV file. The metadata is as for Ocean Insight/Ocean Optics spectrometers copied to attributes in the returned object.
 
 Format of the header is simple and rather easy to parse. The header of the file and the first few lines look like this:
 ```
@@ -377,7 +424,7 @@ summary(wasatch.raw.spct)
 autoplot(wasatch.raw.spct)
 ```
 
-### Array spectrometers from Avantes
+### Avantes array spectrometers
 
 Avantes' two column .csv files can also be imported.
 
@@ -389,7 +436,77 @@ autoplot(read_avaspec_csv(file = ava.raw.file),
      range = c(280, 900), unit.out = "photon")
 ```
 
-### Scanning spectrometer from Macam
+### ASD array spectrometers 
+
+Data from ASD spectrometers is saved into binary files with name tag `.asd`. Software is available for conversion into tab-separated files of comma separated files. Function `read_asdtxt()` supports the import of tab-separated files. It extracts metadata from the file header and uses it to guess the quantity stored and then constructs an objects of one the classes from package 'photobiology'.
+
+The whole header and the first few rows of data from one of these files is shown below. The data are already expressed as expected by the functions from package 'photobiology'.
+
+```
+
+Text conversion of header file \h820\optphotolab\Drones\DJI__Mavic_3M\viikki-field_calibration__20240521\sky_irrad\irrad_sky__00073.asd
+ -------------------------------------------------------------
+                                                                                                                                                            
+The instrument number was  18875/1
+New ASD spectrum file: Program version = 6.04 file version = 7.00
+Spectrum saved: 05/21/2024 at 11:33:07
+VNIR integration time : 136
+VNIR channel 1 wavelength = 350 wavelength step = 1
+There was one sample per data value
+xmin = 350 xmax= 2500
+ymin= 0 ymax= 2.5
+The instrument digitizes spectral values to 16 bits
+SWIR1 gain was 16 offset was 2051
+SWIR2 gain was 16 offset was 2070
+Join between VNIR and SWIR1 was 1000 nm
+Join between SWIR1 and SWIR2 was 1800 nm
+VNIR dark signal subtracted
+100 dark measurements taken Tue May 21 11:27:15 2024
+DCC value was 0
+Data is not compared to a white reference
+There was a remote cosine receptor attached
+Spectrum file is raw data with embedded reference
+GPS-Latitude is S0
+GPS-Longitude is E0
+GPS-Altitude is 0
+GPS-UTC is 00:00:00
+
+Smart Detector
+Serial#  0
+Signal (A)  0.000E00
+Dark (A)  0.000E00
+Ref (A)  0.000E00
+Status  0 - Uninitialized
+Gain  E-4
+Averaging  0
+Temp (C)  0.0
+Humid (%)  0.0
+
+Wavelength	rad_sky-00073.asd
+350	 0.219269418855826 
+351	 0.215215995270273 
+352	 0.213627983394367 
+353	 0.220254134692977 
+```
+Energy irradiance, from the file shown above.
+
+```{r}
+asd.irrad.file <- 
+  system.file("extdata", "irrad-sky.asd.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+read_asdtxt(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
+```
+
+Reflectance, from a different file. It is, however, not possible to extract from the header informatio to distinguish total, specular or at other angles of acceptance or direction measurements.
+
+```{r}
+asd.reflectance.file <- 
+  system.file("extdata", "reflec-soil.asd.txt", 
+              package = "photobiologyInOut", mustWork = TRUE)
+read_asdtxt(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
+```
+
+### MACAM scanning spectrometers
 
 Macam's single column DTA files can also be imported.
 
@@ -415,7 +532,9 @@ macam.raw.file <-
 autoplot(read_macam_dta(file = macam.raw.file))
 ```
 
-### LI-180 array dector spectrometer from LI-COR
+### LI-COR spectrometers
+
+#### LI-180 array dector spectrometer from LI-COR
 
 The LI-COR LI-180 is a portable, self-contained instrument, with relatively low
 spectral resolution. This instrument measures spectral irradiance in the range 
@@ -536,7 +655,7 @@ getInstrSettings(li180.spct)
 autoplot(li180.spct, unit.out = "photon")
 ```
 
-### LI-1800 scanning spectrometer from LI-COR
+#### LI-1800 scanning spectrometer from LI-COR
 
 The LI-COR LI-1800 was developed in the early 1980's and remained available for
 many years. Some units are still in use although the technology has been
@@ -617,7 +736,7 @@ cat(comment(licor.spct))
 autoplot(licor.spct)
 ```
 
-### The SpectraPen spectroradiometer from PSI
+### PSI SpectraPen spectroradiometer
 
 This all-in-one spectroradiometer measures spectral irradiance, and returns the data in a `.CSV` file with one column per spectrum. The data are returned expressed in energy or photon based units.
 
@@ -666,7 +785,7 @@ autoplot(psi.mspct[["spct.14"]])
 
 **Note:** It is clear from the figure above that this spectrometer suffers badly from straylight in the UV-A region, and readings at wavelengths shorter than 400 nm in the presence of stronger radiation at longer wavelengths are to be discarded.
 
-### The leaf spectrometer from CID Bio-Science
+### CID Bio-Science leaf spectrometer
 
 This all-in-one spectrometer measures spectral reflectance, spectral transmittance or spectral absorbance of plant leaves or in fact any thin film. There is a single configuration available and being based on a microcontroller this instrument is used autonomously and spectral data saved internally can be exported as CSV files.
 

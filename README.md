@@ -27,7 +27,7 @@ metadata files to attributes of the returned objects, in most cases both
 the headers as text and parsed metadata extracted from them.
 
 Data files from **spectrometers** from the following suppliers are
-currently supported: CID Bio-Science, Wasatch Photonics, Avantes,
+currently supported: ASD, CID Bio-Science, Wasatch Photonics, Avantes,
 LI-COR, Macam Photonics, and Ocean Optics/Ocean Insight.
 
 Data files from **data loggers** from the following suppliers are
@@ -77,7 +77,7 @@ applied on the validity of operations and consistency of metadata
 relative to data. However, there is a moderate overhead involved in
 computations and additional dependencies on other packages because
 ‘photobiologyInOut’ depends on package ‘photobiology’, which in turn has
-additional dependencies.
+several additional dependencies.
 
 Package ‘lightr’ uses an object format compatible with package
 [‘pavo’](https://pavo.colrverse.com/). As ‘photobiologyInOut’ includes
