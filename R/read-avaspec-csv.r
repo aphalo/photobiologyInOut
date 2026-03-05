@@ -6,8 +6,8 @@
 #' 
 #' @param file character string
 #' @param date a \code{POSIXct} object to use to set the \code{"when.measured"}
-#'   attribute. If \code{NULL}, the default, the date is extracted from the
-#'   file header.
+#'   attribute. If \code{NULL}, the default, attribute \code{when.measured} 
+#'   is not set as the file header does not contain date and time information.
 #' @param geocode A data frame with columns \code{lon} and \code{lat} used to
 #'   set attribute \code{"where.measured"}.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
@@ -34,7 +34,9 @@
 #'  avaspec.spct <- read_avaspec_csv(file = file.name)
 #'  
 #'  avaspec.spct
-#'  getWhatMeasured(avaspec.spct)
+#'  what_measured(avaspec.spct)
+#'  when_measured(avaspec.spct)
+#'  how_measured(avaspec.spct)
 #'  cat(comment(avaspec.spct))
 #'  
 read_avaspec_csv <- function(file,
@@ -83,7 +85,7 @@ read_avaspec_csv <- function(file,
   photobiology::setWhenMeasured(z, date)
   photobiology::setWhereMeasured(z, geocode)
   photobiology::setWhatMeasured(z, label)
-  how <- "Measured with an array spectrometer."
+  how <- "Measured with an Avantes array spectrometer."
   photobiology::setHowMeasured(z, how)
   attr(z, "file.header") <- file_header
   z

@@ -8,7 +8,8 @@ test_that("irradiance is read correctly", {
   file.name <- 
     system.file("extdata", "irrad-sky.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.source_spct <- read_asd_tsv(file = file.name)
+  asd.source_spct <- read_asd_tsv(file = file.name,
+                                  tz = "Europe/Helsinki")
   
   expect_equal(nrow(asd.source_spct), 2150)
   expect_equal(ncol(asd.source_spct), 2)
@@ -23,7 +24,7 @@ test_that("irradiance is read correctly", {
   expect_is(asd.source_spct, "source_spct")
   expect_named(asd.source_spct, c("w.length", "s.e.irrad"))
   expect_equal(getWhenMeasured(asd.source_spct), 
-               ymd_hms("2024-05-21 11:33:07 UTC"))
+               ymd_hms("2024-05-21 08:33:07 UTC"))
   expect_equivalent(getWhereMeasured(asd.source_spct), 
                     data.frame(lon = NA_real_, lat = NA_real_, address = NA_character_, 
                                stringsAsFactors = FALSE))
@@ -40,7 +41,8 @@ test_that("reflectance is read correctly", {
   file.name <- 
     system.file("extdata", "reflec-panel-50pc.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.reflector_spct <- read_asd_tsv(file = file.name)
+  asd.reflector_spct <- read_asd_tsv(file = file.name,
+                                     tz = "Europe/Helsinki")
   
   expect_equal(nrow(asd.reflector_spct), 2150)
   expect_equal(ncol(asd.reflector_spct), 2)
@@ -55,7 +57,7 @@ test_that("reflectance is read correctly", {
   expect_is(asd.reflector_spct, "reflector_spct")
   expect_named(asd.reflector_spct, c("w.length", "Rfr"))
   expect_equal(getWhenMeasured(asd.reflector_spct), 
-               ymd_hms("2024-05-21 11:14:40 UTC"))
+               ymd_hms("2024-05-21 08:14:40 UTC"))
   expect_equivalent(getWhereMeasured(asd.reflector_spct), 
                     data.frame(lon = NA_real_, lat = NA_real_, address = NA_character_, 
                                stringsAsFactors = FALSE))
@@ -72,7 +74,8 @@ test_that("raw-counts are read correctly", {
   file.name <- 
     system.file("extdata", "DN-gravel.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.raw_spct <- read_asd_tsv(file = file.name)
+  asd.raw_spct <- read_asd_tsv(file = file.name,
+                               tz = "Europe/Helsinki")
   
   expect_equal(nrow(asd.raw_spct), 2150)
   expect_equal(ncol(asd.raw_spct), 2)
@@ -87,7 +90,7 @@ test_that("raw-counts are read correctly", {
   expect_is(asd.raw_spct, "raw_spct")
   expect_named(asd.raw_spct, c("w.length", "counts"))
   expect_equal(getWhenMeasured(asd.raw_spct), 
-               ymd_hms("2024-05-23 17:17:01 UTC"))
+               ymd_hms("2024-05-23 14:17:01 UTC"))
   expect_equivalent(getWhereMeasured(asd.raw_spct), 
                     data.frame(lon = NA_real_, lat = NA_real_, address = NA_character_, 
                                stringsAsFactors = FALSE))
@@ -100,7 +103,9 @@ test_that("arbitrary data is read correctly", {
   file.name <- 
     system.file("extdata", "DN-gravel.asd.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.generic_spct <- read_asd_tsv(file = file.name, s.qty = "zz")
+  asd.generic_spct <- read_asd_tsv(file = file.name, 
+                                   s.qty = "zz",
+                                   tz = "Europe/Helsinki")
   
   expect_equal(nrow(asd.generic_spct), 2150)
   expect_equal(ncol(asd.generic_spct), 2)
@@ -115,7 +120,7 @@ test_that("arbitrary data is read correctly", {
   expect_is(asd.generic_spct, "generic_spct")
   expect_named(asd.generic_spct, c("w.length", "zz"))
   expect_equal(getWhenMeasured(asd.generic_spct), 
-               ymd_hms("2024-05-23 17:17:01 UTC"))
+               ymd_hms("2024-05-23 14:17:01 UTC"))
   expect_equivalent(getWhereMeasured(asd.generic_spct), 
                     data.frame(lon = NA_real_, lat = NA_real_, address = NA_character_, 
                                stringsAsFactors = FALSE))

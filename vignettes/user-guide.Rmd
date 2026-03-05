@@ -494,7 +494,10 @@ Energy irradiance, from the file shown above.
 asd.irrad.file <- 
   system.file("extdata", "irrad-sky.asd.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asd_tsv(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
+read_asd_tsv(file = asd.irrad.file,
+             tz = "Europe/Helsinki") |> 
+  clip_wl(c(NA, 2200)) |> 
+  autoplot()
 ```
 
 Reflectance, from a different file. It is, however, not possible to extract from the header informatio to distinguish total, specular or at other angles of acceptance or direction measurements.
@@ -503,7 +506,10 @@ Reflectance, from a different file. It is, however, not possible to extract from
 asd.reflectance.file <- 
   system.file("extdata", "reflec-soil.asd.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asd_tsv(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
+read_asd_tsv(file = asd.reflectance.file,
+             tz = "Europe/Helsinki") |>
+  clip_wl(c(NA, 1350)) |>
+  autoplot()
 ```
 
 ### MACAM scanning spectrometers
