@@ -14,7 +14,7 @@ of data files are welcome for these and other instruments).
 - Rename example files in `extdata` using names more consistently starting with
 the brand name or program name. Files are used in examples and unit tests which
 have been updated with the new file names.
-- Add function `read_asd_tsv()` for importing spectral energy irradiance,
+- Add function `read_asd_txt()` for importing spectral energy irradiance,
 reflectance or transmittance data acquired with ASD spectrometers and converted
 from binary to text with software from ASD.
 - Update the vignette.

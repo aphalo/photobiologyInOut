@@ -112,10 +112,10 @@ Functions for importing measured spectral data.
 | `read_cid_spectravue_csv()` | CID Bio-Science CI-710s | *instrument* | `reflector_spct` |
 | `read_cid_spectravue_csv()` | CID Bio-Science CI-710s | *instrument* | `object_spct`   |
 | `read_avaspec_csv()`   | Avantes spectrom.      | *instrument?*     | `source_spct`    |
-| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `source_spct`     |
-| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `reflector_spct`  |
-| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `filter_spct`     |
-| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> .tx* | `generic_spct`    |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> text* | `source_spct`     |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> text* | `reflector_spct`  |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> text* | `filter_spct`     |
+| `read_asd_txt()`   | ASD spectrom.      | *software: .asd -> text* | `generic_spct`    |
 | `read_macam_file()`    | Macam                  | *instrument*      | `source_spct`     |
 | `read_li180_txt()`    | LI-COR LI-180          | *instrument*      | `source_spct`     |
 | `read_m_li180_txt()`  | LI-COR LI-180          | *instrument*      | `source_mspct`    |
@@ -463,7 +463,7 @@ autoplot(read_avaspec_csv(file = ava.raw.file),
 
 ### ASD array spectrometers 
 
-Data from ASD spectrometers is saved into binary files with name tag `.asd`. Software is available for conversion into tab-separated files of comma separated files. Function `read_asd_tsv()` supports the import of tab-separated files. It extracts metadata from the file header and uses it to guess the quantity stored and then constructs an objects of one the classes from package 'photobiology'.
+Data from ASD spectrometers is saved into binary files with name tag `.asd`. Software is available for conversion into tab-separated files of comma separated files. Function `read_asd_txt()` supports the import of tab-separated files. It extracts metadata from the file header and uses it to guess the quantity stored and then constructs an objects of one the classes from package 'photobiology'.
 
 Example files:
 ```{r}
@@ -524,7 +524,7 @@ Energy irradiance, from the file shown above.
 asd.irrad.file <- 
   system.file("extdata", "asd-e-irrad-sky.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asd_tsv(file = asd.irrad.file,
+read_asd_txt(file = asd.irrad.file,
              tz = "Europe/Helsinki") |> 
   clip_wl(c(NA, 2200)) |> 
   autoplot()
@@ -536,7 +536,7 @@ Reflectance, from a different file. It is, however, not possible to extract from
 asd.reflectance.file <- 
   system.file("extdata", "asd-Rfr-soil.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asd_tsv(file = asd.reflectance.file,
+read_asd_txt(file = asd.reflectance.file,
              tz = "Europe/Helsinki") |>
   clip_wl(c(NA, 1350)) |>
   autoplot()

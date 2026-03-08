@@ -96,7 +96,7 @@
 #'                mustWork = TRUE)
 #'                 
 #'  asd.source_spct <- 
-#'    read_asd_tsv(file = file.name,
+#'    read_asd_txt(file = file.name,
 #'                 tz = "Europe/Helsinki")
 #'  
 #'  class_spct(asd.source_spct)
@@ -110,7 +110,7 @@
 #'          scale.factor = 1e6)
 #'  
 #'  asd_clipped.source_spct <- 
-#'    read_asd_tsv(file = file.name,
+#'    read_asd_txt(file = file.name,
 #'                 tz = "Europe/Helsinki",
 #'                 range = c(400, 700))
 #'  
@@ -125,7 +125,7 @@
 #'                mustWork = TRUE)
 #'                 
 #'  asd.reflector_spct <- 
-#'    read_asd_tsv(file = file.name,
+#'    read_asd_txt(file = file.name,
 #'                 tz = "Europe/Helsinki")
 #'  
 #'  class_spct(asd.reflector_spct)
@@ -136,7 +136,7 @@
 #'  cat(comment(asd.reflector_spct))
 #' 
 #'  asd_clipped.reflector_spct <- 
-#'    read_asd_tsv(file = file.name,
+#'    read_asd_txt(file = file.name,
 #'                tz = "Europe/Helsinki",
 #'                range = c(400, 700))
 #'  
@@ -151,7 +151,7 @@
 #'                mustWork = TRUE)
 #'                 
 #'  asd.raw_spct <- 
-#'    read_asd_tsv(file = file.name,
+#'    read_asd_txt(file = file.name,
 #'                 tz = "Europe/Helsinki")
 #'  
 #'  class_spct(asd.raw_spct)
@@ -161,7 +161,7 @@
 #'  getHowMeasured(asd.raw_spct)
 #'  cat(comment(asd.raw_spct))
 #' 
-read_asd_tsv <- function(file,
+read_asd_txt <- function(file,
                         date = NULL,
                         geocode = NULL,
                         label = NULL,
@@ -291,7 +291,7 @@ read_asd_tsv <- function(file,
           "' with quantity name '", original.name,
           "' imported on ",
           lubridate::round_date(lubridate::now(tzone = "UTC")), " UTC ",
-          "with function 'read_asd_tsv()'.\n",
+          "with function 'read_asd_txt()'.\n",
           "R packages 'photobiologyInOut' ",
           utils::packageVersion(pkg = "photobiologyInOut"),
           " and 'photobiology' ",
