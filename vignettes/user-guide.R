@@ -152,13 +152,19 @@ list.files(extdata.path, pattern = "^asd-")
 asd.irrad.file <- 
   system.file("extdata", "asd-e-irrad-sky.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asd_tsv(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
+read_asd_tsv(file = asd.irrad.file,
+             tz = "Europe/Helsinki") |> 
+  clip_wl(c(NA, 2200)) |> 
+  autoplot()
 
 ## ----------------------------------------------------
 asd.reflectance.file <- 
   system.file("extdata", "asd-Rfr-soil.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
-read_asd_tsv(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
+read_asd_tsv(file = asd.reflectance.file,
+             tz = "Europe/Helsinki") |>
+  clip_wl(c(NA, 1350)) |>
+  autoplot()
 
 ## ----------------------------------------------------
 list.files(extdata.path, pattern = "^macam-")

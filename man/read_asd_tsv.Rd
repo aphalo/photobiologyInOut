@@ -31,11 +31,12 @@ optionally \code{address} used to set attribute \code{"where.measured"}.}
 attribute. If \code{NULL} the value of \code{basename(file)} is used, and
 if \code{NA} the \code{"what.measured"} attribute is not set.}
 
-\item{tz}{character A time zone recognized by R. If \code{NULL}, the default,
-it is extracted from `locale`.}
+\item{tz}{character A time zone recognized by R. If \code{NULL} it is
+extracted from \code{locale}. If \code{""}, the default, the local time
+zone is used.}
 
 \item{locale}{The locale controls defaults that vary from place to place. The
-default locale is US-centric (like R), but you can use
+default locale is US-centric (like R), with time in UTC but you can use
 \code{\link[readr]{locale}} to create your own locale that controls things
 like the default time zone, encoding, decimal mark, big mark, and day/month
 names. Its value must match that used to write the imported file, which is
@@ -73,6 +74,14 @@ measure VIS and SWIR radiation.
 }
 \details{
 The header of the file is first decoded and parsed to extract the
+  time of data acquisition and serial number of the spectrometer, and to
+  locate the start of the spectral data. The time in the header is the local
+  time with no time zone information. Thus with the default \code{tz = ""}
+  the time is re-expressed as UTC with a correction. When file import takes
+  place on a different time zone than the measurement the measurement time
+  zone must be supplied by the user as an argument to parameter \code{tz} or
+  as part of the \code{locale} after setting \code{tz = NULL}. The metadata
+  fields in the header are located by text matching.
   time of data acquisition and serial number of the spectrometer, to locate
   the start of the spectral data, and the separator used. The time in the
   header is the local time with no time zone information. Thus when file
@@ -113,15 +122,12 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
 # energy spectral irradiance file
 
  file.name <-
-   system.file("extdata", "asd-e-irrad-sky.tsv",
+   system.file("extdata", "irrad-sky.asd.txt", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
  asd.source_spct <- 
    read_asd_tsv(file = file.name,
-                   locale = readr::locale("en", 
-                                          decimal_mark = ",",
-                                          grouping_mark = "",
-                                          tz = "Europe/Helsinki"))
+                tz = "Europe/Helsinki")
  
  class_spct(asd.source_spct)
  summary(asd.source_spct)
@@ -135,11 +141,8 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
  
  asd_clipped.source_spct <- 
    read_asd_tsv(file = file.name,
-               locale = readr::locale("en", 
-                                      decimal_mark = ",",
-                                      grouping_mark = "",
-                                      tz = "Europe/Helsinki"),
-               range = c(400, 700))
+                tz = "Europe/Helsinki",
+                range = c(400, 700))
  
  class_spct(asd_clipped.source_spct)
  summary(asd_clipped.source_spct)
@@ -147,15 +150,12 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
 # spectral reflectance file
 
  file.name <-
-   system.file("extdata", "asd-Rfr-panel-50pc.tsv", 
+   system.file("extdata", "reflec-panel-50pc.asd.txt", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
  asd.reflector_spct <- 
    read_asd_tsv(file = file.name,
-               locale = readr::locale("en", 
-                                      decimal_mark = ",",
-                                      grouping_mark = "",
-                                      tz = "Europe/Helsinki"))
+                tz = "Europe/Helsinki")
  
  class_spct(asd.reflector_spct)
  summary(asd.reflector_spct)
@@ -166,10 +166,7 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
 
  asd_clipped.reflector_spct <- 
    read_asd_tsv(file = file.name,
-               locale = readr::locale("en", 
-                                      decimal_mark = ",",
-                                      grouping_mark = "",
-                                      tz = "Europe/Helsinki"),
+               tz = "Europe/Helsinki",
                range = c(400, 700))
  
  class_spct(asd_clipped.reflector_spct)
@@ -178,15 +175,12 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
  # Raw-counts data
 
  file.name <-
-   system.file("extdata", "asd-raw-gravel.tsv", 
+   system.file("extdata", "DN-gravel.asd.txt", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
  asd.raw_spct <- 
    read_asd_tsv(file = file.name,
-                   locale = readr::locale("en", 
-                                          decimal_mark = ",",
-                                          grouping_mark = "",
-                                          tz = "Europe/Helsinki"))
+                tz = "Europe/Helsinki")
  
  class_spct(asd.raw_spct)
  summary(asd.raw_spct)

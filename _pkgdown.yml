@@ -17,6 +17,7 @@ reference:
     - read_oo_pidata
     - read_oo_jazpc
     - read_oo_ovirrad
+    - read_asd_tsv
     - read_avaspec_csv
     - read_asd_tsv
     - read_macam_dta
