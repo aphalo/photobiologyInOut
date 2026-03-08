@@ -74,21 +74,15 @@ measure VIS and SWIR radiation.
 }
 \details{
 The header of the file is first decoded and parsed to extract the
-  time of data acquisition and serial number of the spectrometer, and to
-  locate the start of the spectral data. The time in the header is the local
-  time with no time zone information. Thus with the default \code{tz = ""}
-  the time is re-expressed as UTC with a correction. When file import takes
-  place on a different time zone than the measurement the measurement time
-  zone must be supplied by the user as an argument to parameter \code{tz} or
-  as part of the \code{locale} after setting \code{tz = NULL}. The metadata
-  fields in the header are located by text matching.
   time of data acquisition and serial number of the spectrometer, to locate
-  the start of the spectral data, and the separator used. The time in the
-  header is the local time with no time zone information. Thus when file
-  import takes place on a different time zone than the measurement the
-  measurement time zone must be supplied by the user as an argument to
-  parameter \code{tz} or as part of the \code{locale}. The metadata fields in
-  the header are located by text matching.
+  the start of the spectral data and to detect the column separator used. The
+  time in the header is the local time with no time zone information. Thus
+  with the default \code{tz = ""} the time is re-expressed as UTC with a
+  correction. When file import takes place on a different time zone than the
+  measurement the measurement time zone must be supplied by the user as an
+  argument to parameter \code{tz} or as part of the \code{locale} after
+  setting \code{tz = NULL}. The metadata fields in the header are located by
+  text matching.
 
   Spectral irradiance is returned as an object of class
   \code{\link[photobiology]{source_spct}}, reflectance as
@@ -114,16 +108,17 @@ The header of the file is first decoded and parsed to extract the
 Some files with ASD spectral data contain \code{nul} ASCII characters
   in the header. These are ignored with a warning while the data are still
   read. Depending on the program used to view these data files, only the top
-  three lines will be displayed, or the file will be detected as a binary
-  file.
+  three lines will be displayed, or the file will be detected as containing
+  binary data and not displayed.
 }
 \examples{
 
 # energy spectral irradiance file
 
  file.name <-
-   system.file("extdata", "irrad-sky.asd.txt", 
-               package = "photobiologyInOut", mustWork = TRUE)
+   system.file("extdata", "asd-e-irrad-sky.tsv", 
+               package = "photobiologyInOut", 
+               mustWork = TRUE)
                 
  asd.source_spct <- 
    read_asd_tsv(file = file.name,
@@ -150,8 +145,9 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
 # spectral reflectance file
 
  file.name <-
-   system.file("extdata", "reflec-panel-50pc.asd.txt", 
-               package = "photobiologyInOut", mustWork = TRUE)
+   system.file("extdata", "asd-Rfr-panel-50pc.tsv", 
+               package = "photobiologyInOut",
+               mustWork = TRUE)
                 
  asd.reflector_spct <- 
    read_asd_tsv(file = file.name,
@@ -175,8 +171,9 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
  # Raw-counts data
 
  file.name <-
-   system.file("extdata", "DN-gravel.asd.txt", 
-               package = "photobiologyInOut", mustWork = TRUE)
+   system.file("extdata", "asd-raw-gravel.tsv", 
+               package = "photobiologyInOut",
+               mustWork = TRUE)
                 
  asd.raw_spct <- 
    read_asd_tsv(file = file.name,

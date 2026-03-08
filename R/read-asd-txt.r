@@ -36,14 +36,15 @@
 #'   nanometres.
 #' 
 #' @details The header of the file is first decoded and parsed to extract the
-#'   time of data acquisition and serial number of the spectrometer, and to
-#'   locate the start of the spectral data. The time in the header is the local
-#'   time with no time zone information. Thus with the default \code{tz = ""}
-#'   the time is re-expressed as UTC with a correction. When file import takes
-#'   place on a different time zone than the measurement the measurement time
-#'   zone must be supplied by the user as an argument to parameter \code{tz} or
-#'   as part of the \code{locale} after setting \code{tz = NULL}. The metadata
-#'   fields in the header are located by text matching.
+#'   time of data acquisition and serial number of the spectrometer, to locate
+#'   the start of the spectral data and to detect the column separator used. The
+#'   time in the header is the local time with no time zone information. Thus
+#'   with the default \code{tz = ""} the time is re-expressed as UTC with a
+#'   correction. When file import takes place on a different time zone than the
+#'   measurement the measurement time zone must be supplied by the user as an
+#'   argument to parameter \code{tz} or as part of the \code{locale} after
+#'   setting \code{tz = NULL}. The metadata fields in the header are located by
+#'   text matching.
 #'
 #'   Spectral irradiance is returned as an object of class
 #'   \code{\link[photobiology]{source_spct}}, reflectance as
@@ -90,7 +91,7 @@
 #' # energy spectral irradiance file
 #' 
 #'  file.name <-
-#'    system.file("extdata", "irrad-sky.asd.txt", 
+#'    system.file("extdata", "asd-e-irrad-sky.tsv", 
 #'                package = "photobiologyInOut", 
 #'                mustWork = TRUE)
 #'                 
@@ -119,7 +120,7 @@
 #' # spectral reflectance file
 #' 
 #'  file.name <-
-#'    system.file("extdata", "reflec-panel-50pc.asd.txt", 
+#'    system.file("extdata", "asd-Rfr-panel-50pc.tsv", 
 #'                package = "photobiologyInOut",
 #'                mustWork = TRUE)
 #'                 
@@ -145,7 +146,7 @@
 #'  # Raw-counts data
 #' 
 #'  file.name <-
-#'    system.file("extdata", "DN-gravel.asd.txt", 
+#'    system.file("extdata", "asd-raw-gravel.tsv", 
 #'                package = "photobiologyInOut",
 #'                mustWork = TRUE)
 #'                 

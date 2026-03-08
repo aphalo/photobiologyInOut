@@ -27,8 +27,8 @@ read_avaspec_xls(
 \item{file}{character string}
 
 \item{date}{a \code{POSIXct} object to use to set the \code{"when.measured"}
-attribute. If \code{NULL}, the default, the date is extracted from the
-file header.}
+attribute. If \code{NULL}, the default, attribute \code{when.measured} 
+is not set as the file header does not contain date and time information.}
 
 \item{geocode}{A data frame with columns \code{lon} and \code{lat} used to
 set attribute \code{"where.measured"}.}
@@ -64,7 +64,9 @@ values. The file header has little useful metadata information.
  avaspec.spct <- read_avaspec_csv(file = file.name)
  
  avaspec.spct
- getWhatMeasured(avaspec.spct)
+ what_measured(avaspec.spct)
+ when_measured(avaspec.spct)
+ how_measured(avaspec.spct)
  cat(comment(avaspec.spct))
  
 }
