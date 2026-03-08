@@ -7,7 +7,7 @@ context("read Macam DTA file)")
 test_that("single spectrum (quantum)", {
 
   file.name <- 
-    system.file("extdata", "spectrum.DTA", 
+    system.file("extdata", "macam-e-irrad.DTA", 
                 package = "photobiologyInOut", mustWork = TRUE)
   macam.spct <- read_macam_dta(file = file.name,
                                tz = "Europe/Helsinki")

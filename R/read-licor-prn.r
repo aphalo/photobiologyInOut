@@ -46,7 +46,7 @@
 #' @examples
 #' 
 #'  file.name <- 
-#'    system.file("extdata", "spectrum.PRN", 
+#'    system.file("extdata", "licor-li1800-q-irrad.PRN", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  licor.spct <- read_licor_prn(file = file.name)

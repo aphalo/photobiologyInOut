@@ -52,7 +52,7 @@ spectrometer.
 \examples{
  # fetch path to example file to read
  file.name <-
-   system.file("extdata", "spectrum-psi-spectrapen-SP.csv",
+   system.file("extdata", "psi-spectrapen-SP.csv",
                package = "photobiologyInOut", mustWork = TRUE)
 
  spectrapen.mspct <- read_spectrapen_csv(file = file.name)

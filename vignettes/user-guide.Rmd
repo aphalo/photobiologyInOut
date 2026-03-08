@@ -82,6 +82,14 @@ options(tibble.print_max = 5,
 
 In the examples we use function _system-file_ to reliably locate the example files included in the package. For reproducing the examples with these files, this call is needed. When using user's files only the path as a character string needs to be passed as argument.
 
+We can also obtain the path to the folder were the example files are stored.
+
+```{r}
+extdata.path <- 
+  system.file("extdata", 
+              package = "photobiologyInOut", mustWork = TRUE)
+```
+
 In most cases the quantities in the files can be identified from the file contents allowing a single function to work adaptively. In cases when the format returned by different models of spectrometers from the same supplier is largely consistent, then a single function can read them all. In some cases the format depends on the computer software used to acquire the data, of which a single supplier may have had more than one over the years, thus requiring multiple functions. Some of the instruments supported have long been discontinued but in their time were very popular, like the LI-COR LI-1800 spectrometer from the late 1980's. The coverage of brands and models is limited by the instruments I have had access to, or have had at least access to a sample of files. As of version 0.4.24 data can be imported from files created by spectrometers and/or software from six different suppliers.
 
 Functions for importing measured spectral data.
@@ -123,6 +131,13 @@ Functions for importing measured spectral data.
 
 Most Ocean Optics array spectrometers are used tethered to a computer, either locally through USB, or remotely through Ethernet. The Jaz modular spectrometer was an exception to this as it can be used autonomously through a simple built-in keyboard and a minuscule display. In addition to these two programs, software for use on Raspberry Pi SBCs was available for some time. See packages 'rOmniDriver' and 'ooacquire' for support of data acquisition directly from within R.
 
+Example data files from Ocean Optics' spectrometers and software have names starting with `oo-`:
+
+```{r}
+list.files(extdata.path, pattern = "^oo-")
+```
+
+
 #### SpectraSuite software
 
 The _SpectraSuite_ program supported nearly all Ocean Optics array spectrometers returned similar text files for all of them. However, this program was later replaced by the _OceanView_ program.
@@ -157,7 +172,7 @@ Number of Pixels in Processed Spectrum: 1044
 
 ```{r}
 q.raw.file <- 
-  system.file("extdata", "spectrum.SSIrrad", 
+  system.file("extdata", "oo-spectrum.SSIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_oo_ssirrad(file = q.raw.file))
 ```
@@ -188,7 +203,7 @@ Number of Pixels in Spectrum: 2048
 
 ```{r}
 q.raw.file <- 
-  system.file("extdata", "spectrum.OVIrrad", 
+  system.file("extdata", "oo-spectrum.OVIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_oo_ovirrad(file = q.raw.file, 
                          locale = readr::locale("en", 
@@ -236,7 +251,7 @@ W	D	R	S	P
 
 ```{r}
 jaz.raw.file <- 
-  system.file("extdata", "spectrum.jaz", 
+  system.file("extdata", "oo-spectrum.jaz", 
               package = "photobiologyInOut", mustWork = TRUE)
 jazraw.spct <- read_oo_jazdata(file = jaz.raw.file)
 jazraw.spct <- trim_wl(jazraw.spct, range = c(250, 900))
@@ -297,7 +312,7 @@ W	D	S	P
 
 ```{r}
 jaz.s.irrad.file <- 
-  system.file("extdata", "spectrum.JazIrrad", 
+  system.file("extdata", "oo-spectrum.jazIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 jaz.spct <- read_oo_jazirrad(file = jaz.s.irrad.file)
 jaz0.spct <- jaz.spct
@@ -366,6 +381,11 @@ autoplot(smooth_spct(read_oo_jazirrad(file = jaz.s.irrad.file)),
 
 The _Enlighten_ program from Wasatch Photonics can save spectral data in a variety of file formats. The function `read_wasatch_csv()` reads CSV files with spectral data in columns. It is designed so that it can read any variation of this file format. In _Enlighten_ it is possible to select which columns are included in the file so their number can vary. However, the header is rich in information and this allows in many but not all cases to guess based on the `"Technique"` used in _Enlighten_ the type of data being imported. This means that in some cases the user needs to pass an argument to parameter `s.qty`. This is also the case when the column to be extracted is not that with heading "Processed" in the CSV file. The metadata is as for Ocean Insight/Ocean Optics spectrometers copied to attributes in the returned object.
 
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^wasatch-")
+```
+
 Format of the header is simple and rather easy to parse. The header of the file and the first few lines look like this:
 ```
 ENLIGHTEN Version,2.2.7
@@ -409,7 +429,7 @@ Pixel,Wavelength,Processed
 
 ```{r}
 file.name <- 
-    system.file("extdata", "enlighten-wasatch-scope.csv",
+    system.file("extdata", "wasatch-enlighten-scope.csv",
                 package = "photobiologyInOut", mustWork = TRUE)
               
 wasatch.raw.spct <- 
@@ -426,11 +446,16 @@ autoplot(wasatch.raw.spct)
 
 ### Avantes array spectrometers
 
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^avantes-")
+```
+
 Avantes' two column .csv files can also be imported.
 
 ```{r}
 ava.raw.file <- 
-  system.file("extdata", "spectrum-avaspec.csv", 
+  system.file("extdata", "avantes-avaspec-e-irrad.csv", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_avaspec_csv(file = ava.raw.file),
      range = c(280, 900), unit.out = "photon")
@@ -439,6 +464,11 @@ autoplot(read_avaspec_csv(file = ava.raw.file),
 ### ASD array spectrometers 
 
 Data from ASD spectrometers is saved into binary files with name tag `.asd`. Software is available for conversion into tab-separated files of comma separated files. Function `read_asd_tsv()` supports the import of tab-separated files. It extracts metadata from the file header and uses it to guess the quantity stored and then constructs an objects of one the classes from package 'photobiology'.
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^asd-")
+```
 
 The whole header and the first few rows of data from one of these files is shown below. The data are already expressed as expected by the functions from package 'photobiology'.
 
@@ -492,7 +522,7 @@ Energy irradiance, from the file shown above.
 
 ```{r}
 asd.irrad.file <- 
-  system.file("extdata", "irrad-sky.asd.txt", 
+  system.file("extdata", "asd-e-irrad-sky.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
 read_asd_tsv(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
 ```
@@ -501,14 +531,19 @@ Reflectance, from a different file. It is, however, not possible to extract from
 
 ```{r}
 asd.reflectance.file <- 
-  system.file("extdata", "reflec-soil.asd.txt", 
+  system.file("extdata", "asd-Rfr-soil.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
 read_asd_tsv(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
 ```
 
 ### MACAM scanning spectrometers
 
-Macam's single column DTA files can also be imported.
+Macam's (now Iridian) single column DTA files can also be imported.
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^macam-")
+```
 
 The first few lines of the file look like this with all data in a single column with alternate rows for wavelengths (in nm) and irradiances, and a very terse header:
 
@@ -527,12 +562,17 @@ The first few lines of the file look like this with all data in a single column 
 
 ```{r}
 macam.raw.file <- 
-  system.file("extdata", "spectrum.DTA", 
+  system.file("extdata", "macam-e-irrad.DTA", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_macam_dta(file = macam.raw.file))
 ```
 
 ### LI-COR spectrometers
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^licor-")
+```
 
 #### LI-180 array dector spectrometer from LI-COR
 
@@ -639,7 +679,7 @@ date and time, and serial number.
 
 ```{r}
 licor_espd.file <- 
-  system.file("extdata", "LI-180-irradiance.txt", 
+  system.file("extdata", "licor-li180-irrad.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
 li180.spct <- read_li180_txt(file = licor_espd.file)
 ```
@@ -682,7 +722,7 @@ Function `read_licor_prn` will automatically detect whether the data is energy o
 
 ```{r}
 licor.file <- 
-  system.file("extdata", "spectrum.PRN", 
+  system.file("extdata", "licor-li1800-q-irrad.PRN", 
               package = "photobiologyInOut", mustWork = TRUE)
 licor.spct <- read_licor_prn(file = licor.file, tz = "Europe/Helsinki")
 ```
@@ -722,7 +762,7 @@ need to override it with an explicit argument for parameter `s.qty`.
 
 ```{r}
 licor.file <- 
-  system.file("extdata", "reflectance.PRN", 
+  system.file("extdata", "licor-li1800-Rfr.PRN", 
               package = "photobiologyInOut", mustWork = TRUE)
 licor.spct <- read_licor_prn(file = licor.file, s.qty = "Rfr")
 ```
@@ -739,6 +779,11 @@ autoplot(licor.spct)
 ### PSI SpectraPen spectroradiometer
 
 This all-in-one spectroradiometer measures spectral irradiance, and returns the data in a `.CSV` file with one column per spectrum. The data are returned expressed in energy or photon based units.
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^psi-")
+```
 
 The first few lines of a data block look like this:
 
@@ -771,7 +816,7 @@ GPS,,,,,,,
 
 ```{r}
   file.name <- 
-    system.file("extdata", "spectrum-psi-spectrapen-SP.csv", 
+    system.file("extdata", "psi-spectrapen-SP.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   psi.mspct <- read_spectrapen_csv(file = file.name,
                                   tz = "UTC")
@@ -790,6 +835,11 @@ autoplot(psi.mspct[["spct.14"]])
 This all-in-one spectrometer measures spectral reflectance, spectral transmittance or spectral absorbance of plant leaves or in fact any thin film. There is a single configuration available and being based on a microcontroller this instrument is used autonomously and spectral data saved internally can be exported as CSV files.
 
 Reflectance and transmittance generate a single spectrum per measurement while absorbance generates three: spectral absorbance, spectral reflectance and spectral transmittance. The last two are needed to compute absorbance, and, wisely, they are also returned. In the case of absorbance measurements it is possible to import the data into an `object_spct` containing variables `Rfr` and `Tfr` or as separate objects.
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^cid-")
+```
 
 ```{r}
   file.name <- 
@@ -815,9 +865,14 @@ download the data. The currently used format of .DAT files is easy to decode
 and our function can automatically detect the number and type of columns and
 the number of rows.
 
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^campbellsci-")
+```
+
 ```{r}
 cs.day.file <- 
-  system.file("extdata", "cr6-day.dat", 
+  system.file("extdata", "campbellsci-cr6-day.dat", 
               package = "photobiologyInOut", mustWork = TRUE)
 ```
 
@@ -825,7 +880,7 @@ Executing the statement below displays the 10 top lines of the DAT file as is, o
 
 ```{r, eval=FALSE}
 # not run
-read_lines(yoctopuce_hour.file, n_max = 10)
+read_lines(cs.day.file, n_max = 10)
 ```
 
 ```{r}
@@ -838,7 +893,7 @@ All information is preserved in the returned
 
 ```{r}
 cs_hour.file <- 
-  system.file("extdata", "cr6-hour.dat", 
+  system.file("extdata", "campbellsci-cr6-hour.dat", 
               package = "photobiologyInOut", mustWork = TRUE)
 hour.dat <- read_csi_dat(file = cs_hour.file)
 ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
@@ -849,6 +904,11 @@ ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
 [Yocto Puce Sarl](https://www.yoctopuce.com/) sells numerous different USB modules. Those capable of data
 input can log the data to memory and these data can be downloaded as a CSV
 file. These files can be easily read into R using base functions but function `read_yoctopuce_csv()` makes this even a bit simpler.
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^yoctopuce-")
+```
 
 ```{r}
 yoctopuce_hour.file <- 
@@ -894,9 +954,14 @@ into a single column, with a factor with letters as levels, a numeric variable
 with the zenith angle and a POSIXct column with times. A date needs to be
 always supplied as the output file from TUV has only time of day information.
 
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^tuv-")
+```
+
 ```{r}
 tuv.file <- 
-  system.file("extdata", "usrout.txt", 
+  system.file("extdata", "tuv-usrout.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
 tuv.spct <- read_tuv_usrout(file = tuv.file,
                             date = ymd("2014-03-21"))
@@ -940,6 +1005,11 @@ The files output by the online calculator based on the TUV model, contain at
 most one spectrum, and arguments to only some parameters can be set by users.
 However, it is convenient to use when we only need a few simple simulations.
 
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^qtuv-")
+```
+
 Function `read_qtuv_txt()` can extract spectra and the corresponding metadata
 from these files. These files do contain date time information and geolocation
 data when they are supplied as arguments to the calculator interface, otherwise
@@ -960,6 +1030,11 @@ By default libRadtran's uvspec writes only spectral irradiances to a text file a
 functions. However, we provide functions, that simplify reading of the files. The
 output from uvspec varies depending on its input. The main source of differences
 is the solver routine used. We will provide a separate function for each solver.
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^uvspec-disort-")
+```
 
 For reading this simple output, no special function is needed. We can use `read.table` from base R. Here we read a file with two columns with wavelengths and global spectral energy irradiance (named "eglo" in libRadtran) in $mW\,m^{-2}\,nm^{-1}$. The file was created with one of the 'uvspec' examples included with libRadtran, but reducing the output to two columns.
 
@@ -1053,6 +1128,11 @@ We give two additional examples, which will most likely need some adjustment by 
 In this case the file to be read is similar as above, but including separate columns for direct and diffuse components of the spectral energy irradiance. In addition two columns, one with date strings in ISO format and
 one with times have been added. The file instead of containing a single spectrum, contains several spectra in long form.
 
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^uvspec-multi")
+```
+
 The first few lines of the file look like this:
 ```
 290.000 2015-05-19 11_00_00 0.000000e+00 0.000000e+00
@@ -1081,6 +1161,11 @@ uses functions from 'libRadtran' as its engine, but saves some additional
 metadata to the output file. The main addition is related to the estimation
 of the effect of clouds.
 
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^fmi-al-")
+```
+
 Functions `read_fmi_cum()` and `read_m_fmi_cum()` can be used to read text files
 output as daily integrated spectral irradiance. In other words cummulated
 daily data. Function `read_fmi2mspct()` reads spectral irradiance, extracting
@@ -1104,7 +1189,7 @@ than irradiances. Wavelengths are expressed in Angstroms instead of nanometres.
 
 ```{r}
 fmi.file <- 
-  system.file("extdata", "2014-08-21_cum.hel", 
+  system.file("extdata", "fmi-al-2014-08-21_cum.hel", 
               package = "photobiologyInOut", mustWork = TRUE)
 z.spct <- read_fmi_cum(fmi.file)
 class_spct(z.spct)
@@ -1116,7 +1201,7 @@ With function `read_m_fmi_cum` with an ``m'' in the name we can read several fil
 
 ```{r}
 fmi.files <- 
-  system.file("extdata", c("2014-08-21_cum.hel", "2014-08-21_cum.hel"),
+  system.file("extdata", c("fmi-al-2014-08-21_cum.hel", "2014-08-21_cum.hel"),
               package = "photobiologyInOut", mustWork = TRUE)
 z.mspct <- read_m_fmi_cum(fmi.files)
 class(z.mspct)
@@ -1173,7 +1258,7 @@ all the data in all cases.
 
 ```{r}
 fmi.file <- 
-  system.file("extdata", "2013-05-01.hel", 
+  system.file("extdata", "fmi-al-2013-05-01.hel", 
               package = "photobiologyInOut", mustWork = TRUE)
 z3.mspct <- read_fmi2mspct(fmi.file)
 class(z3.mspct)[1:2]
@@ -1194,6 +1279,11 @@ Functions for importing spectral data downloaded from repositories.
 | read_ASTER_txt()     | ASTER spectral lib.    | version 2.0 ASCII | reflector_spct  |
 
 ### FReD Floral Reflectance Database
+
+Example files:
+```{r}
+list.files(extdata.path, pattern = "^FReD")
+```
 
 The files downloaded from FReD do not contain a header, but the first column
 indicates the flower ID.
@@ -1266,7 +1356,7 @@ Additional Information:  None.
 
 ```{r}
 aster.file <- 
-  system.file("extdata", "drygrass-spectrum.txt", 
+  system.file("extdata", "aster-Rpc-drygrass.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
 aster.spct <- read_ASTER_txt(file = aster.file)
 ```
@@ -1449,7 +1539,7 @@ Most functions in this package have a parameter `locale`, that accepts `readr::l
 
 ```{r}
 jaz.irrad.comma.file <- 
-  system.file("extdata", "spectrum-comma.JazIrrad", 
+  system.file("extdata", "oo-spectrum-comma.jazIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 my.locale <- locale(decimal_mark = ",", tz = "Europe/Helsinki")
 jaz00.spct <- read_oo_jazirrad(file = jaz.irrad.comma.file,
@@ -1470,7 +1560,7 @@ the creation date and time.
 
 ```{r}
 jaz.s.irrad.file <- 
-  system.file("extdata", "spectrum.JazIrrad", 
+  system.file("extdata", "oo-spectrum.jazIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 ```
 

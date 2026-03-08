@@ -76,7 +76,7 @@
 #' @examples
 #' 
 #'  file.name <- 
-#'    system.file("extdata", "enlighten-wasatch-scope.csv",
+#'    system.file("extdata", "wasatch-enlighten-scope.csv",
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'               
 #'  wasatch.raw.spct <- 

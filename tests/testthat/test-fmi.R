@@ -7,7 +7,7 @@ context("read FMI (Anders)")
 test_that("single cumulated spectrum file", {
 
   file.name <- 
-    system.file("extdata", "2014-08-21_cum.hel", 
+    system.file("extdata", "fmi-al-2014-08-21_cum.hel", 
                 package = "photobiologyInOut", mustWork = TRUE)
   fmi.spct <- read_fmi_cum(file = file.name)
   
@@ -34,7 +34,7 @@ test_that("single cumulated spectrum file", {
 test_that("single cumulated garbage", {
   
   file.name <- 
-    system.file("extdata", "garbage.txt", 
+    system.file("extdata", "bad-input-test.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
   expect_warning(empty.spct <- read_fmi_cum(file = file.name))
   
@@ -52,7 +52,8 @@ test_that("single cumulated garbage", {
 test_that("multiple multiple cummulated spectrum files", {
   
   my.files <- 
-    system.file("extdata", c("2014-08-21_cum.hel", "2014-08-22_cum.hel"), 
+    system.file("extdata", c("fmi-al-2014-08-21_cum.hel", 
+                             "fmi-al-2014-08-22_cum.hel"), 
                 package = "photobiologyInOut", mustWork = TRUE)
   fmi.mspct <- read_m_fmi_cum(files = my.files)
   
@@ -60,7 +61,8 @@ test_that("multiple multiple cummulated spectrum files", {
   expect_equal(length(fmi.mspct), 2)
   expect_equal(dim(fmi.mspct), c(2, 1))
   expect_false(attr(fmi.mspct, "mspct.byrow", exact = TRUE))
-  expect_named(fmi.mspct, c( "2014_08_21_cum.hel", "2014_08_22_cum.hel"))
+  expect_named(fmi.mspct, c( "fmi_al_2014_08_21_cum.hel", 
+                             "fmi_al_2014_08_22_cum.hel"))
   expect_equal(nrow(fmi.mspct[[1]]), 511)
   expect_equal(ncol(fmi.mspct[[1]]), 2)
   expect_equal(fmi.mspct[[1]][1, 1], 290)
@@ -81,7 +83,7 @@ test_that("multiple multiple cummulated spectrum files", {
 test_that("spectral irradiance", {
   
   my.file <- 
-    system.file("extdata", "2013-05-01.hel", 
+    system.file("extdata", "fmi-al-2013-05-01.hel", 
                 package = "photobiologyInOut", mustWork = TRUE)
   fmi.mspct <- read_fmi2mspct(file = my.file)
   
@@ -118,7 +120,7 @@ test_that("spectral irradiance", {
 test_that("spectral irradiance garbage", {
   
   file.name <- 
-    system.file("extdata", "garbage.txt", 
+    system.file("extdata", "bad-input-test.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
   expect_warning(empty.mspct <- read_fmi2mspct(file = file.name))
   

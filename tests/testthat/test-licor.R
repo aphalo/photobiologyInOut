@@ -7,7 +7,7 @@ context("read LI-1800 PRN file)")
 test_that("single spectrum (quantum)", {
 
   file.name <- 
-    system.file("extdata", "spectrum.PRN", 
+    system.file("extdata", "licor-li1800-q-irrad.PRN", 
                 package = "photobiologyInOut", mustWork = TRUE)
   licor.spct <- read_licor_prn(file = file.name)
   
@@ -33,19 +33,19 @@ test_that("single spectrum (quantum)", {
   expect_equal(second(when.measured), 0)
   expect_equal(getWhereMeasured(licor.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(licor.spct), "File: spectrum.PRN")
+  expect_equal(getWhatMeasured(licor.spct), "File: licor-li1800-q-irrad.PRN")
   #  expect_gt(length(getWhatMeasured(licor.spct)), 0)
   expect_gt(length(comment(licor.spct)), 0)
   
   licor.spct <- 
     read_licor_prn(file = file.name, label = "test-label")
   expect_equal(getWhatMeasured(licor.spct), 
-               "File: spectrum.PRN\ntest-label")
+               "File: licor-li1800-q-irrad.PRN\ntest-label")
   expect_equal(nrow(licor.spct), 601)
   expect_equal(ncol(licor.spct), 2)
   
   file.name <- 
-    system.file("extdata", "spectrum-licor-long.PRN", 
+    system.file("extdata", "licor-li1800-q-irrad-long.PRN", 
                 package = "photobiologyInOut", mustWork = TRUE)
   licor.spct <- read_licor_prn(file = file.name)
   
@@ -60,17 +60,17 @@ test_that("single spectrum (quantum)", {
   expect_true(all(sign(licor.spct[[1]]) > 0))
   expect_is(licor.spct[[2]], "numeric")
   expect_equal(what_measured(licor.spct), 
-               "File: spectrum-licor-long.PRN")
+               "File: licor-li1800-q-irrad-long.PRN")
   
 })
 
 test_that("two spectra (quantum)", {
   
   file.name1 <- 
-    system.file("extdata", "spectrum.PRN", 
+    system.file("extdata", "licor-li1800-q-irrad.PRN", 
                 package = "photobiologyInOut", mustWork = TRUE)
   file.name2 <- 
-    system.file("extdata", "spectrum-licor-long.PRN", 
+    system.file("extdata", "licor-li1800-q-irrad-long.PRN", 
                 package = "photobiologyInOut", mustWork = TRUE)
   file.names <- c(file.name1, file.name2)
   licor.mspct <- read_m_licor_prn(files = file.names, tz = NULL)
@@ -97,7 +97,7 @@ test_that("two spectra (quantum)", {
   expect_equal(second(when.measured), 0)
   expect_equal(getWhereMeasured(licor.mspct[[1]]), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(licor.mspct[[1]]), "File: spectrum.PRN")
+  expect_equal(getWhatMeasured(licor.mspct[[1]]), "File: licor-li1800-q-irrad.PRN")
   #  expect_gt(length(getWhatMeasured(licor.mspct[[1]])), 0)
   expect_gt(length(comment(licor.mspct[[1]])), 0)
   
@@ -112,14 +112,14 @@ test_that("two spectra (quantum)", {
   expect_true(all(sign(licor.mspct[[2]][[1]]) > 0))
   expect_is(licor.mspct[[2]][[2]], "numeric")
   expect_equal(what_measured(licor.mspct[[2]]), 
-               "File: spectrum-licor-long.PRN")
+               "File: licor-li1800-q-irrad-long.PRN")
   
 })
 
 test_that("single spectrum Tfr", {
   # for the time being we use a file with reflectance
   file.name <- 
-    system.file("extdata", "reflectance.PRN", 
+    system.file("extdata", "licor-li1800-Rfr.PRN", 
                 package = "photobiologyInOut", mustWork = TRUE)
   licor.spct <- read_licor_prn(file = file.name, s.qty = "Tfr")
   
@@ -149,7 +149,7 @@ test_that("single spectrum Tfr", {
 test_that("single spectrum Rfr", {
   
   file.name <- 
-    system.file("extdata", "reflectance.PRN", 
+    system.file("extdata", "licor-li1800-Rfr.PRN", 
                 package = "photobiologyInOut", mustWork = TRUE)
   licor.spct <- read_licor_prn(file = file.name, s.qty = "Rfr")
   

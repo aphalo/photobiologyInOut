@@ -66,7 +66,7 @@ and triggers no warnings.
 \examples{
 
  file.name <- 
-   system.file("extdata", "spectrum.pi", 
+   system.file("extdata", "oo-spectrum.pi", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
  oopi.spct <- read_oo_pidata(file = file.name)

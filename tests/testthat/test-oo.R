@@ -8,7 +8,7 @@ context("read Ocean Optics")
 test_that("jaz", {
 
   file.name <- 
-    system.file("extdata", "spectrum.JazIrrad", 
+    system.file("extdata", "oo-spectrum.jazIrrad", 
                 package = "photobiologyInOut", mustWork = TRUE)
   # warnings triggered by negative irradiance values in file
   suppressWarnings(jaz.spct <- 
@@ -30,7 +30,7 @@ test_that("jaz", {
                as.numeric(ymd_hms("2015-02-03 09:44:41", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.JazIrrad")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-spectrum.jazIrrad")
   expect_equal(getTimeUnit(jaz.spct), "second")
   expect_gt(length(comment(jaz.spct)), 0)
 
@@ -55,7 +55,7 @@ test_that("jaz", {
                as.numeric(ymd_hms("2016-01-01 00:00:01", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.JazIrrad")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-spectrum.jazIrrad")
   expect_equal(getTimeUnit(jaz.spct), "second")
   expect_gt(length(comment(jaz.spct)), 0)
 
@@ -64,7 +64,7 @@ test_that("jaz", {
 test_that("jaz_Tpc", {
   
   file.name <- 
-    system.file("extdata", "reflectance.jaz", 
+    system.file("extdata", "oo-reflectance.jaz", 
                 package = "photobiologyInOut", mustWork = TRUE)
   # warnings triggered by negative irradiance values in file
   suppressWarnings(jaz.spct <- 
@@ -87,7 +87,7 @@ test_that("jaz_Tpc", {
                as.numeric(ymd_hms("2018-09-17 14:58:29", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: reflectance.jaz")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-reflectance.jaz")
 #  expect_equal(getTimeUnit(jaz.spct), "unknown")
   expect_gt(length(comment(jaz.spct)), 0)
 
@@ -96,7 +96,7 @@ test_that("jaz_Tpc", {
 test_that("jaz_Rpc", {
   
   file.name <- 
-    system.file("extdata", "reflectance.jaz", 
+    system.file("extdata", "oo-reflectance.jaz", 
                 package = "photobiologyInOut", mustWork = TRUE)
   # warnings triggered by negative irradiance values in file
   suppressWarnings(jaz.spct <- 
@@ -118,7 +118,7 @@ test_that("jaz_Rpc", {
                as.numeric(ymd_hms("2018-09-17 14:58:29", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: reflectance.jaz")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-reflectance.jaz")
 #  expect_equal(getTimeUnit(jaz.spct), "unknown")
   expect_gt(length(comment(jaz.spct)), 0)
   
@@ -128,7 +128,7 @@ test_that("jaz_Rpc", {
 test_that("jaz_raw", {
   
   file.name <- 
-    system.file("extdata", "spectrum.jaz", 
+    system.file("extdata", "oo-spectrum.jaz", 
                 package = "photobiologyInOut", mustWork = TRUE)
 
   jaz.spct <- read_oo_jazdata(file = file.name, 
@@ -149,7 +149,7 @@ test_that("jaz_raw", {
                as.numeric(ymd_hms("2016-04-25 12:49:02", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.jaz")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-spectrum.jaz")
   expect_gt(length(comment(jaz.spct)), 0)
   
   jaz.spct <- read_oo_jazdata(file = file.name,
@@ -170,7 +170,7 @@ test_that("jaz_raw", {
                as.numeric(ymd_hms("2016-01-01 00:00:01", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum.jaz")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-spectrum.jaz")
   expect_gt(length(comment(jaz.spct)), 0)
   
 })
@@ -179,7 +179,7 @@ test_that("jaz_raw", {
 test_that("SpectraSuite", {
   
   file.name <- 
-    system.file("extdata", "spectrum.SSIrrad", 
+    system.file("extdata", "oo-spectrum.SSIrrad", 
                 package = "photobiologyInOut", mustWork = TRUE)
   ss.spct <- read_oo_ssirrad(file = file.name, 
                              tz = "Europe/Zurich")
@@ -199,7 +199,7 @@ test_that("SpectraSuite", {
                as.numeric(ymd_hms("2013-05-06 15:13:40", tz = "Europe/Zurich"), tz = "Europe/Zurich"))
   expect_equal(getWhereMeasured(ss.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(ss.spct), "File: spectrum.SSIrrad")
+  expect_equal(getWhatMeasured(ss.spct), "File: oo-spectrum.SSIrrad")
   expect_equal(getTimeUnit(ss.spct), "second")
   expect_gt(length(comment(ss.spct)), 0)
 })
@@ -207,7 +207,7 @@ test_that("SpectraSuite", {
 test_that("jazz-comma", {
   
   file.name <- 
-    system.file("extdata", "spectrum-comma.JazIrrad", 
+    system.file("extdata", "oo-spectrum-comma.jazIrrad", 
                 package = "photobiologyInOut", mustWork = TRUE)
   my.locale <- readr::locale("en", decimal_mark = ",", 
                              tz = "Europe/Helsinki")
@@ -235,7 +235,7 @@ test_that("jazz-comma", {
                as.numeric(ymd_hms("2015-02-03 09:44:41", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum-comma.JazIrrad")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-spectrum-comma.jazIrrad")
   expect_equal(getTimeUnit(jaz.spct), "second")
   expect_gt(length(comment(jaz.spct)), 0)
 })
@@ -243,7 +243,7 @@ test_that("jazz-comma", {
 test_that("jazz_raw-comma", {
   
   file.name <- 
-    system.file("extdata", "spectrum-comma.jaz", 
+    system.file("extdata", "oo-spectrum-comma.jaz", 
                 package = "photobiologyInOut", mustWork = TRUE)
   my.locale <- readr::locale("en", decimal_mark = ",", tz = "Europe/Helsinki")
   jaz.spct <- read_oo_jazdata(file = file.name, 
@@ -264,7 +264,7 @@ test_that("jazz_raw-comma", {
                as.numeric(ymd_hms("2016-04-25 12:49:02", tz = "Europe/Helsinki"), tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(jaz.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(jaz.spct), "File: spectrum-comma.jaz")
+  expect_equal(getWhatMeasured(jaz.spct), "File: oo-spectrum-comma.jaz")
   expect_gt(length(comment(jaz.spct)), 0)
 })
 
@@ -272,7 +272,7 @@ test_that("jazz_raw-comma", {
 test_that("SpectraSuite-comma", {
   
   file.name <- 
-    system.file("extdata", "spectrum-comma.SSIrrad", 
+    system.file("extdata", "oo-spectrum-comma.SSIrrad", 
                 package = "photobiologyInOut", mustWork = TRUE)
   my.locale <- readr::locale("en", decimal_mark = ",", tz = "Europe/Zurich")
 
@@ -294,7 +294,7 @@ test_that("SpectraSuite-comma", {
                as.numeric(ymd_hms("2013-05-06 15:13:40", tz = "Europe/Zurich"), tz = "Europe/Zurich"))
   expect_equal(getWhereMeasured(ss.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(ss.spct), "File: spectrum-comma.SSIrrad")
+  expect_equal(getWhatMeasured(ss.spct), "File: oo-spectrum-comma.SSIrrad")
   expect_equal(getTimeUnit(ss.spct), "second")
   expect_gt(length(comment(ss.spct)), 0)
 })
@@ -302,7 +302,7 @@ test_that("SpectraSuite-comma", {
 test_that("pi_raw", {
   
   file.name <- 
-    system.file("extdata", "spectrum.pi", 
+    system.file("extdata", "oo-spectrum.pi", 
                 package = "photobiologyInOut", mustWork = TRUE)
   my.date <- now(tzone = "Europe/Helsinki")
   pi.spct <- read_oo_pidata(file = file.name, 
@@ -324,11 +324,11 @@ test_that("pi_raw", {
                as.numeric(my.date, tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(pi.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(pi.spct), "File: spectrum.pi")
+  expect_equal(getWhatMeasured(pi.spct), "File: oo-spectrum.pi")
   expect_gt(length(comment(pi.spct)), 0)
 
   file.name <- 
-    system.file("extdata", "spectrum-seq-dark.pi", 
+    system.file("extdata", "oo-spectrum-seq-dark.pi", 
                 package = "photobiologyInOut", mustWork = TRUE)
   my.date <- now(tzone = "Europe/Helsinki")
   pi.spct <- read_oo_pidata(file = file.name, 
@@ -350,6 +350,6 @@ test_that("pi_raw", {
                as.numeric(my.date, tz = "Europe/Helsinki"))
   expect_equal(getWhereMeasured(pi.spct), 
                tibble::tibble(lon = NA_real_, lat = NA_real_, address = NA_character_))
-  expect_equal(getWhatMeasured(pi.spct), "File: spectrum-seq-dark.pi")
+  expect_equal(getWhatMeasured(pi.spct), "File: oo-spectrum-seq-dark.pi")
   expect_gt(length(comment(pi.spct)), 0)
 })

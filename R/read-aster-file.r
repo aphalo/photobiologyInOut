@@ -38,7 +38,7 @@
 #' @examples
 #' 
 #'  file.name <- 
-#'    system.file("extdata", "drygrass-spectrum.txt", 
+#'    system.file("extdata", "aster-Rpc-drygrass.txt", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  fred.spct <- read_ASTER_txt(file = file.name, npixels = Inf)

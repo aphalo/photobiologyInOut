@@ -41,14 +41,22 @@ options(tibble.print_max = 5,
         photobiology.strict.range = NA_integer_)
 
 ## ----------------------------------------------------
+extdata.path <- 
+  system.file("extdata", 
+              package = "photobiologyInOut", mustWork = TRUE)
+
+## ----------------------------------------------------
+list.files(extdata.path, pattern = "^oo-")
+
+## ----------------------------------------------------
 q.raw.file <- 
-  system.file("extdata", "spectrum.SSIrrad", 
+  system.file("extdata", "oo-spectrum.SSIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_oo_ssirrad(file = q.raw.file))
 
 ## ----------------------------------------------------
 q.raw.file <- 
-  system.file("extdata", "spectrum.OVIrrad", 
+  system.file("extdata", "oo-spectrum.OVIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_oo_ovirrad(file = q.raw.file, 
                          locale = readr::locale("en", 
@@ -59,7 +67,7 @@ autoplot(read_oo_ovirrad(file = q.raw.file,
 
 ## ----------------------------------------------------
 jaz.raw.file <- 
-  system.file("extdata", "spectrum.jaz", 
+  system.file("extdata", "oo-spectrum.jaz", 
               package = "photobiologyInOut", mustWork = TRUE)
 jazraw.spct <- read_oo_jazdata(file = jaz.raw.file)
 jazraw.spct <- trim_wl(jazraw.spct, range = c(250, 900))
@@ -78,7 +86,7 @@ getInstrSettings(jazraw.spct)
 
 ## ----------------------------------------------------
 jaz.s.irrad.file <- 
-  system.file("extdata", "spectrum.JazIrrad", 
+  system.file("extdata", "oo-spectrum.jazIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 jaz.spct <- read_oo_jazirrad(file = jaz.s.irrad.file)
 jaz0.spct <- jaz.spct
@@ -111,8 +119,11 @@ autoplot(smooth_spct(read_oo_jazirrad(file = jaz.s.irrad.file)),
      range = c(250,850))
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^wasatch-")
+
+## ----------------------------------------------------
 file.name <- 
-    system.file("extdata", "enlighten-wasatch-scope.csv",
+    system.file("extdata", "wasatch-enlighten-scope.csv",
                 package = "photobiologyInOut", mustWork = TRUE)
               
 wasatch.raw.spct <- 
@@ -125,33 +136,45 @@ summary(wasatch.raw.spct)
 autoplot(wasatch.raw.spct)
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^avantes-")
+
+## ----------------------------------------------------
 ava.raw.file <- 
-  system.file("extdata", "spectrum-avaspec.csv", 
+  system.file("extdata", "avantes-avaspec-e-irrad.csv", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_avaspec_csv(file = ava.raw.file),
      range = c(280, 900), unit.out = "photon")
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^asd-")
+
+## ----------------------------------------------------
 asd.irrad.file <- 
-  system.file("extdata", "irrad-sky.asd.txt", 
+  system.file("extdata", "asd-e-irrad-sky.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
 read_asd_tsv(file = asd.irrad.file) |> clip_wl(c(NA, 2200)) |> autoplot()
 
 ## ----------------------------------------------------
 asd.reflectance.file <- 
-  system.file("extdata", "reflec-soil.asd.txt", 
+  system.file("extdata", "asd-Rfr-soil.tsv", 
               package = "photobiologyInOut", mustWork = TRUE)
 read_asd_tsv(file = asd.reflectance.file) |> clip_wl(c(NA, 1350)) |> autoplot()
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^macam-")
+
+## ----------------------------------------------------
 macam.raw.file <- 
-  system.file("extdata", "spectrum.DTA", 
+  system.file("extdata", "macam-e-irrad.DTA", 
               package = "photobiologyInOut", mustWork = TRUE)
 autoplot(read_macam_dta(file = macam.raw.file))
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^licor-")
+
+## ----------------------------------------------------
 licor_espd.file <- 
-  system.file("extdata", "LI-180-irradiance.txt", 
+  system.file("extdata", "licor-li180-irrad.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
 li180.spct <- read_li180_txt(file = licor_espd.file)
 
@@ -164,7 +187,7 @@ autoplot(li180.spct, unit.out = "photon")
 
 ## ----------------------------------------------------
 licor.file <- 
-  system.file("extdata", "spectrum.PRN", 
+  system.file("extdata", "licor-li1800-q-irrad.PRN", 
               package = "photobiologyInOut", mustWork = TRUE)
 licor.spct <- read_licor_prn(file = licor.file, tz = "Europe/Helsinki")
 
@@ -175,7 +198,7 @@ autoplot(licor.spct, unit.out = "photon")
 
 ## ----------------------------------------------------
 licor.file <- 
-  system.file("extdata", "reflectance.PRN", 
+  system.file("extdata", "licor-li1800-Rfr.PRN", 
               package = "photobiologyInOut", mustWork = TRUE)
 licor.spct <- read_licor_prn(file = licor.file, s.qty = "Rfr")
 
@@ -185,8 +208,11 @@ cat(comment(licor.spct))
 autoplot(licor.spct)
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^psi-")
+
+## ----------------------------------------------------
   file.name <- 
-    system.file("extdata", "spectrum-psi-spectrapen-SP.csv", 
+    system.file("extdata", "psi-spectrapen-SP.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   psi.mspct <- read_spectrapen_csv(file = file.name,
                                   tz = "UTC")
@@ -196,6 +222,9 @@ autoplot(licor.spct)
 ## ----------------------------------------------------
 summary(psi.mspct[["spct.14"]])
 autoplot(psi.mspct[["spct.14"]])
+
+## ----------------------------------------------------
+list.files(extdata.path, pattern = "^cid-")
 
 ## ----------------------------------------------------
   file.name <- 
@@ -208,13 +237,16 @@ autoplot(psi.mspct[["spct.14"]])
     ylim(0, 0.55)
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^campbellsci-")
+
+## ----------------------------------------------------
 cs.day.file <- 
-  system.file("extdata", "cr6-day.dat", 
+  system.file("extdata", "campbellsci-cr6-day.dat", 
               package = "photobiologyInOut", mustWork = TRUE)
 
 ## ----eval=FALSE--------------------------------------
 # # not run
-# read_lines(yoctopuce_hour.file, n_max = 10)
+# read_lines(cs.day.file, n_max = 10)
 
 ## ----------------------------------------------------
 day.dat <- read_csi_dat(file = cs.day.file)
@@ -222,10 +254,13 @@ day.dat
 
 ## ----------------------------------------------------
 cs_hour.file <- 
-  system.file("extdata", "cr6-hour.dat", 
+  system.file("extdata", "campbellsci-cr6-hour.dat", 
               package = "photobiologyInOut", mustWork = TRUE)
 hour.dat <- read_csi_dat(file = cs_hour.file)
 ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
+
+## ----------------------------------------------------
+list.files(extdata.path, pattern = "^yoctopuce-")
 
 ## ----------------------------------------------------
 yoctopuce_hour.file <- 
@@ -241,8 +276,11 @@ hour.dat <- read_yoctopuce_csv(file = yoctopuce_hour.file)
 ggplot(hour.dat, aes(ISO.time, temperature.avg)) + geom_line()
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^tuv-")
+
+## ----------------------------------------------------
 tuv.file <- 
-  system.file("extdata", "usrout.txt", 
+  system.file("extdata", "tuv-usrout.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
 tuv.spct <- read_tuv_usrout(file = tuv.file,
                             date = ymd("2014-03-21"))
@@ -263,12 +301,18 @@ tuv_nd.spct <- read_tuv_usrout(file = tuv.file)
 when_measured(tuv_nd.spct)
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^qtuv-")
+
+## ----------------------------------------------------
 qtuv.file <- 
   system.file("extdata", "qtuv.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
 qtuv.spct <- read_qtuv_txt(file = qtuv.file)
 summary(qtuv.spct)
 qtuv.spct
+
+## ----------------------------------------------------
+list.files(extdata.path, pattern = "^uvspec-disort-")
 
 ## ----------------------------------------------------
 uvspec.2col.file <- 
@@ -306,6 +350,9 @@ comment(uvspec.02.spct) <- paste(comment(uvspec.02.spct),
 cat(comment(uvspec.02.spct))
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^uvspec-multi")
+
+## ----------------------------------------------------
 uvspec.multi.file <- 
   system.file("extdata", "uvspec-multi.dat", 
               package = "photobiologyInOut", mustWork = TRUE)
@@ -313,8 +360,11 @@ lbr.multi.spct <- read_uvspec_disort_vesa(uvspec.multi.file)
 print(lbr.multi.spct, n = 5)
 
 ## ----------------------------------------------------
+list.files(extdata.path, pattern = "^fmi-al-")
+
+## ----------------------------------------------------
 fmi.file <- 
-  system.file("extdata", "2014-08-21_cum.hel", 
+  system.file("extdata", "fmi-al-2014-08-21_cum.hel", 
               package = "photobiologyInOut", mustWork = TRUE)
 z.spct <- read_fmi_cum(fmi.file)
 class_spct(z.spct)
@@ -323,7 +373,7 @@ z.spct
 
 ## ----------------------------------------------------
 fmi.files <- 
-  system.file("extdata", c("2014-08-21_cum.hel", "2014-08-21_cum.hel"),
+  system.file("extdata", c("fmi-al-2014-08-21_cum.hel", "2014-08-21_cum.hel"),
               package = "photobiologyInOut", mustWork = TRUE)
 z.mspct <- read_m_fmi_cum(fmi.files)
 class(z.mspct)
@@ -352,7 +402,7 @@ z2.mspct
 
 ## ----------------------------------------------------
 fmi.file <- 
-  system.file("extdata", "2013-05-01.hel", 
+  system.file("extdata", "fmi-al-2013-05-01.hel", 
               package = "photobiologyInOut", mustWork = TRUE)
 z3.mspct <- read_fmi2mspct(fmi.file)
 class(z3.mspct)[1:2]
@@ -361,6 +411,9 @@ length(z3.mspct)
 names(z3.mspct)
 when_measured(z3.mspct[[1]])
 what_measured(z3.mspct[[1]])
+
+## ----------------------------------------------------
+list.files(extdata.path, pattern = "^FReD")
 
 ## ----------------------------------------------------
 fred.file <- 
@@ -377,7 +430,7 @@ autoplot(fred.spct)
 
 ## ----------------------------------------------------
 aster.file <- 
-  system.file("extdata", "drygrass-spectrum.txt", 
+  system.file("extdata", "aster-Rpc-drygrass.txt", 
               package = "photobiologyInOut", mustWork = TRUE)
 aster.spct <- read_ASTER_txt(file = aster.file)
 
@@ -480,7 +533,7 @@ ggplot(refl.red, aes(x = body.part, y = red.reflectance)) +
 
 ## ----------------------------------------------------
 jaz.irrad.comma.file <- 
-  system.file("extdata", "spectrum-comma.JazIrrad", 
+  system.file("extdata", "oo-spectrum-comma.jazIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 my.locale <- locale(decimal_mark = ",", tz = "Europe/Helsinki")
 jaz00.spct <- read_oo_jazirrad(file = jaz.irrad.comma.file,
@@ -491,7 +544,7 @@ jaz00.spct
 
 ## ----------------------------------------------------
 jaz.s.irrad.file <- 
-  system.file("extdata", "spectrum.JazIrrad", 
+  system.file("extdata", "oo-spectrum.jazIrrad", 
               package = "photobiologyInOut", mustWork = TRUE)
 
 ## ----warning=FALSE-----------------------------------

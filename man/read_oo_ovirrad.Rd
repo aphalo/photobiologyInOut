@@ -80,7 +80,7 @@ The header of the file is first decoded and parsed to extract the
 # energy spectral irradiance file
 
  file.name <-
-   system.file("extdata", "spectrum.OVIrrad", 
+   system.file("extdata", "oo-spectrum.OVIrrad", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
  ooov.spct <- 

@@ -3,8 +3,8 @@
 #' Read the spectral data and parse the header of a energy irradiance, a
 #' reflectance, a transmittance data, a raw-detector-counts data or arbitrary
 #' data file as output by the text conversion tool for ASD spectrometers when
-#' set for tab separated output. ASD's field spectrometers measure VIS and SWIR
-#' radiation.
+#' set for tab-, comma- or semicolon-separated output. ASD's field spectrometers
+#' measure VIS and SWIR radiation.
 #' 
 #' @param file character string Path to the file to be read, following R's use
 #'   of forward slashes as separator for folder names.
@@ -35,13 +35,13 @@
 #'   nanometres.
 #' 
 #' @details The header of the file is first decoded and parsed to extract the
-#'   time of data acquisition and serial number of the spectrometer, and to
-#'   locate the start of the spectral data. The time in the header is the local
-#'   time with no time zone information. Thus when file import takes place on a
-#'   different time zone than the measurement the measurement time zone must be
-#'   supplied by the user as an argument to parameter \code{tz} or as part of
-#'   the \code{locale}. The metadata fields in the header are located by text
-#'   matching.
+#'   time of data acquisition and serial number of the spectrometer, to locate
+#'   the start of the spectral data, and the separator used. The time in the
+#'   header is the local time with no time zone information. Thus when file
+#'   import takes place on a different time zone than the measurement the
+#'   measurement time zone must be supplied by the user as an argument to
+#'   parameter \code{tz} or as part of the \code{locale}. The metadata fields in
+#'   the header are located by text matching.
 #'
 #'   Spectral irradiance is returned as an object of class
 #'   \code{\link[photobiology]{source_spct}}, reflectance as
@@ -62,6 +62,12 @@
 #'   file name, time of import, function name and the version of packages
 #'   'photobiology' and 'photobiologyInOut' used. The file header in whole is
 #'   copied to attribute \code{file.header}.
+#' 
+#' @note Some files with ASD spectral data contain \code{nul} ASCII characters
+#'   in the header. These are ignored with a warning while the data are still
+#'   read. Depending on the program used to view these data files, only the top
+#'   three lines will be displayed, or the file will be detected as containing
+#'   binary data and not displayed.
 #'
 #' @return A \code{source_spct} object with a column \code{s.e.irrad} with
 #'   spectral energy irradiance in \eqn{W m^{-2} nm^{-1}}, or a
@@ -82,7 +88,7 @@
 #' # energy spectral irradiance file
 #' 
 #'  file.name <-
-#'    system.file("extdata", "irrad-sky.asd.txt", 
+#'    system.file("extdata", "asd-e-irrad-sky.tsv",
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  asd.source_spct <- 
@@ -116,7 +122,7 @@
 #' # spectral reflectance file
 #' 
 #'  file.name <-
-#'    system.file("extdata", "reflec-panel-50pc.asd.txt", 
+#'    system.file("extdata", "asd-Rfr-panel-50pc.tsv", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  asd.reflector_spct <- 
@@ -147,7 +153,7 @@
 #'  # Raw-counts data
 #' 
 #'  file.name <-
-#'    system.file("extdata", "DN-gravel.asd.txt", 
+#'    system.file("extdata", "asd-raw-gravel.tsv", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  asd.raw_spct <- 
@@ -239,9 +245,17 @@ read_asd_tsv <- function(file,
   original.name <- gsub("^Wavelength", "", file_header[[to.skip]])
   original.name <- trimws(original.name)
   
+  if (grepl("\t", file_header[[to.skip]])) {
+    sep = ""
+  } else if (grepl(";", file_header[[to.skip]])) {
+    sep = ";"
+  } else if (grepl(",", file_header[[to.skip]])) {
+    sep = ","
+  }
   z <- utils::read.table(
     file = file,
     header = TRUE,
+    sep = sep,
     col.names = c("w.length", s.qty),
     skip = to.skip,
     colClasses = "numeric"

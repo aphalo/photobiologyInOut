@@ -46,7 +46,7 @@ and then imports wavelengths and spectral energy irradiance values.
 \examples{
 
  file.name <- 
-   system.file("extdata", "spectrum.DTA", 
+   system.file("extdata", "macam-e-irrad.DTA", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
  macam.spct <- read_macam_dta(file = file.name)

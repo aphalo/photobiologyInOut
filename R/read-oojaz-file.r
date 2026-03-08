@@ -28,7 +28,7 @@
 #' @examples
 #' 
 #'  file.name <- 
-#'    system.file("extdata", "spectrum.jaz", 
+#'    system.file("extdata", "oo-spectrum.jaz", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  jaz.filter_spct <- read_oo_jazpc(file = file.name)
@@ -39,7 +39,7 @@
 #'  cat(comment(jaz.filter_spct))
 #' 
 #'  file.name <- 
-#'    system.file("extdata", "spectrum.JazIrrad", 
+#'    system.file("extdata", "oo-spectrum.jazIrrad", 
 #'                package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  jaz.source_spct <- read_oo_jazirrad(file = file.name, unit.in = "energy")

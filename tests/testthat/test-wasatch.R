@@ -7,7 +7,7 @@ context("read ENLIGHTEN .csv file)")
 test_that("single spectrum (energy)", {
 
   file.name <- 
-    system.file("extdata", "enlighten-wasatch-raman.csv", 
+    system.file("extdata", "wasatch-enlighten-raman.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   wasatch.source.spct <- 
     read_wasatch_csv(file = file.name, s.qty = c(Processed = "s.e.irrad"))
@@ -35,7 +35,7 @@ test_that("single spectrum (energy)", {
 test_that("single spectrum (raw counts)", {
   
   file.name <- 
-    system.file("extdata", "enlighten-wasatch-scope.csv", 
+    system.file("extdata", "wasatch-enlighten-scope.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   wasatch.raw.spct <- read_wasatch_csv(file = file.name)
   
@@ -63,7 +63,7 @@ test_that("single spectrum (raw counts)", {
 test_that("single spectrum (absorbance with keep)", {
   
   file.name <- 
-    system.file("extdata", "enlighten-wasatch-absorbance.csv", 
+    system.file("extdata", "wasatch-enlighten-absorbance.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   wasatch.abs.spct <- read_wasatch_csv(file = file.name)
   
@@ -94,7 +94,7 @@ test_that("single spectrum (absorbance with keep)", {
 test_that("single spectrum (absorbance with drop)", {
   
   file.name <- 
-    system.file("extdata", "enlighten-wasatch-absorbance.csv", 
+    system.file("extdata", "wasatch-enlighten-absorbance.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   wasatch.abs1.spct <- read_wasatch_csv(file = file.name, extra.cols = "drop")
   
@@ -121,7 +121,7 @@ test_that("single spectrum (absorbance with drop)", {
 test_that("single spectrum (absorbance dark)", {
   
   file.name <- 
-    system.file("extdata", "enlighten-wasatch-absorbance.csv", 
+    system.file("extdata", "wasatch-enlighten-absorbance.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
 
   wasatch.abs2.spct <- read_wasatch_csv(file = file.name, 
@@ -151,7 +151,7 @@ test_that("single spectrum (absorbance dark)", {
 test_that("single spectrum (transmission with drop)", {
   
   file.name <- 
-    system.file("extdata", "enlighten-wasatch-transmission.csv", 
+    system.file("extdata", "wasatch-enlighten-transmission.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   suppressWarnings( # warning caused by negative values in file
     wasatch.tr.spct <- read_wasatch_csv(file = file.name, 
@@ -181,7 +181,7 @@ test_that("single spectrum (transmission with drop)", {
 test_that("single spectrum (transmission with split)", {
   
   file.name <- 
-    system.file("extdata", "enlighten-wasatch-transmission.csv", 
+    system.file("extdata", "wasatch-enlighten-transmission.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   suppressWarnings( # warning caused by negative values in file
     wasatch.tr.mspct <- read_wasatch_csv(file = file.name, 

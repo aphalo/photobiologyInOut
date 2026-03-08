@@ -83,7 +83,7 @@ See \code{\link[readr]{read_table}} for details of acceptable values
 }
 \examples{
 
-file.name <- system.file("extdata", "2014-08-21_cum.hel", 
+file.name <- system.file("extdata", "fmi-al-2014-08-21_cum.hel", 
                          package = "photobiologyInOut", mustWork = TRUE)
 fmi.spct <- read_fmi_cum(file = file.name)
   

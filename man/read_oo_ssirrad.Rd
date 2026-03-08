@@ -83,7 +83,7 @@ The header of the file is first decoded and parsed to extract the
 \examples{
 
  file.name <- 
-   system.file("extdata", "spectrum.SSIrrad", 
+   system.file("extdata", "oo-spectrum.SSIrrad", 
                package = "photobiologyInOut", mustWork = TRUE)
                 
  ooss.spct <- read_oo_ssirrad(file = file.name)

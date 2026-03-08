@@ -28,7 +28,7 @@
 #' @examples
 #' 
 #'  file.name <- 
-#'     system.file("extdata", "spectrum-avaspec.csv", 
+#'     system.file("extdata", "avantes-avaspec-e-irrad.csv", 
 #'                 package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'  avaspec.spct <- read_avaspec_csv(file = file.name)

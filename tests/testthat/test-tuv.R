@@ -286,7 +286,7 @@ test_that("read Quick TUV HTML", {
 test_that("read TUV", {
   
   file.name <- 
-    system.file("extdata", "usrout.txt", 
+    system.file("extdata", "tuv-usrout.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
 
   usrout.spct <- read_tuv_usrout(file = file.name,
@@ -309,7 +309,7 @@ test_that("read TUV", {
   expect_equal(length(getWhenMeasured(usrout.spct)), 8L)
   expect_equal(getWhereMeasured(usrout.spct), 
                tibble::tibble(lon = -15, lat = 60, address = NA_character_))
-  expect_equal(getWhatMeasured(usrout.spct), "TUV spectral simulation File: usrout.txt")
+  expect_equal(getWhatMeasured(usrout.spct), "TUV spectral simulation File: tuv-usrout.txt")
   expect_equal(length(comment(usrout.spct)), 1L)
   
   
@@ -322,7 +322,7 @@ test_that("read TUV", {
   
   skip_on_cran()
   file.name <- 
-    system.file("extdata", "usrout2.txt", 
+    system.file("extdata", "tuv-usrout2.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
   
   usrout2.spct <- read_tuv_usrout(file = file.name,
@@ -345,14 +345,14 @@ test_that("read TUV", {
   expect_equal(length(getWhenMeasured(usrout2.spct)), 13L)
   expect_equal(getWhereMeasured(usrout2.spct), 
                tibble::tibble(lon = -15, lat = 60, address = NA_character_))
-  expect_equal(getWhatMeasured(usrout2.spct), "TUV spectral simulation File: usrout2.txt")
+  expect_equal(getWhatMeasured(usrout2.spct), "TUV spectral simulation File: tuv-usrout2.txt")
   expect_equal(length(comment(usrout.spct)), 1L)
 })
 
 test_that("read TUV to mspct", {
   skip_on_cran()
   file.name <- 
-    system.file("extdata", "usrout.txt", 
+    system.file("extdata", "tuv-usrout.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
   
   usrout.mspct <- read_tuv_usrout2mspct(file = file.name,
@@ -379,7 +379,7 @@ test_that("read TUV to mspct", {
   # expect_equal(length(getWhenMeasured(usrout.mspct[[1]])), 1L)
   expect_equal(getWhereMeasured(usrout.mspct[[1]]), 
                tibble::tibble(lon = -15, lat = 60, address = NA_character_))
-  expect_equal(getWhatMeasured(usrout.mspct[[1]]), "TUV spectral simulation File: usrout.txt")
+  expect_equal(getWhatMeasured(usrout.mspct[[1]]), "TUV spectral simulation File: tuv-usrout.txt")
   expect_equal(length(comment(usrout.mspct[[1]])), 1L)
   expect_equal(length(comment(usrout.mspct)), 0L)
   
@@ -392,7 +392,7 @@ test_that("read TUV to mspct", {
   expect_named(getWhereMeasured(usrouta.mspct[[1]]), c("lon", "lat", "address"))
   
   file.name <- 
-    system.file("extdata", "usrout2.txt", 
+    system.file("extdata", "tuv-usrout2.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
   
   usrout2.mspct <- read_tuv_usrout2mspct(file = file.name,
@@ -420,6 +420,6 @@ test_that("read TUV to mspct", {
   expect_equal(getWhereMeasured(usrout2.mspct[[1]]), 
                tibble::tibble(lon = -15, lat = 60, address = NA_character_))
   expect_equal(getWhatMeasured(usrout2.mspct[[1]]),
-               "TUV spectral simulation File: usrout2.txt")
+               "TUV spectral simulation File: tuv-usrout2.txt")
   expect_equal(length(comment(usrout2.mspct[[1]])), 1L)
 })

@@ -7,7 +7,7 @@ context("read ASTER txt file)")
 test_that("single spectrum", {
 
   file.name <- 
-    system.file("extdata", "drygrass-spectrum.txt", 
+    system.file("extdata", "aster-Rpc-drygrass.txt", 
                 package = "photobiologyInOut", mustWork = TRUE)
   fred.spct <- read_ASTER_txt(file = file.name)
   
@@ -25,7 +25,8 @@ test_that("single spectrum", {
   expect_is(fred.spct, "reflector_spct")
   expect_named(fred.spct, c("w.length", "Rfr"))
   expect_equivalent(getWhereMeasured(fred.spct), 
-                    data.frame(lon = NA_real_, lat = NA_real_, address = NA_character_, 
+                    data.frame(lon = NA_real_, lat = NA_real_, 
+                               address = NA_character_, 
                                stringsAsFactors = FALSE))
   expect_gt(length(getWhatMeasured(fred.spct)), 0)
   expect_gt(length(comment(fred.spct)), 0)

@@ -7,7 +7,7 @@ context("read PSI SpectraPen CSV file)")
 test_that("multiple spectra, energy, file top", {
 
   file.name <- 
-    system.file("extdata", "spectrum-psi-spectrapen-SP.csv", 
+    system.file("extdata", "psi-spectrapen-SP.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   psi.mspct <- read_spectrapen_csv(file = file.name,
                                   tz = "UTC")
@@ -39,7 +39,7 @@ test_that("multiple spectra, energy, file top", {
 test_that("multiple spectra, photon, file bottom", {
   
   file.name <- 
-    system.file("extdata", "spectrum-psi-spectrapen-SP.csv", 
+    system.file("extdata", "psi-spectrapen-SP.csv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   psi.mspct <- read_spectrapen_csv(file = file.name, tz = "UTC", start.row = 266)
   expect_is(psi.mspct, "source_mspct")

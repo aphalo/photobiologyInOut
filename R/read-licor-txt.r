@@ -45,7 +45,7 @@
 #' @examples
 #' 
 #'   file.name <- 
-#'     system.file("extdata", "LI-180-irradiance.txt", 
+#'     system.file("extdata", "licor-li180-irrad.txt", 
 #'                 package = "photobiologyInOut", mustWork = TRUE)
 #'                 
 #'   licor180.spct <- read_li180_txt(file = file.name)

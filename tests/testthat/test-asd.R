@@ -6,7 +6,7 @@ context("read ASD ascii file tab separated")
 test_that("irradiance is read correctly", {
 
   file.name <- 
-    system.file("extdata", "irrad-sky.asd.txt", 
+    system.file("extdata", "asd-e-irrad-sky.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   asd.source_spct <- read_asd_tsv(file = file.name)
   
@@ -38,7 +38,7 @@ test_that("irradiance is read correctly", {
 test_that("reflectance is read correctly", {
   
   file.name <- 
-    system.file("extdata", "reflec-panel-50pc.asd.txt", 
+    system.file("extdata", "asd-rfr-panel-50pc.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   asd.reflector_spct <- read_asd_tsv(file = file.name)
   
@@ -70,7 +70,7 @@ test_that("reflectance is read correctly", {
 test_that("raw-counts are read correctly", {
   
   file.name <- 
-    system.file("extdata", "DN-gravel.asd.txt", 
+    system.file("extdata", "asd-raw-gravel.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   asd.raw_spct <- read_asd_tsv(file = file.name)
   
@@ -98,7 +98,7 @@ test_that("raw-counts are read correctly", {
 test_that("arbitrary data is read correctly", {
   
   file.name <- 
-    system.file("extdata", "DN-gravel.asd.txt", 
+    system.file("extdata", "asd-raw-gravel.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
   asd.generic_spct <- read_asd_tsv(file = file.name, s.qty = "zz")
   
@@ -121,5 +121,77 @@ test_that("arbitrary data is read correctly", {
                                stringsAsFactors = FALSE))
   expect_gt(length(getWhatMeasured(asd.generic_spct)), 0)
   expect_gt(length(comment(asd.generic_spct)), 0)
+})
+
+context("read ASD ascii file comma separated")
+
+test_that("irradiance is read correctly", {
+  
+  file.name <- 
+    system.file("extdata", "asd-e-irrad-sky.csv",
+                package = "photobiologyInOut", mustWork = TRUE)
+  # the file contains a bunch of nul characters
+  expect_warning(asd.source_spct <- read_asd_tsv(file = file.name),
+                 regexp = "nul")
+  
+  expect_equal(nrow(asd.source_spct), 2150)
+  expect_equal(ncol(asd.source_spct), 2)
+  expect_equal(asd.source_spct[1, 1],  351, tolerance = 0.001)
+  expect_equal(asd.source_spct[2150, 1], 2500, tolerance = 0.001)
+  expect_is(asd.source_spct[[1]], "numeric")
+  expect_equal(sum(is.na(asd.source_spct[[1]])), 0)
+  expect_true(all(sign(asd.source_spct[[1]]) > 0))
+  expect_is(asd.source_spct[[2]], "numeric")
+  #  expect_true(all(sign(asd.source_spct[[2]]) >= 0)) # data are not clean
+  expect_equal(sum(is.na(asd.source_spct[[2]])), 0)
+  expect_is(asd.source_spct, "source_spct")
+  expect_named(asd.source_spct, c("w.length", "s.e.irrad"))
+  expect_equal(getWhenMeasured(asd.source_spct), 
+               ymd_hms("2024-05-21 11:33:13 UTC"))
+  expect_equivalent(getWhereMeasured(asd.source_spct), 
+                    data.frame(lon = NA_real_, lat = NA_real_, address = NA_character_, 
+                               stringsAsFactors = FALSE))
+  expect_gt(length(getWhatMeasured(asd.source_spct)), 0)
+  expect_gt(length(comment(asd.source_spct)), 0)
+  expect_equal(as.numeric(e_irrad(asd.source_spct, w.band = c(351, 2000))), 
+               525.0641, tolerance = 0.001)
+  expect_equal(labels(e_irrad(asd.source_spct, w.band = c(351, 2000))), 
+               "E_range.351.2000")
+})
+
+context("read ASD ascii file semicolon separated")
+
+test_that("irradiance is read correctly", {
+  
+  file.name <- 
+    system.file("extdata", "asd-e-irrad-sky.csv2",
+                package = "photobiologyInOut", mustWork = TRUE)
+  # the file contains a bunch of nul characters
+  expect_warning(asd.source_spct <- read_asd_tsv(file = file.name),
+                 regexp = "nul")
+  
+  expect_equal(nrow(asd.source_spct), 2150)
+  expect_equal(ncol(asd.source_spct), 2)
+  expect_equal(asd.source_spct[1, 1],  351, tolerance = 0.001)
+  expect_equal(asd.source_spct[2150, 1], 2500, tolerance = 0.001)
+  expect_is(asd.source_spct[[1]], "numeric")
+  expect_equal(sum(is.na(asd.source_spct[[1]])), 0)
+  expect_true(all(sign(asd.source_spct[[1]]) > 0))
+  expect_is(asd.source_spct[[2]], "numeric")
+  #  expect_true(all(sign(asd.source_spct[[2]]) >= 0)) # data are not clean
+  expect_equal(sum(is.na(asd.source_spct[[2]])), 0)
+  expect_is(asd.source_spct, "source_spct")
+  expect_named(asd.source_spct, c("w.length", "s.e.irrad"))
+  expect_equal(getWhenMeasured(asd.source_spct), 
+               ymd_hms("2024-05-21 11:33:17 UTC"))
+  expect_equivalent(getWhereMeasured(asd.source_spct), 
+                    data.frame(lon = NA_real_, lat = NA_real_, address = NA_character_, 
+                               stringsAsFactors = FALSE))
+  expect_gt(length(getWhatMeasured(asd.source_spct)), 0)
+  expect_gt(length(comment(asd.source_spct)), 0)
+  expect_equal(as.numeric(e_irrad(asd.source_spct, w.band = c(351, 2000))), 
+               526.0794, tolerance = 0.001)
+  expect_equal(labels(e_irrad(asd.source_spct, w.band = c(351, 2000))), 
+               "E_range.351.2000")
 })
 
