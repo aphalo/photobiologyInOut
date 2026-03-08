@@ -8,7 +8,7 @@ test_that("irradiance is read correctly", {
   file.name <- 
     system.file("extdata", "asd-e-irrad-sky.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.source_spct <- read_asd_tsv(file = file.name,
+  asd.source_spct <- read_asd_txt(file = file.name,
                                   tz = "Europe/Helsinki")
   
   expect_equal(nrow(asd.source_spct), 2150)
@@ -39,9 +39,9 @@ test_that("irradiance is read correctly", {
 test_that("reflectance is read correctly", {
   
   file.name <- 
-    system.file("extdata", "asd-rfr-panel-50pc.tsv", 
+    system.file("extdata", "asd-Rfr-panel-50pc.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.reflector_spct <- read_asd_tsv(file = file.name,
+  asd.reflector_spct <- read_asd_txt(file = file.name,
                                      tz = "Europe/Helsinki")
   
   expect_equal(nrow(asd.reflector_spct), 2150)
@@ -74,7 +74,7 @@ test_that("raw-counts are read correctly", {
   file.name <- 
     system.file("extdata", "asd-raw-gravel.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.raw_spct <- read_asd_tsv(file = file.name,
+  asd.raw_spct <- read_asd_txt(file = file.name,
                                tz = "Europe/Helsinki")
   
   expect_equal(nrow(asd.raw_spct), 2150)
@@ -103,7 +103,7 @@ test_that("arbitrary data is read correctly", {
   file.name <- 
     system.file("extdata", "asd-raw-gravel.tsv", 
                 package = "photobiologyInOut", mustWork = TRUE)
-  asd.generic_spct <- read_asd_tsv(file = file.name, 
+  asd.generic_spct <- read_asd_txt(file = file.name, 
                                    s.qty = "zz",
                                    tz = "Europe/Helsinki")
   
@@ -136,7 +136,7 @@ test_that("irradiance is read correctly", {
     system.file("extdata", "asd-e-irrad-sky.csv",
                 package = "photobiologyInOut", mustWork = TRUE)
   # the file contains a bunch of nul characters
-  expect_warning(asd.source_spct <- read_asd_tsv(file = file.name),
+  expect_warning(asd.source_spct <- read_asd_txt(file = file.name),
                  regexp = "nul")
   
   expect_equal(nrow(asd.source_spct), 2150)
@@ -172,7 +172,7 @@ test_that("irradiance is read correctly", {
     system.file("extdata", "asd-e-irrad-sky.csv2",
                 package = "photobiologyInOut", mustWork = TRUE)
   # the file contains a bunch of nul characters
-  expect_warning(asd.source_spct <- read_asd_tsv(file = file.name),
+  expect_warning(asd.source_spct <- read_asd_txt(file = file.name),
                  regexp = "nul")
   
   expect_equal(nrow(asd.source_spct), 2150)
