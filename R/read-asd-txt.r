@@ -84,7 +84,7 @@
 #' 
 #' @export
 #' 
-#' @references \url{https://www.malvernpanalytical.com/}
+#' @references \url{https://www.malvernpanalytical.com/en/}
 #' 
 #' @examples
 #'

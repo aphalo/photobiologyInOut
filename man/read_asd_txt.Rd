@@ -188,5 +188,5 @@ Some files with ASD spectral data contain \code{nul} ASCII characters
 
 }
 \references{
-\url{https://www.malvernpanalytical.com/}
+\url{https://www.malvernpanalytical.com/en/}
 }
