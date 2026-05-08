@@ -15,3 +15,5 @@
 ^pkgdown$
 ^build-pkgdown-offline.R$
 ^vignettes/articles$
+^\.positai$
+^\.claude$

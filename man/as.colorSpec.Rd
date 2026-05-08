@@ -38,13 +38,6 @@ Convert spectral objects (xxxx_spct, xxxx_mspct) as defined in package
 'photobiology' into colorSpec objects preserving as much information as
  possible.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{as.colorSpec(generic_spct)}: 
-
-\item \code{as.colorSpec(chroma_spct)}: 
-
-}}
 \note{
 Objects of class \code{colorSpec::colorSpec} do not contain metadata or
   class data from which the units of expression could be obtained. When using

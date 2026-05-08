@@ -57,11 +57,12 @@ reference:
     - spct_CCT
     - spct_CRI
     - spct_SSI
-  - title: Data from loggers
-    desc: Read data files with data from loggers into data frames.
+  - title: Logged data
+    desc: Read data files with data from loggers and other instruments into data frames.
     contents:
     - read_csi_dat
     - read_yoctopuce_csv
+    - read_walz_lsa_xlsx
   - title: Utilities
     desc: Tools to facilitate the use of other functions.
     contents:

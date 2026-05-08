@@ -266,6 +266,24 @@ hour.dat <- read_csi_dat(file = cs_hour.file)
 ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
 
 ## ----------------------------------------------------
+file.name <-
+  system.file("extdata", "walz-lsa-2050-prunus.xlsx",
+              package = "photobiologyInOut",
+              mustWork = TRUE)
+
+## ----------------------------------------------------
+lsa.dat <- read_walz_lsa_xlsx(file.name,
+                              returned.data = "visible",
+                              marker.rename = c(A = "adaxial", B = "abaxial"))
+colnames(lsa.dat)
+
+## ----------------------------------------------------
+lsa.dat <- read_walz_lsa_xlsx(file.name,
+                              returned.data = "raw",
+                              marker.rename = c(A = "adaxial", B = "abaxial"))
+colnames(lsa.dat)
+
+## ----------------------------------------------------
 list.files(extdata.path, pattern = "^yoctopuce-")
 
 ## ----------------------------------------------------

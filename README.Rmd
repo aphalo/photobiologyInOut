@@ -25,7 +25,7 @@ Package '**photobiologyInOut**' provides functions for importing spectral data f
 
 Data files from **spectrometers** from the following suppliers are currently supported: ASD, CID Bio-Science, Wasatch Photonics, Avantes, LI-COR, Macam Photonics, and Ocean Optics/Ocean Insight.
 
-Data files from **data loggers** from the following suppliers are currently supported: Campbell Scientific and YoctoPuce.
+Data files from **data loggers** and other instruments from the following suppliers are currently supported: Campbell Scientific (most loggers), Walz (LSA-2050) and YoctoPuce (several data acquisition USB modules). 
 
 Data files from output by **radiation transfer models**: libRadtran and TUV, including running simulations with the Quick TUV calculator.
 

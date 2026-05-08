@@ -825,7 +825,7 @@ as.colorSpec.generic_mspct <- function(x,
                   ...)
 }
 
-#' @describeIn as.colorSpec
+#' @rdname as.colorSpec
 #' 
 #' @export
 #' 
@@ -839,8 +839,7 @@ as.colorSpec.generic_spct <- function(x,
                  ...)
 }
 
-
-#' @describeIn as.colorSpec
+#' @rdname as.colorSpec
 #' 
 #' @export
 #' 

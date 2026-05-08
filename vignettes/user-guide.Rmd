@@ -859,7 +859,7 @@ list.files(extdata.path, pattern = "^cid-")
 ```
 
 
-## Data from loggers
+## Data from loggers and other instruments
 
 ### Campbell Scientific
 
@@ -903,6 +903,35 @@ cs_hour.file <-
               package = "photobiologyInOut", mustWork = TRUE)
 hour.dat <- read_csi_dat(file = cs_hour.file)
 ggplot(hour.dat, aes(TIMESTAMP, PAR_Den_Avg)) + geom_line()
+```
+
+### Walz Photosynthesis Instruments
+
+[Heinz Walz Gmbh](https://www.walz.com/) supplies several instruments for the
+measurement of photosyntheis. The instruments are based on two different
+principles: measurement of gas-exchange, and measurement of chlorophyll
+fluorescence. Currently, data logged using the LSA-2050 leaf state analyzer can
+be imported into R with function `read_walz_lsa_xlsx()`.
+
+```{r}
+file.name <-
+  system.file("extdata", "walz-lsa-2050-prunus.xlsx",
+              package = "photobiologyInOut",
+              mustWork = TRUE)
+```
+
+```{r}
+lsa.dat <- read_walz_lsa_xlsx(file.name,
+                              returned.data = "visible",
+                              marker.rename = c(A = "adaxial", B = "abaxial"))
+colnames(lsa.dat)
+```
+
+```{r}
+lsa.dat <- read_walz_lsa_xlsx(file.name,
+                              returned.data = "raw",
+                              marker.rename = c(A = "adaxial", B = "abaxial"))
+colnames(lsa.dat)
 ```
 
 ### YoctoPuce

@@ -11,6 +11,12 @@ of data files are welcome for these and other instruments).
 
 ## photobiologyInOut 0.4.33
 
+- Add function `read_walz_lsa_xlsx()` to import data saved from the
+Walz LSA-2050 leaf analyser instrument and example data file used iin examples
+and unit tests.
+
+## photobiologyInOut 0.4.33
+
 - Rename example files in `extdata` using names more consistently starting with
 the brand name or program name. Files are used in examples and unit tests which
 have been updated with the new file names.
