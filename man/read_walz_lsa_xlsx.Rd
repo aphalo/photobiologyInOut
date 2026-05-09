@@ -33,18 +33,20 @@ this option to character() to indicate no missing values.}
 \item{marker.rename}{character A named vector with new \code{Marker} values 
 named according to the Markers set in the LSA-2050.}
 
-\item{returned.data}{logical If \code{"consolidated"} return the SAT chart data
-as a list column in a single data frame, if \code{"measured"}, return only
-the data in the worksheet named "Measured", and if \code{"list"}, return a
-named list with two member data frames, each containing the data from each
-worksheet. Experimental: \code{"visible"} returns only data from visible 
+\item{returned.data}{character If \code{"consolidated"} return all data in a
+single data frame, with the "SAT chart" data as a list column containing
+one data frame per sample. Other values return a data frame containing a
+subset of the columns: with \code{"measured"}, return only the data in the
+worksheet named "Measured", with \code{"visible"} return only data from
 columns visible in the worksheet named "Measured", and \code{"raw"} returns
-only data stored in both worksheets as numeric values, i.e., a subset of
-the columns returned with \code{"consolidated"}.}
+only data stored in both worksheets as numeric values, i.e., ignores values
+computed by formulas included in the worksheet. \emph{For debugging:} if
+\code{"list"}, return a named list with two member data frames, each
+containing the data from one worksheet.}
 
-\item{drop.positions}{logical If \code{TRUE} the columns related to leaf 
-position are deleted, and if \code{FALSE} they are retained. If 
-\code{NULL} they are dropped only if they contain no finite data.}
+\item{drop.positions}{logical If \code{TRUE} the columns related to leaf
+position are deleted, and if \code{FALSE} they are retained. If \code{NULL}
+they are dropped only if they contain no finite data.}
 
 \item{...}{Further named arguments currently passed to 
 \code{\link[readxl]{read_excel}()}.}
@@ -63,9 +65,8 @@ The returned value depends on the argument passed to parameter
 }
 \description{
 Reads the two worksheets contained in the workbook file downloaded by Walz's
-LSA software from an LSA-2050 instrument. Extracts data into a list of data
-frames, or into a single data frame and metadata into attributes of these R
-objects.
+LSA software from an LSA-2050 instrument. Combines the data into a single
+data frame and adds metadata as its attributes.
 }
 \details{
 The worksheets contain formulas for computations, on import the
@@ -115,12 +116,17 @@ This functions has been tested with the output from LSA software
                package = "photobiologyInOut", 
                mustWork = TRUE)
                
- lsa.df1 <- read_walz_lsa_xlsx(file.name,
-                               returned.data = "raw")
+ lsa.df1 <- read_walz_lsa_xlsx(file.name)
  colnames(lsa.df1)
- attributes(lsa.df1)
- read_walz_lsa_xlsx(file.name, 
-                    marker.rename = c(A = "adaxial", B = "abaxial"))
+ plot(lsa.df2$SAT.F.ls[[1]], type = "b")
+ cat(comment(lsa.df1))
+ 
+ lsa.df2 <-
+  read_walz_lsa_xlsx(file.name,
+                     returned.data = "visible",
+                     marker.rename = c(A = "adaxial", B = "abaxial"))
+ colnames(lsa.df2)
+ cat(comment(lsa.df2))
  
 }
 \references{

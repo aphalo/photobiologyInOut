@@ -1,9 +1,8 @@
 #' Read '.xlsx' file(s) saved by Walz's LSA-2050 leaf analyzer.
 #' 
 #' Reads the two worksheets contained in the workbook file downloaded by Walz's
-#' LSA software from an LSA-2050 instrument. Extracts data into a list of data
-#' frames, or into a single data frame and metadata into attributes of these R
-#' objects.
+#' LSA software from an LSA-2050 instrument. Combines the data into a single
+#' data frame and adds metadata as its attributes.
 #' 
 #' @param file Path to file as a character string.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
@@ -15,17 +14,19 @@
 #'   this option to character() to indicate no missing values.
 #' @param marker.rename character A named vector with new \code{Marker} values 
 #'   named according to the Markers set in the LSA-2050.
-#' @param returned.data logical If \code{"consolidated"} return the SAT chart data
-#'   as a list column in a single data frame, if \code{"measured"}, return only
-#'   the data in the worksheet named "Measured", and if \code{"list"}, return a
-#'   named list with two member data frames, each containing the data from each
-#'   worksheet. Experimental: \code{"visible"} returns only data from visible 
+#' @param returned.data character If \code{"consolidated"} return all data in a
+#'   single data frame, with the "SAT chart" data as a list column containing
+#'   one data frame per sample. Other values return a data frame containing a
+#'   subset of the columns: with \code{"measured"}, return only the data in the
+#'   worksheet named "Measured", with \code{"visible"} return only data from
 #'   columns visible in the worksheet named "Measured", and \code{"raw"} returns
-#'   only data stored in both worksheets as numeric values, i.e., a subset of
-#'   the columns returned with \code{"consolidated"}.
-#' @param drop.positions logical If \code{TRUE} the columns related to leaf 
-#'   position are deleted, and if \code{FALSE} they are retained. If 
-#'   \code{NULL} they are dropped only if they contain no finite data.
+#'   only data stored in both worksheets as numeric values, i.e., ignores values
+#'   computed by formulas included in the worksheet. \emph{For debugging:} if
+#'   \code{"list"}, return a named list with two member data frames, each
+#'   containing the data from one worksheet.
+#' @param drop.positions logical If \code{TRUE} the columns related to leaf
+#'   position are deleted, and if \code{FALSE} they are retained. If \code{NULL}
+#'   they are dropped only if they contain no finite data.
 #' @param ... Further named arguments currently passed to 
 #' \code{\link[readxl]{read_excel}()}.
 #'   
@@ -88,12 +89,17 @@
 #'                package = "photobiologyInOut", 
 #'                mustWork = TRUE)
 #'                
-#'  lsa.df1 <- read_walz_lsa_xlsx(file.name,
-#'                                returned.data = "raw")
+#'  lsa.df1 <- read_walz_lsa_xlsx(file.name)
 #'  colnames(lsa.df1)
-#'  attributes(lsa.df1)
-#'  read_walz_lsa_xlsx(file.name, 
-#'                     marker.rename = c(A = "adaxial", B = "abaxial"))
+#'  plot(lsa.df2$SAT.F.ls[[1]], type = "b")
+#'  cat(comment(lsa.df1))
+#'  
+#'  lsa.df2 <-
+#'   read_walz_lsa_xlsx(file.name,
+#'                      returned.data = "visible",
+#'                      marker.rename = c(A = "adaxial", B = "abaxial"))
+#'  colnames(lsa.df2)
+#'  cat(comment(lsa.df2))
 #'  
 read_walz_lsa_xlsx <- function(file, 
                                label = NULL,
@@ -178,10 +184,13 @@ read_walz_lsa_xlsx <- function(file,
     
   }
   
-  # Assemble list object to return
-  comment.txt <- paste("Data from Walz LSA-2050 imported on ",
+  # Assemble object to return
+  comment.txt <- paste("Data from Walz LSA-2050 in file \"",
+                       basename(file),
+                       "\" imported on ",
                        format(lubridate::today()),
-                       " with function 'read_walz_lsa_xlsx()' from",
+                       " and selected as \"", returned.data, 
+                       "\" by function 'read_walz_lsa_xlsx()' from",
                        " 'photobiologyInOut' (==", 
                        utils::packageVersion("photobiologyInOut"), ").",
                        sep = "")
@@ -193,11 +202,15 @@ read_walz_lsa_xlsx <- function(file,
   } else if (returned.data %in% c("consolidated", "raw")) {
     # named list of numeric vectors, each giving the time series for a sample
     z <- as.list(as.data.frame(t(wrks2[ , -1])))
+    SAT.time <- as.numeric(colnames(wrks2)[-1])
+    # convert each vector into a data frame by adding a time column
+    z <- lapply(X = z, 
+                FUN = function(x) {data.frame(t = SAT.time, SAT.F = x)}    )
     names(z) <- wrks2[[1]]
     # add list as a column
     wrks1[["SAT.F.ls"]] <- I(z)
     # store times shared by all samples as an attribute
-    attr(wrks1, "SAT.times.ms") <- as.numeric(colnames(wrks2)[-1])
+    attr(wrks1, "SAT.times.ms") <- SAT.time
     comment(wrks1) <- comment.txt
     if (returned.data == "raw") {
       selector <- 

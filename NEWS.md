@@ -8,8 +8,9 @@ editor_options:
 
 Add support for StellarNet, Brewer, and Bentham spectrometers (examples
 of data files are welcome for these and other instruments).
+Add support for Walz, PSI and LI-COR photosynthesis instruments.
 
-## photobiologyInOut 0.4.33
+## photobiologyInOut 0.4.34
 
 - Add function `read_walz_lsa_xlsx()` to import data saved from the
 Walz LSA-2050 leaf analyser instrument and example data file used iin examples

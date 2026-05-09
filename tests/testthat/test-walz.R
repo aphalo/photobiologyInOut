@@ -30,6 +30,11 @@ test_that("consolidated data are read correctly", {
   expect_type(lsa_default.df[["SAT.F.ls"]], "list")
   expect_s3_class(lsa_default.df[["SAT.F.ls"]], "AsIs")
   expect_s3_class(lsa_default.df[["Time"]], "POSIXct")
+
+  expect_s3_class(lsa_default.df[["SAT.F.ls"]][[1]], "data.frame")
+  expect_named(lsa_default.df[["SAT.F.ls"]][[1]], c( "t", "SAT.F"))
+  expect_true(all(sapply(lsa_default.df[["SAT.F.ls"]][[1]], class) == "numeric"))
+  expect_true(!any(is.na(lsa_default.df[["SAT.F.ls"]][[1]])))
 })
 
 test_that("visible data are read correctly", {
