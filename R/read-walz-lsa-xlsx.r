@@ -91,7 +91,7 @@
 #'                
 #'  lsa.df1 <- read_walz_lsa_xlsx(file.name)
 #'  colnames(lsa.df1)
-#'  plot(lsa.df2$SAT.F.ls[[1]], type = "b")
+#'  plot(lsa.df1$SAT.F.ls[[1]], type = "b")
 #'  cat(comment(lsa.df1))
 #'  
 #'  lsa.df2 <-
