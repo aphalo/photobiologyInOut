@@ -1,8 +1,8 @@
-#' Read '.xlsx' file(s) saved by Walz's LSA-2050 leaf analyzer.
+#' Read '.xlsx' file(s) saved by Walz's LSA-2050 leaf analyser
 #' 
-#' Reads the two worksheets contained in the workbook file downloaded by Walz's
-#' LSA software from an LSA-2050 instrument. Combines the data into a single
-#' data frame and adds metadata as its attributes.
+#' Read the two worksheets contained in the workbook file downloaded by Walz's
+#' LSA software from an LSA-2050 instrument. Combine the data into a single
+#' data frame and add metadata as its attributes.
 #' 
 #' @param file Path to file as a character string.
 #' @param label character string, but if \code{NULL} the value of \code{file} is
@@ -30,28 +30,23 @@
 #' @param ... Further named arguments currently passed to 
 #' \code{\link[readxl]{read_excel}()}.
 #'   
-#' @return \code{read_csi_dat()} returns a \code{tibble::tibble} object.
-#' @export
-#' @references \url{https://www.campbellsci.eu/}
-#' 
 #' @details The worksheets contain formulas for computations, on import the
-#'   results of the computations are computed and stored in the returned object.
-#'   The raw readings and calibration values are also imported as stored as an
-#'   attribute. The names of the worksheets are preserved, and if the do not
-#'   match the expected values, are warning is issued. Data manipulation is
-#'   based on column names rather than positions. As the \code{Date} and
-#'   \code{Time} columns contain identical data (formatted differently) for
-#'   efficiency, only \code{Time} is retained in the returned object (after
-#'   testing for equality). Units and bases of expression are not modified,
-#'   but some column names are edited to comply with R naming rules.
+#'   results of the computations previously stored in the workbook are returned.
+#'   The raw data values are imported and well as calibration values. The 
+#'   If the names of the worksheets in the workbook do not
+#'   match the expected ones, a warning is issued. As the \code{Date} and
+#'   \code{Time} columns contain identical data (displayed differently) for
+#'   efficiency, only \code{Time} is retained in the returned object. Units and
+#'   bases of expression are not modified. Some column names are edited to 
+#'   comply with R object-naming rules.
 #'
 #'   The named vector passed as argument to \code{marker.rename} if not
-#'   \code{NULL}, is used to rename the values set as Marker by the LSA-2050
+#'   \code{NULL}, is used to rename the values set as Marker in the LSA-2050
 #'   (single capital letters) into informative character strings.
-#'   \code{marker.rename} can contain a superset of the required mappings but a
-#'   subset is not accepted.
+#'   \code{marker.rename} can contain a superset of the required mappings but 
+#'   must contain all those used in the imported workbook.
 #'   
-#' @return The returned value depends on the argument passed to parameter
+#' @return The value returned depends on the argument passed to parameter
 #'   \code{returned.data}. With the default, \code{"consolidated"}, all the data
 #'   from both worksheets are returned in a single data frame with 44 columns.
 #'   With arguments \code{"measured"} (43 columns), \code{"visible"} (17
@@ -61,24 +56,28 @@
 #'   worksheet is returned.
 #' 
 #' @section Warning!: The computed values for the formulas in the worksheets
-#'   need to be present in the Excel workbook for import to succeed. If they are
-#'   missing, zeros will appear in the imported data in place of the results
-#'   from calculations. The workbooks saved using the LSA software contain the
-#'   computed values and are usable. Opening and re-saving the file can result
-#'   in the loss of the computed values. This can be restores in Excel. Be also
-#'   aware that when opening the workbooks in LibreOffice a manually triggered
-#'   hard recalculation is needed for the correct computed values to be
-#'   displayed.
+#'   need to be present in the imported workbook for their import to succeed.
+#'   If they are missing (zeros displayed) in the worksheet in place of the
+#'   results from calculations, the zeros are replaced by \code{NA}. The 
+#'   workbooks saved using the LSA software seem to contain the computed 
+#'   values. Missing cached values from formulas can be restored both in
+#'   Excel and in LibreOffice. In LibreOffice open the workbook file, use 
+#'   \strong{data > calculate > recalculate hard}
+#'   to recalculate all formulas and then save the file. (In LibreOffice a
+#'   manually triggered hard recalculation is also needed for computed values to
+#'   be displayed.) The LSA workbook file included in 'photobiologyInOut' and
+#'   used in the examples and tests has been recalculated and saved in
+#'   LibreOffice.
 #'
-#'   One possible solution is to reimplement all computations in R after
-#'   importing the raw data plus calibration parameters that are stored in the
-#'   worksheets as numeric values. This would provide a failure-proof approach,
-#'   but updates to equations used in the worksheets would require matching
-#'   updates to the R code. Passing \code{returned.data = "raw"} in the call
-#'   discards all values computed within the workbook.
-#'
-#' @note This functions has been tested with the output from LSA software
+#' @note This function has been tested with the output from LSA software
 #'   version 1.09 and an example data file downloaded from Walz's website.
+#'   To avoid silent bugs the code relies on column names rather than positional
+#'   indexing. It is expected to tolerate reordering of columns and addition of
+#'   columns compared to the format of the tested workbooks. If column naming is
+#'   changed in future versions, triggering of error and warning messages
+#'   can be expected.
+#' 
+#' @references \url{https://www.campbellsci.eu/}
 #' 
 #' @export
 #' 
@@ -89,11 +88,14 @@
 #'                package = "photobiologyInOut", 
 #'                mustWork = TRUE)
 #'                
+#'  # import everything hidden and visible in workbook
 #'  lsa.df1 <- read_walz_lsa_xlsx(file.name)
 #'  colnames(lsa.df1)
 #'  plot(lsa.df1$SAT.F.ls[[1]], type = "b")
 #'  cat(comment(lsa.df1))
 #'  
+#'  # minimal import, only values visible in workbook
+#'  # also changing the letter markers into informative labels 
 #'  lsa.df2 <-
 #'   read_walz_lsa_xlsx(file.name,
 #'                      returned.data = "visible",
@@ -142,6 +144,21 @@ read_walz_lsa_xlsx <- function(file,
   wrks1.head <- wrks1[1:3, ]
   wrks1 <- wrks1[-(1:3), -which(colnames(wrks1) %in% c("MesRef", "Model"))]
   
+  # check if computed values have been imported
+  if (all(wrks1[["mg.cm2"]] == 0) && all(wrks1[["AFLAV"]] == 0)) {
+    if (returned.data != "raw") {
+      warning("Cached computed values for formulas missing in file \"",
+              basename(file), "\": NAs imported. ",
+              "(Recalculate and resave workbook in Excel or LibreOffice.)")
+      # replace filler zeros by NAs in computed variables
+      zero.cols <- 
+        grep("^Time$|^Type$|^Number$|^Marker$|^Q|^F[omV2-7]|^Tran|^Absor|^A[AF]|cm2$|^NBI$|^Incidence$",
+              colnames(wrks1), value = TRUE)
+      for (col in zero.cols) {
+        wrks1[[col]] <- ifelse(wrks1[[col]] == 0, NA_real_, wrks1[[col]])
+      }
+    }
+  }
   drop.positions <- drop.positions %||% all(is.na(wrks1[["Satellite.num"]]))
   if (drop.positions) {
     message("Dropping of geocode dependent data not yet implemented.")
@@ -151,11 +168,15 @@ read_walz_lsa_xlsx <- function(file,
     if (all(unique(wrks1[["Marker"]]) %in% names(marker.rename))) {
       wrks1[["Marker"]] <- marker.rename[wrks1[["Marker"]]]
     } else {
-      warning("'marker.map' has missing mappings. Skipping!")
+      warning("'marker.rename' lacks mapping(s) for marker(s): \"",
+              paste(setdiff(unique(wrks1[["Marker"]]), 
+                            names(marker.rename)),
+                    collapse = "\", \""),
+              "\". Skipping!")
     }
   }
   
-  attr(wrks1, "LSA.params") <- wrks1.head
+  attr(wrks1, "table.header") <- wrks1.head
   
   if (returned.data != "measured") {
     # read worksheet 2
@@ -181,7 +202,6 @@ read_walz_lsa_xlsx <- function(file,
         wrks2[[col]] <- NULL
       }
     }
-    
   }
   
   # Assemble object to return

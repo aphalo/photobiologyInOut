@@ -2,7 +2,7 @@
 % Please edit documentation in R/read-walz-lsa-xlsx.r
 \name{read_walz_lsa_xlsx}
 \alias{read_walz_lsa_xlsx}
-\title{Read '.xlsx' file(s) saved by Walz's LSA-2050 leaf analyzer.}
+\title{Read '.xlsx' file(s) saved by Walz's LSA-2050 leaf analyser}
 \usage{
 read_walz_lsa_xlsx(
   file,
@@ -64,9 +64,9 @@ The returned value depends on the argument passed to parameter
   worksheet is returned.
 }
 \description{
-Reads the two worksheets contained in the workbook file downloaded by Walz's
-LSA software from an LSA-2050 instrument. Combines the data into a single
-data frame and adds metadata as its attributes.
+Read the two worksheets contained in the workbook file downloaded by Walz's
+LSA software from an LSA-2050 instrument. Combine the data into a single
+data frame and add metadata as its attributes.
 }
 \details{
 The worksheets contain formulas for computations, on import the
@@ -87,26 +87,30 @@ The worksheets contain formulas for computations, on import the
   subset is not accepted.
 }
 \note{
-This functions has been tested with the output from LSA software
+This function has been tested with the output from LSA software
   version 1.09 and an example data file downloaded from Walz's website.
 }
 \section{Warning!}{
  The computed values for the formulas in the worksheets
   need to be present in the Excel workbook for import to succeed. If they are
-  missing, zeros will appear in the imported data in place of the results
-  from calculations. The workbooks saved using the LSA software contain the
-  computed values and are usable. Opening and re-saving the file can result
-  in the loss of the computed values. This can be restores in Excel. Be also
-  aware that when opening the workbooks in LibreOffice a manually triggered
-  hard recalculation is needed for the correct computed values to be
-  displayed.
+  missing, zeros will appear in the worksheet in place of the results from
+  calculations. The workbooks saved using the LSA software contain the
+  computed cached values. Opening and re-saving the file can result in the
+  loss of the cached computed values. Importing such a file triggers a
+  message. The cached values from formulas can be restores in Excel or in
+  LibreOffice. In LibreOffice open the workbook file, use \strong{data >
+  calculate > recalculate hard} to recalculate all formulas and then save the
+  file. (In LibreOffice a manually triggered hard recalculation is also
+  needed for the correct computed values to be displayed.) The example file
+  used in the examples and tests has been resaved in LibreOffice.
 
-  One possible solution is to reimplement all computations in R after
-  importing the raw data plus calibration parameters that are stored in the
-  worksheets as numeric values. This would provide a failure-proof approach,
-  but updates to equations used in the worksheets would require matching
-  updates to the R code. Passing \code{returned.data = "raw"} in the call
-  discards all values computed within the workbook.
+  To avoid depending on the import of cached values stored in the worksheets,
+  one possible solution would be to reimplement all computations in R after
+  importing the "raw" data (plus calibration parameters). These are stored in
+  the worksheet as numeric values. This would provide a failure-proof
+  approach, but updates to equations used in the worksheets would require
+  matching updates to the R code. Passing \code{returned.data = "raw"} in the
+  call imports only these values.
 }
 
 \examples{
